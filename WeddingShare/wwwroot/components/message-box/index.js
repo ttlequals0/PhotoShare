@@ -72,7 +72,6 @@ export function displayMessage(title, message, errors, callbackFn) {
 }
 
 export function hideMessage() {
-    $('#alert-message-modal').modal('hide');
     $('#alert-message-modal').remove();
     hideLoader();
 }

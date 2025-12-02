@@ -10,7 +10,7 @@ import 'jquery-validation-unobtrusive';
 
 import { Localization } from '../components/localization';
 import { initGdpr } from '../components/gdpr';
-import { initThemes } from '../components/themes';
+import { initThemes, getSelectedTheme } from '../components/themes';
 import { initIdentityCheck } from '../components/identity-check';
 import { initSponsors } from '../components/sponsors';
 
@@ -25,9 +25,6 @@ const app = {
 async function init() {
     if (app.initialized) return;
 
-    app.config.theme = document.body.dataset.theme.toLowerCase();
-    app.initialized = true;
-
     resizeLayout();
     bindEventHandlers();
 
@@ -40,6 +37,9 @@ async function init() {
     initThemes();
     initIdentityCheck();
     initSponsors();
+
+    app.config.theme = getSelectedTheme();
+    app.initialized = true;
 }
 
 function bindEventHandlers() {

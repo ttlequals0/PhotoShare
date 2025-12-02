@@ -138,6 +138,7 @@
   <ItemGroup>
     <Folder Include="config\" />
     <Folder Include="wwwroot\custom_resources\" />
+    <Folder Include="wwwroot\js\pages\gallery\" />
     <Folder Include="wwwroot\temp\" />
     <Folder Include="wwwroot\thumbnails\" />
     <Folder Include="wwwroot\uploads\" />

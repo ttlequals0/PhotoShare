@@ -13,11 +13,12 @@ const themeEntries = glob.sync('./wwwroot/components/themes/*.css').reduce((acc,
 module.exports = {
     entry: {
         main: './wwwroot/js/index.js',
-        gallery_selector: './wwwroot/js/pages/gallery/selector.js',
+        gallery_selector: './wwwroot/js/pages/dashboard/selector.js',
         login: './wwwroot/js/pages/account/login.js',
         registration: './wwwroot/js/pages/account/registration.js',
         forgot_password: './wwwroot/js/pages/account/forgot-password.js',
         password_reset: './wwwroot/js/pages/account/password-reset.js',
+        account: './wwwroot/js/pages/account/index.js',
         ...themeEntries
     },
     output: {
