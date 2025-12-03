@@ -1,13 +1,31 @@
 ﻿import { initReviewConfig } from './review';
 import { initGalleryConfig } from './gallery';
+import { initUserConfig } from './user';
 import { initCustomResourcesConfig } from './custom-resources';
+import { initSettingsConfig } from './settings';
+import { initAuditConfig } from './audit';
+import { initDataConfig } from './data';
+import { initMultiFactor } from './multi-factor';
+
+let accountStateCheckInterval = null;
 
 export function initAccountConfig() {
     bindEventHandlers();
 
     initReviewConfig();
     initGalleryConfig();
+    initUserConfig();
     initCustomResourcesConfig();
+    initSettingsConfig();
+    initAuditConfig();
+    initDataConfig();
+
+    initMultiFactor();
+
+    clearInterval(accountStateCheckInterval);
+    accountStateCheckInterval = setInterval(function () {
+        checkAccountState();
+    }, 60000);
 }
 
 function bindEventHandlers() {
@@ -25,4 +43,16 @@ function selectActiveTab(tab) {
     }
 
     window.location = `/Account?tab=${tab}`;
+}
+
+function checkAccountState() {
+    $.ajax({
+        url: '/Account/CheckAccountState',
+        method: 'GET'
+    })
+        .done(data => {
+            if (data.active !== true) {
+                location.href = '/Account/Logout';
+            }
+        });
 }

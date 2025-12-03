@@ -131,12 +131,9 @@
 //            eventHandlers(zone);
 //        }
 
-//        // No 'image/gif' or PDF or webp allowed here, but it's up to your use case.
-//        // Double checks the input "accept" attribute
 //        const isImageFile = file => file.type.toLowerCase().startsWith('image/');
 //        const isVideoFile = file => file.type.toLowerCase().startsWith('video/');
 
-//        // Based on: https://flaviocopes.com/how-to-upload-files-fetch/
 //        const imageUpload = async dataRefs => {
 //            const identityReqiured = $('form.file-uploader-form').attr('data-identity-required') == 'true';
 //            if (identityReqiured) {
