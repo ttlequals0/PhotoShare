@@ -37,28 +37,16 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <title>@title</title>
+        <link rel="icon" type="image/png" href="@logo" />
+
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
         
-        <title>@title</title>
-        
-        <link rel="icon" type="image/png" href="@logo" />
-
-        @* <script src="~/js/lang/localization.js" asp-append-version="true"></script>
-        <script src="~/js/lang/@(culture).js" asp-append-version="true"></script> *@
-        
-        @if (HostEnvironment.IsDevelopment())
-        {
-            <link rel="stylesheet" href="~/dist/main.css" asp-append-version="true" />
-            <link rel="stylesheet" href="~/dist/themes/@(theme).css" asp-append-version="true" />
-        }
-        else
-        {
-            <link rel="stylesheet" href="~/dist/main.min.css" asp-append-version="true" />
-            <link rel="stylesheet" href="~/dist/themes/@(theme).min.css" asp-append-version="true" />
-        }
+        <link rel="stylesheet" href="~/dist/main.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/dist/themes/@(theme).css" asp-append-version="true" />
     </head>
     <body>
         <!-- Navigation -->
@@ -102,16 +90,9 @@
             </div>
         </footer>
 
-        <!-- JS -->
-        @if (HostEnvironment.IsDevelopment())
-        {
-            <script src="~/dist/main.bundle.js" asp-append-version="true"></script>
-        }
-        else
-        {
-            <script src="~/dist/main.bundle.min.js" asp-append-version="true"></script>
-        }
-        @await RenderSectionAsync("Scripts", required: false)
+        <!-- Webpack -->
+        <script src="~/dist/main.js" asp-append-version="true"></script>
 
+        @await RenderSectionAsync("Scripts", required: false)
     </body>
 </html>

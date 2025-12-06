@@ -3,7 +3,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
 const glob = require('glob');
 
-const themeEntries = glob.sync('./wwwroot/components/themes/*.css').reduce((acc, filePath) => {
+const themeEntries = glob.sync(`${path.resolve(__dirname, 'src/themes')}/*.css`).reduce((acc, filePath) => {
     const normalizedPath = filePath.startsWith('./') ? filePath : `./${filePath}`;
     const themeName = path.basename(filePath, '.css');
     acc[`themes/${themeName}`] = normalizedPath;
@@ -12,18 +12,24 @@ const themeEntries = glob.sync('./wwwroot/components/themes/*.css').reduce((acc,
 
 module.exports = {
     entry: {
-        main: './wwwroot/js/index.js',
-        gallery_selector: './wwwroot/js/pages/dashboard/selector.js',
-        login: './wwwroot/js/pages/account/login.js',
-        registration: './wwwroot/js/pages/account/registration.js',
-        forgot_password: './wwwroot/js/pages/account/forgot-password.js',
-        password_reset: './wwwroot/js/pages/account/password-reset.js',
-        account: './wwwroot/js/pages/account/index.js',
+        main: path.resolve(__dirname, 'src/main.js'),
         ...themeEntries
+    },
+    resolve: {
+        alias: {
+            '@': path.resolve(__dirname, 'src'),
+            '@pages': path.resolve(__dirname, 'src/pages'),
+            '@modules': path.resolve(__dirname, 'src/modules'),
+            '@utilities': path.resolve(__dirname, 'src/modules/utilities'),
+            '@validation': path.resolve(__dirname, 'src/modules/validation'),
+            '@themes': path.resolve(__dirname, 'src/themes'),
+            '@styles': path.resolve(__dirname, 'src/css'),
+            '@images': path.resolve(__dirname, 'src/images'),
+        }
     },
     output: {
         path: path.resolve(__dirname, 'wwwroot/dist'),
-        filename: '[name].bundle.js',
+        filename: '[name].js',
         publicPath: '/dist/',
         clean: true
     },
