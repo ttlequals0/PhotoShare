@@ -4,9 +4,8 @@ const webpack = require('webpack');
 const glob = require('glob');
 
 const themeEntries = glob.sync(`${path.resolve(__dirname, 'src/themes')}/*.css`).reduce((acc, filePath) => {
-    const normalizedPath = filePath.startsWith('./') ? filePath : `./${filePath}`;
     const themeName = path.basename(filePath, '.css');
-    acc[`themes/${themeName}`] = normalizedPath;
+    acc[`themes/${themeName}`] = path.resolve(__dirname, `src/themes/${themeName}.css`);
     return acc;
 }, {});
 
