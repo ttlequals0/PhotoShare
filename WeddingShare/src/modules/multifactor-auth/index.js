@@ -99,12 +99,15 @@ function multiFactorAuthSetup(showResetOption) {
             Text: localization.translate('Close')
         }];
     } else {
+        const secret = $('input#2fa-secret').val();
+        const qrCode = $('input#2fa-qr-code').val();
+
         customHtml = `<div class="text-center">
             <p class="mb-1">${localization.translate('2FA_Scan_With_App')}</p>
-            <p class="mb-2"><img src="@qrCode"/></p>
+            <p class="mb-2"><img src="${qrCode}"/></p>
             <p class="mb-2">${localization.translate('Or')}</p>
             <p class="mb-0">${localization.translate('2FA_Manually_Enter_Code')}</p>
-            <p class="mb-4 fw-bold">@secret</p>
+            <p class="mb-4 fw-bold">${secret}</p>
         </div>`;
 
         buttons = [{
@@ -125,11 +128,13 @@ function multiFactorAuthSetup(showResetOption) {
     });
 }
 function multiFactorAuthValidation() {
+    const secret = $('input#2fa-secret').val();
+
     displayPopup({
         Title: localization.translate('2FA_Setup'),
         Fields: [{
             Id: '2fa-secret',
-            Value: '@secret',
+            Value: secret,
             Type: 'hidden'
         }, {
             Id: '2fa-code',

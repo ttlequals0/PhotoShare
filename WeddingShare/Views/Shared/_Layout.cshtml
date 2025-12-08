@@ -155,7 +155,7 @@
             @RenderBody()
         </div>
 
-        @*<partial name="~/Views/Shared/_2FA.cshtml" model="null" />*@
+        <partial name="~/Views/Shared/_2FA.cshtml" model="null" />
 
        @*  @if (await _settings.GetOrDefault(Settings.IdentityCheck.Enabled, true) && await _settings.GetOrDefault(Settings.IdentityCheck.ShowOnPageLoad, true) && string.IsNullOrWhiteSpace(Context?.Session?.GetString(SessionKey.ViewerIdentity)))
         {

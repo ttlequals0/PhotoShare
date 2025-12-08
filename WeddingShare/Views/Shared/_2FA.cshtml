@@ -14,6 +14,7 @@
         {
             secret = tfa.CreateSecret(160);
             Context?.Session.SetString(SessionKey.MultiFactorSecret, secret);
+            <input id="2fa-secret" type="hidden" value="@secret"/>
         }
         catch { }
     }
@@ -25,6 +26,7 @@
         {
             qrCode = tfa.GetQrCodeImageAsDataUri(title, secret);
             Context?.Session.SetString(SessionKey.MultiFactorQR, qrCode);
+            <input id="2fa-qr-code" type="hidden" value="@qrCode" />
         }
         catch { }
     }
