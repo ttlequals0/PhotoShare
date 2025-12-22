@@ -582,7 +582,7 @@ function bindDeleteUserButton() {
         let name = row.data('user-name');
         displayPopup({
             Title: localization.translate('User_Delete'),
-            Message: `${name} - ${localization.translate('Delete_Are_You_Sure')}`,
+            Message: localization.translate('Delete_Are_You_Sure'),
             Fields: [{
                 Id: 'user-id',
                 Value: row.data('user-id'),

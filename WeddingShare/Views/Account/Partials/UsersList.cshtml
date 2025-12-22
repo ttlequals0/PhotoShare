@@ -28,7 +28,14 @@
                     }
                     @if (userPermissions.Users.HasFlag(UserPermissions.Reset_MFA))
                     {
-                        <i class="btn @(user.Id > 1 ? "btnWipe2FA btn-outline-danger" : "btn-outline-disabled") fa-solid fa-key" alt="Wipe 2FA"></i>
+                        if (user.Id > 1 && !string.IsNullOrWhiteSpace(user.MultiFactorToken))
+                        {
+                            <i class="btn btnWipe2FA btn-outline-danger fa-solid fa-key" alt="Wipe 2FA"></i>
+                        }
+                        else
+                        {
+                            <i class="btn btn-outline-disabled fa-solid fa-lock-open" alt="2FA not set"></i>
+                        }
                     }
                     @if (userPermissions.Users.HasFlag(UserPermissions.Freeze))
                     {

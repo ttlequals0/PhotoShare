@@ -384,7 +384,7 @@ function bindDeleteGalleryButton() {
         let name = row.data('gallery-name');
         displayPopup({
             Title: localization.translate('Gallery_Delete'),
-            Message: `${name} - ${localization.translate('Delete_Are_You_Sure')}`,
+            Message: localization.translate('Delete_Are_You_Sure'),
             Fields: [{
                 Id: 'gallery-id',
                 Value: row.data('gallery-id'),
