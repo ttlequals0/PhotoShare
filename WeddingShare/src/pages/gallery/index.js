@@ -8,6 +8,9 @@ import MediaViewer from '@modules/media-viewer';
 import { default as slideshow } from '@modules/slideshow';
 import { default as initSettings } from '@pages/account/partials/settings';
 
+let resizeTimeout = null;
+let idleTimeout = null;
+
 let slideshowSlideInterval = 10000;
 let slideshowFadeInterval = 1000;
 
@@ -49,7 +52,7 @@ function bindQRCodeSave() {
         }
 
         const galleryName = $(e.currentTarget).data('gallery-name');
-        const canvas = $('#qrcode-download canvas')[0];
+        const canvas = $('.qrcode-download canvas')[0];
 
         const link = document.createElement('a');
         link.download = `${galleryName}-qrcode.png`;

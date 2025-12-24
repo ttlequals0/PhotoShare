@@ -6,7 +6,7 @@
 @{
     var slideshowSlideInterval = TimeSpan.FromSeconds(await _settings.GetOrDefault(Settings.Slideshow.Interval, 10)).TotalMilliseconds;
     var slideshowFadeInterval = await _settings.GetOrDefault(Settings.Slideshow.Fade, 500);
-    var slideLimit = await _settings.GetOrDefault(Settings.Slideshow.Limit, int.MaxValue);
+    var slideLimit = 3; // await _settings.GetOrDefault(Settings.Slideshow.Limit, int.MaxValue);
     var identityEnabled = await _settings.GetOrDefault(Settings.IdentityCheck.Enabled, true);
 
     if (Model?.Images != null)
@@ -26,7 +26,7 @@
             @if (await _settings.GetOrDefault(Settings.Slideshow.IncludeShareSlide, true))
             {
                 <div class="slideshow-slide">
-                    <span class="slideshow-slide-img share-slide"></span>
+                    <span class="slideshow-slide-img share-slide" data-value="@Html.Raw(ViewBag.QRCodeLink)"></span>
                     <h6 class="credits">@_localizer["Scan_To_Share"].Value</h6>
                 </div>
             }

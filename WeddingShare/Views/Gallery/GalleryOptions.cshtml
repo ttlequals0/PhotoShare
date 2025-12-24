@@ -15,19 +15,8 @@
 {
     <div class="row mb-4">
         <div class="col-12 text-center">
-            <div id="qrcode"></div>
-            <div id="qrcode-download" class="d-none"></div>
+            <div class="qrcode-wrapper" data-value="@Html.Raw(ViewBag.QRCodeLink)"></div>
             <h6>@_localizer["Share_Code"].Value</h6>
-           @*  <script> TODO - 
-                document.addEventListener('DOMContentLoaded', function () {
-                    if ($('#qrcode').length > 0 && $('#qrcode').is(':visible')) {
-                        $(function () {
-                            $('#qrcode').qrcode({ width: 150, height: 150, text: '@Html.Raw(ViewBag.QRCodeLink)' });
-                            $('#qrcode-download').qrcode({ width: 1000, height: 1000, text: '@Html.Raw(ViewBag.QRCodeLink)' });
-                        });
-                    }
-                }, false);
-            </script> *@
         </div>
     </div>
 }

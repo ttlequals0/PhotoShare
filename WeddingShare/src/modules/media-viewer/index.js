@@ -211,8 +211,8 @@ class MediaViewer {
         if (container.outerWidth() < targetWidth && container.outerHeight() < targetHeight) {
             media.width(media.width() + 10);
 
-            clearTimeout(resizePopupTimeout);
-            resizePopupTimeout = setTimeout(function () {
+            clearTimeout(this.resizePopupTimeout);
+            this.resizePopupTimeout = setTimeout(function () {
                 this.resizeMediaViewer(iteration + 1, popup, type, source);
             }, 5);
         } else {

@@ -13,6 +13,7 @@ import initGdpr from '@modules/gdpr';
 import { default as initThemes, getSelectedTheme } from '@themes';
 import initIdentityCheck from '@modules/identity-check';
 import initSponsors from '@modules/sponsors';
+import initQrCodes from '@modules/qr-codes';
 
 const app = {
     initialized: false,
@@ -38,6 +39,7 @@ async function init() {
     initThemes();
     initIdentityCheck();
     initSponsors();
+    initQrCodes();
 
     app.config.theme = getSelectedTheme();
     app.initialized = true;

@@ -82,6 +82,7 @@
     <Content Include="src\lib\jquery-validation\dist\jquery.validate.min.js" />
     <Content Include="src\lib\jquery-validation\LICENSE.md" />
     <Content Include="src\modules\cookies\index.js" />
+    <Content Include="src\modules\qr-codes\index.js" />
     <Content Include="src\modules\gallery-selector\index.js" />
     <Content Include="src\modules\gdpr\index.js" />
     <Content Include="src\modules\html-elements\index.js" />

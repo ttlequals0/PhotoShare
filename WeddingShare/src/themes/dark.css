@@ -125,7 +125,7 @@
     background-color: #999999;
 }
 
-#qrcode canvas {
+.qrcode canvas {
     border: 5px solid rgba(255, 255, 255, 1.0);
 }
 

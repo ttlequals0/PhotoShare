@@ -12,7 +12,6 @@ class UploadBox {
 
     init() {
         this.initializeDropZones();
-        this.bindEvents();
     }
 
     isIdentityRequired() {
