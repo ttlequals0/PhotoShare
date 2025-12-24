@@ -52,6 +52,9 @@
   <data name="2FA_Manually_Enter_Code" xml:space="preserve">
     <value>Introduïu manualment el codi:</value>
   </data>
+  <data name="2FA_Not_Set" xml:space="preserve">
+    <value>2FA no establert</value>
+  </data>
   <data name="2FA_Reset_Failed" xml:space="preserve">
     <value>Ha fallat en reinicialitzar 2FA</value>
   </data>
@@ -150,6 +153,9 @@
   </data>
   <data name="Add" xml:space="preserve">
     <value>Afegeix</value>
+  </data>
+  <data name="Add_User" xml:space="preserve">
+    <value>Afegeix usuari</value>
   </data>
   <data name="All" xml:space="preserve">
     <value>Tot</value>
@@ -310,6 +316,15 @@
   <data name="Cancel" xml:space="preserve">
     <value>Cancel· la</value>
   </data>
+  <data name="Change_Identity" xml:space="preserve">
+    <value>Canvia la identitat</value>
+  </data>
+  <data name="Change_Password" xml:space="preserve">
+    <value>Canvia la contrasenya</value>
+  </data>
+  <data name="Change_Theme" xml:space="preserve">
+    <value>Canvia Tema</value>
+  </data>
   <data name="Check_Account_State_Failed" xml:space="preserve">
     <value>Ha fallat en comprovar l' estat del compte</value>
   </data>
@@ -411,6 +426,9 @@
   </data>
   <data name="Details" xml:space="preserve">
     <value>Detalls</value>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>Deshabilitat</value>
   </data>
   <data name="Download" xml:space="preserve">
     <value>Descarrega</value>
@@ -870,6 +888,9 @@
   </data>
   <data name="None" xml:space="preserve">
     <value>Cap</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Obre</value>
   </data>
   <data name="Or" xml:space="preserve">
     <value>O</value>
@@ -1708,6 +1729,9 @@
   <data name="Upgrade_Account_Message" xml:space="preserve">
     <value>Actualment esteu usant la versió lliure. Per a desbloquejar més emmagatzematge de galeria i altres grans característiques consideren actualitzar el vostre compte</value>
   </data>
+  <data name="Upgrade_To_Unlock" xml:space="preserve">
+    <value>Actualitza per desbloquejar</value>
+  </data>
   <data name="Upload" xml:space="preserve">
     <value>Puja</value>
   </data>
@@ -1860,6 +1884,9 @@
   </data>
   <data name="Wipe" xml:space="preserve">
     <value>Esborrat</value>
+  </data>
+  <data name="Wipe_2FA" xml:space="preserve">
+    <value>Esborrat 2FA</value>
   </data>
   <data name="Wipe_All_Confirmation" xml:space="preserve">
     <value>Segur que vols esborrar totes les galeries?</value>

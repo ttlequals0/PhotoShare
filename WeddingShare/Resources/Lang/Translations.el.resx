@@ -52,6 +52,9 @@
   <data name="2FA_Manually_Enter_Code" xml:space="preserve">
     <value>Χειροκίνητα εισάγετε τον κωδικό:</value>
   </data>
+  <data name="2FA_Not_Set" xml:space="preserve">
+    <value>Χωρίς ρύθμιση 2FA</value>
+  </data>
   <data name="2FA_Reset_Failed" xml:space="preserve">
     <value>Αποτυχία επαναφοράς 2FA</value>
   </data>
@@ -150,6 +153,9 @@
   </data>
   <data name="Add" xml:space="preserve">
     <value>Προσθήκη</value>
+  </data>
+  <data name="Add_User" xml:space="preserve">
+    <value>Προσθήκη χρήστη</value>
   </data>
   <data name="All" xml:space="preserve">
     <value>Όλα</value>
@@ -310,6 +316,15 @@
   <data name="Cancel" xml:space="preserve">
     <value>Ακύρωση</value>
   </data>
+  <data name="Change_Identity" xml:space="preserve">
+    <value>Τροποποίηση ταυτότητας</value>
+  </data>
+  <data name="Change_Password" xml:space="preserve">
+    <value>Αλλαγή κωδικού πρόσβασης</value>
+  </data>
+  <data name="Change_Theme" xml:space="preserve">
+    <value>Αλλαγή Θέμα</value>
+  </data>
   <data name="Check_Account_State_Failed" xml:space="preserve">
     <value>Αποτυχία ελέγχου κατάστασης λογαριασμού</value>
   </data>
@@ -411,6 +426,9 @@
   </data>
   <data name="Details" xml:space="preserve">
     <value>Λεπτομέρειες</value>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>Απενεργοποίηση</value>
   </data>
   <data name="Download" xml:space="preserve">
     <value>Λήψη</value>
@@ -870,6 +888,9 @@
   </data>
   <data name="None" xml:space="preserve">
     <value>Καμία</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Άνοιγμα</value>
   </data>
   <data name="Or" xml:space="preserve">
     <value>Ή</value>
@@ -1708,6 +1729,9 @@
   <data name="Upgrade_Account_Message" xml:space="preserve">
     <value>Αυτή τη στιγμή χρησιμοποιείτε την ελεύθερη έκδοση. Για να ξεκλειδώσετε περισσότερες αποθήκευση γκαλερί και άλλα μεγάλα χαρακτηριστικά θεωρούν αναβάθμιση του λογαριασμού σας</value>
   </data>
+  <data name="Upgrade_To_Unlock" xml:space="preserve">
+    <value>Αναβάθμιση σε ξεκλείδωμα</value>
+  </data>
   <data name="Upload" xml:space="preserve">
     <value>Αποστολή</value>
   </data>
@@ -1860,6 +1884,9 @@
   </data>
   <data name="Wipe" xml:space="preserve">
     <value>Σκουπίστε</value>
+  </data>
+  <data name="Wipe_2FA" xml:space="preserve">
+    <value>Σκουπίστε 2FA</value>
   </data>
   <data name="Wipe_All_Confirmation" xml:space="preserve">
     <value>Σίγουρα θέλεις να σκουπίσεις όλες τις γκαλερί?</value>

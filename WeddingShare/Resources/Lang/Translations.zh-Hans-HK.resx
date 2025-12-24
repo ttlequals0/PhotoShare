@@ -52,6 +52,9 @@
   <data name="2FA_Manually_Enter_Code" xml:space="preserve">
     <value>手动输入代码 :</value>
   </data>
+  <data name="2FA_Not_Set" xml:space="preserve">
+    <value>2FA 非设置</value>
+  </data>
   <data name="2FA_Reset_Failed" xml:space="preserve">
     <value>重设 2FA 失败</value>
   </data>
@@ -150,6 +153,9 @@
   </data>
   <data name="Add" xml:space="preserve">
     <value>添加</value>
+  </data>
+  <data name="Add_User" xml:space="preserve">
+    <value>添加用户</value>
   </data>
   <data name="All" xml:space="preserve">
     <value>全体</value>
@@ -310,6 +316,15 @@
   <data name="Cancel" xml:space="preserve">
     <value>取消</value>
   </data>
+  <data name="Change_Identity" xml:space="preserve">
+    <value>更改身份</value>
+  </data>
+  <data name="Change_Password" xml:space="preserve">
+    <value>更改密码</value>
+  </data>
+  <data name="Change_Theme" xml:space="preserve">
+    <value>变动 主题</value>
+  </data>
   <data name="Check_Account_State_Failed" xml:space="preserve">
     <value>检查账户状态失败</value>
   </data>
@@ -411,6 +426,9 @@
   </data>
   <data name="Details" xml:space="preserve">
     <value>细节</value>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>已禁用</value>
   </data>
   <data name="Download" xml:space="preserve">
     <value>下载</value>
@@ -870,6 +888,9 @@
   </data>
   <data name="None" xml:space="preserve">
     <value>无</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>打开</value>
   </data>
   <data name="Or" xml:space="preserve">
     <value>或者说</value>
@@ -1708,6 +1729,9 @@
   <data name="Upgrade_Account_Message" xml:space="preserve">
     <value>您正在使用免费版本 。 要解锁更多画廊存储器 和其他伟大的功能 考虑更新您的账户</value>
   </data>
+  <data name="Upgrade_To_Unlock" xml:space="preserve">
+    <value>升级到解锁</value>
+  </data>
   <data name="Upload" xml:space="preserve">
     <value>上传</value>
   </data>
@@ -1860,6 +1884,9 @@
   </data>
   <data name="Wipe" xml:space="preserve">
     <value>擦拭</value>
+  </data>
+  <data name="Wipe_2FA" xml:space="preserve">
+    <value>擦除 2FA</value>
   </data>
   <data name="Wipe_All_Confirmation" xml:space="preserve">
     <value>你确定要清理所有画廊吗?</value>

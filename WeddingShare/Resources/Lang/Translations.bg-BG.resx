@@ -52,6 +52,9 @@
   <data name="2FA_Manually_Enter_Code" xml:space="preserve">
     <value>Ръчно въведете кода:</value>
   </data>
+  <data name="2FA_Not_Set" xml:space="preserve">
+    <value>2FA не е зададен</value>
+  </data>
   <data name="2FA_Reset_Failed" xml:space="preserve">
     <value>Грешка при нулиране на 2FA</value>
   </data>
@@ -150,6 +153,9 @@
   </data>
   <data name="Add" xml:space="preserve">
     <value>Добавяне</value>
+  </data>
+  <data name="Add_User" xml:space="preserve">
+    <value>Добавяне на потребител</value>
   </data>
   <data name="All" xml:space="preserve">
     <value>Всички</value>
@@ -310,6 +316,15 @@
   <data name="Cancel" xml:space="preserve">
     <value>Отмяна</value>
   </data>
+  <data name="Change_Identity" xml:space="preserve">
+    <value>Промяна на самоличността</value>
+  </data>
+  <data name="Change_Password" xml:space="preserve">
+    <value>Промяна на паролата</value>
+  </data>
+  <data name="Change_Theme" xml:space="preserve">
+    <value>Промяна Тема</value>
+  </data>
   <data name="Check_Account_State_Failed" xml:space="preserve">
     <value>Грешка при проверка на състоянието на сметката</value>
   </data>
@@ -411,6 +426,9 @@
   </data>
   <data name="Details" xml:space="preserve">
     <value>Подробности</value>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>Изключен</value>
   </data>
   <data name="Download" xml:space="preserve">
     <value>Изтегляне</value>
@@ -870,6 +888,9 @@
   </data>
   <data name="None" xml:space="preserve">
     <value>Няма</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Отваряне</value>
   </data>
   <data name="Or" xml:space="preserve">
     <value>Или</value>
@@ -1708,6 +1729,9 @@
   <data name="Upgrade_Account_Message" xml:space="preserve">
     <value>В момента използвате безплатната версия. За да отключите повече съхранение галерия и други големи функции, помислете за подобряване на вашия акаунт</value>
   </data>
+  <data name="Upgrade_To_Unlock" xml:space="preserve">
+    <value>Ъпгрейд към Отключване</value>
+  </data>
   <data name="Upload" xml:space="preserve">
     <value>Качване</value>
   </data>
@@ -1860,6 +1884,9 @@
   </data>
   <data name="Wipe" xml:space="preserve">
     <value>Изтриване</value>
+  </data>
+  <data name="Wipe_2FA" xml:space="preserve">
+    <value>Изтриване 2FA</value>
   </data>
   <data name="Wipe_All_Confirmation" xml:space="preserve">
     <value>Сигурен ли си, че искаш да изтриеш всички галерии?</value>

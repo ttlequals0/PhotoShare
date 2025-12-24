@@ -22,7 +22,7 @@
         logo = "/images/logo.png";
     }
 
-    var viewMode = ViewBag.ViewMode != null ? ViewBag.ViewMode : ViewMode.Default;
+    var viewMode = ViewBag?.ViewMode != null ? ViewBag.ViewMode : ViewMode.Default;
 
     string theme = "default";
     try
@@ -84,22 +84,41 @@
                 {
                     <div class="navbar-options presentation-hidden">
                         <div class="mx-0 mx-lg-4 my-1 float-start">
+                            <!-- ( Change Language ) -->
                             @if (await _settings.GetOrDefault(Settings.Languages.Enabled, true))
                             {
-                                <i class="change-language fa-solid fa-earth-europe fa-1x text-secondary pointer mx-2"></i>
+                                var tooltip = _localizer["Language_Change"].Value;
+                                <span alt="@tooltip" title="@tooltip">
+                                    <i class="change-language fas fa-earth-europe fa-1x text-secondary pointer mx-2"></i>
+                                </span>
                             }
+
+                            <!-- ( Change Theme ) -->
                             @if (await _settings.GetOrDefault(Settings.Themes.Enabled, true))
                             {
-                                <i class="change-theme fa-solid @(string.Equals("default", theme, StringComparison.OrdinalIgnoreCase) ? "fa-moon" : "fa-sun") fa-1x text-secondary pointer mx-2"></i>
+                                var tooltip = _localizer["Change_Theme"].Value;
+                                <span alt="@tooltip" title="@tooltip">
+                                    <i class="change-theme fas @(string.Equals("default", theme, StringComparison.OrdinalIgnoreCase) ? "fa-moon" : "fa-sun") fa-1x text-secondary pointer mx-2"></i>
+                                </span>
                             }
+
+                            <!-- ( Change Identity ) -->
                             @if (await _settings.GetOrDefault(Settings.IdentityCheck.Enabled, true))
                             {
                                 var requireEmail = await _settings.GetOrDefault(Settings.IdentityCheck.RequireEmail, false);
-                                <i class="change-identity fa-solid fa-id-card fa-1x text-secondary pointer mx-2" data-identity-name="@Context?.Session.GetString(SessionKey.Viewer.Identity)" @(requireEmail ? $"data-identity-email={Context?.Session.GetString(SessionKey.Viewer.EmailAddress)}" : string.Empty)></i>
+                                var tooltip = _localizer["Change_Identity"].Value;
+                                <span alt="@tooltip" title="@tooltip">
+                                    <i class="change-identity fas fa-id-card fa-1x text-secondary pointer mx-2" data-identity-name="@Context?.Session.GetString(SessionKey.Viewer.Identity)" @(requireEmail ? $"data-identity-email={Context?.Session.GetString(SessionKey.Viewer.EmailAddress)}" : string.Empty)></i>
+                                </span>
                             }
+                            
+                            <!-- ( Set MFA ) -->
                             @if (User?.Identity != null && User.Identity.IsAuthenticated)
                             {
-                                <i class="change-2fa fa-solid fa-key fa-1x text-secondary pointer mx-2" data-mfa-set="@(bool.Parse(Context?.Session.GetString(SessionKey.MultiFactor.TokenSet)?.ToLower() ?? "false").ToString().ToLower())"></i>
+                                var tooltip = _localizer["2FA_Setup"].Value;
+                                <span alt="@tooltip" title="@tooltip">
+                                    <i class="change-2fa fas fa-key fa-1x text-secondary pointer mx-2" data-mfa-set="@(bool.Parse(Context?.Session.GetString(SessionKey.MultiFactor.TokenSet)?.ToLower() ?? "false").ToString().ToLower())"></i>
+                                </span>
                             }
                         </div>
                         <div class="profile-icon my-1 m-lg-0 float-end">
@@ -107,14 +126,16 @@
                             {
                                 if (!string.IsNullOrWhiteSpace(Context?.Request.Path.Value) && Context.Request.Path.Value.Contains("/Account", StringComparison.OrdinalIgnoreCase) && !Context.Request.Path.Value.Contains("/Login", StringComparison.OrdinalIgnoreCase) && !Context.Request.Path.Value.Contains("/Register", StringComparison.OrdinalIgnoreCase) && !Context.Request.Path.Value.Contains("/ForgotPassword", StringComparison.OrdinalIgnoreCase))
                                 {
-                                    <a href="@Url.Action("Logout", "Account")">
-                                        <i class="fa-solid fa-door-open fa-2x text-danger"></i>
+                                    var tooltip = _localizer["Logout"].Value;
+                                    <a href="@Url.Action("Logout", "Account")" alt="@tooltip" title="@tooltip">
+                                        <i class="fas fa-door-open fa-2x text-danger"></i>
                                     </a>
                                 }
                                 else
                                 {
-                                    <a href="@Url.Action("Login", "Account")">
-                                        <i class="fa-solid fa-circle-user fa-2x text-secondary"></i>
+                                    var tooltip = _localizer["Login"].Value;
+                                    <a href="@Url.Action("Login", "Account")" alt="@tooltip" title="@tooltip">
+                                        <i class="fas fa-circle-user fa-2x text-secondary"></i>
                                     </a>
                                 }
                             }
@@ -183,7 +204,7 @@
         <partial name="_CookieConsentPartial" />
 
         <!-- Sponsors Button -->
-        <i class="btn-show-sponsors fa-solid fa-bolt"></i>
+        <i class="btn-show-sponsors fas fa-bolt"></i>
         
         <!-- Webpack -->
         <script src="~/dist/main.js" asp-append-version="true"></script>

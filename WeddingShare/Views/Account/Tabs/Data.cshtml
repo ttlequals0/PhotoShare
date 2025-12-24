@@ -45,15 +45,19 @@
                         @if (userPermissions.Data.HasFlag(DataPermissions.Import))
                         {
                             <div class="mx-0 mx-sm-5 px-5 px-xl-5 text-primary d-inline-block">
-                                <i class="btnImport fa-solid fa-upload fa-2x pointer" alt="@_localizer["Import"].Value"></i>
-                                <h6 class="mb-0">@_localizer["Import"].Value</h6>
+                                <span class="btnImport pointer" alt="@_localizer["Import"].Value" title="@_localizer["Import"].Value">
+                                    <i class=" fas fa-upload fa-2x"></i>
+                                    <h6 class="mb-0">@_localizer["Import"].Value</h6>
+                                </span>
                             </div>
                         }
                         @if (userPermissions.Data.HasFlag(DataPermissions.Export))
                         {
                             <div class="mx-0 mx-sm-5 px-5 px-xl-5 text-primary d-inline-block">
-                                <i class="btnExport fa-solid fa-download fa-2x pointer" alt="@_localizer["Export"].Value"></i>
-                                <h6 class="mb-0">@_localizer["Export"].Value</h6>
+                                <span class="btnExport pointer" alt="@_localizer["Export"].Value" title="@_localizer["Export"].Value">
+                                    <i class="fas fa-download fa-2x"></i>
+                                    <h6 class="mb-0">@_localizer["Export"].Value</h6>
+                                </span>
                             </div>
                         }
                     </div>
@@ -76,8 +80,10 @@
                 <div class="row px-3 pb-3">
                     <div class="col-12 border rounded py-3 text-center">
                         <div class="mx-0 mx-sm-5 px-2 px-xl-5 text-danger d-inline-block">
-                            <i class="btnWipeAllGalleries fa-solid fa-broom fa-2x pointer" alt="@_localizer["Wipe"].Value"></i>
-                            <h6 class="mb-0">@_localizer["Wipe"].Value</h6>
+                            <span class="btnWipeAllGalleries pointer" alt="@_localizer["Wipe"].Value" title="@_localizer["Wipe"].Value">
+                                <i class="fas fa-broom fa-2x"></i>
+                                <h6 class="mb-0">@_localizer["Wipe"].Value</h6>
+                            </span>
                         </div>
                     </div>
                 </div>

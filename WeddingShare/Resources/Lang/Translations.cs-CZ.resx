@@ -52,6 +52,9 @@
   <data name="2FA_Manually_Enter_Code" xml:space="preserve">
     <value>Ručně zadejte kód:</value>
   </data>
+  <data name="2FA_Not_Set" xml:space="preserve">
+    <value>2FA není nastaveno</value>
+  </data>
   <data name="2FA_Reset_Failed" xml:space="preserve">
     <value>Selhalo resetování 2FA</value>
   </data>
@@ -150,6 +153,9 @@
   </data>
   <data name="Add" xml:space="preserve">
     <value>Přidat</value>
+  </data>
+  <data name="Add_User" xml:space="preserve">
+    <value>Přidat uživatele</value>
   </data>
   <data name="All" xml:space="preserve">
     <value>Všechny</value>
@@ -310,6 +316,15 @@
   <data name="Cancel" xml:space="preserve">
     <value>Zrušit</value>
   </data>
+  <data name="Change_Identity" xml:space="preserve">
+    <value>Změnit identitu</value>
+  </data>
+  <data name="Change_Password" xml:space="preserve">
+    <value>Změnit heslo</value>
+  </data>
+  <data name="Change_Theme" xml:space="preserve">
+    <value>Změna Téma</value>
+  </data>
   <data name="Check_Account_State_Failed" xml:space="preserve">
     <value>Chyba při kontrole stavu účtu</value>
   </data>
@@ -411,6 +426,9 @@
   </data>
   <data name="Details" xml:space="preserve">
     <value>Podrobnosti</value>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>Zakázáno</value>
   </data>
   <data name="Download" xml:space="preserve">
     <value>Stáhnout</value>
@@ -870,6 +888,9 @@
   </data>
   <data name="None" xml:space="preserve">
     <value>Žádné</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Otevřít</value>
   </data>
   <data name="Or" xml:space="preserve">
     <value>Nebo</value>
@@ -1708,6 +1729,9 @@
   <data name="Upgrade_Account_Message" xml:space="preserve">
     <value>Právě používáte bezplatnou verzi. Chcete-li odemknout více galerie úložiště a další skvělé funkce zvažte upgrade svého účtu</value>
   </data>
+  <data name="Upgrade_To_Unlock" xml:space="preserve">
+    <value>Aktualizovat na Odemknout</value>
+  </data>
   <data name="Upload" xml:space="preserve">
     <value>Načíst</value>
   </data>
@@ -1860,6 +1884,9 @@
   </data>
   <data name="Wipe" xml:space="preserve">
     <value>Utřít</value>
+  </data>
+  <data name="Wipe_2FA" xml:space="preserve">
+    <value>Wipe 2FA</value>
   </data>
   <data name="Wipe_All_Confirmation" xml:space="preserve">
     <value>Jsi si jistý, že chceš otřít všechny galerie?</value>

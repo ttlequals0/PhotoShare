@@ -4,8 +4,8 @@
 @using WeddingShare.Views.Gallery.Modes
 
 @{
-    var slideshowInterval = TimeSpan.FromSeconds(await _settings.GetOrDefault(Settings.Slideshow.Interval, 10)).TotalMilliseconds;
-    var slideshowFade = await _settings.GetOrDefault(Settings.Slideshow.Fade, 500);
+    var slideshowSlideInterval = TimeSpan.FromSeconds(await _settings.GetOrDefault(Settings.Slideshow.Interval, 10)).TotalMilliseconds;
+    var slideshowFadeInterval = await _settings.GetOrDefault(Settings.Slideshow.Fade, 500);
     var slideLimit = await _settings.GetOrDefault(Settings.Slideshow.Limit, int.MaxValue);
     var identityEnabled = await _settings.GetOrDefault(Settings.IdentityCheck.Enabled, true);
 
@@ -32,70 +32,7 @@
             }
         </div>
     }
-}
 
-@if (Model?.LoadScripts ?? true)
-{
-    <script>
-        document.addEventListener('DOMContentLoaded', function () { 
-            $(function () {
-
-                var slidetimer = null;
-                var transitionTimer = null;
-                var resizeTimeout = null;
-
-                $(window).on('resize', function () {
-                    clearTimeout(resizeTimeout);
-                    resizeTimeout = setTimeout(function () {
-                        init();
-                    }, 200);
-                });
-
-                function init() {
-                    var windowHeight = $(window).outerHeight();
-                    var headerHeight = $('.navbar').outerHeight();
-                    var footerHeight = $('footer').outerHeight();
-                    var creditsHeight = $('.credits').length > 0 ? 20 : 0;
-                    var reviewCounterHeight = $('.review-counter').length > 0 ? $('.review-counter').outerHeight() + 70 : 50;
-                    var slideHeight = windowHeight - (headerHeight + footerHeight + reviewCounterHeight + creditsHeight);
-
-                    $('.slideshow .slideshow-slide .share-slide').qrcode({ width: slideHeight, height: slideHeight, text: '@Html.Raw(ViewBag.QRCodeLink)' });
-
-                    $('.slideshow').height(slideHeight);
-                    $('.slideshow .slideshow-slide').each(function (index) {
-                        $(this).attr('data-slide-index', index);
-                    });
-                    $('.slideshow .slideshow-slide[data-slide-index="0"]').show();
-
-                    var currentSlide = 0;
-                    var fadeInterval = @slideshowFade;
-                    clearInterval(slidetimer);
-                    slidetimer = setInterval(function () {
-                        currentSlide++;
-
-                        if (currentSlide >= $('.slideshow .slideshow-slide').length) {
-                            $.ajax({
-                                type: 'GET',
-                                url: `${window.location.pathname}${window.location.search}&partial=true`,
-                                success: function (data) {
-                                    clearInterval(slidetimer);
-                                    clearTimeout(transitionTimer);
-                                    $('#main-gallery').html(data);
-                                    init();
-                                }
-                            });
-                        }
-
-                        $('.slideshow-slide').fadeOut(fadeInterval);
-                        clearTimeout(transitionTimer);
-                        transitionTimer = setTimeout(function () {
-                            $(`.slideshow-slide[data-slide-index="${currentSlide}"]`).fadeIn(fadeInterval);
-                        }, fadeInterval);
-                    }, @slideshowInterval);
-                }
-                init();
-
-            });
-        }, false);
-    </script>
+    <input type="hidden" id="slideshowSlideInterval" value="@slideshowSlideInterval" />
+    <input type="hidden" id="slideshowFadeInterval" value="@slideshowFadeInterval" />
 }

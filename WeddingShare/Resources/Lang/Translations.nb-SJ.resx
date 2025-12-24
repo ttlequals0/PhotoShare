@@ -52,6 +52,9 @@
   <data name="2FA_Manually_Enter_Code" xml:space="preserve">
     <value>Skriv manuelt inn koden:</value>
   </data>
+  <data name="2FA_Not_Set" xml:space="preserve">
+    <value>2FA ikke satt</value>
+  </data>
   <data name="2FA_Reset_Failed" xml:space="preserve">
     <value>Klarte ikke å tilbakestille 2FA</value>
   </data>
@@ -150,6 +153,9 @@
   </data>
   <data name="Add" xml:space="preserve">
     <value>Legg til</value>
+  </data>
+  <data name="Add_User" xml:space="preserve">
+    <value>Legg til bruker</value>
   </data>
   <data name="All" xml:space="preserve">
     <value>Alle</value>
@@ -310,6 +316,15 @@
   <data name="Cancel" xml:space="preserve">
     <value>Avbryt</value>
   </data>
+  <data name="Change_Identity" xml:space="preserve">
+    <value>Endre identitet</value>
+  </data>
+  <data name="Change_Password" xml:space="preserve">
+    <value>Endre passord</value>
+  </data>
+  <data name="Change_Theme" xml:space="preserve">
+    <value>Endre Tema</value>
+  </data>
   <data name="Check_Account_State_Failed" xml:space="preserve">
     <value>Klarte ikke å sjekke kontotilstand</value>
   </data>
@@ -411,6 +426,9 @@
   </data>
   <data name="Details" xml:space="preserve">
     <value>Detaljer</value>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>Deaktivert</value>
   </data>
   <data name="Download" xml:space="preserve">
     <value>Last ned</value>
@@ -870,6 +888,9 @@
   </data>
   <data name="None" xml:space="preserve">
     <value>Ingen</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Åpne</value>
   </data>
   <data name="Or" xml:space="preserve">
     <value>Eller</value>
@@ -1708,6 +1729,9 @@
   <data name="Upgrade_Account_Message" xml:space="preserve">
     <value>Du bruker for tiden den gratis versjonen. Å låse opp mer gallerilagring og andre flotte funksjoner vurdere å oppgradere kontoen din</value>
   </data>
+  <data name="Upgrade_To_Unlock" xml:space="preserve">
+    <value>Oppgrader til Lås opp</value>
+  </data>
   <data name="Upload" xml:space="preserve">
     <value>Last opp</value>
   </data>
@@ -1860,6 +1884,9 @@
   </data>
   <data name="Wipe" xml:space="preserve">
     <value>Wipe</value>
+  </data>
+  <data name="Wipe_2FA" xml:space="preserve">
+    <value>Wipe 2FA</value>
   </data>
   <data name="Wipe_All_Confirmation" xml:space="preserve">
     <value>Er du sikker på at du vil tørke alle gallerier?</value>

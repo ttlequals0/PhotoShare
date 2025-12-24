@@ -17,15 +17,15 @@
                         {
                             if (userPermissions.Gallery.HasFlag(GalleryPermissions.Create))
                             {
-                                <span class="action text-success pointer">
-                                    <i class="btnAddGallery fa-solid fa-calendar-plus" alt="@_localizer["Create"].Value"></i>
+                                <span class="btnAddGallery action text-success pointer" alt="@_localizer["Create"].Value" title="@_localizer["Create"].Value">
+                                    <i class="fas fa-calendar-plus"></i>
                                     <span>@_localizer["Create"].Value</span>
                                 </span>
                             }
                             else if (userPermissions.Features.HasFlag(FeaturePermissions.UpgradeToUnlock))
                             {
-                                <span class="action text-muted pointer">
-                                    <i class="fa-solid fa-calendar-plus" disabled="disabled" alt="@_localizer["Create"].Value" onclick="upgradeToUnlock();"></i>
+                                <span class="action text-muted pointer" alt="@_localizer["Create"].Value (@_localizer["Upgrade_To_Unlock"].Value)" title="@_localizer["Create"].Value (@_localizer["Upgrade_To_Unlock"].Value)">
+                                    <i class="fas fa-calendar-plus" disabled="disabled" alt="@_localizer["Create"].Value" onclick="upgradeToUnlock();"></i>
                                     <span>@_localizer["Create"].Value</span>
                                 </span>
                             }

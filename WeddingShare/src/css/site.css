@@ -44,12 +44,17 @@ tr td {
     word-break: break-word;
 }
 
-    tr td i, tr td svg {
+    tr td button {
         width: 30px;
         height: 30px;
-        margin: 0px 2px 0px 0px;
-        padding: 5px !important;
+        margin: 0px !important;
+        padding: 2px 5px !important;
     }
+
+        tr td button svg {
+            margin: 0px !important;
+            padding: 0px !important;
+        }
 
 .card {
     overflow: hidden;

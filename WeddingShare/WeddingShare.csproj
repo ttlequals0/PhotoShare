@@ -99,6 +99,7 @@
     <Content Include="src\modules\presentation\index.js" />
     <Content Include="src\modules\sponsors\index.js" />
     <Content Include="src\modules\sponsors\sponsors.css" />
+    <Content Include="src\modules\slideshow\index.js" />
     <Content Include="src\modules\upload-box\index.js" />
     <Content Include="src\modules\validation\password-validation\index.js" />
     <Content Include="src\pages\account\admin-panel.js" />

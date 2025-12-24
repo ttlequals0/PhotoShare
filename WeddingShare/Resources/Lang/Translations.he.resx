@@ -52,6 +52,9 @@
   <data name="2FA_Manually_Enter_Code" xml:space="preserve">
     <value>היכנסו ידנית לקוד:</value>
   </data>
+  <data name="2FA_Not_Set" xml:space="preserve">
+    <value>2FA Not Set</value>
+  </data>
   <data name="2FA_Reset_Failed" xml:space="preserve">
     <value>נכשלת בתיקון 2FA</value>
   </data>
@@ -150,6 +153,9 @@
   </data>
   <data name="Add" xml:space="preserve">
     <value>הוסף</value>
+  </data>
+  <data name="Add_User" xml:space="preserve">
+    <value>הוסף משתמשים</value>
   </data>
   <data name="All" xml:space="preserve">
     <value>הכל</value>
@@ -310,6 +316,15 @@
   <data name="Cancel" xml:space="preserve">
     <value>ביטול</value>
   </data>
+  <data name="Change_Identity" xml:space="preserve">
+    <value>שינוי זהות</value>
+  </data>
+  <data name="Change_Password" xml:space="preserve">
+    <value>שינוי הסיסמה</value>
+  </data>
+  <data name="Change_Theme" xml:space="preserve">
+    <value>שינוי שינוי נושא</value>
+  </data>
   <data name="Check_Account_State_Failed" xml:space="preserve">
     <value>נכשל לבדוק את מצב החשבון</value>
   </data>
@@ -411,6 +426,9 @@
   </data>
   <data name="Details" xml:space="preserve">
     <value>פרטים</value>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>מוגבלות</value>
   </data>
   <data name="Download" xml:space="preserve">
     <value>הורד Download</value>
@@ -870,6 +888,9 @@
   </data>
   <data name="None" xml:space="preserve">
     <value>אף אחד לא</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>פתוח</value>
   </data>
   <data name="Or" xml:space="preserve">
     <value>או</value>
@@ -1708,6 +1729,9 @@
   <data name="Upgrade_Account_Message" xml:space="preserve">
     <value>עכשיו אתה משתמש בגרסה החינמית. כדי לפתוח יותר אחסון גלריה ותכונות גדולות אחרות לשקול שדרוג החשבון שלך</value>
   </data>
+  <data name="Upgrade_To_Unlock" xml:space="preserve">
+    <value>עקבו אחרי Unlock</value>
+  </data>
   <data name="Upload" xml:space="preserve">
     <value>Upload</value>
   </data>
@@ -1860,6 +1884,9 @@
   </data>
   <data name="Wipe" xml:space="preserve">
     <value>Wipe</value>
+  </data>
+  <data name="Wipe_2FA" xml:space="preserve">
+    <value>Wipe 2FA</value>
   </data>
   <data name="Wipe_All_Confirmation" xml:space="preserve">
     <value>אתה בטוח שאתה רוצה למחוק את כל הגלריות?</value>

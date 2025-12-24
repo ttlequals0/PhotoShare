@@ -5,10 +5,18 @@ import { getTimestamp } from '@utilities/datetime';
 import { downloadBlob } from '@utilities/blobs';
 import { default as galleryUpload } from '@modules/upload-box';
 import MediaViewer from '@modules/media-viewer';
+import { default as slideshow } from '@modules/slideshow';
 import { default as initSettings } from '@pages/account/partials/settings';
 
+let slideshowSlideInterval = 10000;
+let slideshowFadeInterval = 1000;
+
 function init() {
+    slideshowSlideInterval = $('input#slideshowSlideInterval').val();
+    slideshowFadeInterval = $('input#slideshowFadeInterval').val();
+
     galleryUpload.init();
+    slideshow.init(slideshowSlideInterval, slideshowFadeInterval);
     new MediaViewer().init();
     initSettings();
     bindEventHandlers();
@@ -19,6 +27,17 @@ function bindEventHandlers() {
     bindDownloadGroup();
     bindDownloadGallery();
     bindDeletePhoto();
+    bindIdleRefresh();
+    bindPageResizeEvent();
+}
+
+function bindPageResizeEvent() {
+    $(window).on('resize', function () {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(function () {
+            slideshow.init(slideshowSlideInterval, slideshowFadeInterval);
+        }, 200);
+    });
 }
 
 function bindQRCodeSave() {
@@ -176,7 +195,7 @@ function bindDeletePhoto() {
                                         localization.translate('Delete_Item'),
                                         localization.translate('Delete_Item_Success'),
                                         null,
-                                        () => this.refreshGalleryPage()
+                                        () => refreshGalleryPage()
                                     );
                                 } else if (data.message) {
                                     displayMessage(
@@ -205,6 +224,36 @@ function bindDeletePhoto() {
                 }
             ]
         });
+    });
+}
+
+function bindIdleRefresh() {
+    const duration = $('input#galleryIdleRefreshInterval').val();
+    if (duration > 0) {
+        $(document).on('mousemove keydown scroll click', () => {
+            setIdleRefresh(duration);
+        });
+        setIdleRefresh(duration);
+    }
+}
+
+function setIdleRefresh(duration) {
+    clearTimeout(idleTimeout);
+    idleTimeout = setTimeout(function () {
+        refreshGalleryPage(onIdle);
+    }, duration);
+}
+
+export function refreshGalleryPage(callback) {
+    $.ajax({
+        type: 'GET',
+        url: `${window.location.pathname}${window.location.search}&partial=true`,
+        success: (data) => {
+            $('#main-gallery').html(data);
+            if (typeof callback === 'function') {
+                callback();
+            }
+        }
     });
 }
 

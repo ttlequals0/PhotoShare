@@ -52,6 +52,9 @@
   <data name="2FA_Manually_Enter_Code" xml:space="preserve">
     <value>Gib den Code manuell ein:</value>
   </data>
+  <data name="2FA_Not_Set" xml:space="preserve">
+    <value>2FA kein Set</value>
+  </data>
   <data name="2FA_Reset_Failed" xml:space="preserve">
     <value>Fehler beim Zurücksetzen des 2FA</value>
   </data>
@@ -150,6 +153,9 @@
   </data>
   <data name="Add" xml:space="preserve">
     <value>Hinzufügen</value>
+  </data>
+  <data name="Add_User" xml:space="preserve">
+    <value>Benutzer hinzufügen</value>
   </data>
   <data name="All" xml:space="preserve">
     <value>Alle</value>
@@ -310,6 +316,15 @@
   <data name="Cancel" xml:space="preserve">
     <value>Abbrechen</value>
   </data>
+  <data name="Change_Identity" xml:space="preserve">
+    <value>Identität ändern</value>
+  </data>
+  <data name="Change_Password" xml:space="preserve">
+    <value>Passwort ändern</value>
+  </data>
+  <data name="Change_Theme" xml:space="preserve">
+    <value>Veränderung Thema</value>
+  </data>
   <data name="Check_Account_State_Failed" xml:space="preserve">
     <value>Nicht zu überprüfen Konto Zustand</value>
   </data>
@@ -411,6 +426,9 @@
   </data>
   <data name="Details" xml:space="preserve">
     <value>Details</value>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>Behinderte</value>
   </data>
   <data name="Download" xml:space="preserve">
     <value>Downloads</value>
@@ -870,6 +888,9 @@
   </data>
   <data name="None" xml:space="preserve">
     <value>Keine</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Öffnen</value>
   </data>
   <data name="Or" xml:space="preserve">
     <value>Oder</value>
@@ -1708,6 +1729,9 @@
   <data name="Upgrade_Account_Message" xml:space="preserve">
     <value>Sie nutzen derzeit die kostenlose Version. Um mehr Galeriespeicher und andere tolle Funktionen zu entsperren, halten Sie Ihr Konto aufrecht</value>
   </data>
+  <data name="Upgrade_To_Unlock" xml:space="preserve">
+    <value>Upgrade auf Entsperren</value>
+  </data>
   <data name="Upload" xml:space="preserve">
     <value>Hochladen</value>
   </data>
@@ -1860,6 +1884,9 @@
   </data>
   <data name="Wipe" xml:space="preserve">
     <value>Löschen</value>
+  </data>
+  <data name="Wipe_2FA" xml:space="preserve">
+    <value>Wissen 2FA</value>
   </data>
   <data name="Wipe_All_Confirmation" xml:space="preserve">
     <value>Sind Sie sicher, dass Sie alle Galerien löschen möchten?</value>

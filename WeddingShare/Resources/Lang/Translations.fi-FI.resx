@@ -52,6 +52,9 @@
   <data name="2FA_Manually_Enter_Code" xml:space="preserve">
     <value>Anna koodi käsin:</value>
   </data>
+  <data name="2FA_Not_Set" xml:space="preserve">
+    <value>2FA ei asetettu</value>
+  </data>
   <data name="2FA_Reset_Failed" xml:space="preserve">
     <value>Ei voitu nollata 2FA: ta</value>
   </data>
@@ -150,6 +153,9 @@
   </data>
   <data name="Add" xml:space="preserve">
     <value>Lisää</value>
+  </data>
+  <data name="Add_User" xml:space="preserve">
+    <value>Lisää käyttäjä</value>
   </data>
   <data name="All" xml:space="preserve">
     <value>Kaikki</value>
@@ -310,6 +316,15 @@
   <data name="Cancel" xml:space="preserve">
     <value>Peruuta</value>
   </data>
+  <data name="Change_Identity" xml:space="preserve">
+    <value>Muuta henkilöllisyyttä</value>
+  </data>
+  <data name="Change_Password" xml:space="preserve">
+    <value>Vaihda salasana</value>
+  </data>
+  <data name="Change_Theme" xml:space="preserve">
+    <value>Muutos Teema</value>
+  </data>
   <data name="Check_Account_State_Failed" xml:space="preserve">
     <value>Tilin tilaa ei voitu tarkistaa</value>
   </data>
@@ -411,6 +426,9 @@
   </data>
   <data name="Details" xml:space="preserve">
     <value>Yksityiskohdat</value>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>Ei käytössä</value>
   </data>
   <data name="Download" xml:space="preserve">
     <value>Lataa</value>
@@ -870,6 +888,9 @@
   </data>
   <data name="None" xml:space="preserve">
     <value>Ei ole</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Avaa</value>
   </data>
   <data name="Or" xml:space="preserve">
     <value>Tai</value>
@@ -1708,6 +1729,9 @@
   <data name="Upgrade_Account_Message" xml:space="preserve">
     <value>Käytät tällä hetkellä ilmaista versiota. Avata enemmän galleria varastointi ja muut suuret ominaisuudet harkitse päivittää tilisi</value>
   </data>
+  <data name="Upgrade_To_Unlock" xml:space="preserve">
+    <value>Päivitä avaan</value>
+  </data>
   <data name="Upload" xml:space="preserve">
     <value>Lähetä</value>
   </data>
@@ -1860,6 +1884,9 @@
   </data>
   <data name="Wipe" xml:space="preserve">
     <value>Pyyhi</value>
+  </data>
+  <data name="Wipe_2FA" xml:space="preserve">
+    <value>Pyyhi 2FA</value>
   </data>
   <data name="Wipe_All_Confirmation" xml:space="preserve">
     <value>Haluatko varmasti pyyhkiä kaikki galleriat?</value>

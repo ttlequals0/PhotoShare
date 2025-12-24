@@ -13,8 +13,8 @@
                     @if (userPermissions.Users.HasFlag(UserPermissions.Create))
                     {
                         <span class="header-actions">
-                            <span class="action text-success pointer">
-                                <i class="btnAddUser fa-solid fa-user-plus" alt="@_localizer["Add"].Value"></i>
+                            <span class="btnAddUser action text-success pointer" alt="@_localizer["Add_User"].Value" title="@_localizer["Add_User"].Value">
+                                <i class="fas fa-user-plus"></i>
                                 <span>@_localizer["Add"].Value</span>
                             </span>
                         </span>

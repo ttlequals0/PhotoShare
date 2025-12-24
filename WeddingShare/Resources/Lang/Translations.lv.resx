@@ -52,6 +52,9 @@
   <data name="2FA_Manually_Enter_Code" xml:space="preserve">
     <value>Manuāli ievadiet kodu:</value>
   </data>
+  <data name="2FA_Not_Set" xml:space="preserve">
+    <value>2FA nav iestatīts</value>
+  </data>
   <data name="2FA_Reset_Failed" xml:space="preserve">
     <value>Neizdevās atiestatīt 2FA</value>
   </data>
@@ -150,6 +153,9 @@
   </data>
   <data name="Add" xml:space="preserve">
     <value>Pievienot</value>
+  </data>
+  <data name="Add_User" xml:space="preserve">
+    <value>Pievienot lietotāju</value>
   </data>
   <data name="All" xml:space="preserve">
     <value>Visi</value>
@@ -310,6 +316,15 @@
   <data name="Cancel" xml:space="preserve">
     <value>Atcelt</value>
   </data>
+  <data name="Change_Identity" xml:space="preserve">
+    <value>Mainīt identitāti</value>
+  </data>
+  <data name="Change_Password" xml:space="preserve">
+    <value>Mainīt paroli</value>
+  </data>
+  <data name="Change_Theme" xml:space="preserve">
+    <value>Mainīt Tēma</value>
+  </data>
   <data name="Check_Account_State_Failed" xml:space="preserve">
     <value>Neizdevās pārbaudīt konta stāvokli</value>
   </data>
@@ -411,6 +426,9 @@
   </data>
   <data name="Details" xml:space="preserve">
     <value>Detaļas</value>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>Atslēgts</value>
   </data>
   <data name="Download" xml:space="preserve">
     <value>Lejupielādēt</value>
@@ -870,6 +888,9 @@
   </data>
   <data name="None" xml:space="preserve">
     <value>Nav</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Atvērt</value>
   </data>
   <data name="Or" xml:space="preserve">
     <value>Vai</value>
@@ -1708,6 +1729,9 @@
   <data name="Upgrade_Account_Message" xml:space="preserve">
     <value>Jūs pašlaik izmantojat bezmaksas versiju. Lai atbloķētu vairāk galerija uzglabāšanas un citas lieliskas funkcijas apsvērt uzlabot savu kontu</value>
   </data>
+  <data name="Upgrade_To_Unlock" xml:space="preserve">
+    <value>Atjaunināt uz atbloķēšanu</value>
+  </data>
   <data name="Upload" xml:space="preserve">
     <value>Augšupielāde</value>
   </data>
@@ -1860,6 +1884,9 @@
   </data>
   <data name="Wipe" xml:space="preserve">
     <value>Noslaucīt</value>
+  </data>
+  <data name="Wipe_2FA" xml:space="preserve">
+    <value>2FA</value>
   </data>
   <data name="Wipe_All_Confirmation" xml:space="preserve">
     <value>Vai tiešām gribi noslaucīt visas galerijas?</value>

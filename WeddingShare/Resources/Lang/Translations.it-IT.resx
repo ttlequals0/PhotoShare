@@ -52,6 +52,9 @@
   <data name="2FA_Manually_Enter_Code" xml:space="preserve">
     <value>Inserisci manualmente il codice:</value>
   </data>
+  <data name="2FA_Not_Set" xml:space="preserve">
+    <value>2FA non impostato</value>
+  </data>
   <data name="2FA_Reset_Failed" xml:space="preserve">
     <value>Impossibile reimpostare 2FA</value>
   </data>
@@ -150,6 +153,9 @@
   </data>
   <data name="Add" xml:space="preserve">
     <value>Aggiungi</value>
+  </data>
+  <data name="Add_User" xml:space="preserve">
+    <value>Aggiungi utente</value>
   </data>
   <data name="All" xml:space="preserve">
     <value>Tutti</value>
@@ -310,6 +316,15 @@
   <data name="Cancel" xml:space="preserve">
     <value>Annulla</value>
   </data>
+  <data name="Change_Identity" xml:space="preserve">
+    <value>Cambia identità</value>
+  </data>
+  <data name="Change_Password" xml:space="preserve">
+    <value>Cambia password</value>
+  </data>
+  <data name="Change_Theme" xml:space="preserve">
+    <value>Cambiamento Tema</value>
+  </data>
   <data name="Check_Account_State_Failed" xml:space="preserve">
     <value>Impossibile verificare lo stato dell'account</value>
   </data>
@@ -411,6 +426,9 @@
   </data>
   <data name="Details" xml:space="preserve">
     <value>Dettagli</value>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>Disabili</value>
   </data>
   <data name="Download" xml:space="preserve">
     <value>Scarica</value>
@@ -870,6 +888,9 @@
   </data>
   <data name="None" xml:space="preserve">
     <value>Nessuno</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Aperto</value>
   </data>
   <data name="Or" xml:space="preserve">
     <value>O</value>
@@ -1708,6 +1729,9 @@
   <data name="Upgrade_Account_Message" xml:space="preserve">
     <value>Attualmente si utilizza la versione gratuita. Per sbloccare più archiviazione galleria e altre grandi funzionalità considerare l'aggiornamento del tuo account</value>
   </data>
+  <data name="Upgrade_To_Unlock" xml:space="preserve">
+    <value>Aggiornamento per sbloccare</value>
+  </data>
   <data name="Upload" xml:space="preserve">
     <value>Caricamento</value>
   </data>
@@ -1860,6 +1884,9 @@
   </data>
   <data name="Wipe" xml:space="preserve">
     <value>Wipe</value>
+  </data>
+  <data name="Wipe_2FA" xml:space="preserve">
+    <value>Wipe 2FA</value>
   </data>
   <data name="Wipe_All_Confirmation" xml:space="preserve">
     <value>Sei sicuro di voler pulire tutte le gallerie?</value>

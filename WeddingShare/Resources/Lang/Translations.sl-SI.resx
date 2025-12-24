@@ -52,6 +52,9 @@
   <data name="2FA_Manually_Enter_Code" xml:space="preserve">
     <value>Ročno vnesite kodo:</value>
   </data>
+  <data name="2FA_Not_Set" xml:space="preserve">
+    <value>2FA ni nastavljen</value>
+  </data>
   <data name="2FA_Reset_Failed" xml:space="preserve">
     <value>Ponastavitev 2FA ni uspela</value>
   </data>
@@ -150,6 +153,9 @@
   </data>
   <data name="Add" xml:space="preserve">
     <value>Dodaj</value>
+  </data>
+  <data name="Add_User" xml:space="preserve">
+    <value>Dodaj uporabnika</value>
   </data>
   <data name="All" xml:space="preserve">
     <value>Vse</value>
@@ -310,6 +316,15 @@
   <data name="Cancel" xml:space="preserve">
     <value>Prekliči</value>
   </data>
+  <data name="Change_Identity" xml:space="preserve">
+    <value>Spremeni identiteto</value>
+  </data>
+  <data name="Change_Password" xml:space="preserve">
+    <value>Spremeni geslo</value>
+  </data>
+  <data name="Change_Theme" xml:space="preserve">
+    <value>Sprememba Tema</value>
+  </data>
   <data name="Check_Account_State_Failed" xml:space="preserve">
     <value>Preverjanje stanja računa ni uspelo</value>
   </data>
@@ -411,6 +426,9 @@
   </data>
   <data name="Details" xml:space="preserve">
     <value>Podrobnosti</value>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>Onemogočeno</value>
   </data>
   <data name="Download" xml:space="preserve">
     <value>Prenesi</value>
@@ -870,6 +888,9 @@
   </data>
   <data name="None" xml:space="preserve">
     <value>Brez</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Odpri</value>
   </data>
   <data name="Or" xml:space="preserve">
     <value>Ali</value>
@@ -1708,6 +1729,9 @@
   <data name="Upgrade_Account_Message" xml:space="preserve">
     <value>Trenutno uporabljate brezplačno različico. Če želite odkleniti več shranjevanje galerije in druge odlične funkcije menijo nadgradnjo svojega računa</value>
   </data>
+  <data name="Upgrade_To_Unlock" xml:space="preserve">
+    <value>Nadgradnja v odklepanje</value>
+  </data>
   <data name="Upload" xml:space="preserve">
     <value>Pošlji</value>
   </data>
@@ -1860,6 +1884,9 @@
   </data>
   <data name="Wipe" xml:space="preserve">
     <value>Obriši</value>
+  </data>
+  <data name="Wipe_2FA" xml:space="preserve">
+    <value>Obriši 2FA</value>
   </data>
   <data name="Wipe_All_Confirmation" xml:space="preserve">
     <value>Si prepričan, da želiš pobrisati vse galerije?</value>

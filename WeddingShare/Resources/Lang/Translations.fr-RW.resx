@@ -52,6 +52,9 @@
   <data name="2FA_Manually_Enter_Code" xml:space="preserve">
     <value>Saisissez manuellement le code :</value>
   </data>
+  <data name="2FA_Not_Set" xml:space="preserve">
+    <value>2FA Non défini</value>
+  </data>
   <data name="2FA_Reset_Failed" xml:space="preserve">
     <value>Impossible de réinitialiser 2FA</value>
   </data>
@@ -150,6 +153,9 @@
   </data>
   <data name="Add" xml:space="preserve">
     <value>Ajouter</value>
+  </data>
+  <data name="Add_User" xml:space="preserve">
+    <value>Ajouter un utilisateur</value>
   </data>
   <data name="All" xml:space="preserve">
     <value>Tous</value>
@@ -310,6 +316,15 @@
   <data name="Cancel" xml:space="preserve">
     <value>Annuler</value>
   </data>
+  <data name="Change_Identity" xml:space="preserve">
+    <value>Changer d'identité</value>
+  </data>
+  <data name="Change_Password" xml:space="preserve">
+    <value>Modifier le mot de passe</value>
+  </data>
+  <data name="Change_Theme" xml:space="preserve">
+    <value>Changement Thème</value>
+  </data>
   <data name="Check_Account_State_Failed" xml:space="preserve">
     <value>Impossible de vérifier l'état du compte</value>
   </data>
@@ -411,6 +426,9 @@
   </data>
   <data name="Details" xml:space="preserve">
     <value>Détails</value>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>Handicapé</value>
   </data>
   <data name="Download" xml:space="preserve">
     <value>Télécharger</value>
@@ -870,6 +888,9 @@
   </data>
   <data name="None" xml:space="preserve">
     <value>Aucune</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Ouvrir</value>
   </data>
   <data name="Or" xml:space="preserve">
     <value>Ou</value>
@@ -1708,6 +1729,9 @@
   <data name="Upgrade_Account_Message" xml:space="preserve">
     <value>Vous utilisez actuellement la version gratuite. Pour débloquer plus de stockage de galerie et d'autres fonctionnalités géniales envisager de mettre à jour votre compte</value>
   </data>
+  <data name="Upgrade_To_Unlock" xml:space="preserve">
+    <value>Mise à jour pour débloquer</value>
+  </data>
   <data name="Upload" xml:space="preserve">
     <value>Envoi</value>
   </data>
@@ -1860,6 +1884,9 @@
   </data>
   <data name="Wipe" xml:space="preserve">
     <value>Essuie</value>
+  </data>
+  <data name="Wipe_2FA" xml:space="preserve">
+    <value>Essuyez 2FA</value>
   </data>
   <data name="Wipe_All_Confirmation" xml:space="preserve">
     <value>Tu es sûr de vouloir essuyer toutes les galeries ?</value>

@@ -232,7 +232,7 @@ function bindEditUserButton() {
                     let email = $('#popup-modal-field-user-email').val();
                     const emailRegex = /^((?!\.)[\w\-_.]*[^.])(@[\w\-_]+)(\.\w+(\.\w+)?[^.\W])$/;
                     if (email != undefined && email.length > 0 && !emailRegex.test(email)) {
-                        displayMessage(localization.translate('User_Create'), localization.translate('User_Invalid_Email'));
+                        displayMessage(localization.translate('User_Edit'), localization.translate('User_Invalid_Email'));
                         return;
                     }
 
@@ -312,13 +312,13 @@ function bindChangePasswordButton() {
 
                     let password = $('#popup-modal-field-user-password').val();
                     if (password == undefined || password.length < 8) {
-                        displayMessage(localization.translate('User_Create'), localization.translate('User_Invalid_Password'));
+                        displayMessage(localization.translate('User_Edit'), localization.translate('User_Invalid_Password'));
                         return;
                     }
 
                     let cpassword = $('#popup-modal-field-user-cpassword').val();
                     if (password == undefined || password !== cpassword) {
-                        displayMessage(localization.translate('User_Create'), localization.translate('User_Invalid_CPassword'));
+                        displayMessage(localization.translate('User_Edit'), localization.translate('User_Invalid_CPassword'));
                         return;
                     }
 

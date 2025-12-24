@@ -49,7 +49,7 @@
                 else if (userPermissions.Features.HasFlag(FeaturePermissions.UpgradeToUnlock))
                 {
                     <div class="btn-group w-100 mb-2">
-                        <button class="btn btn-danger btn-sm" type="button" onclick="upgradeToUnlock();">
+                        <button class="btn btn-danger btn-sm" type="button" onclick="upgradeToUnlock();" alt="@_localizer["Settings"].Value (@_localizer["Upgrade_To_Unlock"].Value)" title="@_localizer["Settings"].Value (@_localizer["Upgrade_To_Unlock"].Value)">
                             @_localizer["Settings"].Value
                         </button>
                     </div>

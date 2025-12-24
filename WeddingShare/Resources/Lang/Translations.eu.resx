@@ -52,6 +52,9 @@
   <data name="2FA_Manually_Enter_Code" xml:space="preserve">
     <value>Sartu kodea eskuz:</value>
   </data>
+  <data name="2FA_Not_Set" xml:space="preserve">
+    <value>2FA ez dago ezarrita</value>
+  </data>
   <data name="2FA_Reset_Failed" xml:space="preserve">
     <value>Huts egin du 2FA berrezartzean</value>
   </data>
@@ -150,6 +153,9 @@
   </data>
   <data name="Add" xml:space="preserve">
     <value>Gehitu</value>
+  </data>
+  <data name="Add_User" xml:space="preserve">
+    <value>Gehitu erabiltzailea</value>
   </data>
   <data name="All" xml:space="preserve">
     <value>Denak</value>
@@ -310,6 +316,15 @@
   <data name="Cancel" xml:space="preserve">
     <value>Utzi</value>
   </data>
+  <data name="Change_Identity" xml:space="preserve">
+    <value>Aldatu identitatea</value>
+  </data>
+  <data name="Change_Password" xml:space="preserve">
+    <value>Aldatu pasahitza</value>
+  </data>
+  <data name="Change_Theme" xml:space="preserve">
+    <value>Aldatu Gaia</value>
+  </data>
   <data name="Check_Account_State_Failed" xml:space="preserve">
     <value>Huts egin du kontuaren egoera egiaztatzean</value>
   </data>
@@ -411,6 +426,9 @@
   </data>
   <data name="Details" xml:space="preserve">
     <value>Xehetasunak</value>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>Desgaituta</value>
   </data>
   <data name="Download" xml:space="preserve">
     <value>Deskargatu</value>
@@ -870,6 +888,9 @@
   </data>
   <data name="None" xml:space="preserve">
     <value>Bat ere ez</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Ireki</value>
   </data>
   <data name="Or" xml:space="preserve">
     <value>Edo</value>
@@ -1708,6 +1729,9 @@
   <data name="Upgrade_Account_Message" xml:space="preserve">
     <value>Orain bertsio librea erabiltzen ari zara. Galeria-biltegi gehiago eta beste ezaugarri handi batzuk desblokeatzeko, kontuan hartu zure kontua berritzea</value>
   </data>
+  <data name="Upgrade_To_Unlock" xml:space="preserve">
+    <value>Eguneratzea desblokeatzeko</value>
+  </data>
   <data name="Upload" xml:space="preserve">
     <value>Igo</value>
   </data>
@@ -1860,6 +1884,9 @@
   </data>
   <data name="Wipe" xml:space="preserve">
     <value>Wipe</value>
+  </data>
+  <data name="Wipe_2FA" xml:space="preserve">
+    <value>2FA</value>
   </data>
   <data name="Wipe_All_Confirmation" xml:space="preserve">
     <value>Ziur zaude galeria guztiak garbitu nahi dituzula?</value>

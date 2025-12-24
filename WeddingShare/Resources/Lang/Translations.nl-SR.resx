@@ -52,6 +52,9 @@
   <data name="2FA_Manually_Enter_Code" xml:space="preserve">
     <value>Voer handmatig de code in:</value>
   </data>
+  <data name="2FA_Not_Set" xml:space="preserve">
+    <value>2FA niet ingesteld</value>
+  </data>
   <data name="2FA_Reset_Failed" xml:space="preserve">
     <value>Herstellen van 2FA mislukt</value>
   </data>
@@ -150,6 +153,9 @@
   </data>
   <data name="Add" xml:space="preserve">
     <value>Voeg toe</value>
+  </data>
+  <data name="Add_User" xml:space="preserve">
+    <value>Gebruiker toevoegen</value>
   </data>
   <data name="All" xml:space="preserve">
     <value>Alles</value>
@@ -310,6 +316,15 @@
   <data name="Cancel" xml:space="preserve">
     <value>Annuleren</value>
   </data>
+  <data name="Change_Identity" xml:space="preserve">
+    <value>Identiteit wijzigen</value>
+  </data>
+  <data name="Change_Password" xml:space="preserve">
+    <value>Wachtwoord wijzigen</value>
+  </data>
+  <data name="Change_Theme" xml:space="preserve">
+    <value>Wijziging Thema</value>
+  </data>
   <data name="Check_Account_State_Failed" xml:space="preserve">
     <value>Kon accountstatus niet controleren</value>
   </data>
@@ -411,6 +426,9 @@
   </data>
   <data name="Details" xml:space="preserve">
     <value>Gegevens</value>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>Uitgeschakeld</value>
   </data>
   <data name="Download" xml:space="preserve">
     <value>Downloaden</value>
@@ -870,6 +888,9 @@
   </data>
   <data name="None" xml:space="preserve">
     <value>Geen</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Open</value>
   </data>
   <data name="Or" xml:space="preserve">
     <value>Of</value>
@@ -1708,6 +1729,9 @@
   <data name="Upgrade_Account_Message" xml:space="preserve">
     <value>U gebruikt momenteel de gratis versie. Om meer gallery-opslag en andere geweldige functies te ontgrendelen overweeg het upgraden van uw account</value>
   </data>
+  <data name="Upgrade_To_Unlock" xml:space="preserve">
+    <value>Upgrade om te ontgrendelen</value>
+  </data>
   <data name="Upload" xml:space="preserve">
     <value>Uploaden</value>
   </data>
@@ -1860,6 +1884,9 @@
   </data>
   <data name="Wipe" xml:space="preserve">
     <value>Veeg</value>
+  </data>
+  <data name="Wipe_2FA" xml:space="preserve">
+    <value>Veeg 2FA</value>
   </data>
   <data name="Wipe_All_Confirmation" xml:space="preserve">
     <value>Weet u zeker dat u alle galerijen wilt afvegen?</value>

@@ -52,6 +52,9 @@
   <data name="2FA_Manually_Enter_Code" xml:space="preserve">
     <value>Ręcznie wprowadzić kod:</value>
   </data>
+  <data name="2FA_Not_Set" xml:space="preserve">
+    <value>Nie ustawiono 2FA</value>
+  </data>
   <data name="2FA_Reset_Failed" xml:space="preserve">
     <value>Nie udało się zresetować 2FA</value>
   </data>
@@ -150,6 +153,9 @@
   </data>
   <data name="Add" xml:space="preserve">
     <value>Dodaj</value>
+  </data>
+  <data name="Add_User" xml:space="preserve">
+    <value>Dodaj użytkownika</value>
   </data>
   <data name="All" xml:space="preserve">
     <value>Wszystkie</value>
@@ -310,6 +316,15 @@
   <data name="Cancel" xml:space="preserve">
     <value>Anuluj</value>
   </data>
+  <data name="Change_Identity" xml:space="preserve">
+    <value>Zmień tożsamość</value>
+  </data>
+  <data name="Change_Password" xml:space="preserve">
+    <value>Zmień hasło</value>
+  </data>
+  <data name="Change_Theme" xml:space="preserve">
+    <value>Zmiana Motyw</value>
+  </data>
   <data name="Check_Account_State_Failed" xml:space="preserve">
     <value>Nie udało się sprawdzić stanu konta</value>
   </data>
@@ -411,6 +426,9 @@
   </data>
   <data name="Details" xml:space="preserve">
     <value>Szczegóły</value>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>Wyłączone</value>
   </data>
   <data name="Download" xml:space="preserve">
     <value>Pobierz</value>
@@ -870,6 +888,9 @@
   </data>
   <data name="None" xml:space="preserve">
     <value>Brak</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Otwórz</value>
   </data>
   <data name="Or" xml:space="preserve">
     <value>Lub</value>
@@ -1708,6 +1729,9 @@
   <data name="Upgrade_Account_Message" xml:space="preserve">
     <value>Obecnie używasz darmowej wersji. Aby odblokować więcej przechowywania galerii i innych wspaniałych funkcji rozważyć modernizację konta</value>
   </data>
+  <data name="Upgrade_To_Unlock" xml:space="preserve">
+    <value>Upgrade to Unlock</value>
+  </data>
   <data name="Upload" xml:space="preserve">
     <value>Wyślij</value>
   </data>
@@ -1860,6 +1884,9 @@
   </data>
   <data name="Wipe" xml:space="preserve">
     <value>Wytrzyj</value>
+  </data>
+  <data name="Wipe_2FA" xml:space="preserve">
+    <value>Wipe 2FA</value>
   </data>
   <data name="Wipe_All_Confirmation" xml:space="preserve">
     <value>Na pewno chcesz wyczyścić wszystkie galerie?</value>

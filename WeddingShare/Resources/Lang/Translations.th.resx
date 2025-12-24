@@ -52,6 +52,9 @@
   <data name="2FA_Manually_Enter_Code" xml:space="preserve">
     <value>ใส่รหัสด้วยตนเอง:</value>
   </data>
+  <data name="2FA_Not_Set" xml:space="preserve">
+    <value>2FA ยังไม่ตั้งค่า</value>
+  </data>
   <data name="2FA_Reset_Failed" xml:space="preserve">
     <value>ล้มเหลวในการรีเซ็ต 2FA</value>
   </data>
@@ -150,6 +153,9 @@
   </data>
   <data name="Add" xml:space="preserve">
     <value>เพิ่ม</value>
+  </data>
+  <data name="Add_User" xml:space="preserve">
+    <value>เพิ่มผู้ใช้</value>
   </data>
   <data name="All" xml:space="preserve">
     <value>ทั้งหมด</value>
@@ -310,6 +316,15 @@
   <data name="Cancel" xml:space="preserve">
     <value>ยกเลิก</value>
   </data>
+  <data name="Change_Identity" xml:space="preserve">
+    <value>เปลี่ยนการแสดงตัว</value>
+  </data>
+  <data name="Change_Password" xml:space="preserve">
+    <value>เปลี่ยนรหัสผ่าน</value>
+  </data>
+  <data name="Change_Theme" xml:space="preserve">
+    <value>เปลี่ยน ชุดตกแต่ง</value>
+  </data>
   <data name="Check_Account_State_Failed" xml:space="preserve">
     <value>ล้มเหลวในการตรวจสอบสถานะบัญชีผู้ใช้</value>
   </data>
@@ -411,6 +426,9 @@
   </data>
   <data name="Details" xml:space="preserve">
     <value>รายละเอียด</value>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>ปิดการใช้งาน</value>
   </data>
   <data name="Download" xml:space="preserve">
     <value>ดาวน์โหลด</value>
@@ -870,6 +888,9 @@
   </data>
   <data name="None" xml:space="preserve">
     <value>ไม่มี</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>เปิด</value>
   </data>
   <data name="Or" xml:space="preserve">
     <value>หรือ</value>
@@ -1708,6 +1729,9 @@
   <data name="Upgrade_Account_Message" xml:space="preserve">
     <value>คุณกําลังใช้งานรุ่นอิสระอยู่ เพื่อปลดล็อคคลังเก็บแกลลอรี่ และคุณสมบัติอื่น ๆ ที่ดี พิจารณาการยกระดับบัญชีผู้ใช้ของคุณ</value>
   </data>
+  <data name="Upgrade_To_Unlock" xml:space="preserve">
+    <value>ปรับรุ่นการปลดล็อค</value>
+  </data>
   <data name="Upload" xml:space="preserve">
     <value>อัปโหลด</value>
   </data>
@@ -1860,6 +1884,9 @@
   </data>
   <data name="Wipe" xml:space="preserve">
     <value>กวาด</value>
+  </data>
+  <data name="Wipe_2FA" xml:space="preserve">
+    <value>กวาด 2FA</value>
   </data>
   <data name="Wipe_All_Confirmation" xml:space="preserve">
     <value>คุณแน่ใจหรือไม่ที่จะเช็ด ทุกห้องระเบียง?</value>

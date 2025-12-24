@@ -52,6 +52,9 @@
   <data name="2FA_Manually_Enter_Code" xml:space="preserve">
     <value>수동으로 코드를 입력:</value>
   </data>
+  <data name="2FA_Not_Set" xml:space="preserve">
+    <value>2FA 설정하지 않음</value>
+  </data>
   <data name="2FA_Reset_Failed" xml:space="preserve">
     <value>2FA 재설정 실패</value>
   </data>
@@ -150,6 +153,9 @@
   </data>
   <data name="Add" xml:space="preserve">
     <value>기타 제품</value>
+  </data>
+  <data name="Add_User" xml:space="preserve">
+    <value>사용자 정의</value>
   </data>
   <data name="All" xml:space="preserve">
     <value>모든 것</value>
@@ -310,6 +316,15 @@
   <data name="Cancel" xml:space="preserve">
     <value>이름 *</value>
   </data>
+  <data name="Change_Identity" xml:space="preserve">
+    <value>ID 변경</value>
+  </data>
+  <data name="Change_Password" xml:space="preserve">
+    <value>비밀번호</value>
+  </data>
+  <data name="Change_Theme" xml:space="preserve">
+    <value>- 기타 이름 *</value>
+  </data>
   <data name="Check_Account_State_Failed" xml:space="preserve">
     <value>계정 상태 확인</value>
   </data>
@@ -411,6 +426,9 @@
   </data>
   <data name="Details" xml:space="preserve">
     <value>제품 정보</value>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>지원하다</value>
   </data>
   <data name="Download" xml:space="preserve">
     <value>다운로드</value>
@@ -870,6 +888,9 @@
   </data>
   <data name="None" xml:space="preserve">
     <value>이름 *</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>기타</value>
   </data>
   <data name="Or" xml:space="preserve">
     <value>또는</value>
@@ -1708,6 +1729,9 @@
   <data name="Upgrade_Account_Message" xml:space="preserve">
     <value>현재 무료 버전을 사용하고 있습니다. 더 많은 갤러리 저장 및 기타 훌륭한 기능을 잠금 해제하려면 계정 업그레이드</value>
   </data>
+  <data name="Upgrade_To_Unlock" xml:space="preserve">
+    <value>잠금 해제</value>
+  </data>
   <data name="Upload" xml:space="preserve">
     <value>기타 제품</value>
   </data>
@@ -1860,6 +1884,9 @@
   </data>
   <data name="Wipe" xml:space="preserve">
     <value>사이트맵</value>
+  </data>
+  <data name="Wipe_2FA" xml:space="preserve">
+    <value>닦음 2FA</value>
   </data>
   <data name="Wipe_All_Confirmation" xml:space="preserve">
     <value>모든 갤러리를 닦고 싶으신가요?</value>

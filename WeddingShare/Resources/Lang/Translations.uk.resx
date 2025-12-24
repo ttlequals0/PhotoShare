@@ -52,6 +52,9 @@
   <data name="2FA_Manually_Enter_Code" xml:space="preserve">
     <value>Вкажіть код:</value>
   </data>
+  <data name="2FA_Not_Set" xml:space="preserve">
+    <value>2FA Не встановити</value>
+  </data>
   <data name="2FA_Reset_Failed" xml:space="preserve">
     <value>Заборонено скидати 2FA</value>
   </data>
@@ -150,6 +153,9 @@
   </data>
   <data name="Add" xml:space="preserve">
     <value>Додати</value>
+  </data>
+  <data name="Add_User" xml:space="preserve">
+    <value>Додати користувача</value>
   </data>
   <data name="All" xml:space="preserve">
     <value>Всі</value>
@@ -310,6 +316,15 @@
   <data name="Cancel" xml:space="preserve">
     <value>Скасувати</value>
   </data>
+  <data name="Change_Identity" xml:space="preserve">
+    <value>Зміна ідентичності</value>
+  </data>
+  <data name="Change_Password" xml:space="preserve">
+    <value>Зміна пароля</value>
+  </data>
+  <data name="Change_Theme" xml:space="preserve">
+    <value>Зареєструватися Головна</value>
+  </data>
   <data name="Check_Account_State_Failed" xml:space="preserve">
     <value>Не вдалося перевірити стан рахунку</value>
   </data>
@@ -411,6 +426,9 @@
   </data>
   <data name="Details" xml:space="preserve">
     <value>Детальніше</value>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>Вимкнено</value>
   </data>
   <data name="Download" xml:space="preserve">
     <value>Завантажити</value>
@@ -870,6 +888,9 @@
   </data>
   <data name="None" xml:space="preserve">
     <value>Ні</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Відкрито</value>
   </data>
   <data name="Or" xml:space="preserve">
     <value>Оригінал</value>
@@ -1708,6 +1729,9 @@
   <data name="Upgrade_Account_Message" xml:space="preserve">
     <value>В даний час ви використовуєте безкоштовну версію. Щоб розблокувати більше зберігання галереї та інших чудових функцій розглянути оновлення облікового запису</value>
   </data>
+  <data name="Upgrade_To_Unlock" xml:space="preserve">
+    <value>Оновлення для розблокування</value>
+  </data>
   <data name="Upload" xml:space="preserve">
     <value>Завантажити</value>
   </data>
@@ -1860,6 +1884,9 @@
   </data>
   <data name="Wipe" xml:space="preserve">
     <value>Про нас</value>
+  </data>
+  <data name="Wipe_2FA" xml:space="preserve">
+    <value>Wipe 2ФА</value>
   </data>
   <data name="Wipe_All_Confirmation" xml:space="preserve">
     <value>Ви впевнені, що ви хочете протирати всі галереї?</value>

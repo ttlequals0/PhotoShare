@@ -52,6 +52,9 @@
   <data name="2FA_Manually_Enter_Code" xml:space="preserve">
     <value>Manually kodu girin:</value>
   </data>
+  <data name="2FA_Not_Set" xml:space="preserve">
+    <value>2FA Set Değil</value>
+  </data>
   <data name="2FA_Reset_Failed" xml:space="preserve">
     <value>2FA'yı sıfırlamayı başaramadı</value>
   </data>
@@ -150,6 +153,9 @@
   </data>
   <data name="Add" xml:space="preserve">
     <value>Add</value>
+  </data>
+  <data name="Add_User" xml:space="preserve">
+    <value>Ekle Kullanıcı Ekle</value>
   </data>
   <data name="All" xml:space="preserve">
     <value>Bütün Bütün Hepsi</value>
@@ -310,6 +316,15 @@
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="Change_Identity" xml:space="preserve">
+    <value>Kimlik Değişimi Değiştirin</value>
+  </data>
+  <data name="Change_Password" xml:space="preserve">
+    <value>Change Password</value>
+  </data>
+  <data name="Change_Theme" xml:space="preserve">
+    <value>Change Change Change Change Change Tema</value>
+  </data>
   <data name="Check_Account_State_Failed" xml:space="preserve">
     <value>Hesabı kontrol etmek için başarısız oldu</value>
   </data>
@@ -411,6 +426,9 @@
   </data>
   <data name="Details" xml:space="preserve">
     <value>Detaylar</value>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>Engelliler</value>
   </data>
   <data name="Download" xml:space="preserve">
     <value>Download</value>
@@ -870,6 +888,9 @@
   </data>
   <data name="None" xml:space="preserve">
     <value>Hiçbir şey yok</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Open</value>
   </data>
   <data name="Or" xml:space="preserve">
     <value>Ya da</value>
@@ -1708,6 +1729,9 @@
   <data name="Upgrade_Account_Message" xml:space="preserve">
     <value>Şu anda ücretsiz versiyonu kullanıyorsunuz. Daha fazla galeri depolamasını ve diğer büyük özellikleri hesabınızı geliştirmek için</value>
   </data>
+  <data name="Upgrade_To_Unlock" xml:space="preserve">
+    <value>Unlock to Unlock</value>
+  </data>
   <data name="Upload" xml:space="preserve">
     <value>Download</value>
   </data>
@@ -1860,6 +1884,9 @@
   </data>
   <data name="Wipe" xml:space="preserve">
     <value>Wipe</value>
+  </data>
+  <data name="Wipe_2FA" xml:space="preserve">
+    <value>Wipe 2FA</value>
   </data>
   <data name="Wipe_All_Confirmation" xml:space="preserve">
     <value>Tüm galerileri silmek istediğinizden emin misiniz?</value>

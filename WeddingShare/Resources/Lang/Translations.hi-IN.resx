@@ -52,6 +52,9 @@
   <data name="2FA_Manually_Enter_Code" xml:space="preserve">
     <value>मैन्युअल रूप से कोड दर्ज करें:</value>
   </data>
+  <data name="2FA_Not_Set" xml:space="preserve">
+    <value>2FA सेट नहीं</value>
+  </data>
   <data name="2FA_Reset_Failed" xml:space="preserve">
     <value>2FA को रीसेट करने में विफल</value>
   </data>
@@ -150,6 +153,9 @@
   </data>
   <data name="Add" xml:space="preserve">
     <value>जोड़ें</value>
+  </data>
+  <data name="Add_User" xml:space="preserve">
+    <value>उपयोगकर्ता जोड़ें</value>
   </data>
   <data name="All" xml:space="preserve">
     <value>सब</value>
@@ -310,6 +316,15 @@
   <data name="Cancel" xml:space="preserve">
     <value>रद्द करना</value>
   </data>
+  <data name="Change_Identity" xml:space="preserve">
+    <value>पहचान बदलें</value>
+  </data>
+  <data name="Change_Password" xml:space="preserve">
+    <value>पासवर्ड बदलें</value>
+  </data>
+  <data name="Change_Theme" xml:space="preserve">
+    <value>परिवर्तन विषय</value>
+  </data>
   <data name="Check_Account_State_Failed" xml:space="preserve">
     <value>खाते की स्थिति की जांच करने में विफल</value>
   </data>
@@ -411,6 +426,9 @@
   </data>
   <data name="Details" xml:space="preserve">
     <value>विवरण</value>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>विकलांग</value>
   </data>
   <data name="Download" xml:space="preserve">
     <value>डाउनलोड</value>
@@ -870,6 +888,9 @@
   </data>
   <data name="None" xml:space="preserve">
     <value>कोई नहीं</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>खुला</value>
   </data>
   <data name="Or" xml:space="preserve">
     <value>या</value>
@@ -1708,6 +1729,9 @@
   <data name="Upgrade_Account_Message" xml:space="preserve">
     <value>वर्तमान में आप मुफ्त संस्करण का उपयोग कर रहे हैं। अधिक गैलरी भंडारण और अन्य महान सुविधाओं को अनलॉक करने के लिए अपने खाते को अपग्रेड करने पर विचार करें</value>
   </data>
+  <data name="Upgrade_To_Unlock" xml:space="preserve">
+    <value>Unlock में अपग्रेड</value>
+  </data>
   <data name="Upload" xml:space="preserve">
     <value>अपलोड</value>
   </data>
@@ -1860,6 +1884,9 @@
   </data>
   <data name="Wipe" xml:space="preserve">
     <value>वाइप</value>
+  </data>
+  <data name="Wipe_2FA" xml:space="preserve">
+    <value>2FA</value>
   </data>
   <data name="Wipe_All_Confirmation" xml:space="preserve">
     <value>क्या आप सभी दीर्घाओं को मिटाना चाहते हैं?</value>

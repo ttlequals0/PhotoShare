@@ -2,6 +2,7 @@
 import { displayPopup, hidePopup } from '@modules/popups';
 import { displayLoader, hideLoader } from '@modules/loader';
 import { displayIdentityCheck } from '@modules/identity-check';
+import { refreshGalleryPage } from '@pages/gallery';
 
 class UploadBox {
     constructor() {
@@ -12,19 +13,6 @@ class UploadBox {
     init() {
         this.initializeDropZones();
         this.bindEvents();
-    }
-
-    refreshGalleryPage(callback) {
-        $.ajax({
-            type: 'GET',
-            url: `${window.location.pathname}${window.location.search}&partial=true`,
-            success: (data) => {
-                $('#main-gallery').html(data);
-                if (typeof callback === 'function') {
-                    callback();
-                }
-            }
-        });
     }
 
     isIdentityRequired() {
@@ -322,7 +310,7 @@ class UploadBox {
                 localization.translate('Upload'),
                 localization.translate('Upload_Success'),
                 errors,
-                () => this.refreshGalleryPage()
+                () => refreshGalleryPage()
             );
         }
     }
