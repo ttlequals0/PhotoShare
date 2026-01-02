@@ -9,7 +9,7 @@ variables:
   BUILD_PLATFORMS: 'linux/arm/v7,linux/arm64/v8,linux/amd64'
   BUILD_BUILDER_NAME: 'wedding-share-builder-${CI_JOB_ID}'
   DOCKER_DRIVER: overlay2
-  DOCKER_HOST: tcp://docker:2375
+  DOCKER_HOST: unix:///var/run/docker.sock
   DOCKER_TLS_CERTDIR: ""
   FF_NETWORK_PER_BUILD: 1
   OBJECTS_DIRECTORY: 'obj'
@@ -37,7 +37,6 @@ test:
     - name: docker:24-dind
       alias: docker
   before_script:
-    - for i in $(seq 1 30); do docker info >/dev/null 2>&1 && break || sleep 1; done
     - docker info
     - apk add --no-cache curl
     - mkdir -p ~/.docker/cli-plugins
@@ -52,7 +51,6 @@ test:
     - name: docker:24-dind
       alias: docker
   before_script:
-    - for i in $(seq 1 30); do docker info >/dev/null 2>&1 && break || sleep 1; done
     - docker info
     - apk add --no-cache curl
     - mkdir -p ~/.docker/cli-plugins
