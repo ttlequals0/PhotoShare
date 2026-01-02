@@ -22,56 +22,64 @@ cache:
     - '$NUGET_PACKAGES_DIRECTORY'
   policy: pull-push
 
-before_script:
-  - 'docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY'
-#  - 'docker buildx rm --all-inactive --force'
-#  - 'docker buildx create --name $BUILD_BUILDER_NAME --driver=docker-container'
+#before_script:
+#  - 'docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY'
+##  - 'docker buildx rm --all-inactive --force'
+##  - 'docker buildx create --name $BUILD_BUILDER_NAME --driver=docker-container'
   
 test:
   stage: test
+  image: docker:24
   script:
     - 'dotnet restore'
     - 'dotnet test'
     
 push_release:
+  stage: push
+  image: docker:24
   variables:
     GIT_STRATEGY: none
-  stage: push
   only:
     - /^(feature\/|release\/).+/
     - /^(prerel|rc|release)-.+/
   script:
+    - 'docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY'
     - 'docker buildx build --tag $CI_REGISTRY_IMAGE:pre_release --platform $BUILD_PLATFORMS --builder $BUILD_BUILDER_NAME --push -f $BUILD_DOCKERFILE .'
   needs:
     - test
 
 push_latest:
+  stage: push
+  image: docker:24
   variables:
     GIT_STRATEGY: none
-  stage: push
   only:
     - main
     - master
   script:
+    - 'docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY'
     - 'docker buildx build --tag $CI_REGISTRY_IMAGE:latest --platform $BUILD_PLATFORMS --builder $BUILD_BUILDER_NAME --push -f $BUILD_DOCKERFILE .'
   needs:
     - test
     
 push_tag:
+  stage: push
+  image: docker:24
   variables:
     GIT_STRATEGY: none
-  stage: push
   only:
     - tags
   script:
+    - 'docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY'
     - 'docker buildx build --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME --platform $BUILD_PLATFORMS --builder $BUILD_BUILDER_NAME --push -f $BUILD_DOCKERFILE .'
   needs:
     - test
 
 push_docker_hub:
+  stage: release
+  image: docker:24
   variables:
     GIT_STRATEGY: none
-  stage: release
   only:
     - tags
   script:
