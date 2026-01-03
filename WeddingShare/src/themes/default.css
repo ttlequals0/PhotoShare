@@ -486,6 +486,11 @@ label {
 }
 
 /* Misc */
+
+.file-uploader-form, .upload_drop {
+    outline-color: rgba(var(--primary-bg-1), 1.0) !important;
+}
+
 .media-viewer-options .media-viewer-download {
     color: rgba(var(--disabled-text), 1.0) !important;
     background-color: rgba(var(--disabled-bg), 0.8) !important;

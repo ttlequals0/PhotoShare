@@ -81,7 +81,7 @@
                         else if (userPermissions.Features.HasFlag(FeaturePermissions.UpgradeToUnlock))
                         {
                             var tooltip = $"{_localizer["Download"].Value} {tooltipUpgradeToUnlock}";
-                            <button class="btn btn-disabled" disabled=disabled onclick="upgradeToUnlock();" alt="@tooltip" title="@tooltip">
+                            <button class="btn btn-disabled upgradeToUnlock" disabled=disabled alt="@tooltip" title="@tooltip">
                                 <i class="fas fa-download"></i>
                             </button>
                         }
@@ -124,7 +124,7 @@
                         else if (userPermissions.Features.HasFlag(FeaturePermissions.UpgradeToUnlock))
                         {
                             var tooltip = $"{_localizer["Wipe"].Value} {tooltipUpgradeToUnlock}";
-                            <button class="btn btn-disabled" disabled=disabled onclick="upgradeToUnlock();" alt="@tooltip" title="@tooltip">
+                            <button class="btn btn-disabled upgradeToUnlock" disabled=disabled alt="@tooltip" title="@tooltip">
                                 <i class="fas fa-broom"></i>
                             </button>
                         }

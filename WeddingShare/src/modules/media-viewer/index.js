@@ -47,6 +47,7 @@ class MediaViewer {
         this.bindRightClick();
         this.bindScroll();
         this.bindArrowKeys();
+        this.bindLikeButton();
         this.bindDownloadButton();
     }
 
@@ -160,6 +161,14 @@ class MediaViewer {
         });
     }
 
+    bindLikeButton() {
+        $(document).off('click', '.like-button').on('click', '.like-button', () => {
+            const id = $('#like-button button').attr('data-like-id');
+            const action = $('#like-button button').attr('data-action');
+            this.like(id, action);
+        });
+    }
+
     bindDownloadButton() {
         $(document).off('click', '.media-viewer-download').on('click', '.media-viewer-download', (e) => {
             e.preventDefault();
@@ -267,16 +276,7 @@ class MediaViewer {
         }
     }
 
-    loginPrompt() {
-        displayMessage(localization.translate('Login'), localization.translate('Login_To_Complete_Action'));
-    }
-
-    upgradeToUnlock() {
-        displayMessage(localization.translate('Unavailable'), localization.translate('Paywall_Feature'));
-    }
-
-    like(id) {
-        let action = $('#like-button button').attr('data-action');
+    like(id, action) {
         $.ajax({
             url: '/MediaViewer/Like',
             type: 'POST',

@@ -32,11 +32,11 @@ function showSetupPopup(secret, qrCode) {
     displayPopup({
         Title: localization.translate('2FA_Setup'),
         CustomHtml: `<div class="text-center">
-                <p class="mb-1">${localization.translate('2FA_Scan_With_App')}</p>
-                <p class="mb-2"><img src="${qrCode}"/></p>
+                <p class="mb-2">${localization.translate('2FA_Scan_With_App')}</p>
+                <p class="mb-2"><img class="rounded" src="${qrCode}"/></p>
                 <p class="mb-2">${localization.translate('Or')}</p>
                 <p class="mb-0">${localization.translate('2FA_Manually_Enter_Code')}</p>
-                <p class="mb-4 fw-bold">${secret}</p>
+                <p class="mb-4 fw-bold text-primary-3">${secret}</p>
             </div>`,
         Buttons: [{
             Text: localization.translate('Next'),

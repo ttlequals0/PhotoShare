@@ -588,7 +588,7 @@ namespace WeddingShare.Controllers
                         }
                         else if (model.ActiveTab == AccountTabs.Audit)
                         {
-                            model.AuditLogs = await _database.GetAuditLogs();
+                            model.AuditLogs = await _database.GetAuditLogs(string.Empty, 10);
                         }
                     }
                     else

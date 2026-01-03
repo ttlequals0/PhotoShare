@@ -60,6 +60,8 @@ function bindEventHandlers() {
     bindPressentationMode();
     bindNavigationScrollers();
     bindPageResizeEvent();
+    bindUpgradeToUnlock();
+    bindLoginPrompt();
 }
 
 function bindPressentationMode() {
@@ -94,6 +96,18 @@ function bindNavigationScrollers() {
 function bindPageResizeEvent() {
     $(window).on('resize', function (e) {
         resizeLayout();
+    });
+}
+
+function bindUpgradeToUnlock() {
+    $(document).off('click', '.upgradeToUnlock').on('click', '.upgradeToUnlock', function (e) {
+        displayMessage(localization.translate('Unavailable'), localization.translate('Paywall_Feature'));
+    });
+}
+
+function bindLoginPrompt() {
+    $(document).off('click', '.login-prompt').on('click', '.login-prompt', function (e) {
+        displayMessage(localization.translate('Login'), localization.translate('Login_To_Complete_Action'));
     });
 }
 
