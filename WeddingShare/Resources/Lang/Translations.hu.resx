@@ -1567,6 +1567,12 @@
   <data name="Settings_PoliciesEnabled_Label" xml:space="preserve">
     <value>Engedélyezve</value>
   </data>
+  <data name="Settings_SearchTerm_Help" xml:space="preserve">
+    <value>Szűrési beállítások keresési kifejezés alapján</value>
+  </data>
+  <data name="Settings_SearchTerm_Label" xml:space="preserve">
+    <value>Keresési kifejezés</value>
+  </data>
   <data name="Settings_Slideshow" xml:space="preserve">
     <value>Diavetítés</value>
   </data>

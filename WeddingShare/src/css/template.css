@@ -4562,19 +4562,36 @@ textarea.form-control-lg {
     }
 
     /* Style the last non-advanced item (Languages) when it's the last visible */
-    .accordion-item:not(.advanced-setting):not(:has(~ .accordion-item:not(.advanced-setting))) {
+        .accordion-item:first-child .accordion-button.collapsed,
+        .accordion-item:not(.advanced-setting):not(:has(~ .accordion-item:not(.advanced-setting))) .accordion-button.collapsed,
+        .accordion-item:not(.d-none):not(:has(~ .accordion-item:not(.d-none))) .accordion-button.collapsed {
+            border-top-right-radius: var(--bs-accordion-inner-border-radius);
+            border-top-left-radius: var(--bs-accordion-inner-border-radius);
+        }
+
+        .accordion-item:first-child .accordion-collapse,
+        .accordion-item:not(.advanced-setting):not(:has(~ .accordion-item:not(.advanced-setting))) .accordion-collapse,
+        .accordion-item:not(.d-none):not(:has(~ .accordion-item:not(.d-none))) .accordion-collapse {
+            border-top-right-radius: var(--bs-accordion-border-radius);
+            border-top-left-radius: var(--bs-accordion-border-radius);
+        }
+
+    .accordion-item:not(.advanced-setting):not(:has(~ .accordion-item:not(.advanced-setting))),
+    .accordion-item:not(.d-none):not(:has(~ .accordion-item:not(.d-none))) {
         border-bottom-right-radius: var(--bs-accordion-border-radius) !important;
         border-bottom-left-radius: var(--bs-accordion-border-radius) !important;
     }
 
         .accordion-item:last-child .accordion-button.collapsed,
-        .accordion-item:not(.advanced-setting):not(:has(~ .accordion-item:not(.advanced-setting))) .accordion-button.collapsed {
+        .accordion-item:not(.advanced-setting):not(:has(~ .accordion-item:not(.advanced-setting))) .accordion-button.collapsed,
+        .accordion-item:not(.d-none):not(:has(~ .accordion-item:not(.d-none))) .accordion-button.collapsed {
             border-bottom-right-radius: var(--bs-accordion-inner-border-radius);
             border-bottom-left-radius: var(--bs-accordion-inner-border-radius);
         }
 
         .accordion-item:last-child .accordion-collapse,
-        .accordion-item:not(.advanced-setting):not(:has(~ .accordion-item:not(.advanced-setting))) .accordion-collapse {
+        .accordion-item:not(.advanced-setting):not(:has(~ .accordion-item:not(.advanced-setting))) .accordion-collapse,
+        .accordion-item:not(.d-none):not(:has(~ .accordion-item:not(.d-none))) .accordion-collapse {
             border-bottom-right-radius: var(--bs-accordion-border-radius);
             border-bottom-left-radius: var(--bs-accordion-border-radius);
         }

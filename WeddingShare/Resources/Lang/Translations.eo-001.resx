@@ -1567,6 +1567,12 @@
   <data name="Settings_PoliciesEnabled_Label" xml:space="preserve">
     <value>Enabled</value>
   </data>
+  <data name="Settings_SearchTerm_Help" xml:space="preserve">
+    <value>Filter-valoroj bazitaj sur serĉperiodo</value>
+  </data>
+  <data name="Settings_SearchTerm_Label" xml:space="preserve">
+    <value>Serĉi</value>
+  </data>
   <data name="Settings_Slideshow" xml:space="preserve">
     <value>Slideshow</value>
   </data>

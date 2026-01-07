@@ -1567,6 +1567,12 @@
   <data name="Settings_PoliciesEnabled_Label" xml:space="preserve">
     <value>Включване</value>
   </data>
+  <data name="Settings_SearchTerm_Help" xml:space="preserve">
+    <value>Настройки на филтъра въз основа на термин за търсене</value>
+  </data>
+  <data name="Settings_SearchTerm_Label" xml:space="preserve">
+    <value>Термин за търсене</value>
+  </data>
   <data name="Settings_Slideshow" xml:space="preserve">
     <value>Слайдшоу</value>
   </data>

@@ -1567,6 +1567,12 @@
   <data name="Settings_PoliciesEnabled_Label" xml:space="preserve">
     <value>Activé</value>
   </data>
+  <data name="Settings_SearchTerm_Help" xml:space="preserve">
+    <value>Paramètres de filtrage basés sur un terme de recherche</value>
+  </data>
+  <data name="Settings_SearchTerm_Label" xml:space="preserve">
+    <value>Terme de recherche</value>
+  </data>
   <data name="Settings_Slideshow" xml:space="preserve">
     <value>Diaporama</value>
   </data>

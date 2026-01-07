@@ -1567,6 +1567,12 @@
   <data name="Settings_PoliciesEnabled_Label" xml:space="preserve">
     <value>Käytössä</value>
   </data>
+  <data name="Settings_SearchTerm_Help" xml:space="preserve">
+    <value>Suodata asetukset hakusanan perusteella</value>
+  </data>
+  <data name="Settings_SearchTerm_Label" xml:space="preserve">
+    <value>Hakusana</value>
+  </data>
   <data name="Settings_Slideshow" xml:space="preserve">
     <value>Diaesitys</value>
   </data>

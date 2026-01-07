@@ -1567,6 +1567,12 @@
   <data name="Settings_PoliciesEnabled_Label" xml:space="preserve">
     <value>Aktiv</value>
   </data>
+  <data name="Settings_SearchTerm_Help" xml:space="preserve">
+    <value>Filtro në bazë të një termi kërkimi</value>
+  </data>
+  <data name="Settings_SearchTerm_Label" xml:space="preserve">
+    <value>Termi i kërkimit</value>
+  </data>
   <data name="Settings_Slideshow" xml:space="preserve">
     <value>Diapozitivët</value>
   </data>

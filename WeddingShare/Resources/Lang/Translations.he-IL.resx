@@ -1567,6 +1567,12 @@
   <data name="Settings_PoliciesEnabled_Label" xml:space="preserve">
     <value>המונחים</value>
   </data>
+  <data name="Settings_SearchTerm_Help" xml:space="preserve">
+    <value>הגדרות מסנן המבוססות על מונח חיפוש</value>
+  </data>
+  <data name="Settings_SearchTerm_Label" xml:space="preserve">
+    <value>תוצאות חיפוש</value>
+  </data>
   <data name="Settings_Slideshow" xml:space="preserve">
     <value>Slideshow</value>
   </data>

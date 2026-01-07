@@ -1567,6 +1567,12 @@
   <data name="Settings_PoliciesEnabled_Label" xml:space="preserve">
     <value>সক্রিয়</value>
   </data>
+  <data name="Settings_SearchTerm_Help" xml:space="preserve">
+    <value>অনুসন্ধানের ফিল্টার সহযোগে ফিল্টার করা হবে</value>
+  </data>
+  <data name="Settings_SearchTerm_Label" xml:space="preserve">
+    <value>অনুসন্ধানের স্থান</value>
+  </data>
   <data name="Settings_Slideshow" xml:space="preserve">
     <value>স্লাইড-শো</value>
   </data>

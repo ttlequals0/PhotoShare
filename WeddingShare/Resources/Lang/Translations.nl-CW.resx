@@ -1567,6 +1567,12 @@
   <data name="Settings_PoliciesEnabled_Label" xml:space="preserve">
     <value>Ingeschakeld</value>
   </data>
+  <data name="Settings_SearchTerm_Help" xml:space="preserve">
+    <value>Filterinstellingen op basis van een zoekterm</value>
+  </data>
+  <data name="Settings_SearchTerm_Label" xml:space="preserve">
+    <value>Zoekterm</value>
+  </data>
   <data name="Settings_Slideshow" xml:space="preserve">
     <value>Diavoorstelling</value>
   </data>

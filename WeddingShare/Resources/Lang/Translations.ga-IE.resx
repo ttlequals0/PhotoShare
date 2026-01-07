@@ -1567,6 +1567,12 @@
   <data name="Settings_PoliciesEnabled_Label" xml:space="preserve">
     <value>Cumasaigh</value>
   </data>
+  <data name="Settings_SearchTerm_Help" xml:space="preserve">
+    <value>Socruithe Scagaire bunaithe ar théarma cuardaigh</value>
+  </data>
+  <data name="Settings_SearchTerm_Label" xml:space="preserve">
+    <value>Cuardaigh Téarma</value>
+  </data>
   <data name="Settings_Slideshow" xml:space="preserve">
     <value>Seirbhís do Chustaiméirí</value>
   </data>

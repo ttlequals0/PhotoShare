@@ -1567,6 +1567,12 @@
   <data name="Settings_PoliciesEnabled_Label" xml:space="preserve">
     <value>فعال کریں</value>
   </data>
+  <data name="Settings_SearchTerm_Help" xml:space="preserve">
+    <value>تلاش کی اصطلاح پر مبنی ترتیبات</value>
+  </data>
+  <data name="Settings_SearchTerm_Label" xml:space="preserve">
+    <value>تلاش</value>
+  </data>
   <data name="Settings_Slideshow" xml:space="preserve">
     <value>مٹی کی نمائش</value>
   </data>

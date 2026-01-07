@@ -1,6 +1,8 @@
 ﻿import { displayMessage } from '@modules/message-box';
 import { displayLoader } from '@modules/loader';
 
+let settingsSearchTimeout = null;
+
 function init() {
     bindEventHandlers();
 }
@@ -9,6 +11,7 @@ function bindEventHandlers() {
     bindUpdateSettingActions();
     bindSaveSettingsButton();
     bindAdvancedSettingsButtons();
+    bindSettingsSearchBox();
 }
 
 function bindUpdateSettingActions() {
@@ -57,6 +60,8 @@ function bindAdvancedSettingsButtons() {
         });
         $('.btnShowAdvancedSettings').toggleClass('d-none');
         $('.btnHideAdvancedSettings').toggleClass('d-none');
+
+        searchSettings();
     });
 
     $(document).off('click', '.btnHideAdvancedSettings').on('click', '.btnHideAdvancedSettings', function (e) {
@@ -65,6 +70,52 @@ function bindAdvancedSettingsButtons() {
         });
         $('.btnHideAdvancedSettings').toggleClass('d-none');
         $('.btnShowAdvancedSettings').toggleClass('d-none');
+
+        searchSettings();
+    });
+}
+
+function bindSettingsSearchBox() {
+    $(document).off('keyup', 'input#settings-search-term').on('keyup', 'input#settings-search-term', function (e) {
+        searchSettings();
+    });
+}
+
+export function searchSettings() {
+    clearTimeout(settingsSearchTimeout);
+    settingsSearchTimeout = setTimeout(() => {
+        let term = $('input#settings-search-term').val();
+
+        $('#settings-accordion .accordion-item, #settings-accordion .accordion-item .accordion-body > .row').removeClass('d-none');
+
+        if (term !== undefined && term.length > 0) {
+
+            $('.setting-field').each(function () {
+                const label = $(this).parent().find('label').text();
+                const hint = $(this).parent().find('.form-text').text();
+
+                if ((label === undefined && hint === undefined) || (label.toLowerCase().indexOf(term.toLowerCase()) === -1 || hint.toLowerCase().indexOf(term.toLowerCase()) === -1)) {
+                    $(this).closest('.row').addClass('d-none');
+                } else {
+                    $(this).closest('.row').removeClass('d-none');
+                }
+            });
+
+            $('#settings-accordion .accordion-item').each(function () {
+                const count = $(this).find('.accordion-body > .row:not(.d-none)').length;
+                if (count === 0) {
+                    $(this).addClass('d-none');
+                }
+            });
+        } else {
+            resetSettings();
+        }
+    }, 500);
+}
+
+export function resetSettings() {
+    $('.setting-field').each(function () {
+        $(this).closest('.row').removeClass('d-none');
     });
 }
 

@@ -1567,6 +1567,12 @@
   <data name="Settings_PoliciesEnabled_Label" xml:space="preserve">
     <value>Lubatud</value>
   </data>
+  <data name="Settings_SearchTerm_Help" xml:space="preserve">
+    <value>Otsinguterminil põhinevad filtri seadistused</value>
+  </data>
+  <data name="Settings_SearchTerm_Label" xml:space="preserve">
+    <value>Otsingutermin</value>
+  </data>
   <data name="Settings_Slideshow" xml:space="preserve">
     <value>Slaidiseanss</value>
   </data>

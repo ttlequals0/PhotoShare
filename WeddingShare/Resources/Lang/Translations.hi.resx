@@ -1567,6 +1567,12 @@
   <data name="Settings_PoliciesEnabled_Label" xml:space="preserve">
     <value>सक्षम</value>
   </data>
+  <data name="Settings_SearchTerm_Help" xml:space="preserve">
+    <value>खोज अवधि के आधार पर फ़िल्टर सेटिंग</value>
+  </data>
+  <data name="Settings_SearchTerm_Label" xml:space="preserve">
+    <value>खोज अवधि</value>
+  </data>
   <data name="Settings_Slideshow" xml:space="preserve">
     <value>स्लाइड शो</value>
   </data>

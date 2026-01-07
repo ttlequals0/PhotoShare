@@ -1567,6 +1567,12 @@
   <data name="Settings_PoliciesEnabled_Label" xml:space="preserve">
     <value>Увімкнути</value>
   </data>
+  <data name="Settings_SearchTerm_Help" xml:space="preserve">
+    <value>Параметри фільтра на основі терміну пошуку</value>
+  </data>
+  <data name="Settings_SearchTerm_Label" xml:space="preserve">
+    <value>Термін дії</value>
+  </data>
   <data name="Settings_Slideshow" xml:space="preserve">
     <value>Розсилка</value>
   </data>

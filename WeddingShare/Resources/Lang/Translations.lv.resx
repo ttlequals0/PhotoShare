@@ -1567,6 +1567,12 @@
   <data name="Settings_PoliciesEnabled_Label" xml:space="preserve">
     <value>Aktivizēts</value>
   </data>
+  <data name="Settings_SearchTerm_Help" xml:space="preserve">
+    <value>Filtra iestatījumi, pamatojoties uz meklēšanas terminu</value>
+  </data>
+  <data name="Settings_SearchTerm_Label" xml:space="preserve">
+    <value>Meklēšanas termins</value>
+  </data>
   <data name="Settings_Slideshow" xml:space="preserve">
     <value>Slīdrāde</value>
   </data>

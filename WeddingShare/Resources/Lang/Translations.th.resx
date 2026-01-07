@@ -1567,6 +1567,12 @@
   <data name="Settings_PoliciesEnabled_Label" xml:space="preserve">
     <value>เปิดใช้งาน</value>
   </data>
+  <data name="Settings_SearchTerm_Help" xml:space="preserve">
+    <value>ตั้งค่าตามเงื่อนไขการค้นหา</value>
+  </data>
+  <data name="Settings_SearchTerm_Label" xml:space="preserve">
+    <value>_จํานวนงวด:</value>
+  </data>
   <data name="Settings_Slideshow" xml:space="preserve">
     <value>นําเสนอภาพนิ่ง</value>
   </data>

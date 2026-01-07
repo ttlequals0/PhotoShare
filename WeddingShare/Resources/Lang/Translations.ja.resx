@@ -1567,6 +1567,12 @@
   <data name="Settings_PoliciesEnabled_Label" xml:space="preserve">
     <value>有効化</value>
   </data>
+  <data name="Settings_SearchTerm_Help" xml:space="preserve">
+    <value>検索用語に基づくフィルタ設定</value>
+  </data>
+  <data name="Settings_SearchTerm_Label" xml:space="preserve">
+    <value>検索条件</value>
+  </data>
   <data name="Settings_Slideshow" xml:space="preserve">
     <value>スライドショー</value>
   </data>

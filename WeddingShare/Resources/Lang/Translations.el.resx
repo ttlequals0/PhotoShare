@@ -1567,6 +1567,12 @@
   <data name="Settings_PoliciesEnabled_Label" xml:space="preserve">
     <value>Ενεργοποίηση</value>
   </data>
+  <data name="Settings_SearchTerm_Help" xml:space="preserve">
+    <value>Settings φίλτρου με βάση έναν όρο αναζήτησης</value>
+  </data>
+  <data name="Settings_SearchTerm_Label" xml:space="preserve">
+    <value>Όρος αναζήτησης</value>
+  </data>
   <data name="Settings_Slideshow" xml:space="preserve">
     <value>Προβολή σλάιντ</value>
   </data>

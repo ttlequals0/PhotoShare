@@ -1447,6 +1447,9 @@
   <data name="Settings_Gallery_UploadPeriod_Label" xml:space="preserve">
     <value>Жүк ташуу мөөнөттөрү</value>
   </data>
+  <data name="Settings_GallerySelector_ShowUsernames_Help" xml:space="preserve">
+    <value>Галереянын ээси галереяны тандоочунун ылдый түшүүсүндө көрсөтүлүшү керекпи</value>
+  </data>
   <data name="Settings_GallerySelector_ShowUsernames_Label" xml:space="preserve">
     <value>Галерея ээлерин көрсөтүү</value>
   </data>
@@ -1563,6 +1566,12 @@
   </data>
   <data name="Settings_PoliciesEnabled_Label" xml:space="preserve">
     <value>Мүмкүнчүлүк</value>
+  </data>
+  <data name="Settings_SearchTerm_Help" xml:space="preserve">
+    <value>Издөө терминине негизделген чыпкалоо параметрлери</value>
+  </data>
+  <data name="Settings_SearchTerm_Label" xml:space="preserve">
+    <value>Издөө мөөнөтү</value>
   </data>
   <data name="Settings_Slideshow" xml:space="preserve">
     <value>Слайд-шоу</value>

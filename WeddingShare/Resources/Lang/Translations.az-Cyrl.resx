@@ -1567,6 +1567,12 @@
   <data name="Settings_PoliciesEnabled_Label" xml:space="preserve">
     <value>Qeydiyyat</value>
   </data>
+  <data name="Settings_SearchTerm_Help" xml:space="preserve">
+    <value>Axtarış terminə əsaslanan Filter ayarları</value>
+  </data>
+  <data name="Settings_SearchTerm_Label" xml:space="preserve">
+    <value>Axtarış</value>
+  </data>
   <data name="Settings_Slideshow" xml:space="preserve">
     <value> Slide</value>
   </data>

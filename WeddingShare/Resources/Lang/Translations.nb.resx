@@ -1567,6 +1567,12 @@
   <data name="Settings_PoliciesEnabled_Label" xml:space="preserve">
     <value>Aktivert</value>
   </data>
+  <data name="Settings_SearchTerm_Help" xml:space="preserve">
+    <value>Filtrer innstillinger basert på et søkeord</value>
+  </data>
+  <data name="Settings_SearchTerm_Label" xml:space="preserve">
+    <value>Søkeord</value>
+  </data>
   <data name="Settings_Slideshow" xml:space="preserve">
     <value>Lysbilde</value>
   </data>

@@ -1567,6 +1567,12 @@
   <data name="Settings_PoliciesEnabled_Label" xml:space="preserve">
     <value>فعال سازی</value>
   </data>
+  <data name="Settings_SearchTerm_Help" xml:space="preserve">
+    <value>تنظیمات فیلتر بر اساس یک اصطلاح جستجو</value>
+  </data>
+  <data name="Settings_SearchTerm_Label" xml:space="preserve">
+    <value>جستجو</value>
+  </data>
   <data name="Settings_Slideshow" xml:space="preserve">
     <value>Slideshow</value>
   </data>

@@ -1567,6 +1567,12 @@
   <data name="Settings_PoliciesEnabled_Label" xml:space="preserve">
     <value>Įjungtas</value>
   </data>
+  <data name="Settings_SearchTerm_Help" xml:space="preserve">
+    <value>Filtruoti nustatymus pagal paieškos terminą</value>
+  </data>
+  <data name="Settings_SearchTerm_Label" xml:space="preserve">
+    <value>Paieškos terminas</value>
+  </data>
   <data name="Settings_Slideshow" xml:space="preserve">
     <value>Comment</value>
   </data>

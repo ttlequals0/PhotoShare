@@ -1567,6 +1567,12 @@
   <data name="Settings_PoliciesEnabled_Label" xml:space="preserve">
     <value>Omogočeno</value>
   </data>
+  <data name="Settings_SearchTerm_Help" xml:space="preserve">
+    <value>Nastavitve filtra temeljijo na iskalnem izrazu</value>
+  </data>
+  <data name="Settings_SearchTerm_Label" xml:space="preserve">
+    <value>Iskalni izraz</value>
+  </data>
   <data name="Settings_Slideshow" xml:space="preserve">
     <value>Pregled</value>
   </data>

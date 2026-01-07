@@ -1567,6 +1567,12 @@
   <data name="Settings_PoliciesEnabled_Label" xml:space="preserve">
     <value>Povolené</value>
   </data>
+  <data name="Settings_SearchTerm_Help" xml:space="preserve">
+    <value>Nastavenia filtra na základe vyhľadávacieho termínu</value>
+  </data>
+  <data name="Settings_SearchTerm_Label" xml:space="preserve">
+    <value>Hľadaný výraz</value>
+  </data>
   <data name="Settings_Slideshow" xml:space="preserve">
     <value>Prezentácia</value>
   </data>

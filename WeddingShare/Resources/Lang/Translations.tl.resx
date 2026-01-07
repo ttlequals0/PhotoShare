@@ -1567,6 +1567,12 @@
   <data name="Settings_PoliciesEnabled_Label" xml:space="preserve">
     <value>Malugod</value>
   </data>
+  <data name="Settings_SearchTerm_Help" xml:space="preserve">
+    <value>Mga Filter setting batay sa isang search term</value>
+  </data>
+  <data name="Settings_SearchTerm_Label" xml:space="preserve">
+    <value>Paghahanap</value>
+  </data>
   <data name="Settings_Slideshow" xml:space="preserve">
     <value>Paglalaho</value>
   </data>

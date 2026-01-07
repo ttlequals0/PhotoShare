@@ -1567,6 +1567,12 @@
   <data name="Settings_PoliciesEnabled_Label" xml:space="preserve">
     <value>Bật</value>
   </data>
+  <data name="Settings_SearchTerm_Help" xml:space="preserve">
+    <value>Thiết lập lọc dựa trên thuật ngữ tìm kiếm</value>
+  </data>
+  <data name="Settings_SearchTerm_Label" xml:space="preserve">
+    <value>Tìm kiếm</value>
+  </data>
   <data name="Settings_Slideshow" xml:space="preserve">
     <value>Chiếu ảnh</value>
   </data>

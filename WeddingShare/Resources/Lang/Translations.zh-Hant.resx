@@ -1567,6 +1567,12 @@
   <data name="Settings_PoliciesEnabled_Label" xml:space="preserve">
     <value>已启用</value>
   </data>
+  <data name="Settings_SearchTerm_Help" xml:space="preserve">
+    <value>以搜尋名詞相制取過過的設定</value>
+  </data>
+  <data name="Settings_SearchTerm_Label" xml:space="preserve">
+    <value>搜尋期限</value>
+  </data>
   <data name="Settings_Slideshow" xml:space="preserve">
     <value>幻灯片放映</value>
   </data>

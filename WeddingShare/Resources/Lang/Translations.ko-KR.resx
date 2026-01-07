@@ -1567,6 +1567,12 @@
   <data name="Settings_PoliciesEnabled_Label" xml:space="preserve">
     <value>이름 *</value>
   </data>
+  <data name="Settings_SearchTerm_Help" xml:space="preserve">
+    <value>검색 용어를 기반으로 필터 설정</value>
+  </data>
+  <data name="Settings_SearchTerm_Label" xml:space="preserve">
+    <value>검색 기간</value>
+  </data>
   <data name="Settings_Slideshow" xml:space="preserve">
     <value>슬라이드 쇼</value>
   </data>

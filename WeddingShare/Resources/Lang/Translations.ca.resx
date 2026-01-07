@@ -1567,6 +1567,12 @@
   <data name="Settings_PoliciesEnabled_Label" xml:space="preserve">
     <value>Habilitat</value>
   </data>
+  <data name="Settings_SearchTerm_Help" xml:space="preserve">
+    <value>Arranjaments del filtre basat en un terme de cerca</value>
+  </data>
+  <data name="Settings_SearchTerm_Label" xml:space="preserve">
+    <value>Terme de cerca</value>
+  </data>
   <data name="Settings_Slideshow" xml:space="preserve">
     <value>Passi de diapositives</value>
   </data>
