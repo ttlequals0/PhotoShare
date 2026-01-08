@@ -96,7 +96,7 @@ export function searchSettings() {
                 const label = $(this).find('.setting-label').text();
                 const hint = $(this).find('.setting-hint').text();
 
-                if ((label === undefined && hint === undefined) || (label.toLowerCase().indexOf(term.toLowerCase()) === -1 || hint.toLowerCase().indexOf(term.toLowerCase()) === -1)) {
+                if ((label === undefined && hint === undefined) || (label.toLowerCase().indexOf(term.toLowerCase()) === -1 && hint.toLowerCase().indexOf(term.toLowerCase()) === -1)) {
                     $(this).addClass('d-none');
                 } else {
                     $(this).removeClass('d-none');
