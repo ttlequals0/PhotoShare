@@ -401,7 +401,7 @@ namespace WeddingShare.Helpers.Database
 
             using (var conn = await GetConnection())
             {
-                var cmd = CreateCommand($"DELETE FROM `gallery_settings` WHERE `gallery_id`=@Id; DELETE FROM `gallery_items` WHERE `gallery_id`=@Id;", conn);
+                var cmd = CreateCommand($"DELETE FROM `gallery_likes` WHERE `gallery_id`=@Id; DELETE FROM `gallery_settings` WHERE `gallery_id`=@Id; DELETE FROM `gallery_items` WHERE `gallery_id`=@Id;", conn);
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("Id", model.Id);
 
@@ -431,7 +431,7 @@ namespace WeddingShare.Helpers.Database
 
             using (var conn = await GetConnection())
             {
-                var cmd = CreateCommand($"DELETE FROM `gallery_settings`; DELETE FROM `gallery_items`; DELETE FROM `galleries` WHERE `id` > 1;", conn);
+                var cmd = CreateCommand($"DELETE FROM `gallery_likes`; DELETE FROM `gallery_settings`; DELETE FROM `gallery_items`; DELETE FROM `galleries` WHERE `id` > 1;", conn);
                 cmd.CommandType = CommandType.Text;
 
                 await conn.OpenAsync();
@@ -460,7 +460,7 @@ namespace WeddingShare.Helpers.Database
 
             using (var conn = await GetConnection())
             {
-                var cmd = CreateCommand($"DELETE FROM `gallery_settings` WHERE `gallery_id`=@Id; DELETE FROM `gallery_items` WHERE `gallery_id`=@Id; DELETE FROM `galleries` WHERE `id`=@Id;", conn);
+                var cmd = CreateCommand($"DELETE FROM `gallery_likes` WHERE `gallery_id`=@Id; DELETE FROM `gallery_settings` WHERE `gallery_id`=@Id; DELETE FROM `gallery_items` WHERE `gallery_id`=@Id; DELETE FROM `galleries` WHERE `id`=@Id;", conn);
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("Id", model.Id);
 
@@ -813,9 +813,10 @@ namespace WeddingShare.Helpers.Database
 
             using (var conn = await GetConnection())
             {
-                var cmd = CreateCommand($"DELETE FROM `gallery_items` WHERE `id`=@Id;", conn);
+                var cmd = CreateCommand($"DELETE FROM `gallery_likes` WHERE `gallery_id`=@GalleryId; DELETE FROM `gallery_items` WHERE `id`=@Id;", conn);
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("Id", model.Id);
+                cmd.Parameters.AddWithValue("GalleryId", model.GalleryId);
 
                 await conn.OpenAsync();
                 var tran = await CreateTransaction(conn);
@@ -899,6 +900,26 @@ namespace WeddingShare.Helpers.Database
             return result;
         }
 
+        public async Task<IEnumerable<GalleryItemLikeModel>> GetUnassignedGalleryItemLikes()
+        {
+            List<GalleryItemLikeModel> result;
+
+            using (var conn = await GetConnection())
+            {
+                var cmd = CreateCommand($"SELECT * FROM `gallery_likes` WHERE `gallery_id`=0", conn);
+                cmd.CommandType = CommandType.Text;
+
+                await conn.OpenAsync();
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+                    result = await ReadGalleryItemLikes(reader);
+                }
+                await conn.CloseAsync();
+            }
+
+            return result;
+        }
+
         public async Task<bool> CheckUserHasLikedGalleryItem(int galleryItemId, int userId)
         {
             var result = false;
@@ -955,6 +976,22 @@ namespace WeddingShare.Helpers.Database
             }
 
             return await GetGalleryItemLikesCount(model.GalleryItemId);
+        }
+
+        public async Task<bool> WipeGalleryItemLikes(int galleryItemId)
+        {
+            using (var conn = await GetConnection())
+            {
+                var cmd = CreateCommand($"DELETE FROM `gallery_likes` WHERE `gallery_item_id`=@GalleryItemId", conn);
+                cmd.CommandType = CommandType.Text;
+                cmd.Parameters.AddWithValue("GalleryItemId", galleryItemId);
+
+                await conn.OpenAsync();
+                await cmd.ExecuteNonQueryAsync();
+                await conn.CloseAsync();
+            }
+
+            return true;
         }
         #endregion
 
@@ -2117,6 +2154,7 @@ namespace WeddingShare.Helpers.Database
                             {
                                 Id = id,
                                 GalleryItemId = !await reader.IsDBNullAsync("gallery_item_id") ? reader.GetInt32("gallery_item_id") : 0,
+                                GalleryId = !await reader.IsDBNullAsync("gallery_id") ? reader.GetInt32("gallery_id") : 0,
                                 UserId = !await reader.IsDBNullAsync("user_id") ? reader.GetInt32("user_id") : 0,
                                 Timestamp = !await reader.IsDBNullAsync("timestamp") ? reader.GetDateTime("timestamp") : null
                             });

@@ -228,6 +228,7 @@ namespace WeddingShare.Controllers
                             case "like":
                                 likes = await _database.LikeGalleryItem(new GalleryItemLikeModel()
                                 {
+                                    GalleryId = galleryItem.GalleryId,
                                     GalleryItemId = galleryItem.Id,
                                     UserId = userId
                                 });
@@ -235,6 +236,7 @@ namespace WeddingShare.Controllers
                             case "unlike":
                                 likes = await _database.UnLikeGalleryItem(new GalleryItemLikeModel()
                                 {
+                                    GalleryId = galleryItem.GalleryId,
                                     GalleryItemId = galleryItem.Id,
                                     UserId = userId
                                 });

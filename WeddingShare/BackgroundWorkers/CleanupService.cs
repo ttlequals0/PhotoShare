@@ -1,10 +1,11 @@
 ﻿using NCrontab;
 using WeddingShare.Constants;
 using WeddingShare.Helpers;
+using WeddingShare.Helpers.Database;
 
 namespace WeddingShare.BackgroundWorkers
 {
-    public sealed class CleanupService(IWebHostEnvironment hostingEnvironment, ISettingsHelper settingsHelper, IFileHelper fileHelper, ILogger<CleanupService> logger) : BackgroundService
+    public sealed class CleanupService(IWebHostEnvironment hostingEnvironment, ISettingsHelper settingsHelper, IDatabaseHelper databaseHelper, IFileHelper fileHelper, ILogger<CleanupService> logger) : BackgroundService
     {
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
@@ -21,6 +22,7 @@ namespace WeddingShare.BackgroundWorkers
                     var now = DateTime.Now;
                     if (now >= nextExecutionTime)
                     {
+                        await LinkStaleGalleryItemLikes();
                         await Cleanup();
                         
                         var schedule = CrontabSchedule.Parse(cron, new CrontabSchedule.ParseOptions() { IncludingSeconds = cron.Split(new[] { ' ' }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries).Length == 6 });
@@ -71,6 +73,35 @@ namespace WeddingShare.BackgroundWorkers
             catch (Exception ex) 
             {
                 logger.LogError(ex, $"CleanupService - Failed to clean up files - {ex?.Message}");
+            }
+        }
+
+        private async Task LinkStaleGalleryItemLikes()
+        {
+            try
+            {
+                await Task.Run(async () =>
+                {
+                    var staleLikes = await databaseHelper.GetUnassignedGalleryItemLikes();
+                    if (staleLikes != null && staleLikes.Any())
+                    {
+                        foreach (var staleLike in staleLikes.Where(x => x?.GalleryItemId != null && x.GalleryItemId > 0))
+                        {
+                            await databaseHelper.UnLikeGalleryItem(staleLike);
+
+                            var galleryItem = await databaseHelper.GetGalleryItem(staleLike.GalleryItemId);
+                            if (galleryItem?.GalleryId != null && galleryItem?.GalleryId > 0)
+                            {
+                                staleLike.GalleryId = galleryItem.GalleryId;
+                                await databaseHelper.LikeGalleryItem(staleLike);
+                            }
+                        }
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, $"CleanupService - Failed to link stale gallery item likes - {ex?.Message}");
             }
         }
     }

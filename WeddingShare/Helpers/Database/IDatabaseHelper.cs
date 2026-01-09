@@ -41,9 +41,11 @@ namespace WeddingShare.Helpers.Database
         Task<long> GetGalleryItemLikesCount(int galleryItemId);
         Task<IEnumerable<GalleryItemLikeModel>> GetGalleryItemLikes(int galleryItemId);
         Task<IEnumerable<GalleryItemLikeModel>> GetUsersGalleryItemLikes(int userId);
+        Task<IEnumerable<GalleryItemLikeModel>> GetUnassignedGalleryItemLikes();
         Task<bool> CheckUserHasLikedGalleryItem(int galleryItemId, int userId);
         Task<long> LikeGalleryItem(GalleryItemLikeModel model);
         Task<long> UnLikeGalleryItem(GalleryItemLikeModel model);
+        Task<bool> WipeGalleryItemLikes(int galleryItemId);
         #endregion
 
         #region Users
