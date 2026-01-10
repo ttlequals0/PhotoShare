@@ -352,6 +352,9 @@
   <data name="Code" xml:space="preserve">
     <value>Kodea</value>
   </data>
+  <data name="Common_Settings" xml:space="preserve">
+    <value>Ezarpen komunak</value>
+  </data>
   <data name="Contact_Admin_For_Access" xml:space="preserve">
     <value>Jar zaitez guneko administratzailearekin harremanetan sarbidea emateko</value>
   </data>
@@ -448,11 +451,17 @@
   <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
     <value>Ez duzu galeria hau deskargatzeko baimenik</value>
   </data>
+  <data name="Downloads" xml:space="preserve">
+    <value>Deskargak</value>
+  </data>
   <data name="Drag_And_Drop" xml:space="preserve">
     <value>Arrastatu</value>
   </data>
   <data name="Duplicate_Item_Detected" xml:space="preserve">
     <value>Bikoiztutako fitxategia detektatuta</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Posta elektronikoa</value>
   </data>
   <data name="EmailAddress" xml:space="preserve">
     <value>Helbide elektronikoa</value>
@@ -676,6 +685,9 @@
   <data name="Gallery_Secret_Key_Hint" xml:space="preserve">
     <value>Sartu gako sekretu berria</value>
   </data>
+  <data name="Gallery_Selector" xml:space="preserve">
+    <value>Galeria-hautatzailea</value>
+  </data>
   <data name="Gallery_Selector_Title" xml:space="preserve">
     <value>Galeria-hautatzailea</value>
   </data>
@@ -694,11 +706,20 @@
   <data name="Gallery_Wipe_Success" xml:space="preserve">
     <value>Galeria ongi ezabatuta</value>
   </data>
+  <data name="GDPR" xml:space="preserve">
+    <value>GDPR</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>Orokorra</value>
+  </data>
   <data name="Generate" xml:space="preserve">
     <value>Sortu</value>
   </data>
   <data name="Generating_Download" xml:space="preserve">
     <value>Deskarga sortzen</value>
+  </data>
+  <data name="Gotify" xml:space="preserve">
+    <value>Gotify</value>
   </data>
   <data name="Group" xml:space="preserve">
     <value>Taldea</value>
@@ -817,6 +838,9 @@
   <data name="Language_Name_Hint" xml:space="preserve">
     <value>Hautatu bistaratzeko hizkuntza bat</value>
   </data>
+  <data name="Layout" xml:space="preserve">
+    <value>Diseinua</value>
+  </data>
   <data name="Link" xml:space="preserve">
     <value>Esteka</value>
   </data>
@@ -904,6 +928,12 @@
   <data name="None" xml:space="preserve">
     <value>Bat ere ez</value>
   </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>Jakinarazpenak</value>
+  </data>
+  <data name="Ntfy" xml:space="preserve">
+    <value>Ntfy</value>
+  </data>
   <data name="Open" xml:space="preserve">
     <value>Ireki</value>
   </data>
@@ -966,6 +996,9 @@
   </data>
   <data name="Presentation" xml:space="preserve">
     <value>Aurkezpena</value>
+  </data>
+  <data name="QR_Codes" xml:space="preserve">
+    <value>QR kodeak</value>
   </data>
   <data name="Random" xml:space="preserve">
     <value>Ausazkoa</value>
@@ -1080,6 +1113,9 @@
   </data>
   <data name="Review_Id_Missing" xml:space="preserve">
     <value>Ezin izan da Id elementua aurkitu</value>
+  </data>
+  <data name="Reviews" xml:space="preserve">
+    <value>Kritikak</value>
   </data>
   <data name="Save_QR" xml:space="preserve">
     <value>Gorde QRa</value>
@@ -1453,9 +1489,6 @@
   <data name="Settings_GallerySelector_ShowUsernames_Label" xml:space="preserve">
     <value>Erakutsi galeriako jabeak</value>
   </data>
-  <data name="Settings_Gotify" xml:space="preserve">
-    <value>Gotify</value>
-  </data>
   <data name="Settings_Gotify_Enabled_Help" xml:space="preserve">
     <value>Ntfy alertak bidali behar dira</value>
   </data>
@@ -1528,9 +1561,6 @@
   <data name="Settings_Languages_Enabled_Label" xml:space="preserve">
     <value>Gaituta</value>
   </data>
-  <data name="Settings_Ntfy" xml:space="preserve">
-    <value>Ntfy</value>
-  </data>
   <data name="Settings_Ntfy_Enabled_Help" xml:space="preserve">
     <value>Ntfy alertak bidali behar dira</value>
   </data>
@@ -1599,9 +1629,6 @@
   </data>
   <data name="Settings_Slideshow_Share_Slide_Label" xml:space="preserve">
     <value>Partekatu diapositiba</value>
-  </data>
-  <data name="Settings_Smtp" xml:space="preserve">
-    <value>Posta elektronikoa</value>
   </data>
   <data name="Settings_Smtp_Display_Name_Help" xml:space="preserve">
     <value>Erabiltzailearen bidaltzailearen izena</value>
@@ -1672,6 +1699,21 @@
   <data name="Settings_Themes_Enabled_Label" xml:space="preserve">
     <value>Gaituta</value>
   </data>
+  <data name="Settings_Trackers" xml:space="preserve">
+    <value>Aztarnariak</value>
+  </data>
+  <data name="Settings_Trackers_UmamiEndpoint_Help" xml:space="preserve">
+    <value>Umami zerbitzariaren helbidea</value>
+  </data>
+  <data name="Settings_Trackers_UmamiEndpoint_Label" xml:space="preserve">
+    <value>Amaiera-puntua</value>
+  </data>
+  <data name="Settings_Trackers_UmamiWebsiteId_Help" xml:space="preserve">
+    <value>Umamiren webgunea Id</value>
+  </data>
+  <data name="Settings_Trackers_UmamiWebsiteId_Label" xml:space="preserve">
+    <value>Webguneko Id</value>
+  </data>
   <data name="Share_Code" xml:space="preserve">
     <value>Partekatu kodea</value>
   </data>
@@ -1680,6 +1722,9 @@
   </data>
   <data name="Single" xml:space="preserve">
     <value>Bakarra</value>
+  </data>
+  <data name="Size_Limits" xml:space="preserve">
+    <value>Tamainaren mugak</value>
   </data>
   <data name="Slideshow" xml:space="preserve">
     <value>Diapositiba-aurkezpena</value>
@@ -1719,6 +1764,9 @@
   </data>
   <data name="Total" xml:space="preserve">
     <value>Guztira</value>
+  </data>
+  <data name="Umami" xml:space="preserve">
+    <value>Umami</value>
   </data>
   <data name="Unavailable" xml:space="preserve">
     <value>Ez dago erabilgarri</value>
@@ -1803,6 +1851,9 @@
   </data>
   <data name="Uploader" xml:space="preserve">
     <value>Igotzailea</value>
+  </data>
+  <data name="Uploads" xml:space="preserve">
+    <value>Igo</value>
   </data>
   <data name="User" xml:space="preserve">
     <value>Erabiltzailea</value>
@@ -1911,6 +1962,9 @@
   </data>
   <data name="View" xml:space="preserve">
     <value>Ikusi</value>
+  </data>
+  <data name="View_Options" xml:space="preserve">
+    <value>Ikusi aukerak</value>
   </data>
   <data name="Visit" xml:space="preserve">
     <value>Bisitatu</value>

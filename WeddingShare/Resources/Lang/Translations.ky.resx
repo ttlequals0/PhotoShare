@@ -352,6 +352,9 @@
   <data name="Code" xml:space="preserve">
     <value>Код коду</value>
   </data>
+  <data name="Common_Settings" xml:space="preserve">
+    <value>Бирдиктүү шарттар</value>
+  </data>
   <data name="Contact_Admin_For_Access" xml:space="preserve">
     <value>Колдонууну камсыз кылуу үчүн сайттын администраторуна кайрылыңыз</value>
   </data>
@@ -448,11 +451,17 @@
   <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
     <value>Сизге бул галереяны жүктөп алууга уруксат берилбейт</value>
   </data>
+  <data name="Downloads" xml:space="preserve">
+    <value>Жүктү түшүрүү</value>
+  </data>
   <data name="Drag_And_Drop" xml:space="preserve">
     <value>Драг</value>
   </data>
   <data name="Duplicate_Item_Detected" xml:space="preserve">
     <value>Эки эселенген файл аныкталган</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Электрондук почта</value>
   </data>
   <data name="EmailAddress" xml:space="preserve">
     <value>Электрондук почта дареги</value>
@@ -676,6 +685,9 @@
   <data name="Gallery_Secret_Key_Hint" xml:space="preserve">
     <value>Сураныч, жаңы жашыруун ачкычты киргизиңиз</value>
   </data>
+  <data name="Gallery_Selector" xml:space="preserve">
+    <value>Галереяны тандоочу</value>
+  </data>
   <data name="Gallery_Selector_Title" xml:space="preserve">
     <value>Галереяны тандоочу</value>
   </data>
@@ -694,11 +706,20 @@
   <data name="Gallery_Wipe_Success" xml:space="preserve">
     <value>Галерея ийгиликтүү сүртүлгөн</value>
   </data>
+  <data name="GDPR" xml:space="preserve">
+    <value>GDPR</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>Башкы генерал генерал</value>
+  </data>
   <data name="Generate" xml:space="preserve">
     <value>Генерация</value>
   </data>
   <data name="Generating_Download" xml:space="preserve">
     <value>Жүктү түшүрүү</value>
+  </data>
+  <data name="Gotify" xml:space="preserve">
+    <value>Готифи</value>
   </data>
   <data name="Group" xml:space="preserve">
     <value>Топ тобу</value>
@@ -817,6 +838,9 @@
   <data name="Language_Name_Hint" xml:space="preserve">
     <value>Сураныч, дисплей тилин тандаңыз</value>
   </data>
+  <data name="Layout" xml:space="preserve">
+    <value>Лаут</value>
+  </data>
   <data name="Link" xml:space="preserve">
     <value>Байланыш шилтемеси</value>
   </data>
@@ -904,6 +928,12 @@
   <data name="None" xml:space="preserve">
     <value>Эч ким жок</value>
   </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>Билдирүүлөр</value>
+  </data>
+  <data name="Ntfy" xml:space="preserve">
+    <value>Ntfy</value>
+  </data>
   <data name="Open" xml:space="preserve">
     <value>Ачык ачык ачык</value>
   </data>
@@ -966,6 +996,9 @@
   </data>
   <data name="Presentation" xml:space="preserve">
     <value>Презентация презентациясы</value>
+  </data>
+  <data name="QR_Codes" xml:space="preserve">
+    <value>QR коддору</value>
   </data>
   <data name="Random" xml:space="preserve">
     <value>Кокустук</value>
@@ -1080,6 +1113,9 @@
   </data>
   <data name="Review_Id_Missing" xml:space="preserve">
     <value>Id пунктун таба алган жок</value>
+  </data>
+  <data name="Reviews" xml:space="preserve">
+    <value>Кайра карап чыгуулар</value>
   </data>
   <data name="Save_QR" xml:space="preserve">
     <value>QRди сактоо</value>
@@ -1453,9 +1489,6 @@
   <data name="Settings_GallerySelector_ShowUsernames_Label" xml:space="preserve">
     <value>Галерея ээлерин көрсөтүү</value>
   </data>
-  <data name="Settings_Gotify" xml:space="preserve">
-    <value>Готифи</value>
-  </data>
   <data name="Settings_Gotify_Enabled_Help" xml:space="preserve">
     <value>Ntfy эскертүүлөрү жөнөтүлүшү керекпи</value>
   </data>
@@ -1528,9 +1561,6 @@
   <data name="Settings_Languages_Enabled_Label" xml:space="preserve">
     <value>Мүмкүнчүлүк</value>
   </data>
-  <data name="Settings_Ntfy" xml:space="preserve">
-    <value>Ntfy</value>
-  </data>
   <data name="Settings_Ntfy_Enabled_Help" xml:space="preserve">
     <value>Ntfy эскертүүлөрү жөнөтүлүшү керекпи</value>
   </data>
@@ -1599,9 +1629,6 @@
   </data>
   <data name="Settings_Slideshow_Share_Slide_Label" xml:space="preserve">
     <value>Акциялык слайдды камтыган</value>
-  </data>
-  <data name="Settings_Smtp" xml:space="preserve">
-    <value>Электрондук почта</value>
   </data>
   <data name="Settings_Smtp_Display_Name_Help" xml:space="preserve">
     <value>Колдонуучуга ыңгайлуу жөнөтүүчүнүн аты</value>
@@ -1672,6 +1699,21 @@
   <data name="Settings_Themes_Enabled_Label" xml:space="preserve">
     <value>Мүмкүнчүлүк</value>
   </data>
+  <data name="Settings_Trackers" xml:space="preserve">
+    <value>Трекерлер</value>
+  </data>
+  <data name="Settings_Trackers_UmamiEndpoint_Help" xml:space="preserve">
+    <value>Умами серверинин дареги</value>
+  </data>
+  <data name="Settings_Trackers_UmamiEndpoint_Label" xml:space="preserve">
+    <value>Акыркы чекит</value>
+  </data>
+  <data name="Settings_Trackers_UmamiWebsiteId_Help" xml:space="preserve">
+    <value>Umami веб-сайты Id</value>
+  </data>
+  <data name="Settings_Trackers_UmamiWebsiteId_Label" xml:space="preserve">
+    <value>Вебсайттын Id</value>
+  </data>
   <data name="Share_Code" xml:space="preserve">
     <value>Акциялык код</value>
   </data>
@@ -1680,6 +1722,9 @@
   </data>
   <data name="Single" xml:space="preserve">
     <value>Бирдиктүү бирдиктүү бирдиктүү</value>
+  </data>
+  <data name="Size_Limits" xml:space="preserve">
+    <value>Өлчөмдүн чектөөлөрү</value>
   </data>
   <data name="Slideshow" xml:space="preserve">
     <value>Слайд-шоу</value>
@@ -1719,6 +1764,9 @@
   </data>
   <data name="Total" xml:space="preserve">
     <value>Жалпы жалпы жалпы сумма</value>
+  </data>
+  <data name="Umami" xml:space="preserve">
+    <value>Умами</value>
   </data>
   <data name="Unavailable" xml:space="preserve">
     <value>Колдонулбаган</value>
@@ -1803,6 +1851,9 @@
   </data>
   <data name="Uploader" xml:space="preserve">
     <value>Жүктөөчү жүктөөчү</value>
+  </data>
+  <data name="Uploads" xml:space="preserve">
+    <value>Жүк ташуу</value>
   </data>
   <data name="User" xml:space="preserve">
     <value>Колдонуучу</value>
@@ -1911,6 +1962,9 @@
   </data>
   <data name="View" xml:space="preserve">
     <value>Көрүнүш</value>
+  </data>
+  <data name="View_Options" xml:space="preserve">
+    <value>Көрүү варианттары</value>
   </data>
   <data name="Visit" xml:space="preserve">
     <value>Сапарга баруу</value>

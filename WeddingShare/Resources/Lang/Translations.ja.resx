@@ -352,6 +352,9 @@
   <data name="Code" xml:space="preserve">
     <value>コードコード</value>
   </data>
+  <data name="Common_Settings" xml:space="preserve">
+    <value>共通設定</value>
+  </data>
   <data name="Contact_Admin_For_Access" xml:space="preserve">
     <value>サイトの管理者に連絡してアクセスしてください</value>
   </data>
@@ -448,11 +451,17 @@
   <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
     <value>このギャラリーをダウンロードすることはできません</value>
   </data>
+  <data name="Downloads" xml:space="preserve">
+    <value>ダウンロード</value>
+  </data>
   <data name="Drag_And_Drop" xml:space="preserve">
     <value>ドラッグ</value>
   </data>
   <data name="Duplicate_Item_Detected" xml:space="preserve">
     <value>検出された重複ファイル</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>電子メール</value>
   </data>
   <data name="EmailAddress" xml:space="preserve">
     <value>メールアドレス</value>
@@ -676,6 +685,9 @@
   <data name="Gallery_Secret_Key_Hint" xml:space="preserve">
     <value>新しい秘密鍵を入力してください</value>
   </data>
+  <data name="Gallery_Selector" xml:space="preserve">
+    <value>ギャラリーセレクター</value>
+  </data>
   <data name="Gallery_Selector_Title" xml:space="preserve">
     <value>ギャラリーセレクター</value>
   </data>
@@ -694,11 +706,20 @@
   <data name="Gallery_Wipe_Success" xml:space="preserve">
     <value>すっかり拭いたギャラリー</value>
   </data>
+  <data name="GDPR" xml:space="preserve">
+    <value>GDPRについて</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>インフォメーション</value>
+  </data>
   <data name="Generate" xml:space="preserve">
     <value>生成する</value>
   </data>
   <data name="Generating_Download" xml:space="preserve">
     <value>ダウンロードの生成</value>
+  </data>
+  <data name="Gotify" xml:space="preserve">
+    <value>ゴッファイ</value>
   </data>
   <data name="Group" xml:space="preserve">
     <value>グループ</value>
@@ -817,6 +838,9 @@
   <data name="Language_Name_Hint" xml:space="preserve">
     <value>表示言語を選択してください</value>
   </data>
+  <data name="Layout" xml:space="preserve">
+    <value>レイアウト</value>
+  </data>
   <data name="Link" xml:space="preserve">
     <value>サイトマップ</value>
   </data>
@@ -904,6 +928,12 @@
   <data name="None" xml:space="preserve">
     <value>なし</value>
   </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>お知らせ</value>
+  </data>
+  <data name="Ntfy" xml:space="preserve">
+    <value>ログイン</value>
+  </data>
   <data name="Open" xml:space="preserve">
     <value>オープン</value>
   </data>
@@ -966,6 +996,9 @@
   </data>
   <data name="Presentation" xml:space="preserve">
     <value>プレゼンテーション</value>
+  </data>
+  <data name="QR_Codes" xml:space="preserve">
+    <value>QRコード</value>
   </data>
   <data name="Random" xml:space="preserve">
     <value>ランダム</value>
@@ -1080,6 +1113,9 @@
   </data>
   <data name="Review_Id_Missing" xml:space="preserve">
     <value>アイテムが見つかりませんでした</value>
+  </data>
+  <data name="Reviews" xml:space="preserve">
+    <value>レビュー</value>
   </data>
   <data name="Save_QR" xml:space="preserve">
     <value>QRを保存</value>
@@ -1453,9 +1489,6 @@
   <data name="Settings_GallerySelector_ShowUsernames_Label" xml:space="preserve">
     <value>ギャラリーの所有者を表示</value>
   </data>
-  <data name="Settings_Gotify" xml:space="preserve">
-    <value>ゴッファイ</value>
-  </data>
   <data name="Settings_Gotify_Enabled_Help" xml:space="preserve">
     <value>Ntfy アラートが送信されるべき</value>
   </data>
@@ -1528,9 +1561,6 @@
   <data name="Settings_Languages_Enabled_Label" xml:space="preserve">
     <value>有効化</value>
   </data>
-  <data name="Settings_Ntfy" xml:space="preserve">
-    <value>ログイン</value>
-  </data>
   <data name="Settings_Ntfy_Enabled_Help" xml:space="preserve">
     <value>Ntfy アラートが送信されるべき</value>
   </data>
@@ -1599,9 +1629,6 @@
   </data>
   <data name="Settings_Slideshow_Share_Slide_Label" xml:space="preserve">
     <value>共有スライドを含める</value>
-  </data>
-  <data name="Settings_Smtp" xml:space="preserve">
-    <value>電子メール</value>
   </data>
   <data name="Settings_Smtp_Display_Name_Help" xml:space="preserve">
     <value>ユーザーフレンドリーな送信者名</value>
@@ -1672,6 +1699,21 @@
   <data name="Settings_Themes_Enabled_Label" xml:space="preserve">
     <value>有効化</value>
   </data>
+  <data name="Settings_Trackers" xml:space="preserve">
+    <value>トラッカー</value>
+  </data>
+  <data name="Settings_Trackers_UmamiEndpoint_Help" xml:space="preserve">
+    <value>Umamiサーバーアドレス</value>
+  </data>
+  <data name="Settings_Trackers_UmamiEndpoint_Label" xml:space="preserve">
+    <value>エンドポイント</value>
+  </data>
+  <data name="Settings_Trackers_UmamiWebsiteId_Help" xml:space="preserve">
+    <value>宇都宮ホームページ</value>
+  </data>
+  <data name="Settings_Trackers_UmamiWebsiteId_Label" xml:space="preserve">
+    <value>ウェブサイトID</value>
+  </data>
   <data name="Share_Code" xml:space="preserve">
     <value>共有コード</value>
   </data>
@@ -1680,6 +1722,9 @@
   </data>
   <data name="Single" xml:space="preserve">
     <value>シングル</value>
+  </data>
+  <data name="Size_Limits" xml:space="preserve">
+    <value>サイズ制限</value>
   </data>
   <data name="Slideshow" xml:space="preserve">
     <value>スライドショー</value>
@@ -1719,6 +1764,9 @@
   </data>
   <data name="Total" xml:space="preserve">
     <value>合計:</value>
+  </data>
+  <data name="Umami" xml:space="preserve">
+    <value>宇都宮</value>
   </data>
   <data name="Unavailable" xml:space="preserve">
     <value>ご利用案内</value>
@@ -1802,6 +1850,9 @@
     <value>アップロード バイ</value>
   </data>
   <data name="Uploader" xml:space="preserve">
+    <value>アップロード</value>
+  </data>
+  <data name="Uploads" xml:space="preserve">
     <value>アップロード</value>
   </data>
   <data name="User" xml:space="preserve">
@@ -1911,6 +1962,9 @@
   </data>
   <data name="View" xml:space="preserve">
     <value>ニュース</value>
+  </data>
+  <data name="View_Options" xml:space="preserve">
+    <value>オプションを見る</value>
   </data>
   <data name="Visit" xml:space="preserve">
     <value>アクセス</value>

@@ -352,6 +352,9 @@
   <data name="Code" xml:space="preserve">
     <value>Kode</value>
   </data>
+  <data name="Common_Settings" xml:space="preserve">
+    <value>Fælles indstillinger</value>
+  </data>
   <data name="Contact_Admin_For_Access" xml:space="preserve">
     <value>Kontakt venligst en site administrator for at give adgang</value>
   </data>
@@ -448,11 +451,17 @@
   <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
     <value>Du har ikke tilladelse til at downloade dette galleri</value>
   </data>
+  <data name="Downloads" xml:space="preserve">
+    <value>Downloads</value>
+  </data>
   <data name="Drag_And_Drop" xml:space="preserve">
     <value>Træk</value>
   </data>
   <data name="Duplicate_Item_Detected" xml:space="preserve">
     <value>Duplikeret fil detekteret</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>E- mail</value>
   </data>
   <data name="EmailAddress" xml:space="preserve">
     <value>E- mail- adresse</value>
@@ -676,6 +685,9 @@
   <data name="Gallery_Secret_Key_Hint" xml:space="preserve">
     <value>Indtast en ny hemmelig nøgle</value>
   </data>
+  <data name="Gallery_Selector" xml:space="preserve">
+    <value>Galleringsvælger</value>
+  </data>
   <data name="Gallery_Selector_Title" xml:space="preserve">
     <value>Galleringsvælger</value>
   </data>
@@ -694,11 +706,20 @@
   <data name="Gallery_Wipe_Success" xml:space="preserve">
     <value>Galleriet er udtørret med succes</value>
   </data>
+  <data name="GDPR" xml:space="preserve">
+    <value>GDPR</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>Generelt</value>
+  </data>
   <data name="Generate" xml:space="preserve">
     <value>Generér</value>
   </data>
   <data name="Generating_Download" xml:space="preserve">
     <value>Generering af download</value>
+  </data>
+  <data name="Gotify" xml:space="preserve">
+    <value>Gotify</value>
   </data>
   <data name="Group" xml:space="preserve">
     <value>Gruppe</value>
@@ -817,6 +838,9 @@
   <data name="Language_Name_Hint" xml:space="preserve">
     <value>Vælg et visningssprog</value>
   </data>
+  <data name="Layout" xml:space="preserve">
+    <value>Layout</value>
+  </data>
   <data name="Link" xml:space="preserve">
     <value>Link</value>
   </data>
@@ -904,6 +928,12 @@
   <data name="None" xml:space="preserve">
     <value>Ingen</value>
   </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>Meddelelser</value>
+  </data>
+  <data name="Ntfy" xml:space="preserve">
+    <value>Ntfy</value>
+  </data>
   <data name="Open" xml:space="preserve">
     <value>Åbn</value>
   </data>
@@ -966,6 +996,9 @@
   </data>
   <data name="Presentation" xml:space="preserve">
     <value>Præsentation</value>
+  </data>
+  <data name="QR_Codes" xml:space="preserve">
+    <value>QR-koder</value>
   </data>
   <data name="Random" xml:space="preserve">
     <value>Tilfældig</value>
@@ -1080,6 +1113,9 @@
   </data>
   <data name="Review_Id_Missing" xml:space="preserve">
     <value>Kunne ikke finde element Id</value>
+  </data>
+  <data name="Reviews" xml:space="preserve">
+    <value>Anmeldelser</value>
   </data>
   <data name="Save_QR" xml:space="preserve">
     <value>Gem QR</value>
@@ -1453,9 +1489,6 @@
   <data name="Settings_GallerySelector_ShowUsernames_Label" xml:space="preserve">
     <value>Vis galleriejere</value>
   </data>
-  <data name="Settings_Gotify" xml:space="preserve">
-    <value>Gotify</value>
-  </data>
   <data name="Settings_Gotify_Enabled_Help" xml:space="preserve">
     <value>Skal Ntfy-indberetninger sendes</value>
   </data>
@@ -1528,9 +1561,6 @@
   <data name="Settings_Languages_Enabled_Label" xml:space="preserve">
     <value>Aktiveret</value>
   </data>
-  <data name="Settings_Ntfy" xml:space="preserve">
-    <value>Ntfy</value>
-  </data>
   <data name="Settings_Ntfy_Enabled_Help" xml:space="preserve">
     <value>Skal Ntfy-indberetninger sendes</value>
   </data>
@@ -1599,9 +1629,6 @@
   </data>
   <data name="Settings_Slideshow_Share_Slide_Label" xml:space="preserve">
     <value>Inkludér delingsdias</value>
-  </data>
-  <data name="Settings_Smtp" xml:space="preserve">
-    <value>E- mail</value>
   </data>
   <data name="Settings_Smtp_Display_Name_Help" xml:space="preserve">
     <value>Den brugervenlige afsenders navn</value>
@@ -1672,6 +1699,21 @@
   <data name="Settings_Themes_Enabled_Label" xml:space="preserve">
     <value>Aktiveret</value>
   </data>
+  <data name="Settings_Trackers" xml:space="preserve">
+    <value>Sporer</value>
+  </data>
+  <data name="Settings_Trackers_UmamiEndpoint_Help" xml:space="preserve">
+    <value>Den Umami server adresse</value>
+  </data>
+  <data name="Settings_Trackers_UmamiEndpoint_Label" xml:space="preserve">
+    <value>Slutpunkt</value>
+  </data>
+  <data name="Settings_Trackers_UmamiWebsiteId_Help" xml:space="preserve">
+    <value>The Umami hjemmeside Id</value>
+  </data>
+  <data name="Settings_Trackers_UmamiWebsiteId_Label" xml:space="preserve">
+    <value>Websted Id</value>
+  </data>
   <data name="Share_Code" xml:space="preserve">
     <value>Del kode</value>
   </data>
@@ -1680,6 +1722,9 @@
   </data>
   <data name="Single" xml:space="preserve">
     <value>Enkelt</value>
+  </data>
+  <data name="Size_Limits" xml:space="preserve">
+    <value>Størrelsesgrænser</value>
   </data>
   <data name="Slideshow" xml:space="preserve">
     <value>Slideshow</value>
@@ -1719,6 +1764,9 @@
   </data>
   <data name="Total" xml:space="preserve">
     <value>I alt</value>
+  </data>
+  <data name="Umami" xml:space="preserve">
+    <value>Umami</value>
   </data>
   <data name="Unavailable" xml:space="preserve">
     <value>Utilgængelig</value>
@@ -1803,6 +1851,9 @@
   </data>
   <data name="Uploader" xml:space="preserve">
     <value>Uploader</value>
+  </data>
+  <data name="Uploads" xml:space="preserve">
+    <value>Uploads</value>
   </data>
   <data name="User" xml:space="preserve">
     <value>Bruger</value>
@@ -1911,6 +1962,9 @@
   </data>
   <data name="View" xml:space="preserve">
     <value>Vis</value>
+  </data>
+  <data name="View_Options" xml:space="preserve">
+    <value>Vis indstillinger</value>
   </data>
   <data name="Visit" xml:space="preserve">
     <value>Besøg</value>

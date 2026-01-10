@@ -352,6 +352,9 @@
   <data name="Code" xml:space="preserve">
     <value>Cod</value>
   </data>
+  <data name="Common_Settings" xml:space="preserve">
+    <value>Configurări comune</value>
+  </data>
   <data name="Contact_Admin_For_Access" xml:space="preserve">
     <value>Vă rugăm să contactați un administrator de site pentru a oferi acces</value>
   </data>
@@ -448,11 +451,17 @@
   <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
     <value>Nu sunteţi autorizat să descărcaţi această galerie</value>
   </data>
+  <data name="Downloads" xml:space="preserve">
+    <value>Descărcări</value>
+  </data>
   <data name="Drag_And_Drop" xml:space="preserve">
     <value>Trage</value>
   </data>
   <data name="Duplicate_Item_Detected" xml:space="preserve">
     <value>Fișier duplicat detectat</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
   </data>
   <data name="EmailAddress" xml:space="preserve">
     <value>Adresa de e-mail</value>
@@ -676,6 +685,9 @@
   <data name="Gallery_Secret_Key_Hint" xml:space="preserve">
     <value>Introduceți o nouă cheie secretă</value>
   </data>
+  <data name="Gallery_Selector" xml:space="preserve">
+    <value>Selector galerie</value>
+  </data>
   <data name="Gallery_Selector_Title" xml:space="preserve">
     <value>Selector galerie</value>
   </data>
@@ -694,11 +706,20 @@
   <data name="Gallery_Wipe_Success" xml:space="preserve">
     <value>Galerie ștersă cu succes</value>
   </data>
+  <data name="GDPR" xml:space="preserve">
+    <value>GDPR</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>Generale</value>
+  </data>
   <data name="Generate" xml:space="preserve">
     <value>Generează</value>
   </data>
   <data name="Generating_Download" xml:space="preserve">
     <value>Generare descărcare</value>
+  </data>
+  <data name="Gotify" xml:space="preserve">
+    <value>Gotify</value>
   </data>
   <data name="Group" xml:space="preserve">
     <value>Grup</value>
@@ -817,6 +838,9 @@
   <data name="Language_Name_Hint" xml:space="preserve">
     <value>Alegeți un limbaj de afișare</value>
   </data>
+  <data name="Layout" xml:space="preserve">
+    <value>Aranjament</value>
+  </data>
   <data name="Link" xml:space="preserve">
     <value>Legătură</value>
   </data>
@@ -904,6 +928,12 @@
   <data name="None" xml:space="preserve">
     <value>Niciuna</value>
   </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>Notificări</value>
+  </data>
+  <data name="Ntfy" xml:space="preserve">
+    <value>Ntfy</value>
+  </data>
   <data name="Open" xml:space="preserve">
     <value>Deschide</value>
   </data>
@@ -966,6 +996,9 @@
   </data>
   <data name="Presentation" xml:space="preserve">
     <value>Prezentare</value>
+  </data>
+  <data name="QR_Codes" xml:space="preserve">
+    <value>Coduri QR</value>
   </data>
   <data name="Random" xml:space="preserve">
     <value>Aleator</value>
@@ -1080,6 +1113,9 @@
   </data>
   <data name="Review_Id_Missing" xml:space="preserve">
     <value>Nu s- a putut găsi elementul Id</value>
+  </data>
+  <data name="Reviews" xml:space="preserve">
+    <value>Revizuiri</value>
   </data>
   <data name="Save_QR" xml:space="preserve">
     <value>Salvează QR</value>
@@ -1453,9 +1489,6 @@
   <data name="Settings_GallerySelector_ShowUsernames_Label" xml:space="preserve">
     <value>Arată proprietarii de galerie</value>
   </data>
-  <data name="Settings_Gotify" xml:space="preserve">
-    <value>Gotify</value>
-  </data>
   <data name="Settings_Gotify_Enabled_Help" xml:space="preserve">
     <value>Ar trebui trimise alerte Ntfy</value>
   </data>
@@ -1528,9 +1561,6 @@
   <data name="Settings_Languages_Enabled_Label" xml:space="preserve">
     <value>Activat</value>
   </data>
-  <data name="Settings_Ntfy" xml:space="preserve">
-    <value>Ntfy</value>
-  </data>
   <data name="Settings_Ntfy_Enabled_Help" xml:space="preserve">
     <value>Ar trebui trimise alerte Ntfy</value>
   </data>
@@ -1599,9 +1629,6 @@
   </data>
   <data name="Settings_Slideshow_Share_Slide_Label" xml:space="preserve">
     <value>Include slide-ul partaj</value>
-  </data>
-  <data name="Settings_Smtp" xml:space="preserve">
-    <value>Email</value>
   </data>
   <data name="Settings_Smtp_Display_Name_Help" xml:space="preserve">
     <value>Numele expeditorului prietenos cu utilizatorul</value>
@@ -1672,6 +1699,21 @@
   <data name="Settings_Themes_Enabled_Label" xml:space="preserve">
     <value>Activat</value>
   </data>
+  <data name="Settings_Trackers" xml:space="preserve">
+    <value>Trackeri</value>
+  </data>
+  <data name="Settings_Trackers_UmamiEndpoint_Help" xml:space="preserve">
+    <value>Adresa serverului Umami</value>
+  </data>
+  <data name="Settings_Trackers_UmamiEndpoint_Label" xml:space="preserve">
+    <value>Punct final</value>
+  </data>
+  <data name="Settings_Trackers_UmamiWebsiteId_Help" xml:space="preserve">
+    <value>Site-ul web Umami Id</value>
+  </data>
+  <data name="Settings_Trackers_UmamiWebsiteId_Label" xml:space="preserve">
+    <value>Id site-ul web</value>
+  </data>
   <data name="Share_Code" xml:space="preserve">
     <value>Partajează codul</value>
   </data>
@@ -1680,6 +1722,9 @@
   </data>
   <data name="Single" xml:space="preserve">
     <value>Single</value>
+  </data>
+  <data name="Size_Limits" xml:space="preserve">
+    <value>Limite de mărime</value>
   </data>
   <data name="Slideshow" xml:space="preserve">
     <value>Slideshow</value>
@@ -1719,6 +1764,9 @@
   </data>
   <data name="Total" xml:space="preserve">
     <value>Total</value>
+  </data>
+  <data name="Umami" xml:space="preserve">
+    <value>Umami</value>
   </data>
   <data name="Unavailable" xml:space="preserve">
     <value>Indisponibil</value>
@@ -1803,6 +1851,9 @@
   </data>
   <data name="Uploader" xml:space="preserve">
     <value>Încărcător</value>
+  </data>
+  <data name="Uploads" xml:space="preserve">
+    <value>Încărcare</value>
   </data>
   <data name="User" xml:space="preserve">
     <value>Utilizator</value>
@@ -1911,6 +1962,9 @@
   </data>
   <data name="View" xml:space="preserve">
     <value>Vizualizare</value>
+  </data>
+  <data name="View_Options" xml:space="preserve">
+    <value>Opțiuni vizualizare</value>
   </data>
   <data name="Visit" xml:space="preserve">
     <value>Vizită</value>

@@ -352,6 +352,9 @@
   <data name="Code" xml:space="preserve">
     <value>কোড</value>
   </data>
+  <data name="Common_Settings" xml:space="preserve">
+    <value>সাধারণ বৈশিষ্ট্য</value>
+  </data>
   <data name="Contact_Admin_For_Access" xml:space="preserve">
     <value>অনুগ্রহ করে সহায়তার জন্য একটি সাইট নির্বাচন করুন</value>
   </data>
@@ -448,11 +451,17 @@
   <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
     <value>এই গ্যালারি ডাউনলোড করার অনুমতি আপনার নেই</value>
   </data>
+  <data name="Downloads" xml:space="preserve">
+    <value>ডাউনলোড</value>
+  </data>
   <data name="Drag_And_Drop" xml:space="preserve">
     <value>টেনে এনে ফেলুন</value>
   </data>
   <data name="Duplicate_Item_Detected" xml:space="preserve">
     <value>অনুরূপ ফাইল সনাক্ত করা হয়েছে</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>ই-মেইল</value>
   </data>
   <data name="EmailAddress" xml:space="preserve">
     <value>ই-মেইল ঠিকানা</value>
@@ -676,6 +685,9 @@
   <data name="Gallery_Secret_Key_Hint" xml:space="preserve">
     <value>অনুগ্রহ করে একটি নতুন কি লিখুন</value>
   </data>
+  <data name="Gallery_Selector" xml:space="preserve">
+    <value>গ্যালারি নির্বাচক</value>
+  </data>
   <data name="Gallery_Selector_Title" xml:space="preserve">
     <value>গ্যালারি নির্বাচক</value>
   </data>
@@ -694,11 +706,20 @@
   <data name="Gallery_Wipe_Success" xml:space="preserve">
     <value>সাফল্যের সাথে আপডেট করা হয়েছে</value>
   </data>
+  <data name="GDPR" xml:space="preserve">
+    <value>ব্লুমর</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>সাধারণ</value>
+  </data>
   <data name="Generate" xml:space="preserve">
     <value>উত্‍পাদন করো</value>
   </data>
   <data name="Generating_Download" xml:space="preserve">
     <value>ডাউনলোড করা হচ্ছে</value>
+  </data>
+  <data name="Gotify" xml:space="preserve">
+    <value>প্রাপ্ত করা হচ্ছে</value>
   </data>
   <data name="Group" xml:space="preserve">
     <value>দল</value>
@@ -817,6 +838,9 @@
   <data name="Language_Name_Hint" xml:space="preserve">
     <value>অনুগ্রহ করে একটি ভাষা নির্বাচন করুন</value>
   </data>
+  <data name="Layout" xml:space="preserve">
+    <value>বিন্যাস</value>
+  </data>
   <data name="Link" xml:space="preserve">
     <value>লিংক</value>
   </data>
@@ -904,6 +928,12 @@
   <data name="None" xml:space="preserve">
     <value>শূণ্য</value>
   </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>সূচনাবার্তা</value>
+  </data>
+  <data name="Ntfy" xml:space="preserve">
+    <value>ন্যাটfy</value>
+  </data>
   <data name="Open" xml:space="preserve">
     <value>খুলুন</value>
   </data>
@@ -966,6 +996,9 @@
   </data>
   <data name="Presentation" xml:space="preserve">
     <value>প্রেসেন্টেশন</value>
+  </data>
+  <data name="QR_Codes" xml:space="preserve">
+    <value>QR কোড</value>
   </data>
   <data name="Random" xml:space="preserve">
     <value>যথেচ্ছ</value>
@@ -1080,6 +1113,9 @@
   </data>
   <data name="Review_Id_Missing" xml:space="preserve">
     <value>তথ্য পাওয়া যায়নি</value>
+  </data>
+  <data name="Reviews" xml:space="preserve">
+    <value>পর্যালোচনা</value>
   </data>
   <data name="Save_QR" xml:space="preserve">
     <value>এম- পি- ডি সংরক্ষণ করো</value>
@@ -1453,9 +1489,6 @@
   <data name="Settings_GallerySelector_ShowUsernames_Label" xml:space="preserve">
     <value>গ্যালারির মালিক প্রদর্শন করা হবে</value>
   </data>
-  <data name="Settings_Gotify" xml:space="preserve">
-    <value>প্রাপ্ত করা হচ্ছে</value>
-  </data>
   <data name="Settings_Gotify_Enabled_Help" xml:space="preserve">
     <value>Natyyy সংকেত প্রেরণ করা হবে</value>
   </data>
@@ -1528,9 +1561,6 @@
   <data name="Settings_Languages_Enabled_Label" xml:space="preserve">
     <value>সক্রিয়</value>
   </data>
-  <data name="Settings_Ntfy" xml:space="preserve">
-    <value>ন্যাটfy</value>
-  </data>
   <data name="Settings_Ntfy_Enabled_Help" xml:space="preserve">
     <value>Natyyy সংকেত প্রেরণ করা হবে</value>
   </data>
@@ -1599,9 +1629,6 @@
   </data>
   <data name="Settings_Slideshow_Share_Slide_Label" xml:space="preserve">
     <value>শেয়ার স্লাইড-শো অন্তর্ভুক্ত করুন</value>
-  </data>
-  <data name="Settings_Smtp" xml:space="preserve">
-    <value>ই-মেইল</value>
   </data>
   <data name="Settings_Smtp_Display_Name_Help" xml:space="preserve">
     <value>প্রেরকের নাম</value>
@@ -1672,6 +1699,21 @@
   <data name="Settings_Themes_Enabled_Label" xml:space="preserve">
     <value>সক্রিয়</value>
   </data>
+  <data name="Settings_Trackers" xml:space="preserve">
+    <value>ট্র্যাকার</value>
+  </data>
+  <data name="Settings_Trackers_UmamiEndpoint_Help" xml:space="preserve">
+    <value>নতুন ঠিকানার সার্ভার</value>
+  </data>
+  <data name="Settings_Trackers_UmamiEndpoint_Label" xml:space="preserve">
+    <value>%s পয়েন্ট</value>
+  </data>
+  <data name="Settings_Trackers_UmamiWebsiteId_Help" xml:space="preserve">
+    <value>উমামি ওয়েবসাইট</value>
+  </data>
+  <data name="Settings_Trackers_UmamiWebsiteId_Label" xml:space="preserve">
+    <value>ওয়েবসাইট আই. ডি</value>
+  </data>
   <data name="Share_Code" xml:space="preserve">
     <value>শেয়ার কোড</value>
   </data>
@@ -1680,6 +1722,9 @@
   </data>
   <data name="Single" xml:space="preserve">
     <value>একক</value>
+  </data>
+  <data name="Size_Limits" xml:space="preserve">
+    <value>সীমা</value>
   </data>
   <data name="Slideshow" xml:space="preserve">
     <value>স্লাইড-শো</value>
@@ -1719,6 +1764,9 @@
   </data>
   <data name="Total" xml:space="preserve">
     <value>সর্বমোট</value>
+  </data>
+  <data name="Umami" xml:space="preserve">
+    <value>উমামি</value>
   </data>
   <data name="Unavailable" xml:space="preserve">
     <value>উপলব্ধ নয়</value>
@@ -1803,6 +1851,9 @@
   </data>
   <data name="Uploader" xml:space="preserve">
     <value>আপলোডার</value>
+  </data>
+  <data name="Uploads" xml:space="preserve">
+    <value>আপলোড</value>
   </data>
   <data name="User" xml:space="preserve">
     <value>ব্যবহারকারী</value>
@@ -1911,6 +1962,9 @@
   </data>
   <data name="View" xml:space="preserve">
     <value>প্রদর্শন</value>
+  </data>
+  <data name="View_Options" xml:space="preserve">
+    <value>প্রদর্শন সংক্রান্ত বিকল্প</value>
   </data>
   <data name="Visit" xml:space="preserve">
     <value>পরিদর্শন করুন</value>

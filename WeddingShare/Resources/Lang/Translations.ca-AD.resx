@@ -352,6 +352,9 @@
   <data name="Code" xml:space="preserve">
     <value>Codi</value>
   </data>
+  <data name="Common_Settings" xml:space="preserve">
+    <value>Arranjament comú</value>
+  </data>
   <data name="Contact_Admin_For_Access" xml:space="preserve">
     <value>Si us plau, contacteu amb un administrador del lloc web per proporcionar accés</value>
   </data>
@@ -448,11 +451,17 @@
   <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
     <value>No esteu autoritzat a descarregar aquesta galeria</value>
   </data>
+  <data name="Downloads" xml:space="preserve">
+    <value>Baixades</value>
+  </data>
   <data name="Drag_And_Drop" xml:space="preserve">
     <value>Arrossega</value>
   </data>
   <data name="Duplicate_Item_Detected" xml:space="preserve">
     <value>S' ha detectat un fitxer duplicat</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Correu electrònic</value>
   </data>
   <data name="EmailAddress" xml:space="preserve">
     <value>Adreça de correu electrònic</value>
@@ -676,6 +685,9 @@
   <data name="Gallery_Secret_Key_Hint" xml:space="preserve">
     <value>Si us plau, introduïu una nova clau secreta</value>
   </data>
+  <data name="Gallery_Selector" xml:space="preserve">
+    <value>Selector de galeria</value>
+  </data>
   <data name="Gallery_Selector_Title" xml:space="preserve">
     <value>Selector de galeria</value>
   </data>
@@ -694,11 +706,20 @@
   <data name="Gallery_Wipe_Success" xml:space="preserve">
     <value>S' ha esborrat correctament la galeria</value>
   </data>
+  <data name="GDPR" xml:space="preserve">
+    <value>PIBR</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>General</value>
+  </data>
   <data name="Generate" xml:space="preserve">
     <value>Genera</value>
   </data>
   <data name="Generating_Download" xml:space="preserve">
     <value>S' està generant la descàrrega</value>
+  </data>
+  <data name="Gotify" xml:space="preserve">
+    <value>Gotify</value>
   </data>
   <data name="Group" xml:space="preserve">
     <value>Grup</value>
@@ -817,6 +838,9 @@
   <data name="Language_Name_Hint" xml:space="preserve">
     <value>Si us plau, seleccioneu un idioma de visualització</value>
   </data>
+  <data name="Layout" xml:space="preserve">
+    <value>Disposició</value>
+  </data>
   <data name="Link" xml:space="preserve">
     <value>Enllaç</value>
   </data>
@@ -904,6 +928,12 @@
   <data name="None" xml:space="preserve">
     <value>Cap</value>
   </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>Notificacions</value>
+  </data>
+  <data name="Ntfy" xml:space="preserve">
+    <value>Ntfy</value>
+  </data>
   <data name="Open" xml:space="preserve">
     <value>Obre</value>
   </data>
@@ -966,6 +996,9 @@
   </data>
   <data name="Presentation" xml:space="preserve">
     <value>Presentació</value>
+  </data>
+  <data name="QR_Codes" xml:space="preserve">
+    <value>Codis QR</value>
   </data>
   <data name="Random" xml:space="preserve">
     <value>Aleatori</value>
@@ -1080,6 +1113,9 @@
   </data>
   <data name="Review_Id_Missing" xml:space="preserve">
     <value>No s' ha pogut trobar l' element Id</value>
+  </data>
+  <data name="Reviews" xml:space="preserve">
+    <value>Revisió</value>
   </data>
   <data name="Save_QR" xml:space="preserve">
     <value>Desa QR</value>
@@ -1453,9 +1489,6 @@
   <data name="Settings_GallerySelector_ShowUsernames_Label" xml:space="preserve">
     <value>Mostra els propietari de les col· leccions</value>
   </data>
-  <data name="Settings_Gotify" xml:space="preserve">
-    <value>Gotify</value>
-  </data>
   <data name="Settings_Gotify_Enabled_Help" xml:space="preserve">
     <value>S' han d' enviar les ordres Ntfy</value>
   </data>
@@ -1528,9 +1561,6 @@
   <data name="Settings_Languages_Enabled_Label" xml:space="preserve">
     <value>Habilitat</value>
   </data>
-  <data name="Settings_Ntfy" xml:space="preserve">
-    <value>Ntfy</value>
-  </data>
   <data name="Settings_Ntfy_Enabled_Help" xml:space="preserve">
     <value>S' han d' enviar les ordres Ntfy</value>
   </data>
@@ -1599,9 +1629,6 @@
   </data>
   <data name="Settings_Slideshow_Share_Slide_Label" xml:space="preserve">
     <value>Inclou la diapositiva de compartició</value>
-  </data>
-  <data name="Settings_Smtp" xml:space="preserve">
-    <value>Correu electrònic</value>
   </data>
   <data name="Settings_Smtp_Display_Name_Help" xml:space="preserve">
     <value>El nom del remitent amigable per l' usuari</value>
@@ -1672,6 +1699,21 @@
   <data name="Settings_Themes_Enabled_Label" xml:space="preserve">
     <value>Habilitat</value>
   </data>
+  <data name="Settings_Trackers" xml:space="preserve">
+    <value>Seguidors</value>
+  </data>
+  <data name="Settings_Trackers_UmamiEndpoint_Help" xml:space="preserve">
+    <value>L' adreça del servidor Umami</value>
+  </data>
+  <data name="Settings_Trackers_UmamiEndpoint_Label" xml:space="preserve">
+    <value>Punt final</value>
+  </data>
+  <data name="Settings_Trackers_UmamiWebsiteId_Help" xml:space="preserve">
+    <value>El web Umami Id</value>
+  </data>
+  <data name="Settings_Trackers_UmamiWebsiteId_Label" xml:space="preserve">
+    <value>ID del lloc web</value>
+  </data>
   <data name="Share_Code" xml:space="preserve">
     <value>Codi de compartició</value>
   </data>
@@ -1680,6 +1722,9 @@
   </data>
   <data name="Single" xml:space="preserve">
     <value>Simple</value>
+  </data>
+  <data name="Size_Limits" xml:space="preserve">
+    <value>Límits de mida</value>
   </data>
   <data name="Slideshow" xml:space="preserve">
     <value>Passi de diapositives</value>
@@ -1719,6 +1764,9 @@
   </data>
   <data name="Total" xml:space="preserve">
     <value>Total</value>
+  </data>
+  <data name="Umami" xml:space="preserve">
+    <value>Umamijapan. kgm</value>
   </data>
   <data name="Unavailable" xml:space="preserve">
     <value>No disponible</value>
@@ -1803,6 +1851,9 @@
   </data>
   <data name="Uploader" xml:space="preserve">
     <value>Pujador</value>
+  </data>
+  <data name="Uploads" xml:space="preserve">
+    <value>Pujades</value>
   </data>
   <data name="User" xml:space="preserve">
     <value>Usuari</value>
@@ -1911,6 +1962,9 @@
   </data>
   <data name="View" xml:space="preserve">
     <value>Visualitza</value>
+  </data>
+  <data name="View_Options" xml:space="preserve">
+    <value>Opcions de visualització</value>
   </data>
   <data name="Visit" xml:space="preserve">
     <value>Visiteu</value>

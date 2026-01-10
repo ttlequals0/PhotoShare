@@ -352,6 +352,9 @@
   <data name="Code" xml:space="preserve">
     <value>Код</value>
   </data>
+  <data name="Common_Settings" xml:space="preserve">
+    <value>Общи настройки</value>
+  </data>
   <data name="Contact_Admin_For_Access" xml:space="preserve">
     <value>Моля, свържете се с администратор на сайта, за да предоставите достъп</value>
   </data>
@@ -448,11 +451,17 @@
   <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
     <value>Нямате право да сваляте тази галерия</value>
   </data>
+  <data name="Downloads" xml:space="preserve">
+    <value>Изтегляне</value>
+  </data>
   <data name="Drag_And_Drop" xml:space="preserve">
     <value>Влачене</value>
   </data>
   <data name="Duplicate_Item_Detected" xml:space="preserve">
     <value>Дублиране на засечен файл</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Е- поща</value>
   </data>
   <data name="EmailAddress" xml:space="preserve">
     <value>Адрес на електронна поща</value>
@@ -676,6 +685,9 @@
   <data name="Gallery_Secret_Key_Hint" xml:space="preserve">
     <value>Моля въведете нов таен ключ</value>
   </data>
+  <data name="Gallery_Selector" xml:space="preserve">
+    <value>Избор на галерия</value>
+  </data>
   <data name="Gallery_Selector_Title" xml:space="preserve">
     <value>Избор на галерия</value>
   </data>
@@ -694,11 +706,20 @@
   <data name="Gallery_Wipe_Success" xml:space="preserve">
     <value>Успешно изтрита галерия</value>
   </data>
+  <data name="GDPR" xml:space="preserve">
+    <value>GDPR</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>Общи положения</value>
+  </data>
   <data name="Generate" xml:space="preserve">
     <value>Генериране</value>
   </data>
   <data name="Generating_Download" xml:space="preserve">
     <value>Генериране на изтегляне</value>
+  </data>
+  <data name="Gotify" xml:space="preserve">
+    <value>Кодиране</value>
   </data>
   <data name="Group" xml:space="preserve">
     <value>Група</value>
@@ -817,6 +838,9 @@
   <data name="Language_Name_Hint" xml:space="preserve">
     <value>Моля, изберете език на дисплея</value>
   </data>
+  <data name="Layout" xml:space="preserve">
+    <value>Подреждане</value>
+  </data>
   <data name="Link" xml:space="preserve">
     <value>Връзка</value>
   </data>
@@ -904,6 +928,12 @@
   <data name="None" xml:space="preserve">
     <value>Няма</value>
   </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>Уведомления</value>
+  </data>
+  <data name="Ntfy" xml:space="preserve">
+    <value>Ntfy</value>
+  </data>
   <data name="Open" xml:space="preserve">
     <value>Отваряне</value>
   </data>
@@ -966,6 +996,9 @@
   </data>
   <data name="Presentation" xml:space="preserve">
     <value>Представяне</value>
+  </data>
+  <data name="QR_Codes" xml:space="preserve">
+    <value>QR кодове</value>
   </data>
   <data name="Random" xml:space="preserve">
     <value>Случайно</value>
@@ -1080,6 +1113,9 @@
   </data>
   <data name="Review_Id_Missing" xml:space="preserve">
     <value>Грешка при намиране на елемент Id</value>
+  </data>
+  <data name="Reviews" xml:space="preserve">
+    <value>Прегледи</value>
   </data>
   <data name="Save_QR" xml:space="preserve">
     <value>Запис на QR</value>
@@ -1453,9 +1489,6 @@
   <data name="Settings_GallerySelector_ShowUsernames_Label" xml:space="preserve">
     <value>Показване на собствениците на галерия</value>
   </data>
-  <data name="Settings_Gotify" xml:space="preserve">
-    <value>Кодиране</value>
-  </data>
   <data name="Settings_Gotify_Enabled_Help" xml:space="preserve">
     <value>При изпращане на Ntfy сигнали</value>
   </data>
@@ -1528,9 +1561,6 @@
   <data name="Settings_Languages_Enabled_Label" xml:space="preserve">
     <value>Включване</value>
   </data>
-  <data name="Settings_Ntfy" xml:space="preserve">
-    <value>Ntfy</value>
-  </data>
   <data name="Settings_Ntfy_Enabled_Help" xml:space="preserve">
     <value>При изпращане на Ntfy сигнали</value>
   </data>
@@ -1599,9 +1629,6 @@
   </data>
   <data name="Settings_Slideshow_Share_Slide_Label" xml:space="preserve">
     <value>Включване на Share Slide</value>
-  </data>
-  <data name="Settings_Smtp" xml:space="preserve">
-    <value>Е- поща</value>
   </data>
   <data name="Settings_Smtp_Display_Name_Help" xml:space="preserve">
     <value>Потребителско приятелско име на подателя</value>
@@ -1672,6 +1699,21 @@
   <data name="Settings_Themes_Enabled_Label" xml:space="preserve">
     <value>Включване</value>
   </data>
+  <data name="Settings_Trackers" xml:space="preserve">
+    <value>Проследяващи устройства</value>
+  </data>
+  <data name="Settings_Trackers_UmamiEndpoint_Help" xml:space="preserve">
+    <value>Адресът на сървъра Umami</value>
+  </data>
+  <data name="Settings_Trackers_UmamiEndpoint_Label" xml:space="preserve">
+    <value>Крайна точка</value>
+  </data>
+  <data name="Settings_Trackers_UmamiWebsiteId_Help" xml:space="preserve">
+    <value>Сайтът на Умами</value>
+  </data>
+  <data name="Settings_Trackers_UmamiWebsiteId_Label" xml:space="preserve">
+    <value>Уебсайт Id</value>
+  </data>
   <data name="Share_Code" xml:space="preserve">
     <value>Код на акцията</value>
   </data>
@@ -1680,6 +1722,9 @@
   </data>
   <data name="Single" xml:space="preserve">
     <value>Единичен</value>
+  </data>
+  <data name="Size_Limits" xml:space="preserve">
+    <value>Граници на размера</value>
   </data>
   <data name="Slideshow" xml:space="preserve">
     <value>Слайдшоу</value>
@@ -1719,6 +1764,9 @@
   </data>
   <data name="Total" xml:space="preserve">
     <value>Общо</value>
+  </data>
+  <data name="Umami" xml:space="preserve">
+    <value>Умами</value>
   </data>
   <data name="Unavailable" xml:space="preserve">
     <value>Недостъпен</value>
@@ -1802,6 +1850,9 @@
     <value>Качване от</value>
   </data>
   <data name="Uploader" xml:space="preserve">
+    <value>Качване</value>
+  </data>
+  <data name="Uploads" xml:space="preserve">
     <value>Качване</value>
   </data>
   <data name="User" xml:space="preserve">
@@ -1911,6 +1962,9 @@
   </data>
   <data name="View" xml:space="preserve">
     <value>Изглед</value>
+  </data>
+  <data name="View_Options" xml:space="preserve">
+    <value>Настройки на изгледа</value>
   </data>
   <data name="Visit" xml:space="preserve">
     <value>Посещение</value>

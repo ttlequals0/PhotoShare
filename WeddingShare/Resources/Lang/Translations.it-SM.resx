@@ -352,6 +352,9 @@
   <data name="Code" xml:space="preserve">
     <value>Codice</value>
   </data>
+  <data name="Common_Settings" xml:space="preserve">
+    <value>Impostazioni comuni</value>
+  </data>
   <data name="Contact_Admin_For_Access" xml:space="preserve">
     <value>Contattare un amministratore del sito per fornire l'accesso</value>
   </data>
@@ -448,11 +451,17 @@
   <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
     <value>Non sei autorizzato a scaricare questa galleria</value>
   </data>
+  <data name="Downloads" xml:space="preserve">
+    <value>Download</value>
+  </data>
   <data name="Drag_And_Drop" xml:space="preserve">
     <value>Trascina e Rilascia</value>
   </data>
   <data name="Duplicate_Item_Detected" xml:space="preserve">
     <value>File duplicato rilevato</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
   </data>
   <data name="EmailAddress" xml:space="preserve">
     <value>Indirizzo email</value>
@@ -676,6 +685,9 @@
   <data name="Gallery_Secret_Key_Hint" xml:space="preserve">
     <value>Inserisci una nuova chiave segreta</value>
   </data>
+  <data name="Gallery_Selector" xml:space="preserve">
+    <value>Selezione galleria</value>
+  </data>
   <data name="Gallery_Selector_Title" xml:space="preserve">
     <value>Selezione galleria</value>
   </data>
@@ -694,11 +706,20 @@
   <data name="Gallery_Wipe_Success" xml:space="preserve">
     <value>Galleria svuotata con successo</value>
   </data>
+  <data name="GDPR" xml:space="preserve">
+    <value>GDPR</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>Generale</value>
+  </data>
   <data name="Generate" xml:space="preserve">
     <value>Generazione</value>
   </data>
   <data name="Generating_Download" xml:space="preserve">
     <value>Generando Download</value>
+  </data>
+  <data name="Gotify" xml:space="preserve">
+    <value>Complimenti</value>
   </data>
   <data name="Group" xml:space="preserve">
     <value>Gruppo</value>
@@ -817,6 +838,9 @@
   <data name="Language_Name_Hint" xml:space="preserve">
     <value>Seleziona una lingua di visualizzazione</value>
   </data>
+  <data name="Layout" xml:space="preserve">
+    <value>Telaio</value>
+  </data>
   <data name="Link" xml:space="preserve">
     <value>Link</value>
   </data>
@@ -904,6 +928,12 @@
   <data name="None" xml:space="preserve">
     <value>Nessuno</value>
   </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>Notifica</value>
+  </data>
+  <data name="Ntfy" xml:space="preserve">
+    <value>Ntfy</value>
+  </data>
   <data name="Open" xml:space="preserve">
     <value>Aperto</value>
   </data>
@@ -966,6 +996,9 @@
   </data>
   <data name="Presentation" xml:space="preserve">
     <value>Presentazione</value>
+  </data>
+  <data name="QR_Codes" xml:space="preserve">
+    <value>Codici QR</value>
   </data>
   <data name="Random" xml:space="preserve">
     <value>Random</value>
@@ -1080,6 +1113,9 @@
   </data>
   <data name="Review_Id_Missing" xml:space="preserve">
     <value>Non riesco a trovare l'id dell'oggetto</value>
+  </data>
+  <data name="Reviews" xml:space="preserve">
+    <value>Recensioni</value>
   </data>
   <data name="Save_QR" xml:space="preserve">
     <value>Salvare il QR</value>
@@ -1453,9 +1489,6 @@
   <data name="Settings_GallerySelector_ShowUsernames_Label" xml:space="preserve">
     <value>Visualizza i proprietari della Galleria</value>
   </data>
-  <data name="Settings_Gotify" xml:space="preserve">
-    <value>Complimenti</value>
-  </data>
   <data name="Settings_Gotify_Enabled_Help" xml:space="preserve">
     <value>Dovrebbe essere inviata Ntfy avvisi</value>
   </data>
@@ -1528,9 +1561,6 @@
   <data name="Settings_Languages_Enabled_Label" xml:space="preserve">
     <value>Abilitato</value>
   </data>
-  <data name="Settings_Ntfy" xml:space="preserve">
-    <value>Ntfy</value>
-  </data>
   <data name="Settings_Ntfy_Enabled_Help" xml:space="preserve">
     <value>Dovrebbe essere inviata Ntfy avvisi</value>
   </data>
@@ -1599,9 +1629,6 @@
   </data>
   <data name="Settings_Slideshow_Share_Slide_Label" xml:space="preserve">
     <value>Includere lo scorrevole in condivisione</value>
-  </data>
-  <data name="Settings_Smtp" xml:space="preserve">
-    <value>Email</value>
   </data>
   <data name="Settings_Smtp_Display_Name_Help" xml:space="preserve">
     <value>Il nome utente amichevole mittente</value>
@@ -1672,6 +1699,21 @@
   <data name="Settings_Themes_Enabled_Label" xml:space="preserve">
     <value>Abilitato</value>
   </data>
+  <data name="Settings_Trackers" xml:space="preserve">
+    <value>Tracciatori</value>
+  </data>
+  <data name="Settings_Trackers_UmamiEndpoint_Help" xml:space="preserve">
+    <value>L'indirizzo del server Umami</value>
+  </data>
+  <data name="Settings_Trackers_UmamiEndpoint_Label" xml:space="preserve">
+    <value>Fine</value>
+  </data>
+  <data name="Settings_Trackers_UmamiWebsiteId_Help" xml:space="preserve">
+    <value>Il sito di Umami Id</value>
+  </data>
+  <data name="Settings_Trackers_UmamiWebsiteId_Label" xml:space="preserve">
+    <value>Sito web Id</value>
+  </data>
   <data name="Share_Code" xml:space="preserve">
     <value>Codice di condivisione</value>
   </data>
@@ -1680,6 +1722,9 @@
   </data>
   <data name="Single" xml:space="preserve">
     <value>Singola</value>
+  </data>
+  <data name="Size_Limits" xml:space="preserve">
+    <value>Limiti di dimensione</value>
   </data>
   <data name="Slideshow" xml:space="preserve">
     <value>Slideshow</value>
@@ -1719,6 +1764,9 @@
   </data>
   <data name="Total" xml:space="preserve">
     <value>Totale</value>
+  </data>
+  <data name="Umami" xml:space="preserve">
+    <value>Umami</value>
   </data>
   <data name="Unavailable" xml:space="preserve">
     <value>Non disponibile</value>
@@ -1803,6 +1851,9 @@
   </data>
   <data name="Uploader" xml:space="preserve">
     <value>Caricatore</value>
+  </data>
+  <data name="Uploads" xml:space="preserve">
+    <value>Caricamenti</value>
   </data>
   <data name="User" xml:space="preserve">
     <value>Utente</value>
@@ -1911,6 +1962,9 @@
   </data>
   <data name="View" xml:space="preserve">
     <value>Vista</value>
+  </data>
+  <data name="View_Options" xml:space="preserve">
+    <value>Opzioni di visualizzazione</value>
   </data>
   <data name="Visit" xml:space="preserve">
     <value>Visita</value>

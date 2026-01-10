@@ -352,6 +352,9 @@
   <data name="Code" xml:space="preserve">
     <value>کوڈ</value>
   </data>
+  <data name="Common_Settings" xml:space="preserve">
+    <value>عام ترتیبات</value>
+  </data>
   <data name="Contact_Admin_For_Access" xml:space="preserve">
     <value>رسائی فراہم کرنے کے لیے سائٹ کے منتظم سے رابطہ کریں</value>
   </data>
@@ -448,11 +451,17 @@
   <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
     <value>آپ اس گیلری کو ڈاؤن لوڈ کرنے کے لیے مصنف نہیں ہیں۔</value>
   </data>
+  <data name="Downloads" xml:space="preserve">
+    <value>گر ئے</value>
+  </data>
   <data name="Drag_And_Drop" xml:space="preserve">
     <value>چلا وٴ</value>
   </data>
   <data name="Duplicate_Item_Detected" xml:space="preserve">
     <value>تنصیب کردہ فائل</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>ای میل</value>
   </data>
   <data name="EmailAddress" xml:space="preserve">
     <value>ای میل پتہ</value>
@@ -676,6 +685,9 @@
   <data name="Gallery_Secret_Key_Hint" xml:space="preserve">
     <value>برائے مہربانی نیا خفیہ کلید داخل کریں</value>
   </data>
+  <data name="Gallery_Selector" xml:space="preserve">
+    <value>گیلری منتخب کنندہ</value>
+  </data>
   <data name="Gallery_Selector_Title" xml:space="preserve">
     <value>گیلری منتخب کنندہ</value>
   </data>
@@ -694,11 +706,20 @@
   <data name="Gallery_Wipe_Success" xml:space="preserve">
     <value>کامیابی کیساتھ گیلری کو ختم کِیا گیا</value>
   </data>
+  <data name="GDPR" xml:space="preserve">
+    <value>جی ڈی پی آر</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>عمومی</value>
+  </data>
   <data name="Generate" xml:space="preserve">
     <value>جنات</value>
   </data>
   <data name="Generating_Download" xml:space="preserve">
     <value>جینیاتی ردوبدل</value>
+  </data>
+  <data name="Gotify" xml:space="preserve">
+    <value>غیر متصل</value>
   </data>
   <data name="Group" xml:space="preserve">
     <value>گروپ</value>
@@ -817,6 +838,9 @@
   <data name="Language_Name_Hint" xml:space="preserve">
     <value>براہ کرم ڈسپلے زبان منتخب کريں</value>
   </data>
+  <data name="Layout" xml:space="preserve">
+    <value>آؤٹ</value>
+  </data>
   <data name="Link" xml:space="preserve">
     <value>لنک</value>
   </data>
@@ -904,6 +928,12 @@
   <data name="None" xml:space="preserve">
     <value>کچھ نہیں</value>
   </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>غیر متصل</value>
+  </data>
+  <data name="Ntfy" xml:space="preserve">
+    <value>نیت</value>
+  </data>
   <data name="Open" xml:space="preserve">
     <value>کھولیں</value>
   </data>
@@ -966,6 +996,9 @@
   </data>
   <data name="Presentation" xml:space="preserve">
     <value>جگہ</value>
+  </data>
+  <data name="QR_Codes" xml:space="preserve">
+    <value>کیو آر کوڈ</value>
   </data>
   <data name="Random" xml:space="preserve">
     <value>رنگ</value>
@@ -1080,6 +1113,9 @@
   </data>
   <data name="Review_Id_Missing" xml:space="preserve">
     <value>طےشدہ</value>
+  </data>
+  <data name="Reviews" xml:space="preserve">
+    <value>اعادہ</value>
   </data>
   <data name="Save_QR" xml:space="preserve">
     <value>محفوظ کریں</value>
@@ -1453,9 +1489,6 @@
   <data name="Settings_GallerySelector_ShowUsernames_Label" xml:space="preserve">
     <value>گیلری صاحب دکھائیں</value>
   </data>
-  <data name="Settings_Gotify" xml:space="preserve">
-    <value>غیر متصل</value>
-  </data>
   <data name="Settings_Gotify_Enabled_Help" xml:space="preserve">
     <value>نیٹفی چوکس بھیجے جائیں</value>
   </data>
@@ -1528,9 +1561,6 @@
   <data name="Settings_Languages_Enabled_Label" xml:space="preserve">
     <value>فعال کریں</value>
   </data>
-  <data name="Settings_Ntfy" xml:space="preserve">
-    <value>نیت</value>
-  </data>
   <data name="Settings_Ntfy_Enabled_Help" xml:space="preserve">
     <value>نیٹفی چوکس بھیجے جائیں</value>
   </data>
@@ -1599,9 +1629,6 @@
   </data>
   <data name="Settings_Slideshow_Share_Slide_Label" xml:space="preserve">
     <value>شیئر سلفڈ شامل ہیں۔</value>
-  </data>
-  <data name="Settings_Smtp" xml:space="preserve">
-    <value>ای میل</value>
   </data>
   <data name="Settings_Smtp_Display_Name_Help" xml:space="preserve">
     <value>صارف دوستانہ نام بھیجتا ہے</value>
@@ -1672,6 +1699,21 @@
   <data name="Settings_Themes_Enabled_Label" xml:space="preserve">
     <value>فعال کریں</value>
   </data>
+  <data name="Settings_Trackers" xml:space="preserve">
+    <value>ٹرک</value>
+  </data>
+  <data name="Settings_Trackers_UmamiEndpoint_Help" xml:space="preserve">
+    <value>عثمانی سرور کا پتہ چلتا ہے۔</value>
+  </data>
+  <data name="Settings_Trackers_UmamiEndpoint_Label" xml:space="preserve">
+    <value>مقصد</value>
+  </data>
+  <data name="Settings_Trackers_UmamiWebsiteId_Help" xml:space="preserve">
+    <value>اومامی ویب سائٹ Id</value>
+  </data>
+  <data name="Settings_Trackers_UmamiWebsiteId_Label" xml:space="preserve">
+    <value>ویب سائٹ Id</value>
+  </data>
   <data name="Share_Code" xml:space="preserve">
     <value>شیئر کوڈ</value>
   </data>
@@ -1680,6 +1722,9 @@
   </data>
   <data name="Single" xml:space="preserve">
     <value>تنہا</value>
+  </data>
+  <data name="Size_Limits" xml:space="preserve">
+    <value>حجم</value>
   </data>
   <data name="Slideshow" xml:space="preserve">
     <value>مٹی کی نمائش</value>
@@ -1719,6 +1764,9 @@
   </data>
   <data name="Total" xml:space="preserve">
     <value>مکمل</value>
+  </data>
+  <data name="Umami" xml:space="preserve">
+    <value>اما م</value>
   </data>
   <data name="Unavailable" xml:space="preserve">
     <value>غیر درج شدہ</value>
@@ -1803,6 +1851,9 @@
   </data>
   <data name="Uploader" xml:space="preserve">
     <value>اُوپر لکھیں</value>
+  </data>
+  <data name="Uploads" xml:space="preserve">
+    <value>اپ لوڈ</value>
   </data>
   <data name="User" xml:space="preserve">
     <value>صا_رف</value>
@@ -1911,6 +1962,9 @@
   </data>
   <data name="View" xml:space="preserve">
     <value>دیکھیں</value>
+  </data>
+  <data name="View_Options" xml:space="preserve">
+    <value>اختیارات دیکھیں</value>
   </data>
   <data name="Visit" xml:space="preserve">
     <value>ملاقات</value>

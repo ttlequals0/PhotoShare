@@ -352,6 +352,9 @@
   <data name="Code" xml:space="preserve">
     <value>कोड</value>
   </data>
+  <data name="Common_Settings" xml:space="preserve">
+    <value>आम सेटिंग</value>
+  </data>
   <data name="Contact_Admin_For_Access" xml:space="preserve">
     <value>कृपया एक्सेस प्रदान करने के लिए साइट व्यवस्थापक से संपर्क करें</value>
   </data>
@@ -448,11 +451,17 @@
   <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
     <value>आप इस गैलरी को डाउनलोड करने के लिए अधिकृत नहीं हैं</value>
   </data>
+  <data name="Downloads" xml:space="preserve">
+    <value>डाउनलोड</value>
+  </data>
   <data name="Drag_And_Drop" xml:space="preserve">
     <value>खींचें</value>
   </data>
   <data name="Duplicate_Item_Detected" xml:space="preserve">
     <value>डुप्लिकेट फ़ाइल का पता लगाया</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>ईमेल</value>
   </data>
   <data name="EmailAddress" xml:space="preserve">
     <value>ईमेल पता</value>
@@ -676,6 +685,9 @@
   <data name="Gallery_Secret_Key_Hint" xml:space="preserve">
     <value>कृपया एक नया गुप्त कुंजी दर्ज करें</value>
   </data>
+  <data name="Gallery_Selector" xml:space="preserve">
+    <value>गैलरी चयनकर्ता</value>
+  </data>
   <data name="Gallery_Selector_Title" xml:space="preserve">
     <value>गैलरी चयनकर्ता</value>
   </data>
@@ -694,11 +706,20 @@
   <data name="Gallery_Wipe_Success" xml:space="preserve">
     <value>सफलतापूर्वक पोंछे गैलरी</value>
   </data>
+  <data name="GDPR" xml:space="preserve">
+    <value>GDPR</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>जनरल</value>
+  </data>
   <data name="Generate" xml:space="preserve">
     <value>उत्पन्न करना</value>
   </data>
   <data name="Generating_Download" xml:space="preserve">
     <value>Generating डाउनलोड</value>
+  </data>
+  <data name="Gotify" xml:space="preserve">
+    <value>गौतम</value>
   </data>
   <data name="Group" xml:space="preserve">
     <value>समूह</value>
@@ -817,6 +838,9 @@
   <data name="Language_Name_Hint" xml:space="preserve">
     <value>कृपया एक डिस्प्ले भाषा चुनें</value>
   </data>
+  <data name="Layout" xml:space="preserve">
+    <value>लेआउट</value>
+  </data>
   <data name="Link" xml:space="preserve">
     <value>लिंक</value>
   </data>
@@ -904,6 +928,12 @@
   <data name="None" xml:space="preserve">
     <value>कोई नहीं</value>
   </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>अधिसूचनाएं</value>
+  </data>
+  <data name="Ntfy" xml:space="preserve">
+    <value>Ntfy</value>
+  </data>
   <data name="Open" xml:space="preserve">
     <value>खुला</value>
   </data>
@@ -966,6 +996,9 @@
   </data>
   <data name="Presentation" xml:space="preserve">
     <value>प्रस्तुति</value>
+  </data>
+  <data name="QR_Codes" xml:space="preserve">
+    <value>QR कोड</value>
   </data>
   <data name="Random" xml:space="preserve">
     <value>यादृच्छिक</value>
@@ -1080,6 +1113,9 @@
   </data>
   <data name="Review_Id_Missing" xml:space="preserve">
     <value>आइटम आईडी नहीं मिला</value>
+  </data>
+  <data name="Reviews" xml:space="preserve">
+    <value>समीक्षा</value>
   </data>
   <data name="Save_QR" xml:space="preserve">
     <value>QR सहेजें</value>
@@ -1453,9 +1489,6 @@
   <data name="Settings_GallerySelector_ShowUsernames_Label" xml:space="preserve">
     <value>गैलरी मालिकों दिखाएँ</value>
   </data>
-  <data name="Settings_Gotify" xml:space="preserve">
-    <value>गौतम</value>
-  </data>
   <data name="Settings_Gotify_Enabled_Help" xml:space="preserve">
     <value>क्या Ntfy अलर्ट भेजा जाना चाहिए</value>
   </data>
@@ -1528,9 +1561,6 @@
   <data name="Settings_Languages_Enabled_Label" xml:space="preserve">
     <value>सक्षम</value>
   </data>
-  <data name="Settings_Ntfy" xml:space="preserve">
-    <value>Ntfy</value>
-  </data>
   <data name="Settings_Ntfy_Enabled_Help" xml:space="preserve">
     <value>क्या Ntfy अलर्ट भेजा जाना चाहिए</value>
   </data>
@@ -1599,9 +1629,6 @@
   </data>
   <data name="Settings_Slideshow_Share_Slide_Label" xml:space="preserve">
     <value>साझा स्लाइड</value>
-  </data>
-  <data name="Settings_Smtp" xml:space="preserve">
-    <value>ईमेल</value>
   </data>
   <data name="Settings_Smtp_Display_Name_Help" xml:space="preserve">
     <value>उपयोगकर्ता के अनुकूल प्रेषक का नाम</value>
@@ -1672,6 +1699,21 @@
   <data name="Settings_Themes_Enabled_Label" xml:space="preserve">
     <value>सक्षम</value>
   </data>
+  <data name="Settings_Trackers" xml:space="preserve">
+    <value>ट्रैकर</value>
+  </data>
+  <data name="Settings_Trackers_UmamiEndpoint_Help" xml:space="preserve">
+    <value>Umami सर्वर पता</value>
+  </data>
+  <data name="Settings_Trackers_UmamiEndpoint_Label" xml:space="preserve">
+    <value>समापन बिंदु</value>
+  </data>
+  <data name="Settings_Trackers_UmamiWebsiteId_Help" xml:space="preserve">
+    <value>भारत वेबसाइट आईडी</value>
+  </data>
+  <data name="Settings_Trackers_UmamiWebsiteId_Label" xml:space="preserve">
+    <value>वेबसाइट आईडी</value>
+  </data>
   <data name="Share_Code" xml:space="preserve">
     <value>शेयर कोड</value>
   </data>
@@ -1680,6 +1722,9 @@
   </data>
   <data name="Single" xml:space="preserve">
     <value>एकल</value>
+  </data>
+  <data name="Size_Limits" xml:space="preserve">
+    <value>आकार सीमा</value>
   </data>
   <data name="Slideshow" xml:space="preserve">
     <value>स्लाइड शो</value>
@@ -1719,6 +1764,9 @@
   </data>
   <data name="Total" xml:space="preserve">
     <value>कुल</value>
+  </data>
+  <data name="Umami" xml:space="preserve">
+    <value>उम्मा</value>
   </data>
   <data name="Unavailable" xml:space="preserve">
     <value>उपलब्ध</value>
@@ -1803,6 +1851,9 @@
   </data>
   <data name="Uploader" xml:space="preserve">
     <value>अपलोडर</value>
+  </data>
+  <data name="Uploads" xml:space="preserve">
+    <value>अपलोड</value>
   </data>
   <data name="User" xml:space="preserve">
     <value>उपयोगकर्ता</value>
@@ -1911,6 +1962,9 @@
   </data>
   <data name="View" xml:space="preserve">
     <value>देखें</value>
+  </data>
+  <data name="View_Options" xml:space="preserve">
+    <value>विकल्प देखें</value>
   </data>
   <data name="Visit" xml:space="preserve">
     <value>यात्रा</value>

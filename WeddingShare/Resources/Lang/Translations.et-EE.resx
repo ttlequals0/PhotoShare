@@ -352,6 +352,9 @@
   <data name="Code" xml:space="preserve">
     <value>Kood</value>
   </data>
+  <data name="Common_Settings" xml:space="preserve">
+    <value>Ühised seadistused</value>
+  </data>
   <data name="Contact_Admin_For_Access" xml:space="preserve">
     <value>Palun võtke ühendust saidi administraatoriga, et pakkuda juurdepääsu</value>
   </data>
@@ -448,11 +451,17 @@
   <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
     <value>Teil ei ole lubatud seda galeriid alla laadida</value>
   </data>
+  <data name="Downloads" xml:space="preserve">
+    <value>Allalaadimised</value>
+  </data>
   <data name="Drag_And_Drop" xml:space="preserve">
     <value>Lohista</value>
   </data>
   <data name="Duplicate_Item_Detected" xml:space="preserve">
     <value>Tuvastati topeltfail</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
   </data>
   <data name="EmailAddress" xml:space="preserve">
     <value>E-posti aadress</value>
@@ -676,6 +685,9 @@
   <data name="Gallery_Secret_Key_Hint" xml:space="preserve">
     <value>Palun sisesta uus salajane võti</value>
   </data>
+  <data name="Gallery_Selector" xml:space="preserve">
+    <value>Galeriivalija</value>
+  </data>
   <data name="Gallery_Selector_Title" xml:space="preserve">
     <value>Galeriivalija</value>
   </data>
@@ -694,11 +706,20 @@
   <data name="Gallery_Wipe_Success" xml:space="preserve">
     <value>Edukalt pühitud galerii</value>
   </data>
+  <data name="GDPR" xml:space="preserve">
+    <value>GDPR</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>Kindral</value>
+  </data>
   <data name="Generate" xml:space="preserve">
     <value>Genereeri</value>
   </data>
   <data name="Generating_Download" xml:space="preserve">
     <value>Allalaadimise genereerimine</value>
+  </data>
+  <data name="Gotify" xml:space="preserve">
+    <value>Gotify</value>
   </data>
   <data name="Group" xml:space="preserve">
     <value>Grupp</value>
@@ -817,6 +838,9 @@
   <data name="Language_Name_Hint" xml:space="preserve">
     <value>Palun vali kuvamiskeel</value>
   </data>
+  <data name="Layout" xml:space="preserve">
+    <value>Layout</value>
+  </data>
   <data name="Link" xml:space="preserve">
     <value>Link</value>
   </data>
@@ -904,6 +928,12 @@
   <data name="None" xml:space="preserve">
     <value>Mitte ükski</value>
   </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>Teatised</value>
+  </data>
+  <data name="Ntfy" xml:space="preserve">
+    <value>Ntfy</value>
+  </data>
   <data name="Open" xml:space="preserve">
     <value>Avage</value>
   </data>
@@ -966,6 +996,9 @@
   </data>
   <data name="Presentation" xml:space="preserve">
     <value>Esitlus</value>
+  </data>
+  <data name="QR_Codes" xml:space="preserve">
+    <value>QR-koodid</value>
   </data>
   <data name="Random" xml:space="preserve">
     <value>Juhuslik</value>
@@ -1080,6 +1113,9 @@
   </data>
   <data name="Review_Id_Missing" xml:space="preserve">
     <value>Elemendi ID leidmine nurjus</value>
+  </data>
+  <data name="Reviews" xml:space="preserve">
+    <value>Arvustused</value>
   </data>
   <data name="Save_QR" xml:space="preserve">
     <value>Salvesta QR</value>
@@ -1453,9 +1489,6 @@
   <data name="Settings_GallerySelector_ShowUsernames_Label" xml:space="preserve">
     <value>Galerii omanike näitamine</value>
   </data>
-  <data name="Settings_Gotify" xml:space="preserve">
-    <value>Gotify</value>
-  </data>
   <data name="Settings_Gotify_Enabled_Help" xml:space="preserve">
     <value>Kas saata Ntfy teateid</value>
   </data>
@@ -1528,9 +1561,6 @@
   <data name="Settings_Languages_Enabled_Label" xml:space="preserve">
     <value>Lubatud</value>
   </data>
-  <data name="Settings_Ntfy" xml:space="preserve">
-    <value>Ntfy</value>
-  </data>
   <data name="Settings_Ntfy_Enabled_Help" xml:space="preserve">
     <value>Kas saata Ntfy teateid</value>
   </data>
@@ -1599,9 +1629,6 @@
   </data>
   <data name="Settings_Slideshow_Share_Slide_Label" xml:space="preserve">
     <value>Kaasa Share Slide</value>
-  </data>
-  <data name="Settings_Smtp" xml:space="preserve">
-    <value>Email</value>
   </data>
   <data name="Settings_Smtp_Display_Name_Help" xml:space="preserve">
     <value>Kasutajasõbralik saatja nimi</value>
@@ -1672,6 +1699,21 @@
   <data name="Settings_Themes_Enabled_Label" xml:space="preserve">
     <value>Lubatud</value>
   </data>
+  <data name="Settings_Trackers" xml:space="preserve">
+    <value>Jälitajad</value>
+  </data>
+  <data name="Settings_Trackers_UmamiEndpoint_Help" xml:space="preserve">
+    <value>Umami serveri aadress</value>
+  </data>
+  <data name="Settings_Trackers_UmamiEndpoint_Label" xml:space="preserve">
+    <value>Endpoint</value>
+  </data>
+  <data name="Settings_Trackers_UmamiWebsiteId_Help" xml:space="preserve">
+    <value>Umami veebileht Id</value>
+  </data>
+  <data name="Settings_Trackers_UmamiWebsiteId_Label" xml:space="preserve">
+    <value>Veebilehe ID</value>
+  </data>
   <data name="Share_Code" xml:space="preserve">
     <value>Aktsia kood</value>
   </data>
@@ -1680,6 +1722,9 @@
   </data>
   <data name="Single" xml:space="preserve">
     <value>Üksik</value>
+  </data>
+  <data name="Size_Limits" xml:space="preserve">
+    <value>Suurusepiirangud</value>
   </data>
   <data name="Slideshow" xml:space="preserve">
     <value>Slaidiseanss</value>
@@ -1719,6 +1764,9 @@
   </data>
   <data name="Total" xml:space="preserve">
     <value>Kokku</value>
+  </data>
+  <data name="Umami" xml:space="preserve">
+    <value>Umami</value>
   </data>
   <data name="Unavailable" xml:space="preserve">
     <value>Pole saadaval</value>
@@ -1803,6 +1851,9 @@
   </data>
   <data name="Uploader" xml:space="preserve">
     <value>Üleslaadija</value>
+  </data>
+  <data name="Uploads" xml:space="preserve">
+    <value>Üleslaadib</value>
   </data>
   <data name="User" xml:space="preserve">
     <value>Kasutaja</value>
@@ -1911,6 +1962,9 @@
   </data>
   <data name="View" xml:space="preserve">
     <value>Vaade</value>
+  </data>
+  <data name="View_Options" xml:space="preserve">
+    <value>Vaade Valikud</value>
   </data>
   <data name="Visit" xml:space="preserve">
     <value>Külasta</value>

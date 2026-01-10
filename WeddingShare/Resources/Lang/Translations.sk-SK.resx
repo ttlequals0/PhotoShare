@@ -352,6 +352,9 @@
   <data name="Code" xml:space="preserve">
     <value>Kód</value>
   </data>
+  <data name="Common_Settings" xml:space="preserve">
+    <value>Spoločné nastavenia</value>
+  </data>
   <data name="Contact_Admin_For_Access" xml:space="preserve">
     <value>Prosím kontaktujte administrátora stránky, aby poskytol prístup</value>
   </data>
@@ -448,11 +451,17 @@
   <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
     <value>Nie ste oprávnení stiahnuť si túto galériu</value>
   </data>
+  <data name="Downloads" xml:space="preserve">
+    <value>Sťahovanie</value>
+  </data>
   <data name="Drag_And_Drop" xml:space="preserve">
     <value>Drag</value>
   </data>
   <data name="Duplicate_Item_Detected" xml:space="preserve">
     <value>Duplikovať detekovaný súbor</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>E- mail</value>
   </data>
   <data name="EmailAddress" xml:space="preserve">
     <value>E-mailová adresa</value>
@@ -676,6 +685,9 @@
   <data name="Gallery_Secret_Key_Hint" xml:space="preserve">
     <value>Prosím zadajte nový tajný kľúč</value>
   </data>
+  <data name="Gallery_Selector" xml:space="preserve">
+    <value>Výber galérií</value>
+  </data>
   <data name="Gallery_Selector_Title" xml:space="preserve">
     <value>Výber galérií</value>
   </data>
@@ -694,11 +706,20 @@
   <data name="Gallery_Wipe_Success" xml:space="preserve">
     <value>Úspešne vymazaná galéria</value>
   </data>
+  <data name="GDPR" xml:space="preserve">
+    <value>GDPR</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>Všeobecné</value>
+  </data>
   <data name="Generate" xml:space="preserve">
     <value>Generovať</value>
   </data>
   <data name="Generating_Download" xml:space="preserve">
     <value>Generujem sťahovanie</value>
+  </data>
+  <data name="Gotify" xml:space="preserve">
+    <value>GotifyName</value>
   </data>
   <data name="Group" xml:space="preserve">
     <value>Skupina</value>
@@ -817,6 +838,9 @@
   <data name="Language_Name_Hint" xml:space="preserve">
     <value>Prosím vyberte jazyk zobrazenia</value>
   </data>
+  <data name="Layout" xml:space="preserve">
+    <value>Rozloženie</value>
+  </data>
   <data name="Link" xml:space="preserve">
     <value>Spojenie</value>
   </data>
@@ -904,6 +928,12 @@
   <data name="None" xml:space="preserve">
     <value>Žiadne</value>
   </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>Oznámenia</value>
+  </data>
+  <data name="Ntfy" xml:space="preserve">
+    <value>Ntfy</value>
+  </data>
   <data name="Open" xml:space="preserve">
     <value>Otvoriť</value>
   </data>
@@ -966,6 +996,9 @@
   </data>
   <data name="Presentation" xml:space="preserve">
     <value>Prezentácia</value>
+  </data>
+  <data name="QR_Codes" xml:space="preserve">
+    <value>QR kódy</value>
   </data>
   <data name="Random" xml:space="preserve">
     <value>Náhodne</value>
@@ -1080,6 +1113,9 @@
   </data>
   <data name="Review_Id_Missing" xml:space="preserve">
     <value>Nepodarilo sa nájsť položku ID</value>
+  </data>
+  <data name="Reviews" xml:space="preserve">
+    <value>Preskúmanie</value>
   </data>
   <data name="Save_QR" xml:space="preserve">
     <value>Uložiť QR</value>
@@ -1453,9 +1489,6 @@
   <data name="Settings_GallerySelector_ShowUsernames_Label" xml:space="preserve">
     <value>Zobraziť majiteľov galérie</value>
   </data>
-  <data name="Settings_Gotify" xml:space="preserve">
-    <value>GotifyName</value>
-  </data>
   <data name="Settings_Gotify_Enabled_Help" xml:space="preserve">
     <value>Ak sa majú zaslať upozornenia Ntfy</value>
   </data>
@@ -1528,9 +1561,6 @@
   <data name="Settings_Languages_Enabled_Label" xml:space="preserve">
     <value>Povolené</value>
   </data>
-  <data name="Settings_Ntfy" xml:space="preserve">
-    <value>Ntfy</value>
-  </data>
   <data name="Settings_Ntfy_Enabled_Help" xml:space="preserve">
     <value>Ak sa majú zaslať upozornenia Ntfy</value>
   </data>
@@ -1599,9 +1629,6 @@
   </data>
   <data name="Settings_Slideshow_Share_Slide_Label" xml:space="preserve">
     <value>Zahrnúť prezentáciu zdieľania</value>
-  </data>
-  <data name="Settings_Smtp" xml:space="preserve">
-    <value>E- mail</value>
   </data>
   <data name="Settings_Smtp_Display_Name_Help" xml:space="preserve">
     <value>Užívateľsky priateľské meno odosielateľa</value>
@@ -1672,6 +1699,21 @@
   <data name="Settings_Themes_Enabled_Label" xml:space="preserve">
     <value>Povolené</value>
   </data>
+  <data name="Settings_Trackers" xml:space="preserve">
+    <value>Trackery</value>
+  </data>
+  <data name="Settings_Trackers_UmamiEndpoint_Help" xml:space="preserve">
+    <value>Adresa servera Umami</value>
+  </data>
+  <data name="Settings_Trackers_UmamiEndpoint_Label" xml:space="preserve">
+    <value>Koncový ukazovateľ</value>
+  </data>
+  <data name="Settings_Trackers_UmamiWebsiteId_Help" xml:space="preserve">
+    <value>Webová stránka Umami ID</value>
+  </data>
+  <data name="Settings_Trackers_UmamiWebsiteId_Label" xml:space="preserve">
+    <value>Id</value>
+  </data>
   <data name="Share_Code" xml:space="preserve">
     <value>Kód zdieľania</value>
   </data>
@@ -1680,6 +1722,9 @@
   </data>
   <data name="Single" xml:space="preserve">
     <value>Jednoduchá</value>
+  </data>
+  <data name="Size_Limits" xml:space="preserve">
+    <value>Limity veľkosti</value>
   </data>
   <data name="Slideshow" xml:space="preserve">
     <value>Prezentácia</value>
@@ -1719,6 +1764,9 @@
   </data>
   <data name="Total" xml:space="preserve">
     <value>Spolu</value>
+  </data>
+  <data name="Umami" xml:space="preserve">
+    <value>Umami</value>
   </data>
   <data name="Unavailable" xml:space="preserve">
     <value>Nie je k dispozícii</value>
@@ -1803,6 +1851,9 @@
   </data>
   <data name="Uploader" xml:space="preserve">
     <value>Uploader</value>
+  </data>
+  <data name="Uploads" xml:space="preserve">
+    <value>Uploady</value>
   </data>
   <data name="User" xml:space="preserve">
     <value>Užívateľ</value>
@@ -1911,6 +1962,9 @@
   </data>
   <data name="View" xml:space="preserve">
     <value>Zobraziť</value>
+  </data>
+  <data name="View_Options" xml:space="preserve">
+    <value>Možnosti zobrazenia</value>
   </data>
   <data name="Visit" xml:space="preserve">
     <value>Návšteva</value>

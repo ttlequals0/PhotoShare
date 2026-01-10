@@ -352,6 +352,9 @@
   <data name="Code" xml:space="preserve">
     <value>المدونة</value>
   </data>
+  <data name="Common_Settings" xml:space="preserve">
+    <value>مجموعة مشتركة</value>
+  </data>
   <data name="Contact_Admin_For_Access" xml:space="preserve">
     <value>يرجى الاتصال بمدير الموقع لتوفير إمكانية الوصول</value>
   </data>
@@ -448,11 +451,17 @@
   <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
     <value>لا يسمح لك بتحميل هذا المعرض</value>
   </data>
+  <data name="Downloads" xml:space="preserve">
+    <value>الحمولات</value>
+  </data>
   <data name="Drag_And_Drop" xml:space="preserve">
     <value>Drag</value>
   </data>
   <data name="Duplicate_Item_Detected" xml:space="preserve">
     <value>ملف مزدوج مكتشف</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
   </data>
   <data name="EmailAddress" xml:space="preserve">
     <value>عنوان البريد الإلكتروني</value>
@@ -676,6 +685,9 @@
   <data name="Gallery_Secret_Key_Hint" xml:space="preserve">
     <value>من فضلك أدخل مفتاح سر جديد</value>
   </data>
+  <data name="Gallery_Selector" xml:space="preserve">
+    <value>Gallery Selector</value>
+  </data>
   <data name="Gallery_Selector_Title" xml:space="preserve">
     <value>Gallery Selector</value>
   </data>
@@ -694,11 +706,20 @@
   <data name="Gallery_Wipe_Success" xml:space="preserve">
     <value>معرض مبيد بنجاح</value>
   </data>
+  <data name="GDPR" xml:space="preserve">
+    <value>الناتج المحلي الإجمالي</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>معلومات عامة</value>
+  </data>
   <data name="Generate" xml:space="preserve">
     <value>الجيل</value>
   </data>
   <data name="Generating_Download" xml:space="preserve">
     <value>توليد الحمولة</value>
+  </data>
+  <data name="Gotify" xml:space="preserve">
+    <value>التحصيل</value>
   </data>
   <data name="Group" xml:space="preserve">
     <value>المجموعة</value>
@@ -817,6 +838,9 @@
   <data name="Language_Name_Hint" xml:space="preserve">
     <value>يرجى اختيار لغة العرض</value>
   </data>
+  <data name="Layout" xml:space="preserve">
+    <value>#</value>
+  </data>
   <data name="Link" xml:space="preserve">
     <value>Link</value>
   </data>
@@ -904,6 +928,12 @@
   <data name="None" xml:space="preserve">
     <value>لا</value>
   </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>الإخطارات</value>
+  </data>
+  <data name="Ntfy" xml:space="preserve">
+    <value>Ntfy</value>
+  </data>
   <data name="Open" xml:space="preserve">
     <value>مفتوح</value>
   </data>
@@ -966,6 +996,9 @@
   </data>
   <data name="Presentation" xml:space="preserve">
     <value>عرض</value>
+  </data>
+  <data name="QR_Codes" xml:space="preserve">
+    <value>QR Codes</value>
   </data>
   <data name="Random" xml:space="preserve">
     <value>الرشوة</value>
@@ -1080,6 +1113,9 @@
   </data>
   <data name="Review_Id_Missing" xml:space="preserve">
     <value>لا يمكن العثور على بند</value>
+  </data>
+  <data name="Reviews" xml:space="preserve">
+    <value>الاستعراضات</value>
   </data>
   <data name="Save_QR" xml:space="preserve">
     <value>أنقذوا (كيو آر)</value>
@@ -1453,9 +1489,6 @@
   <data name="Settings_GallerySelector_ShowUsernames_Label" xml:space="preserve">
     <value>مالكو معرض</value>
   </data>
-  <data name="Settings_Gotify" xml:space="preserve">
-    <value>التحصيل</value>
-  </data>
   <data name="Settings_Gotify_Enabled_Help" xml:space="preserve">
     <value>هل ينبغي إرسال إنذارات نتيفي</value>
   </data>
@@ -1528,9 +1561,6 @@
   <data name="Settings_Languages_Enabled_Label" xml:space="preserve">
     <value>Enabled</value>
   </data>
-  <data name="Settings_Ntfy" xml:space="preserve">
-    <value>Ntfy</value>
-  </data>
   <data name="Settings_Ntfy_Enabled_Help" xml:space="preserve">
     <value>هل ينبغي إرسال إنذارات نتيفي</value>
   </data>
@@ -1599,9 +1629,6 @@
   </data>
   <data name="Settings_Slideshow_Share_Slide_Label" xml:space="preserve">
     <value>Include Share Slide</value>
-  </data>
-  <data name="Settings_Smtp" xml:space="preserve">
-    <value>Email</value>
   </data>
   <data name="Settings_Smtp_Display_Name_Help" xml:space="preserve">
     <value>اسم المرسل الصديق للمستعمل</value>
@@ -1672,6 +1699,21 @@
   <data name="Settings_Themes_Enabled_Label" xml:space="preserve">
     <value>Enabled</value>
   </data>
+  <data name="Settings_Trackers" xml:space="preserve">
+    <value>مقطورات</value>
+  </data>
+  <data name="Settings_Trackers_UmamiEndpoint_Help" xml:space="preserve">
+    <value>عنوان خادم أمامي</value>
+  </data>
+  <data name="Settings_Trackers_UmamiEndpoint_Label" xml:space="preserve">
+    <value>نقطة النهاية</value>
+  </data>
+  <data name="Settings_Trackers_UmamiWebsiteId_Help" xml:space="preserve">
+    <value>موقع أمامي على الإنترنت</value>
+  </data>
+  <data name="Settings_Trackers_UmamiWebsiteId_Label" xml:space="preserve">
+    <value>الموقع الشبكي Id</value>
+  </data>
   <data name="Share_Code" xml:space="preserve">
     <value>Share Code</value>
   </data>
@@ -1680,6 +1722,9 @@
   </data>
   <data name="Single" xml:space="preserve">
     <value>واحدة</value>
+  </data>
+  <data name="Size_Limits" xml:space="preserve">
+    <value>حدود الحجم</value>
   </data>
   <data name="Slideshow" xml:space="preserve">
     <value>Slideshow</value>
@@ -1719,6 +1764,9 @@
   </data>
   <data name="Total" xml:space="preserve">
     <value>المجموع</value>
+  </data>
+  <data name="Umami" xml:space="preserve">
+    <value>Umami</value>
   </data>
   <data name="Unavailable" xml:space="preserve">
     <value>غير متاح</value>
@@ -1803,6 +1851,9 @@
   </data>
   <data name="Uploader" xml:space="preserve">
     <value>الحمولة</value>
+  </data>
+  <data name="Uploads" xml:space="preserve">
+    <value>الحمولات</value>
   </data>
   <data name="User" xml:space="preserve">
     <value>مستخدم</value>
@@ -1911,6 +1962,9 @@
   </data>
   <data name="View" xml:space="preserve">
     <value>View</value>
+  </data>
+  <data name="View_Options" xml:space="preserve">
+    <value>خيارات اليقظة</value>
   </data>
   <data name="Visit" xml:space="preserve">
     <value>زيارة</value>

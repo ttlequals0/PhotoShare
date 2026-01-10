@@ -352,6 +352,9 @@
   <data name="Code" xml:space="preserve">
     <value>Kodo</value>
   </data>
+  <data name="Common_Settings" xml:space="preserve">
+    <value>Oftaj aranĝoj</value>
+  </data>
   <data name="Contact_Admin_For_Access" xml:space="preserve">
     <value>Bonvolu kontakti retejon administranto por provizi aliron</value>
   </data>
@@ -448,11 +451,17 @@
   <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
     <value>Vi ne estas aprobita por elŝuti tiun galerion</value>
   </data>
+  <data name="Downloads" xml:space="preserve">
+    <value>Downloads</value>
+  </data>
   <data name="Drag_And_Drop" xml:space="preserve">
     <value>Drag</value>
   </data>
   <data name="Duplicate_Item_Detected" xml:space="preserve">
     <value>Duplika dosiero detektis</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Retpoŝto</value>
   </data>
   <data name="EmailAddress" xml:space="preserve">
     <value>Retpoŝto</value>
@@ -676,6 +685,9 @@
   <data name="Gallery_Secret_Key_Hint" xml:space="preserve">
     <value>Bonvolu eniri novan sekretan ŝlosilon</value>
   </data>
+  <data name="Gallery_Selector" xml:space="preserve">
+    <value>Elektu galerion</value>
+  </data>
   <data name="Gallery_Selector_Title" xml:space="preserve">
     <value>Elektu galerion</value>
   </data>
@@ -694,11 +706,20 @@
   <data name="Gallery_Wipe_Success" xml:space="preserve">
     <value>Sukcese forviŝita galerio</value>
   </data>
+  <data name="GDPR" xml:space="preserve">
+    <value>GDPR</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>Ĝenerala generalo</value>
+  </data>
   <data name="Generate" xml:space="preserve">
     <value>Generita</value>
   </data>
   <data name="Generating_Download" xml:space="preserve">
     <value>Mortigo</value>
+  </data>
+  <data name="Gotify" xml:space="preserve">
+    <value>Gotify</value>
   </data>
   <data name="Group" xml:space="preserve">
     <value>Grupo de grupo</value>
@@ -817,6 +838,9 @@
   <data name="Language_Name_Hint" xml:space="preserve">
     <value>Bonvolu elekti ekranan lingvon</value>
   </data>
+  <data name="Layout" xml:space="preserve">
+    <value>Lavit</value>
+  </data>
   <data name="Link" xml:space="preserve">
     <value>Ligiloj</value>
   </data>
@@ -904,6 +928,12 @@
   <data name="None" xml:space="preserve">
     <value>Neniu</value>
   </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>Notifications</value>
+  </data>
+  <data name="Ntfy" xml:space="preserve">
+    <value>Ntfy</value>
+  </data>
   <data name="Open" xml:space="preserve">
     <value>Malfermita</value>
   </data>
@@ -966,6 +996,9 @@
   </data>
   <data name="Presentation" xml:space="preserve">
     <value>Prezento</value>
+  </data>
+  <data name="QR_Codes" xml:space="preserve">
+    <value>QR Codes</value>
   </data>
   <data name="Random" xml:space="preserve">
     <value>Akcidento</value>
@@ -1080,6 +1113,9 @@
   </data>
   <data name="Review_Id_Missing" xml:space="preserve">
     <value>Mi ne povas trovi eron, kiun mi</value>
+  </data>
+  <data name="Reviews" xml:space="preserve">
+    <value>Revizioj</value>
   </data>
   <data name="Save_QR" xml:space="preserve">
     <value>Savi QR</value>
@@ -1453,9 +1489,6 @@
   <data name="Settings_GallerySelector_ShowUsernames_Label" xml:space="preserve">
     <value>Show Gallery Owners</value>
   </data>
-  <data name="Settings_Gotify" xml:space="preserve">
-    <value>Gotify</value>
-  </data>
   <data name="Settings_Gotify_Enabled_Help" xml:space="preserve">
     <value>Do, se vi estus senditaj</value>
   </data>
@@ -1528,9 +1561,6 @@
   <data name="Settings_Languages_Enabled_Label" xml:space="preserve">
     <value>Enabled</value>
   </data>
-  <data name="Settings_Ntfy" xml:space="preserve">
-    <value>Ntfy</value>
-  </data>
   <data name="Settings_Ntfy_Enabled_Help" xml:space="preserve">
     <value>Do, se vi estus senditaj</value>
   </data>
@@ -1599,9 +1629,6 @@
   </data>
   <data name="Settings_Slideshow_Share_Slide_Label" xml:space="preserve">
     <value>Inkludas Share Slide</value>
-  </data>
-  <data name="Settings_Smtp" xml:space="preserve">
-    <value>Retpoŝto</value>
   </data>
   <data name="Settings_Smtp_Display_Name_Help" xml:space="preserve">
     <value>La uzanto ĝentila sendinto nomo</value>
@@ -1672,6 +1699,21 @@
   <data name="Settings_Themes_Enabled_Label" xml:space="preserve">
     <value>Enabled</value>
   </data>
+  <data name="Settings_Trackers" xml:space="preserve">
+    <value>Trackers</value>
+  </data>
+  <data name="Settings_Trackers_UmamiEndpoint_Help" xml:space="preserve">
+    <value>La Umami-serviladreso</value>
+  </data>
+  <data name="Settings_Trackers_UmamiEndpoint_Label" xml:space="preserve">
+    <value>Finpunkto</value>
+  </data>
+  <data name="Settings_Trackers_UmamiWebsiteId_Help" xml:space="preserve">
+    <value>La retejo Id</value>
+  </data>
+  <data name="Settings_Trackers_UmamiWebsiteId_Label" xml:space="preserve">
+    <value>Retejo Id</value>
+  </data>
   <data name="Share_Code" xml:space="preserve">
     <value>Share Code</value>
   </data>
@@ -1680,6 +1722,9 @@
   </data>
   <data name="Single" xml:space="preserve">
     <value>Ununura unuopaĵo</value>
+  </data>
+  <data name="Size_Limits" xml:space="preserve">
+    <value>Size Limoj</value>
   </data>
   <data name="Slideshow" xml:space="preserve">
     <value>Slideshow</value>
@@ -1719,6 +1764,9 @@
   </data>
   <data name="Total" xml:space="preserve">
     <value>Totala</value>
+  </data>
+  <data name="Umami" xml:space="preserve">
+    <value>Umami</value>
   </data>
   <data name="Unavailable" xml:space="preserve">
     <value>Nehavebla</value>
@@ -1803,6 +1851,9 @@
   </data>
   <data name="Uploader" xml:space="preserve">
     <value>Uploader</value>
+  </data>
+  <data name="Uploads" xml:space="preserve">
+    <value>Uploads</value>
   </data>
   <data name="User" xml:space="preserve">
     <value>Uzanta Uzanto</value>
@@ -1911,6 +1962,9 @@
   </data>
   <data name="View" xml:space="preserve">
     <value>Vido</value>
+  </data>
+  <data name="View_Options" xml:space="preserve">
+    <value>Vido Opcioj</value>
   </data>
   <data name="Visit" xml:space="preserve">
     <value>Vizito</value>

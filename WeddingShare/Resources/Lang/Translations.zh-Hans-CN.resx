@@ -352,6 +352,9 @@
   <data name="Code" xml:space="preserve">
     <value>代码</value>
   </data>
+  <data name="Common_Settings" xml:space="preserve">
+    <value>常见设置</value>
+  </data>
   <data name="Contact_Admin_For_Access" xml:space="preserve">
     <value>请联系网站管理员提供访问</value>
   </data>
@@ -448,11 +451,17 @@
   <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
     <value>您无权下载此画廊</value>
   </data>
+  <data name="Downloads" xml:space="preserve">
+    <value>下载</value>
+  </data>
   <data name="Drag_And_Drop" xml:space="preserve">
     <value>拖动</value>
   </data>
   <data name="Duplicate_Item_Detected" xml:space="preserve">
     <value>检测到复制文件</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>电子邮件</value>
   </data>
   <data name="EmailAddress" xml:space="preserve">
     <value>电子邮件地址</value>
@@ -676,6 +685,9 @@
   <data name="Gallery_Secret_Key_Hint" xml:space="preserve">
     <value>请输入新的密钥</value>
   </data>
+  <data name="Gallery_Selector" xml:space="preserve">
+    <value>图片库选择器</value>
+  </data>
   <data name="Gallery_Selector_Title" xml:space="preserve">
     <value>图片库选择器</value>
   </data>
@@ -694,11 +706,20 @@
   <data name="Gallery_Wipe_Success" xml:space="preserve">
     <value>成功擦除画廊</value>
   </data>
+  <data name="GDPR" xml:space="preserve">
+    <value>国内生产总值</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>常规</value>
+  </data>
   <data name="Generate" xml:space="preserve">
     <value>生成</value>
   </data>
   <data name="Generating_Download" xml:space="preserve">
     <value>生成下载</value>
+  </data>
+  <data name="Gotify" xml:space="preserve">
+    <value>歌迪丝</value>
   </data>
   <data name="Group" xml:space="preserve">
     <value>组</value>
@@ -817,6 +838,9 @@
   <data name="Language_Name_Hint" xml:space="preserve">
     <value>请选择显示语言</value>
   </data>
+  <data name="Layout" xml:space="preserve">
+    <value>版式</value>
+  </data>
   <data name="Link" xml:space="preserve">
     <value>链接</value>
   </data>
@@ -904,6 +928,12 @@
   <data name="None" xml:space="preserve">
     <value>无</value>
   </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>通知</value>
+  </data>
+  <data name="Ntfy" xml:space="preserve">
+    <value>不对</value>
+  </data>
   <data name="Open" xml:space="preserve">
     <value>打开</value>
   </data>
@@ -966,6 +996,9 @@
   </data>
   <data name="Presentation" xml:space="preserve">
     <value>列报</value>
+  </data>
+  <data name="QR_Codes" xml:space="preserve">
+    <value>QR 代码</value>
   </data>
   <data name="Random" xml:space="preserve">
     <value>随机</value>
@@ -1080,6 +1113,9 @@
   </data>
   <data name="Review_Id_Missing" xml:space="preserve">
     <value>找不到项目 Id</value>
+  </data>
+  <data name="Reviews" xml:space="preserve">
+    <value>审查</value>
   </data>
   <data name="Save_QR" xml:space="preserve">
     <value>保存 QR</value>
@@ -1453,9 +1489,6 @@
   <data name="Settings_GallerySelector_ShowUsernames_Label" xml:space="preserve">
     <value>显示图片库所有者</value>
   </data>
-  <data name="Settings_Gotify" xml:space="preserve">
-    <value>歌迪丝</value>
-  </data>
   <data name="Settings_Gotify_Enabled_Help" xml:space="preserve">
     <value>是否发送 Ntfy 提醒</value>
   </data>
@@ -1528,9 +1561,6 @@
   <data name="Settings_Languages_Enabled_Label" xml:space="preserve">
     <value>已启用</value>
   </data>
-  <data name="Settings_Ntfy" xml:space="preserve">
-    <value>不对</value>
-  </data>
   <data name="Settings_Ntfy_Enabled_Help" xml:space="preserve">
     <value>是否发送 Ntfy 提醒</value>
   </data>
@@ -1599,9 +1629,6 @@
   </data>
   <data name="Settings_Slideshow_Share_Slide_Label" xml:space="preserve">
     <value>包含共享幻灯片</value>
-  </data>
-  <data name="Settings_Smtp" xml:space="preserve">
-    <value>电子邮件</value>
   </data>
   <data name="Settings_Smtp_Display_Name_Help" xml:space="preserve">
     <value>用户友好发送者名称</value>
@@ -1672,6 +1699,21 @@
   <data name="Settings_Themes_Enabled_Label" xml:space="preserve">
     <value>已启用</value>
   </data>
+  <data name="Settings_Trackers" xml:space="preserve">
+    <value>跟踪器</value>
+  </data>
+  <data name="Settings_Trackers_UmamiEndpoint_Help" xml:space="preserve">
+    <value>Umami 服务器地址</value>
+  </data>
+  <data name="Settings_Trackers_UmamiEndpoint_Label" xml:space="preserve">
+    <value>终点</value>
+  </data>
+  <data name="Settings_Trackers_UmamiWebsiteId_Help" xml:space="preserve">
+    <value> Um美网站 Id</value>
+  </data>
+  <data name="Settings_Trackers_UmamiWebsiteId_Label" xml:space="preserve">
+    <value>网站编号</value>
+  </data>
   <data name="Share_Code" xml:space="preserve">
     <value>共享代码</value>
   </data>
@@ -1680,6 +1722,9 @@
   </data>
   <data name="Single" xml:space="preserve">
     <value>单身</value>
+  </data>
+  <data name="Size_Limits" xml:space="preserve">
+    <value>大小限制</value>
   </data>
   <data name="Slideshow" xml:space="preserve">
     <value>幻灯片放映</value>
@@ -1719,6 +1764,9 @@
   </data>
   <data name="Total" xml:space="preserve">
     <value>共计</value>
+  </data>
+  <data name="Umami" xml:space="preserve">
+    <value> Um美</value>
   </data>
   <data name="Unavailable" xml:space="preserve">
     <value>无法获取</value>
@@ -1803,6 +1851,9 @@
   </data>
   <data name="Uploader" xml:space="preserve">
     <value>上传器</value>
+  </data>
+  <data name="Uploads" xml:space="preserve">
+    <value>上传</value>
   </data>
   <data name="User" xml:space="preserve">
     <value>用户</value>
@@ -1911,6 +1962,9 @@
   </data>
   <data name="View" xml:space="preserve">
     <value>视图</value>
+  </data>
+  <data name="View_Options" xml:space="preserve">
+    <value>查看选项</value>
   </data>
   <data name="Visit" xml:space="preserve">
     <value>访问</value>

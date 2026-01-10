@@ -352,6 +352,9 @@
   <data name="Code" xml:space="preserve">
     <value>Коди</value>
   </data>
+  <data name="Common_Settings" xml:space="preserve">
+    <value>Загальні налаштування</value>
+  </data>
   <data name="Contact_Admin_For_Access" xml:space="preserve">
     <value>Будь ласка, зв'яжіться з адміністратором сайту, щоб забезпечити доступ</value>
   </data>
@@ -448,11 +451,17 @@
   <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
     <value>Ви не авторизовані для завантаження цієї галереї</value>
   </data>
+  <data name="Downloads" xml:space="preserve">
+    <value>Завантаження</value>
+  </data>
   <data name="Drag_And_Drop" xml:space="preserve">
     <value>Проксимус</value>
   </data>
   <data name="Duplicate_Item_Detected" xml:space="preserve">
     <value>Дублікатний файл виявлений</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Веб-сайт</value>
   </data>
   <data name="EmailAddress" xml:space="preserve">
     <value>Адреса електронної пошти</value>
@@ -676,6 +685,9 @@
   <data name="Gallery_Secret_Key_Hint" xml:space="preserve">
     <value>Будь ласка, введіть новий секретний ключ</value>
   </data>
+  <data name="Gallery_Selector" xml:space="preserve">
+    <value>Галерея Selector</value>
+  </data>
   <data name="Gallery_Selector_Title" xml:space="preserve">
     <value>Галерея Selector</value>
   </data>
@@ -694,11 +706,20 @@
   <data name="Gallery_Wipe_Success" xml:space="preserve">
     <value>Успішно протерти галерею</value>
   </data>
+  <data name="GDPR" xml:space="preserve">
+    <value>ПРО НАС</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>Головна</value>
+  </data>
   <data name="Generate" xml:space="preserve">
     <value>Генерація</value>
   </data>
   <data name="Generating_Download" xml:space="preserve">
     <value>Генерування Завантажити</value>
+  </data>
+  <data name="Gotify" xml:space="preserve">
+    <value>Про нас</value>
   </data>
   <data name="Group" xml:space="preserve">
     <value>Група</value>
@@ -817,6 +838,9 @@
   <data name="Language_Name_Hint" xml:space="preserve">
     <value>Виберіть мову відображення</value>
   </data>
+  <data name="Layout" xml:space="preserve">
+    <value>Прованс</value>
+  </data>
   <data name="Link" xml:space="preserve">
     <value>Посилання</value>
   </data>
@@ -904,6 +928,12 @@
   <data name="None" xml:space="preserve">
     <value>Ні</value>
   </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>Повідомлення</value>
+  </data>
+  <data name="Ntfy" xml:space="preserve">
+    <value>Нтфій</value>
+  </data>
   <data name="Open" xml:space="preserve">
     <value>Відкрито</value>
   </data>
@@ -966,6 +996,9 @@
   </data>
   <data name="Presentation" xml:space="preserve">
     <value>Презентація</value>
+  </data>
+  <data name="QR_Codes" xml:space="preserve">
+    <value>QR коди</value>
   </data>
   <data name="Random" xml:space="preserve">
     <value>Випадковий</value>
@@ -1080,6 +1113,9 @@
   </data>
   <data name="Review_Id_Missing" xml:space="preserve">
     <value>Не знайшовши елемент Id</value>
+  </data>
+  <data name="Reviews" xml:space="preserve">
+    <value>Відгуки</value>
   </data>
   <data name="Save_QR" xml:space="preserve">
     <value>Зберегти QR</value>
@@ -1453,9 +1489,6 @@
   <data name="Settings_GallerySelector_ShowUsernames_Label" xml:space="preserve">
     <value>Показати власника галереї</value>
   </data>
-  <data name="Settings_Gotify" xml:space="preserve">
-    <value>Про нас</value>
-  </data>
   <data name="Settings_Gotify_Enabled_Help" xml:space="preserve">
     <value>Чи буде відправлено повідомлення Ntfy</value>
   </data>
@@ -1528,9 +1561,6 @@
   <data name="Settings_Languages_Enabled_Label" xml:space="preserve">
     <value>Увімкнути</value>
   </data>
-  <data name="Settings_Ntfy" xml:space="preserve">
-    <value>Нтфій</value>
-  </data>
   <data name="Settings_Ntfy_Enabled_Help" xml:space="preserve">
     <value>Чи буде відправлено повідомлення Ntfy</value>
   </data>
@@ -1599,9 +1629,6 @@
   </data>
   <data name="Settings_Slideshow_Share_Slide_Label" xml:space="preserve">
     <value>Включити Share Slide</value>
-  </data>
-  <data name="Settings_Smtp" xml:space="preserve">
-    <value>Веб-сайт</value>
   </data>
   <data name="Settings_Smtp_Display_Name_Help" xml:space="preserve">
     <value>Ім'я користувача</value>
@@ -1672,6 +1699,21 @@
   <data name="Settings_Themes_Enabled_Label" xml:space="preserve">
     <value>Увімкнути</value>
   </data>
+  <data name="Settings_Trackers" xml:space="preserve">
+    <value>Відстеження</value>
+  </data>
+  <data name="Settings_Trackers_UmamiEndpoint_Help" xml:space="preserve">
+    <value>Адреса сервера Umami</value>
+  </data>
+  <data name="Settings_Trackers_UmamiEndpoint_Label" xml:space="preserve">
+    <value>Навігація</value>
+  </data>
+  <data name="Settings_Trackers_UmamiWebsiteId_Help" xml:space="preserve">
+    <value>Веб-сайт Umami</value>
+  </data>
+  <data name="Settings_Trackers_UmamiWebsiteId_Label" xml:space="preserve">
+    <value>Веб-сайт Id</value>
+  </data>
   <data name="Share_Code" xml:space="preserve">
     <value>Код акції</value>
   </data>
@@ -1680,6 +1722,9 @@
   </data>
   <data name="Single" xml:space="preserve">
     <value>Одномісний</value>
+  </data>
+  <data name="Size_Limits" xml:space="preserve">
+    <value>Розміри</value>
   </data>
   <data name="Slideshow" xml:space="preserve">
     <value>Розсилка</value>
@@ -1719,6 +1764,9 @@
   </data>
   <data name="Total" xml:space="preserve">
     <value>Всього</value>
+  </data>
+  <data name="Umami" xml:space="preserve">
+    <value>Умами</value>
   </data>
   <data name="Unavailable" xml:space="preserve">
     <value>Безоплатно</value>
@@ -1803,6 +1851,9 @@
   </data>
   <data name="Uploader" xml:space="preserve">
     <value>Завантажити</value>
+  </data>
+  <data name="Uploads" xml:space="preserve">
+    <value>Завантаження</value>
   </data>
   <data name="User" xml:space="preserve">
     <value>Користувач</value>
@@ -1911,6 +1962,9 @@
   </data>
   <data name="View" xml:space="preserve">
     <value>Переглянути</value>
+  </data>
+  <data name="View_Options" xml:space="preserve">
+    <value>Переглянути параметри</value>
   </data>
   <data name="Visit" xml:space="preserve">
     <value>Зареєструватися</value>

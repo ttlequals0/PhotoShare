@@ -352,6 +352,9 @@
   <data name="Code" xml:space="preserve">
     <value>Bộ mã</value>
   </data>
+  <data name="Common_Settings" xml:space="preserve">
+    <value>Thiết lập chung</value>
+  </data>
   <data name="Contact_Admin_For_Access" xml:space="preserve">
     <value>Vui lòng liên lạc với quản trị nơi Mạng để cung cấp truy cập</value>
   </data>
@@ -448,11 +451,17 @@
   <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
     <value>Bạn không được phép tải về triển lãm này</value>
   </data>
+  <data name="Downloads" xml:space="preserve">
+    <value>Tải về</value>
+  </data>
   <data name="Drag_And_Drop" xml:space="preserve">
     <value>Kéo</value>
   </data>
   <data name="Duplicate_Item_Detected" xml:space="preserve">
     <value>Phát hiện tập tin trùng</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
   </data>
   <data name="EmailAddress" xml:space="preserve">
     <value>Địa chỉ thư</value>
@@ -676,6 +685,9 @@
   <data name="Gallery_Secret_Key_Hint" xml:space="preserve">
     <value>Xin vui lòng nhập một phím bí mật mới</value>
   </data>
+  <data name="Gallery_Selector" xml:space="preserve">
+    <value>Trình chọn nơi trưng bày</value>
+  </data>
   <data name="Gallery_Selector_Title" xml:space="preserve">
     <value>Trình chọn nơi trưng bày</value>
   </data>
@@ -694,11 +706,20 @@
   <data name="Gallery_Wipe_Success" xml:space="preserve">
     <value>Phòng trưng bày đã được xoá thành công</value>
   </data>
+  <data name="GDPR" xml:space="preserve">
+    <value>GDPR</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>Chung</value>
+  </data>
   <data name="Generate" xml:space="preserve">
     <value>Tạo ra</value>
   </data>
   <data name="Generating_Download" xml:space="preserve">
     <value>Đang tạo ra việc tải về</value>
+  </data>
+  <data name="Gotify" xml:space="preserve">
+    <value>Đã nhận</value>
   </data>
   <data name="Group" xml:space="preserve">
     <value>Nhóm</value>
@@ -817,6 +838,9 @@
   <data name="Language_Name_Hint" xml:space="preserve">
     <value>Hãy chọn ngôn ngữ hiển thị</value>
   </data>
+  <data name="Layout" xml:space="preserve">
+    <value>Bố trí</value>
+  </data>
   <data name="Link" xml:space="preserve">
     <value>Liên kết</value>
   </data>
@@ -904,6 +928,12 @@
   <data name="None" xml:space="preserve">
     <value>Không có</value>
   </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>Thông báo Hệ thốngComment</value>
+  </data>
+  <data name="Ntfy" xml:space="preserve">
+    <value>Ntfy</value>
+  </data>
   <data name="Open" xml:space="preserve">
     <value>Mở</value>
   </data>
@@ -966,6 +996,9 @@
   </data>
   <data name="Presentation" xml:space="preserve">
     <value>Trình chiếu</value>
+  </data>
+  <data name="QR_Codes" xml:space="preserve">
+    <value>Mã QR</value>
   </data>
   <data name="Random" xml:space="preserve">
     <value>Ngẫu nhiên</value>
@@ -1080,6 +1113,9 @@
   </data>
   <data name="Review_Id_Missing" xml:space="preserve">
     <value>Không tìm thấy mục Id</value>
+  </data>
+  <data name="Reviews" xml:space="preserve">
+    <value>Xem lại</value>
   </data>
   <data name="Save_QR" xml:space="preserve">
     <value>Lưu QR</value>
@@ -1453,9 +1489,6 @@
   <data name="Settings_GallerySelector_ShowUsernames_Label" xml:space="preserve">
     <value>Hiện tên người sở hữu nơi trưng bày</value>
   </data>
-  <data name="Settings_Gotify" xml:space="preserve">
-    <value>Đã nhận</value>
-  </data>
   <data name="Settings_Gotify_Enabled_Help" xml:space="preserve">
     <value>Cảnh báo Ntaf sẽ được gửi</value>
   </data>
@@ -1528,9 +1561,6 @@
   <data name="Settings_Languages_Enabled_Label" xml:space="preserve">
     <value>Bật</value>
   </data>
-  <data name="Settings_Ntfy" xml:space="preserve">
-    <value>Ntfy</value>
-  </data>
   <data name="Settings_Ntfy_Enabled_Help" xml:space="preserve">
     <value>Cảnh báo Ntaf sẽ được gửi</value>
   </data>
@@ -1599,9 +1629,6 @@
   </data>
   <data name="Settings_Slideshow_Share_Slide_Label" xml:space="preserve">
     <value>Gồm Slide</value>
-  </data>
-  <data name="Settings_Smtp" xml:space="preserve">
-    <value>Email</value>
   </data>
   <data name="Settings_Smtp_Display_Name_Help" xml:space="preserve">
     <value>Tên bộ gửi thân thiện</value>
@@ -1672,6 +1699,21 @@
   <data name="Settings_Themes_Enabled_Label" xml:space="preserve">
     <value>Bật</value>
   </data>
+  <data name="Settings_Trackers" xml:space="preserve">
+    <value>Truyền:</value>
+  </data>
+  <data name="Settings_Trackers_UmamiEndpoint_Help" xml:space="preserve">
+    <value>Địa chỉ máy chủ Umami</value>
+  </data>
+  <data name="Settings_Trackers_UmamiEndpoint_Label" xml:space="preserve">
+    <value>Điểm kết thúc</value>
+  </data>
+  <data name="Settings_Trackers_UmamiWebsiteId_Help" xml:space="preserve">
+    <value>Trang web Id Umam</value>
+  </data>
+  <data name="Settings_Trackers_UmamiWebsiteId_Label" xml:space="preserve">
+    <value>Name</value>
+  </data>
   <data name="Share_Code" xml:space="preserve">
     <value>Mã chia sẻ</value>
   </data>
@@ -1680,6 +1722,9 @@
   </data>
   <data name="Single" xml:space="preserve">
     <value>Đơn</value>
+  </data>
+  <data name="Size_Limits" xml:space="preserve">
+    <value>Giới hạn cỡ</value>
   </data>
   <data name="Slideshow" xml:space="preserve">
     <value>Chiếu ảnh</value>
@@ -1719,6 +1764,9 @@
   </data>
   <data name="Total" xml:space="preserve">
     <value>Tổng</value>
+  </data>
+  <data name="Umami" xml:space="preserve">
+    <value>Umami</value>
   </data>
   <data name="Unavailable" xml:space="preserve">
     <value>Không sẵn sàng</value>
@@ -1803,6 +1851,9 @@
   </data>
   <data name="Uploader" xml:space="preserve">
     <value>Trình tải lên</value>
+  </data>
+  <data name="Uploads" xml:space="preserve">
+    <value>Tải lên</value>
   </data>
   <data name="User" xml:space="preserve">
     <value>Người dùng</value>
@@ -1911,6 +1962,9 @@
   </data>
   <data name="View" xml:space="preserve">
     <value>Xem</value>
+  </data>
+  <data name="View_Options" xml:space="preserve">
+    <value>Tùy chọn xem</value>
   </data>
   <data name="Visit" xml:space="preserve">
     <value>Thăm</value>

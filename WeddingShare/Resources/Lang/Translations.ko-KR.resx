@@ -352,6 +352,9 @@
   <data name="Code" xml:space="preserve">
     <value>이름 *</value>
   </data>
+  <data name="Common_Settings" xml:space="preserve">
+    <value>일반 설정</value>
+  </data>
   <data name="Contact_Admin_For_Access" xml:space="preserve">
     <value>사이트 관리자에 문의하여 액세스</value>
   </data>
@@ -448,11 +451,17 @@
   <data name="Download_Gallery_Not_Allowed" xml:space="preserve">
     <value>이 갤러리를 다운로드 할 수 없습니다</value>
   </data>
+  <data name="Downloads" xml:space="preserve">
+    <value>다운로드</value>
+  </data>
   <data name="Drag_And_Drop" xml:space="preserve">
     <value>사이트맵</value>
   </data>
   <data name="Duplicate_Item_Detected" xml:space="preserve">
     <value>중복 파일 감지</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>이름 *</value>
   </data>
   <data name="EmailAddress" xml:space="preserve">
     <value>이메일 주소</value>
@@ -676,6 +685,9 @@
   <data name="Gallery_Secret_Key_Hint" xml:space="preserve">
     <value>새로운 비밀 키 입력</value>
   </data>
+  <data name="Gallery_Selector" xml:space="preserve">
+    <value>갤러리 선택</value>
+  </data>
   <data name="Gallery_Selector_Title" xml:space="preserve">
     <value>갤러리 선택</value>
   </data>
@@ -694,11 +706,20 @@
   <data name="Gallery_Wipe_Success" xml:space="preserve">
     <value>성공적으로 닦은 갤러리</value>
   </data>
+  <data name="GDPR" xml:space="preserve">
+    <value>GDPR</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>주요사업</value>
+  </data>
   <data name="Generate" xml:space="preserve">
     <value>제품 정보</value>
   </data>
   <data name="Generating_Download" xml:space="preserve">
     <value>다운로드</value>
+  </data>
+  <data name="Gotify" xml:space="preserve">
+    <value>이름 *</value>
   </data>
   <data name="Group" xml:space="preserve">
     <value>그룹</value>
@@ -817,6 +838,9 @@
   <data name="Language_Name_Hint" xml:space="preserve">
     <value>본문 바로가기</value>
   </data>
+  <data name="Layout" xml:space="preserve">
+    <value>제품정보</value>
+  </data>
   <data name="Link" xml:space="preserve">
     <value>팟캐스트</value>
   </data>
@@ -904,6 +928,12 @@
   <data name="None" xml:space="preserve">
     <value>이름 *</value>
   </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>공지사항</value>
+  </data>
+  <data name="Ntfy" xml:space="preserve">
+    <value>뚱 베어</value>
+  </data>
   <data name="Open" xml:space="preserve">
     <value>기타</value>
   </data>
@@ -966,6 +996,9 @@
   </data>
   <data name="Presentation" xml:space="preserve">
     <value>주요연혁</value>
+  </data>
+  <data name="QR_Codes" xml:space="preserve">
+    <value>QR 코드</value>
   </data>
   <data name="Random" xml:space="preserve">
     <value>한국어</value>
@@ -1080,6 +1113,9 @@
   </data>
   <data name="Review_Id_Missing" xml:space="preserve">
     <value>아이템을 찾을 수 없습니다 Id</value>
+  </data>
+  <data name="Reviews" xml:space="preserve">
+    <value>* 이름</value>
   </data>
   <data name="Save_QR" xml:space="preserve">
     <value>QR 코드</value>
@@ -1453,9 +1489,6 @@
   <data name="Settings_GallerySelector_ShowUsernames_Label" xml:space="preserve">
     <value>Show Gallery 소유자</value>
   </data>
-  <data name="Settings_Gotify" xml:space="preserve">
-    <value>이름 *</value>
-  </data>
   <data name="Settings_Gotify_Enabled_Help" xml:space="preserve">
     <value>Ntfy 경고가 전송되어야 합니다</value>
   </data>
@@ -1528,9 +1561,6 @@
   <data name="Settings_Languages_Enabled_Label" xml:space="preserve">
     <value>이름 *</value>
   </data>
-  <data name="Settings_Ntfy" xml:space="preserve">
-    <value>뚱 베어</value>
-  </data>
   <data name="Settings_Ntfy_Enabled_Help" xml:space="preserve">
     <value>Ntfy 경고가 전송되어야 합니다</value>
   </data>
@@ -1599,9 +1629,6 @@
   </data>
   <data name="Settings_Slideshow_Share_Slide_Label" xml:space="preserve">
     <value>공유 슬라이드 포함</value>
-  </data>
-  <data name="Settings_Smtp" xml:space="preserve">
-    <value>이름 *</value>
   </data>
   <data name="Settings_Smtp_Display_Name_Help" xml:space="preserve">
     <value>사용자 친화적 인 sender 이름</value>
@@ -1672,6 +1699,21 @@
   <data name="Settings_Themes_Enabled_Label" xml:space="preserve">
     <value>이름 *</value>
   </data>
+  <data name="Settings_Trackers" xml:space="preserve">
+    <value>트래커</value>
+  </data>
+  <data name="Settings_Trackers_UmamiEndpoint_Help" xml:space="preserve">
+    <value>Umami 서버 주소</value>
+  </data>
+  <data name="Settings_Trackers_UmamiEndpoint_Label" xml:space="preserve">
+    <value>끝점</value>
+  </data>
+  <data name="Settings_Trackers_UmamiWebsiteId_Help" xml:space="preserve">
+    <value>우마미 웹 사이트 Id</value>
+  </data>
+  <data name="Settings_Trackers_UmamiWebsiteId_Label" xml:space="preserve">
+    <value>웹사이트 Id</value>
+  </data>
   <data name="Share_Code" xml:space="preserve">
     <value>공유 코드</value>
   </data>
@@ -1680,6 +1722,9 @@
   </data>
   <data name="Single" xml:space="preserve">
     <value>제품정보</value>
+  </data>
+  <data name="Size_Limits" xml:space="preserve">
+    <value>크기 제한</value>
   </data>
   <data name="Slideshow" xml:space="preserve">
     <value>슬라이드 쇼</value>
@@ -1719,6 +1764,9 @@
   </data>
   <data name="Total" xml:space="preserve">
     <value>·</value>
+  </data>
+  <data name="Umami" xml:space="preserve">
+    <value>우메다</value>
   </data>
   <data name="Unavailable" xml:space="preserve">
     <value>이용안내</value>
@@ -1803,6 +1851,9 @@
   </data>
   <data name="Uploader" xml:space="preserve">
     <value>다운로드</value>
+  </data>
+  <data name="Uploads" xml:space="preserve">
+    <value>관련 기사</value>
   </data>
   <data name="User" xml:space="preserve">
     <value>사용자 이름</value>
@@ -1911,6 +1962,9 @@
   </data>
   <data name="View" xml:space="preserve">
     <value>- 연혁</value>
+  </data>
+  <data name="View_Options" xml:space="preserve">
+    <value>옵션 보기</value>
   </data>
   <data name="Visit" xml:space="preserve">
     <value>- 연혁</value>
