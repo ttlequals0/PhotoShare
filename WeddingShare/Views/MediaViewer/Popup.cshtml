@@ -20,7 +20,7 @@
                         <div class="float-end">
                             <div class="media-viewer-like-button input-group input-group-xs">
                                 <div class="input-group-text text-primary-2 border-primary-2">
-                                    <span class="lbl-like-count w-px-50 text-center">@Model.Likes.Count</span>
+                                    <span class="lbl-like-count w-px-30 text-center">@Model.Likes.Count</span>
                                 </div>
                                 <button class="btn btn-primary-2 @(Model.Likes.HasUserLiked ? "like-button-active" : string.Empty) @(Model.Likes.CanUserLike ? "like-button" : "login-prompt")" data-action="@(Model.Likes.HasUserLiked ? "unlike" : "like")" data-like-id="@Model.Id">
                                     <i class="fa fa-thumbs-up"></i>

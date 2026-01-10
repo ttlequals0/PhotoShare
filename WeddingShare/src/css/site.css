@@ -12,6 +12,10 @@ body {
     .fa-2x {
         font-size: 1.5em !important;
     }
+
+    .lbl-like-count {
+        font-size: 12px;
+    }
 }
 
 .bold {
