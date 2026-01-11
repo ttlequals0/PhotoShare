@@ -3,6 +3,11 @@ import { displayPopup } from '@modules/popups';
 
 function init() {
     bindEventHandlers();
+
+    const pageLoadEnabled = $('body').data('identity-check');
+    if (pageLoadEnabled) {
+        displayIdentityCheck(false);
+    }
 }
 
 function bindEventHandlers() {
