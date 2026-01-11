@@ -2,7 +2,8 @@
 {
     public enum Themes
     {
-        Default = 1,
+        AutoDetect = 0,
+        Light = 1,
         Dark = 2
     }
 }

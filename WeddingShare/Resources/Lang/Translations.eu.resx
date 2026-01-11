@@ -301,6 +301,9 @@
   <data name="Audit_WipedGallery" xml:space="preserve">
     <value>Argazki galeria</value>
   </data>
+  <data name="AutoDetect" xml:space="preserve">
+    <value>Autodetektatu</value>
+  </data>
   <data name="Available_Galleries" xml:space="preserve">
     <value>Galeria erabilgarriak</value>
   </data>
@@ -399,6 +402,9 @@
   </data>
   <data name="Danger_Zone" xml:space="preserve">
     <value>Arrisku-eremua</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>Iluna</value>
   </data>
   <data name="Date" xml:space="preserve">
     <value>Data</value>
@@ -840,6 +846,9 @@
   </data>
   <data name="Layout" xml:space="preserve">
     <value>Diseinua</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>Argia</value>
   </data>
   <data name="Link" xml:space="preserve">
     <value>Esteka</value>
@@ -1758,6 +1767,12 @@
   </data>
   <data name="Switch" xml:space="preserve">
     <value>Aldatu</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Gaia</value>
+  </data>
+  <data name="Theme_Name_Hint" xml:space="preserve">
+    <value>Hautatu bistaratze-gai bat</value>
   </data>
   <data name="Timestamp" xml:space="preserve">
     <value>Timestamp</value>

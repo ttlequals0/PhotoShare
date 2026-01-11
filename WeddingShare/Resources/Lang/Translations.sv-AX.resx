@@ -301,6 +301,9 @@
   <data name="Audit_WipedGallery" xml:space="preserve">
     <value>Wiped galleri</value>
   </data>
+  <data name="AutoDetect" xml:space="preserve">
+    <value>Auto Detect</value>
+  </data>
   <data name="Available_Galleries" xml:space="preserve">
     <value>Tillgängliga gallerier</value>
   </data>
@@ -399,6 +402,9 @@
   </data>
   <data name="Danger_Zone" xml:space="preserve">
     <value>Danger Zone</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>Mörk</value>
   </data>
   <data name="Date" xml:space="preserve">
     <value>Datum</value>
@@ -840,6 +846,9 @@
   </data>
   <data name="Layout" xml:space="preserve">
     <value>Layout</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>Ljus ljus</value>
   </data>
   <data name="Link" xml:space="preserve">
     <value>Länk</value>
@@ -1758,6 +1767,12 @@
   </data>
   <data name="Switch" xml:space="preserve">
     <value>Switch</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Tema</value>
+  </data>
+  <data name="Theme_Name_Hint" xml:space="preserve">
+    <value>Vänligen välj ett displaytema</value>
   </data>
   <data name="Timestamp" xml:space="preserve">
     <value>Timestamp</value>

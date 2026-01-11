@@ -301,6 +301,9 @@
   <data name="Audit_WipedGallery" xml:space="preserve">
     <value>گالری Wiped</value>
   </data>
+  <data name="AutoDetect" xml:space="preserve">
+    <value>Auto Detect</value>
+  </data>
   <data name="Available_Galleries" xml:space="preserve">
     <value>گالری های موجود</value>
   </data>
@@ -399,6 +402,9 @@
   </data>
   <data name="Danger_Zone" xml:space="preserve">
     <value>منطقه خطر</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>تاریکی تاریک</value>
   </data>
   <data name="Date" xml:space="preserve">
     <value>تاریخ</value>
@@ -840,6 +846,9 @@
   </data>
   <data name="Layout" xml:space="preserve">
     <value>چیدمان</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>نور</value>
   </data>
   <data name="Link" xml:space="preserve">
     <value>لینک Link</value>
@@ -1758,6 +1767,12 @@
   </data>
   <data name="Switch" xml:space="preserve">
     <value>Switch</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Theme</value>
+  </data>
+  <data name="Theme_Name_Hint" xml:space="preserve">
+    <value>لطفا یک صفحه نمایش را انتخاب کنید</value>
   </data>
   <data name="Timestamp" xml:space="preserve">
     <value>Timestamp</value>

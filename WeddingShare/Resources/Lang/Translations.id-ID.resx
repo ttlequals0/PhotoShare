@@ -301,6 +301,9 @@
   <data name="Audit_WipedGallery" xml:space="preserve">
     <value>Galeri Wiped</value>
   </data>
+  <data name="AutoDetect" xml:space="preserve">
+    <value>Deteksi Otomatis</value>
+  </data>
   <data name="Available_Galleries" xml:space="preserve">
     <value>Galeri Tersedia</value>
   </data>
@@ -399,6 +402,9 @@
   </data>
   <data name="Danger_Zone" xml:space="preserve">
     <value>Zona Bahaya</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>Gelap</value>
   </data>
   <data name="Date" xml:space="preserve">
     <value>Tanggal</value>
@@ -840,6 +846,9 @@
   </data>
   <data name="Layout" xml:space="preserve">
     <value>Tata Letak</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>Cahaya</value>
   </data>
   <data name="Link" xml:space="preserve">
     <value>Taut</value>
@@ -1758,6 +1767,12 @@
   </data>
   <data name="Switch" xml:space="preserve">
     <value>Tukar</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Tema</value>
+  </data>
+  <data name="Theme_Name_Hint" xml:space="preserve">
+    <value>Silakan pilih tema tampilan</value>
   </data>
   <data name="Timestamp" xml:space="preserve">
     <value>Penanda waktu</value>

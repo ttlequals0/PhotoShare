@@ -400,6 +400,9 @@
   <data name="Danger_Zone" xml:space="preserve">
     <value>Gefahrenzone</value>
   </data>
+  <data name="Dark" xml:space="preserve">
+    <value>Dunkel</value>
+  </data>
   <data name="Date" xml:space="preserve">
     <value>Datum</value>
   </data>
@@ -840,6 +843,9 @@
   </data>
   <data name="Layout" xml:space="preserve">
     <value>Layout</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>Licht</value>
   </data>
   <data name="Link" xml:space="preserve">
     <value>Link</value>
@@ -1758,6 +1764,12 @@
   </data>
   <data name="Switch" xml:space="preserve">
     <value>Schalter</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Thema</value>
+  </data>
+  <data name="Theme_Name_Hint" xml:space="preserve">
+    <value>Bitte wählen Sie ein Anzeigethema</value>
   </data>
   <data name="Timestamp" xml:space="preserve">
     <value>Zeitstempel</value>

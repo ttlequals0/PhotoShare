@@ -301,6 +301,9 @@
   <data name="Audit_WipedGallery" xml:space="preserve">
     <value>Изтрита галерия</value>
   </data>
+  <data name="AutoDetect" xml:space="preserve">
+    <value>Автоматично откриване</value>
+  </data>
   <data name="Available_Galleries" xml:space="preserve">
     <value>Налични галерии</value>
   </data>
@@ -399,6 +402,9 @@
   </data>
   <data name="Danger_Zone" xml:space="preserve">
     <value>Зона на опасност</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>Тъмно</value>
   </data>
   <data name="Date" xml:space="preserve">
     <value>Дата</value>
@@ -840,6 +846,9 @@
   </data>
   <data name="Layout" xml:space="preserve">
     <value>Подреждане</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>Светлина</value>
   </data>
   <data name="Link" xml:space="preserve">
     <value>Връзка</value>
@@ -1758,6 +1767,12 @@
   </data>
   <data name="Switch" xml:space="preserve">
     <value>Превключване</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Тема</value>
+  </data>
+  <data name="Theme_Name_Hint" xml:space="preserve">
+    <value>Моля, изберете тема за показване</value>
   </data>
   <data name="Timestamp" xml:space="preserve">
     <value>Времеви печат</value>

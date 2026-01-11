@@ -24,5 +24,10 @@
         {
             public const string Selected = "SelectedLanguage";
         }
+
+        public static class Theme
+        {
+            public const string Selected = "Theme";
+        }
     }
 }

@@ -29,7 +29,6 @@ namespace WeddingShare.Controllers
         }
 
         [HttpGet]
-        [ResponseCache(Duration = 300, Location = ResponseCacheLocation.Any)]
         public async Task<IActionResult> Index()
         {
             var options = new SupportedLanguageList();

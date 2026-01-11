@@ -301,6 +301,9 @@
   <data name="Audit_WipedGallery" xml:space="preserve">
     <value>Pyyhitty galleria</value>
   </data>
+  <data name="AutoDetect" xml:space="preserve">
+    <value>Automaattinen tunnistus</value>
+  </data>
   <data name="Available_Galleries" xml:space="preserve">
     <value>Saatavilla olevat galleriat</value>
   </data>
@@ -399,6 +402,9 @@
   </data>
   <data name="Danger_Zone" xml:space="preserve">
     <value>Vaaravyöhyke</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>Tumma</value>
   </data>
   <data name="Date" xml:space="preserve">
     <value>Päivämäärä</value>
@@ -840,6 +846,9 @@
   </data>
   <data name="Layout" xml:space="preserve">
     <value>Asettelu</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>Valo</value>
   </data>
   <data name="Link" xml:space="preserve">
     <value>Yhteystiedot</value>
@@ -1758,6 +1767,12 @@
   </data>
   <data name="Switch" xml:space="preserve">
     <value>Vaihda</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Teema</value>
+  </data>
+  <data name="Theme_Name_Hint" xml:space="preserve">
+    <value>Valitse näytön teema</value>
   </data>
   <data name="Timestamp" xml:space="preserve">
     <value>Aikaleima</value>

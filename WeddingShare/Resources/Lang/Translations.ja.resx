@@ -301,6 +301,9 @@
   <data name="Audit_WipedGallery" xml:space="preserve">
     <value>ウィッドギャラリー</value>
   </data>
+  <data name="AutoDetect" xml:space="preserve">
+    <value>自動検出</value>
+  </data>
   <data name="Available_Galleries" xml:space="preserve">
     <value>利用できるギャラリー</value>
   </data>
@@ -399,6 +402,9 @@
   </data>
   <data name="Danger_Zone" xml:space="preserve">
     <value>危険ゾーン</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>ダーク</value>
   </data>
   <data name="Date" xml:space="preserve">
     <value>日程安排</value>
@@ -840,6 +846,9 @@
   </data>
   <data name="Layout" xml:space="preserve">
     <value>レイアウト</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>ライトライト</value>
   </data>
   <data name="Link" xml:space="preserve">
     <value>サイトマップ</value>
@@ -1758,6 +1767,12 @@
   </data>
   <data name="Switch" xml:space="preserve">
     <value>スイッチ</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>テーマ:</value>
+  </data>
+  <data name="Theme_Name_Hint" xml:space="preserve">
+    <value>表示テーマを選択してください</value>
   </data>
   <data name="Timestamp" xml:space="preserve">
     <value>タイムスタンプ</value>

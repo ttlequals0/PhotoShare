@@ -301,6 +301,9 @@
   <data name="Audit_WipedGallery" xml:space="preserve">
     <value>Gewiste galerij</value>
   </data>
+  <data name="AutoDetect" xml:space="preserve">
+    <value>Automatisch detecteren</value>
+  </data>
   <data name="Available_Galleries" xml:space="preserve">
     <value>Beschikbare galerijen</value>
   </data>
@@ -399,6 +402,9 @@
   </data>
   <data name="Danger_Zone" xml:space="preserve">
     <value>Gevaarszone</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>Donker</value>
   </data>
   <data name="Date" xml:space="preserve">
     <value>Datum</value>
@@ -840,6 +846,9 @@
   </data>
   <data name="Layout" xml:space="preserve">
     <value>Indeling</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>Licht</value>
   </data>
   <data name="Link" xml:space="preserve">
     <value>Verband</value>
@@ -1758,6 +1767,12 @@
   </data>
   <data name="Switch" xml:space="preserve">
     <value>Omschakelen</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Thema</value>
+  </data>
+  <data name="Theme_Name_Hint" xml:space="preserve">
+    <value>Selecteer een weergavethema</value>
   </data>
   <data name="Timestamp" xml:space="preserve">
     <value>Tijdstempel</value>

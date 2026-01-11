@@ -301,6 +301,9 @@
   <data name="Audit_WipedGallery" xml:space="preserve">
     <value>Galleria pulita</value>
   </data>
+  <data name="AutoDetect" xml:space="preserve">
+    <value>Rilevamento automatico</value>
+  </data>
   <data name="Available_Galleries" xml:space="preserve">
     <value>Gallerie disponibili</value>
   </data>
@@ -399,6 +402,9 @@
   </data>
   <data name="Danger_Zone" xml:space="preserve">
     <value>Zona di pericolo</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>Oscuro</value>
   </data>
   <data name="Date" xml:space="preserve">
     <value>Data</value>
@@ -840,6 +846,9 @@
   </data>
   <data name="Layout" xml:space="preserve">
     <value>Telaio</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>Luce</value>
   </data>
   <data name="Link" xml:space="preserve">
     <value>Link</value>
@@ -1758,6 +1767,12 @@
   </data>
   <data name="Switch" xml:space="preserve">
     <value>Interruttore</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Tema</value>
+  </data>
+  <data name="Theme_Name_Hint" xml:space="preserve">
+    <value>Si prega di selezionare un tema di visualizzazione</value>
   </data>
   <data name="Timestamp" xml:space="preserve">
     <value>Timestamp</value>

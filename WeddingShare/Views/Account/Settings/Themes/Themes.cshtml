@@ -29,7 +29,7 @@
             <select class="setting-field form-control" data-setting-name="@Settings.Themes.Default">
                 @foreach (Themes t in Enum.GetValues(typeof(Themes)))
                 {
-                    if (Model.GetValue(Settings.Themes.Default.ToUpper(), Themes.Default.ToString()).Equals(t.ToString(), StringComparison.OrdinalIgnoreCase))
+                    if (Model.GetValue(Settings.Themes.Default.ToUpper(), Themes.AutoDetect.ToString()).Equals(t.ToString(), StringComparison.OrdinalIgnoreCase))
                     {
                         <option value="@t.ToString()" selected="selected">@t.ToString()</option>
                     }

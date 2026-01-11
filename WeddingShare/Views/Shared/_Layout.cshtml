@@ -24,22 +24,25 @@
 
     var viewMode = ViewBag?.ViewMode != null ? ViewBag.ViewMode : ViewMode.Default;
 
-    string theme = "default";
+    string theme = await _settings.GetOrDefault(Settings.Themes.Default, Themes.AutoDetect.ToString().ToLower());
     try
     {
-        var selected = Context?.Request?.Cookies["Theme"]?.Trim() ?? await _settings.GetOrDefault(Settings.Themes.Default, "default");
-        foreach (Themes t in Enum.GetValues(typeof(Themes)))
-        {
-            if (selected.Equals(t.ToString(), StringComparison.OrdinalIgnoreCase))
+        var selectedTheme = Context?.Request?.Cookies["Theme"]?.Trim();
+        if (!string.IsNullOrWhiteSpace(selectedTheme))
+        { 
+            foreach (Themes t in Enum.GetValues(typeof(Themes)))
             {
-                theme = t.ToString().ToLower();
-                break;
+                if (selectedTheme.Equals(t.ToString(), StringComparison.OrdinalIgnoreCase))
+                {
+                    theme = t.ToString().ToLower();
+                    break;
+                }
             }
         }
     }
     catch
     {
-        theme = "default";
+        theme = Themes.AutoDetect.ToString().ToLower();
     }
 
     string? culture;
@@ -69,7 +72,15 @@
         <meta name="author" content="" />
         
         <link rel="stylesheet" href="~/dist/main.css" asp-append-version="true" />
-        <link rel="stylesheet" href="~/dist/themes/@(theme).css" asp-append-version="true" />
+        @if (theme.Equals(Themes.AutoDetect.ToString().ToLower(), StringComparison.OrdinalIgnoreCase))
+        {
+            <link rel="stylesheet" href="~/dist/themes/light.css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)" asp-append-version="true" />
+            <link rel="stylesheet" href="~/dist/themes/dark.css" media="(prefers-color-scheme: dark)" asp-append-version="true" />
+        }
+        else
+        {
+            <link rel="stylesheet" href="~/dist/themes/@(theme).css" asp-append-version="true" />
+        }
     </head>
     <body data-theme="@theme">
         <!-- Navigation -->
@@ -98,7 +109,7 @@
                             {
                                 var tooltip = _localizer["Change_Theme"].Value;
                                 <span alt="@tooltip" title="@tooltip">
-                                    <i class="change-theme fas @(string.Equals("default", theme, StringComparison.OrdinalIgnoreCase) ? "fa-moon" : "fa-sun") fa-1x text-secondary pointer mx-2"></i>
+                                    <i class="change-theme fas fa-palette fa-1x text-secondary pointer mx-2"></i>
                                 </span>
                             }
 

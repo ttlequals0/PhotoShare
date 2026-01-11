@@ -301,6 +301,9 @@
   <data name="Audit_WipedGallery" xml:space="preserve">
     <value>Σκουπισμένη συλλογή</value>
   </data>
+  <data name="AutoDetect" xml:space="preserve">
+    <value>Αυτόματη ανίχνευση</value>
+  </data>
   <data name="Available_Galleries" xml:space="preserve">
     <value>Διαθέσιμες Γκαλερί</value>
   </data>
@@ -399,6 +402,9 @@
   </data>
   <data name="Danger_Zone" xml:space="preserve">
     <value>Ζώνη κινδύνου</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>Σκούρο</value>
   </data>
   <data name="Date" xml:space="preserve">
     <value>Ημερομηνία</value>
@@ -840,6 +846,9 @@
   </data>
   <data name="Layout" xml:space="preserve">
     <value>Διάταξη</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>Φως</value>
   </data>
   <data name="Link" xml:space="preserve">
     <value>Δεσμός</value>
@@ -1758,6 +1767,12 @@
   </data>
   <data name="Switch" xml:space="preserve">
     <value>Εναλλαγή</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Θέμα</value>
+  </data>
+  <data name="Theme_Name_Hint" xml:space="preserve">
+    <value>Παρακαλώ επιλέξτε ένα θέμα εμφάνισης</value>
   </data>
   <data name="Timestamp" xml:space="preserve">
     <value>Χρονοσφραγίδα</value>

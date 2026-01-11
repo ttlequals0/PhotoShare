@@ -301,6 +301,9 @@
   <data name="Audit_WipedGallery" xml:space="preserve">
     <value>Nabigang galerya</value>
   </data>
+  <data name="AutoDetect" xml:space="preserve">
+    <value>Di - Nakikitang Awto</value>
+  </data>
   <data name="Available_Galleries" xml:space="preserve">
     <value>Makukuhang mga Gallery</value>
   </data>
@@ -399,6 +402,9 @@
   </data>
   <data name="Danger_Zone" xml:space="preserve">
     <value>Panganib</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>Madilim</value>
   </data>
   <data name="Date" xml:space="preserve">
     <value>Petsa</value>
@@ -840,6 +846,9 @@
   </data>
   <data name="Layout" xml:space="preserve">
     <value>Paglalatag</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>Liwanag</value>
   </data>
   <data name="Link" xml:space="preserve">
     <value>Kaugnayan</value>
@@ -1758,6 +1767,12 @@
   </data>
   <data name="Switch" xml:space="preserve">
     <value>Stwitch</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Tema</value>
+  </data>
+  <data name="Theme_Name_Hint" xml:space="preserve">
+    <value>Pumili ng display theme</value>
   </data>
   <data name="Timestamp" xml:space="preserve">
     <value>Paglipas ng Panahon</value>

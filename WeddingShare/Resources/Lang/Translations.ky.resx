@@ -301,6 +301,9 @@
   <data name="Audit_WipedGallery" xml:space="preserve">
     <value>Уурулган галерея</value>
   </data>
+  <data name="AutoDetect" xml:space="preserve">
+    <value>Автоматтык детекция</value>
+  </data>
   <data name="Available_Galleries" xml:space="preserve">
     <value>Колдо бар галереялар</value>
   </data>
@@ -399,6 +402,9 @@
   </data>
   <data name="Danger_Zone" xml:space="preserve">
     <value>Кооптуу зона</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>Караңгы караңгы</value>
   </data>
   <data name="Date" xml:space="preserve">
     <value>Дата датасы</value>
@@ -840,6 +846,9 @@
   </data>
   <data name="Layout" xml:space="preserve">
     <value>Лаут</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>Жарык жарыгы</value>
   </data>
   <data name="Link" xml:space="preserve">
     <value>Байланыш шилтемеси</value>
@@ -1758,6 +1767,12 @@
   </data>
   <data name="Switch" xml:space="preserve">
     <value>Өчүргүч</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Темасы</value>
+  </data>
+  <data name="Theme_Name_Hint" xml:space="preserve">
+    <value>Сураныч, дисплей темасын тандаңыз</value>
   </data>
   <data name="Timestamp" xml:space="preserve">
     <value>Убакыт белгиси</value>

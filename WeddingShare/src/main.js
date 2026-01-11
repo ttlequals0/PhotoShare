@@ -19,7 +19,7 @@ import { displayMessage } from '@modules/message-box';
 const app = {
     initialized: false,
     config: {
-        theme: 'default',
+        theme: 'autodetect',
         debug: true
     }
 };

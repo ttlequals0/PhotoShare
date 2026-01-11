@@ -301,6 +301,9 @@
   <data name="Audit_WipedGallery" xml:space="preserve">
     <value>Wiped galerija</value>
   </data>
+  <data name="AutoDetect" xml:space="preserve">
+    <value>Automātiski noteikt</value>
+  </data>
   <data name="Available_Galleries" xml:space="preserve">
     <value>Pieejamās galerijas</value>
   </data>
@@ -399,6 +402,9 @@
   </data>
   <data name="Danger_Zone" xml:space="preserve">
     <value>Bīstamā zona</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>Tumšs</value>
   </data>
   <data name="Date" xml:space="preserve">
     <value>Datums</value>
@@ -840,6 +846,9 @@
   </data>
   <data name="Layout" xml:space="preserve">
     <value>Izkārtojums</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>Gaišs</value>
   </data>
   <data name="Link" xml:space="preserve">
     <value>Saikne</value>
@@ -1758,6 +1767,12 @@
   </data>
   <data name="Switch" xml:space="preserve">
     <value>Slēdzis</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Tēma</value>
+  </data>
+  <data name="Theme_Name_Hint" xml:space="preserve">
+    <value>Lūdzu izvēlieties attēlošanas tēmu</value>
   </data>
   <data name="Timestamp" xml:space="preserve">
     <value>Laika zīmogs</value>
