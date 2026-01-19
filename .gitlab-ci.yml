@@ -13,6 +13,7 @@ variables:
   OBJECTS_DIRECTORY: 'obj'
   NUGET_PACKAGES_DIRECTORY: '.nuget'
   SOURCE_CODE_PATH: '*/*/'
+  GIT_SUBMODULE_STRATEGY: recursive
   
 cache:
   key: "$CI_JOB_STAGE-$CI_COMMIT_REF_SLUG"
@@ -21,13 +22,6 @@ cache:
     - '$SOURCE_CODE_PATH$OBJECTS_DIRECTORY/*.csproj.nuget.*'
     - '$NUGET_PACKAGES_DIRECTORY'
   policy: pull-push
-  
-test:
-  stage: test
-  image: mcr.microsoft.com/dotnet/sdk:9.0
-  script:
-    - 'dotnet restore'
-    - 'dotnet test'
 
 .docker_buildx_gitlab: &docker_buildx_gitlab
   image: docker:29
@@ -42,6 +36,17 @@ test:
     - docker info
     - docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_TOKEN
     - docker buildx create --use --name $BUILD_BUILDER_NAME --driver docker-container || docker buildx use $BUILD_BUILDER_NAME
+
+#
+#   TEST
+#
+
+test:
+  stage: test
+  image: mcr.microsoft.com/dotnet/sdk:9.0
+  script:
+    - 'dotnet restore'
+    - 'dotnet test'
 
 #
 #   PRE-RELEASE
