@@ -225,7 +225,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\weddingshare\weddingshare.lang\WeddingShare.Lang\WeddingShare.Lang.csproj" />
+    <ProjectReference Include="..\weddingshare.lang\WeddingShare.Lang.csproj" />
   </ItemGroup>
 
   <ItemGroup>
