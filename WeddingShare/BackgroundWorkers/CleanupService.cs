@@ -24,7 +24,8 @@ namespace WeddingShare.BackgroundWorkers
                     {
                         await LinkStaleGalleryItemLikes();
                         await Cleanup();
-                        
+                        await FlushOldAuditLogs();
+
                         var schedule = CrontabSchedule.Parse(cron, new CrontabSchedule.ParseOptions() { IncludingSeconds = cron.Split(new[] { ' ' }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries).Length == 6 });
                         nextExecutionTime = schedule.GetNextOccurrence(now);
                     }
@@ -102,6 +103,22 @@ namespace WeddingShare.BackgroundWorkers
             catch (Exception ex)
             {
                 logger.LogError(ex, $"CleanupService - Failed to link stale gallery item likes - {ex?.Message}");
+            }
+        }
+
+        private async Task FlushOldAuditLogs()
+        {
+            try
+            {
+                var days = await settingsHelper.GetOrDefault(Audit.Retention, 30);
+                if (days > 0)
+                {
+                    await databaseHelper.FlushLogsOlderThan(days);
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, $"CleanupService - Failed to flush old audit logs - {ex?.Message}");
             }
         }
     }

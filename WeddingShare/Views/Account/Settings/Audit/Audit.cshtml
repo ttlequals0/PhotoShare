@@ -6,10 +6,10 @@
     <div class="row mb-4 mb-lg-4 setting-container">
         <div class="col-12">
             <label class="setting-label">@_localizer["Enabled"].Value</label>
-            <select class="setting-field form-control" data-setting-name="@Settings.Policies.Enabled">
+            <select class="setting-field form-control" data-setting-name="@Audit.Enabled">
                 @foreach (var option in ViewOptions.YesNo)
                 {
-                    if (Model.GetValue(Settings.Policies.Enabled.ToUpper(), "false").Equals(option.Value, StringComparison.OrdinalIgnoreCase))
+                    if (Model.GetValue(Audit.Enabled.ToUpper(), "true").Equals(option.Value, StringComparison.OrdinalIgnoreCase))
                     {
                         <option value="@option.Value" selected="selected">@option.Key</option>
                     }
@@ -19,15 +19,15 @@
                     }
                 }
             </select>
-            <div class="setting-hint form-text">@_localizer["Settings_PoliciesEnabled_Help"].Value</div>
+            <div class="setting-hint form-text">@_localizer["Settings_Audit_Enabled_Help"].Value</div>
         </div>
     </div>
 
     <div class="row mb-4 mb-lg-4 setting-container">
         <div class="col-12">
-            <label class="setting-label">@_localizer["Settings_CustomCookiePolicy_Label"].Value</label>
-            <textarea class="setting-field form-control" data-setting-name="@Settings.Policies.CookiePolicy">@Model.GetValue(Settings.Policies.CookiePolicy.ToUpper(), string.Empty)</textarea>
-            <div class="setting-hint form-text">@_localizer["Settings_CustomCookiePolicy_Help"].Value</div>
+            <label class="setting-label">@_localizer["Retention_Period"].Value</label>
+            <input class="setting-field form-control" data-setting-name="@Audit.Retention" placeholder="30" value="@Model.GetValue(Audit.Retention.ToUpper(), "30")" type="number" min="1" max="999" step="1" />
+            <div class="setting-hint form-text">@_localizer["Settings_Audit_Retention_Help"].Value</div>
         </div>
     </div>
 }

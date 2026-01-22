@@ -2019,6 +2019,24 @@ namespace WeddingShare.Helpers.Database
 
             return result;
         }
+
+        public async Task<bool> FlushLogsOlderThan(int days = 30)
+        {
+            var success = false;
+
+            using (var conn = await GetConnection())
+            {
+                var cmd = CreateCommand($"DELETE FROM `audit_logs` WHERE `timestamp` < @Timestamp;", conn);
+                cmd.Parameters.AddWithValue("Timestamp", ((DateTime)DateTime.UtcNow.Date.AddDays(Math.Abs(days) * -1) - new DateTime(1970, 1, 1)).TotalSeconds);
+                cmd.CommandType = CommandType.Text;
+
+                await conn.OpenAsync();
+                success = (await cmd.ExecuteNonQueryAsync()) > 0;
+                await conn.CloseAsync();
+            }
+
+            return success;
+        }
         #endregion
 
         #region Backups

@@ -1,4 +1,5 @@
-﻿using WeddingShare.Enums;
+﻿using WeddingShare.Constants;
+using WeddingShare.Enums;
 using WeddingShare.Helpers.Database;
 using WeddingShare.Models.Database;
 
@@ -12,11 +13,13 @@ namespace WeddingShare.Helpers
 
     public class AuditHelper : IAuditHelper
     {
+        private readonly ISettingsHelper _settings;
         private readonly IDatabaseHelper _databaseHelper;
         private readonly ILogger _logger;
 
-        public AuditHelper(IDatabaseHelper databaseHelper, ILogger<AuditHelper> logger)
+        public AuditHelper(ISettingsHelper settings, IDatabaseHelper databaseHelper, ILogger<AuditHelper> logger)
         {
+            _settings = settings;
             _databaseHelper = databaseHelper;
             _logger = logger;
         }
@@ -28,8 +31,8 @@ namespace WeddingShare.Helpers
 
         public async Task<bool> LogAction(string? user, string? action, AuditSeverity severity)
         {
-            if (!string.IsNullOrWhiteSpace(user) && !string.IsNullOrWhiteSpace(action))
-            { 
+            if (!string.IsNullOrWhiteSpace(user) && !string.IsNullOrWhiteSpace(action) && await _settings.GetOrDefault(Audit.Enabled, true))
+            {
                 try 
                 {
                     return await _databaseHelper.AddAuditLog(new AuditLogModel()

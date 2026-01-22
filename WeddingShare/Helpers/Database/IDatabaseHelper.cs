@@ -98,6 +98,7 @@ namespace WeddingShare.Helpers.Database
         Task<IEnumerable<AuditLogModel>?> GetAuditLogs(string term = "", AuditSeverity severity = AuditSeverity.Information, int limit = 100);
         Task<IEnumerable<AuditLogModel>?> GetUserAuditLogs(int userId, string term = "", AuditSeverity severity = AuditSeverity.Information, int limit = 100);
         Task<AuditLogModel?> AddAuditLog(AuditLogModel model);
+        Task<bool> FlushLogsOlderThan(int days = 30);
         #endregion
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using System.Data.Common;
 using MySql.Data.MySqlClient;
+using MySqlX.XDevAPI.Common;
 using WeddingShare.Constants;
 using WeddingShare.Enums;
 using WeddingShare.Models.Database;
@@ -2046,6 +2047,24 @@ namespace WeddingShare.Helpers.Database
             }
 
             return result;
+        }
+
+        public async Task<bool> FlushLogsOlderThan(int days = 30)
+        {
+            var success = false;
+
+            using (var conn = await GetConnection())
+            {
+                var cmd = CreateCommand($"DELETE FROM `audit_logs` WHERE `timestamp` < @Timestamp;", conn);
+                cmd.Parameters.AddWithValue("Timestamp", DateTime.UtcNow.Date.AddDays(Math.Abs(days) * -1));
+                cmd.CommandType = CommandType.Text;
+
+                await conn.OpenAsync();
+                success = (await cmd.ExecuteNonQueryAsync()) > 0;
+                await conn.CloseAsync();
+            }
+
+            return success;
         }
         #endregion 
 
