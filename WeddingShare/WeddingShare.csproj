@@ -17,7 +17,7 @@
 
   <Target Name="NpmBuildProd" BeforeTargets="Build" Condition="'$(Configuration)' == 'Release'">
     <Message Importance="high" Text="Running webpack in production mode..." />
-    <Exec Command="npm ci" WorkingDirectory="$(ProjectDir)" />
+    <Exec Command="npm install" WorkingDirectory="$(ProjectDir)" />
     <Exec Command="npm run build" WorkingDirectory="$(ProjectDir)" />
   </Target>
 
