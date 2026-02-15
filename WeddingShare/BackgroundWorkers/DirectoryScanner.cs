@@ -1,4 +1,5 @@
-﻿using NCrontab;
+﻿using Mysqlx.Expr;
+using NCrontab;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 using WeddingShare.Constants;
@@ -9,7 +10,7 @@ using WeddingShare.Models.Database;
 
 namespace WeddingShare.BackgroundWorkers
 {
-    public sealed class DirectoryScanner(IServiceScopeFactory scopeFactory, IWebHostEnvironment hostingEnvironment, ISettingsHelper settingsHelper, IFileHelper fileHelper, IImageHelper imageHelper, ILogger<DirectoryScanner> logger) : BackgroundService
+    public sealed class DirectoryScanner(IServiceScopeFactory scopeFactory, IWebHostEnvironment hostingEnvironment, ISettingsHelper settingsHelper, IFileHelper fileHelper, IImageHelper imageHelper, IAuditHelper auditHelper, ILogger<DirectoryScanner> logger) : BackgroundService
     {
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
@@ -97,6 +98,7 @@ namespace WeddingShare.BackgroundWorkers
                                             SecretKey = PasswordHelper.GenerateGallerySecretKey(),
                                             Owner = systemUser!.Id
                                         }))?.Id;
+                                        await auditHelper.LogAction($"Directory scanner added new gallery '{identifier}'", AuditSeverity.Verbose);
                                     }
 
                                     if (galleryId != null)
@@ -136,6 +138,7 @@ namespace WeddingShare.BackgroundWorkers
                                                                     UploadedDate = await fileHelper.GetCreationDatetime(file),
                                                                     FileSize = fileHelper.FileSize(file)
                                                                 });
+                                                                await auditHelper.LogAction($"Directory scanner added new approved item '{filename}' to gallery '{identifier}'", AuditSeverity.Verbose);
                                                             }
 
                                                             var thumbnailDir = Path.Combine(thumbnailsDirectory, galleryItem.Identifier);
@@ -224,6 +227,7 @@ namespace WeddingShare.BackgroundWorkers
                                                                         UploadedDate = await fileHelper.GetCreationDatetime(file),
                                                                         FileSize = new FileInfo(file).Length
                                                                     });
+                                                                    await auditHelper.LogAction($"Directory scanner added new pending item '{filename}' to gallery '{identifier}'", AuditSeverity.Verbose);
                                                                 }
                                                             }
                                                             catch (Exception ex)
@@ -280,6 +284,7 @@ namespace WeddingShare.BackgroundWorkers
                                     UploadedBy = "DirectoryScanner",
                                     Owner = systemUser!.Id
                                 });
+                                await auditHelper.LogAction($"Directory scanner added new custom resource '{filename}'", AuditSeverity.Verbose);
                             }
                         }
                         catch { }
