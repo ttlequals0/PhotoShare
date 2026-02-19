@@ -204,7 +204,8 @@ namespace WeddingShare.EntityFramework.Migrations
                         .Annotation("SqlServer:Identity", "1, 1")
                         .Annotation("Sqlite:Autoincrement", true),
                     UserId = table.Column<int>(nullable: false),
-                    Filename = table.Column<string>(maxLength: 2000, nullable: false),
+                    Title = table.Column<string>(maxLength: 2000, nullable: false),
+                    Filename = table.Column<string>(maxLength: 50, nullable: false),
                     CreatedAt = table.Column<long>(nullable: false)
                 },
                 constraints: table =>

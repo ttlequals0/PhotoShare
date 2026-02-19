@@ -75,11 +75,11 @@
                             var path = $"/custom_resources/{option.FileName}";
                             if (currentValue.Equals(path, StringComparison.OrdinalIgnoreCase))
                             {
-                                <option value="@path" selected="selected">@option.FileName</option>
+                                <option value="@path" selected="selected">@option.Title</option>
                             }
                             else
                             {
-                                <option value="@path">@option.FileName</option>
+                                <option value="@path">@option.Title</option>
                             }
                         }
                     }

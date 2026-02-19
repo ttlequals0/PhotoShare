@@ -77,7 +77,8 @@ namespace WeddingShare.Migrations.Sqlite
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Filename = table.Column<string>(type: "TEXT", maxLength: 2000, nullable: false),
+                    Title = table.Column<string>(type: "TEXT", maxLength: 2000, nullable: false),
+                    Filename = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
                     UserId = table.Column<int>(type: "INTEGER", nullable: true),
                     CreatedAt = table.Column<long>(type: "INTEGER", nullable: false)
                 },

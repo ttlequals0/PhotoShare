@@ -7,7 +7,6 @@ using Microsoft.Extensions.Localization;
 using WeddingShare.Constants;
 using WeddingShare.Helpers;
 using WeddingShare.Models;
-using static WeddingShare.Constants.Settings;
 
 namespace WeddingShare.Controllers
 {
@@ -86,7 +85,7 @@ namespace WeddingShare.Controllers
                     code = CultureInfo.CurrentCulture.Name,
                     name = CultureInfo.CurrentCulture.EnglishName
                 },
-                translations = _localizer.GetAllStrings().ToDictionary(x => x.Name, x => x.Value)
+                translations = _localizer.GetAllStrings().OrderBy(x => x.Name.ToLower()).ToDictionary(x => x.Name, x => x.Value)
             });
         }
 

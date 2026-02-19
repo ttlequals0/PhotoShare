@@ -78,7 +78,8 @@ namespace WeddingShare.Migrations.Postgres
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Filename = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: false),
+                    Title = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: false),
+                    Filename = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     UserId = table.Column<int>(type: "integer", nullable: true),
                     CreatedAt = table.Column<long>(type: "bigint", nullable: false)
                 },

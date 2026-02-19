@@ -21,7 +21,8 @@
         Upload = 16,
         Download = 32,
         Wipe = 64,
-        ViewAllGallery = 128
+        ViewAllGallery = 128,
+        Relink = 256
     }
 
     [Flags]

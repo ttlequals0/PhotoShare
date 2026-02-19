@@ -11,7 +11,7 @@ using WeddingShare.EntityFramework;
 namespace WeddingShare.Migrations.MySql
 {
     [DbContext(typeof(CoreDbContext))]
-    [Migration("20260215192531_MySql_InitializeDatabase")]
+    [Migration("20260219193704_MySql_InitializeDatabase")]
     partial class MySql_InitializeDatabase
     {
         /// <inheritdoc />
@@ -67,6 +67,11 @@ namespace WeddingShare.Migrations.MySql
                         .HasColumnType("bigint");
 
                     b.Property<string>("Filename")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(2000)
                         .HasColumnType("varchar(2000)");

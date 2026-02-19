@@ -974,6 +974,11 @@ namespace WeddingShare.Controllers
                 {
                     try
                     {
+                        if (ProtectedValues.IsProtectedGalleryName(model.Name))
+                        {
+                            return Json(new { success = false, message = _localizer["Protected_Gallery_Name"].Value });
+                        }
+
                         var userId = User.Identity.GetUserId();
                         var userGalleries = await _database.GetGalleries(userId);
 
@@ -1030,6 +1035,11 @@ namespace WeddingShare.Controllers
                 {
                     try
                     {
+                        if (ProtectedValues.IsProtectedGalleryName(model.Name))
+                        {
+                            return Json(new { success = false, message = _localizer["Protected_Gallery_Name"].Value });
+                        }
+
                         var check = await _database.GetGallery(model.Id);
                         if (check == null || model.Id == check.Id)
                         {
@@ -1069,6 +1079,63 @@ namespace WeddingShare.Controllers
                 else
                 {
                     return Json(new { success = false, message = _localizer["Name_Cannot_Be_Blank"].Value });
+                }
+            }
+
+            return Json(new { success = false });
+        }
+
+        [HttpPut]
+        [RequiresRole(GalleryPermission = GalleryPermissions.Relink)]
+        public async Task<IActionResult> RelinkGallery(GalleryModel model)
+        {
+            if (User?.Identity != null && User.Identity.IsAuthenticated)
+            {
+                if (!string.IsNullOrWhiteSpace(model?.OwnerName))
+                {
+                    try
+                    {
+                        var gallery = await _database.GetGallery(model.Id);
+                        if (gallery != null && User.Identity.CanEdit(GalleryPermissions.Relink, gallery.Owner))
+                        {
+                            var user = await _database.GetUserByUsername(model.OwnerName);
+                            if (user != null)
+                            {
+                                var originalOwner = gallery.OwnerName;
+
+                                gallery.Owner = user.Id;
+                                gallery.OwnerName = user.Username;
+
+                                gallery = await _database.RelinkGallery(gallery);
+                                if (gallery != null)
+                                {
+                                    await _audit.LogAction(User?.Identity?.GetUserId(), $"{_localizer["Audit_RelinkedGallery"].Value} '{model?.Name}' - {originalOwner} > {user.Username}", AuditSeverity.Debug);
+
+                                    return Json(new { success = string.Equals(model?.OwnerName, gallery?.OwnerName, StringComparison.OrdinalIgnoreCase) });
+                                }
+                                else
+                                {
+                                    return Json(new { success = false, message = _localizer["Failed_Relink_Gallery"].Value });
+                                }
+                            }
+                            else
+                            {
+                                return Json(new { success = false, message = _localizer["User_Not_Found"].Value });
+                            }
+                        }
+                        else
+                        {
+                            return Json(new { success = false, message = _localizer["Failed_Relink_Gallery"].Value });
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, $"{_localizer["Failed_Relink_Gallery"].Value} - {ex?.Message}");
+                    }
+                }
+                else
+                {
+                    return Json(new { success = false, message = _localizer["Missing_Username"].Value });
                 }
             }
 
@@ -1676,7 +1743,9 @@ namespace WeddingShare.Controllers
                         {
                             try
                             {
-                                var fileName = User.Identity.IsBasicUser() ? $"{userId}_{file.FileName}" : file.FileName;
+                                var title = Path.GetFileNameWithoutExtension(file.FileName);
+
+                                var fileName = $"{CustomResourceHelper.GenerateCustomResourceIdentifier()}.{Path.GetExtension(file.FileName).Trim('.')}";
                                 var filePath = Path.Combine(CustomResourcesDirectory, fileName);
                                 if (string.IsNullOrWhiteSpace(filePath))
                                 {
@@ -1693,6 +1762,7 @@ namespace WeddingShare.Controllers
 
                                     var item = await _database.AddCustomResource(new CustomResourceModel()
                                     {
+                                        Title = title,
                                         FileName = fileName,
                                         UploadedBy = User?.Identity.Name,
                                         Owner = userId
@@ -1973,7 +2043,7 @@ namespace WeddingShare.Controllers
                                 Id = x.Id,
                                 GalleryId = x.GalleryId,
                                 Name = Path.GetFileName(x.Title),
-                                UploadedBy = x.UploadedBy,
+                                UploadedBy = x.UploadedBy ?? "Unknown",
                                 UploaderEmailAddress = x.UploaderEmailAddress,
                                 UploadDate = x.UploadedDate,
                                 ImagePath = $"/{Path.Combine(UploadsDirectory, gallery.Identifier).Remove(_hostingEnvironment.WebRootPath).Replace('\\', '/').TrimStart('/')}/Pending/{x.Title}",

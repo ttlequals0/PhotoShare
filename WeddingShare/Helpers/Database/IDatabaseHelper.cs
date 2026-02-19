@@ -17,6 +17,7 @@ namespace WeddingShare.Helpers.Database
         Task<GalleryModel?> GetGallery(int id);
         Task<GalleryModel?> AddGallery(GalleryModel model);
         Task<GalleryModel?> EditGallery(GalleryModel model);
+        Task<GalleryModel?> RelinkGallery(GalleryModel model);
         Task WipeGallery(GalleryModel model);
         Task WipeAllGalleries();
         Task DeleteGallery(GalleryModel model);

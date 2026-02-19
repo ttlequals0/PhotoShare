@@ -1,6 +1,7 @@
 ﻿import { displayMessage } from '@modules/message-box';
 import { displayPopup } from '@modules/popups';
 import { displayLoader, hideLoader } from '@modules/loader';
+import { getTimestamp } from '@utilities/datetime';
 import { downloadBlob } from '@utilities/blobs';
 
 function init() {
@@ -13,6 +14,7 @@ function bindEventHandlers() {
     bindDownloadGalleryButton();
     bindAddGalleryButton();
     bindEditGalleryButton();
+    bindRelinkGalleryButton();
     bindWipeGalleryButton();
     bindWipeAllGalleriesButton();
     bindDeleteGalleryButton();
@@ -119,8 +121,8 @@ function bindDownloadGalleryButton() {
 
                 try {
                     downloadBlob(`${name}_${getTimestamp()}.zip`, 'application/zip', data, xhr);
-                } catch {
-                    displayMessage(localization.translate('Download'), localization.translate('Download_Failed'));
+                } catch (ex) {
+                    displayMessage(localization.translate('Download'), localization.translate('Download_Failed'), [ex]);
                 }
             })
             .fail((xhr, error) => {
@@ -265,6 +267,71 @@ function bindEditGalleryButton() {
                         })
                         .fail((xhr, error) => {
                             displayMessage(localization.translate('Gallery_Edit'), localization.translate('Gallery_Edit_Failed'), [error]);
+                        });
+                }
+            }, {
+                Text: localization.translate('Close')
+            }]
+        });
+    });
+}
+
+function bindRelinkGalleryButton() {
+    $(document).off('click', '.btnRelinkGallery').on('click', '.btnRelinkGallery', function (e) {
+        preventDefaults(e);
+
+        if ($(this).attr('disabled') == 'disabled') {
+            return;
+        }
+
+        let row = $(this).closest('tr');
+        displayPopup({
+            Title: localization.translate('Gallery_Relink'),
+            Fields: [{
+                Id: 'gallery-id',
+                Value: row.data('gallery-id'),
+                Type: 'hidden'
+            }, {
+                Id: 'gallery-username',
+                Name: localization.translate('Username'),
+                Value: row.data('gallery-username'),
+                Hint: localization.translate('Relink_Username_Hint')
+            }],
+            Buttons: [{
+                Text: localization.translate('Update'),
+                Class: 'btn-primary-2',
+                Callback: function () {
+                    displayLoader(localization.translate('Loading'));
+
+                    let id = $('#popup-modal-field-gallery-id').val();
+                    if (id == undefined || id.length == 0) {
+                        displayMessage(localization.translate('Gallery_Relink'), localization.translate('Gallery_Missing_Id'));
+                        return;
+                    }
+
+                    let username = $('#popup-modal-field-gallery-username').val();
+                    if (username == undefined || username.length == 0) {
+                        displayMessage(localization.translate('Gallery_Relink'), localization.translate('Missing_Username'));
+                        return;
+                    }
+
+                    $.ajax({
+                        url: '/Account/RelinkGallery',
+                        method: 'PUT',
+                        data: { Id: id, OwnerName: username }
+                    })
+                        .done(data => {
+                            if (data.success === true) {
+                                updateGalleryList();
+                                displayMessage(localization.translate('Gallery_Relink'), localization.translate('Gallery_Relink_Success'));
+                            } else if (data.message) {
+                                displayMessage(localization.translate('Gallery_Relink'), localization.translate('Gallery_Relink_Failed'), [data.message]);
+                            } else {
+                                displayMessage(localization.translate('Gallery_Relink'), localization.translate('Gallery_Relink_Failed'));
+                            }
+                        })
+                        .fail((xhr, error) => {
+                            displayMessage(localization.translate('Gallery_Relink'), localization.translate('Gallery_Relink_Failed'), [error]);
                         });
                 }
             }, {

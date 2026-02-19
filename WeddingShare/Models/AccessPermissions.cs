@@ -144,7 +144,8 @@ namespace WeddingShare.Models
                 | GalleryPermissions.Delete
                 | GalleryPermissions.Upload
                 | GalleryPermissions.Download
-                | GalleryPermissions.Wipe;
+                | GalleryPermissions.Wipe
+                | GalleryPermissions.Relink;
             Users =
                 UserPermissions.Login
                 | UserPermissions.View

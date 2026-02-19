@@ -168,6 +168,10 @@ footer {
     color: rgba(var(--primary-bg-1), 1.0) !important;
 }
 
+h1, h2, h3, h4, h5, h6 {
+    color: rgba(var(--primary-bg-1), 1.0) !important;
+}
+
 .modal .modal-header {
     background-color: rgba(var(--primary-bg-1), 0.01) !important;
 }

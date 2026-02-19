@@ -280,6 +280,7 @@ namespace WeddingShare.BackgroundWorkers
                             {
                                 await db.AddCustomResource(new CustomResourceModel()
                                 {
+                                    Title = Path.GetFileNameWithoutExtension(filename),
                                     FileName = filename,
                                     UploadedBy = "DirectoryScanner",
                                     Owner = systemUser!.Id

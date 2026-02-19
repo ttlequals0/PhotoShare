@@ -1,6 +1,7 @@
 ﻿import { displayMessage } from '@modules/message-box';
 import { displayPopup } from '@modules/popups';
 import { displayLoader, hideLoader } from '@modules/loader';
+import { getTimestamp } from '@utilities/datetime';
 import { downloadBlob } from '@utilities/blobs';
 
 function init() {
@@ -131,8 +132,8 @@ function bindExportButton() {
 
                             try {
                                 downloadBlob(`WeddingShare_${getTimestamp()}.zip`, 'application/zip', data, xhr);
-                            } catch {
-                                displayMessage(localization.translate('Export_Data'), localization.translate('Export_Data_Failed'));
+                            } catch (ex) {
+                                displayMessage(localization.translate('Export_Data'), localization.translate('Export_Data_Failed'), [ex]);
                             }
                         })
                         .fail((xhr, error) => {

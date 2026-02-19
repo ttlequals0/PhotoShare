@@ -168,13 +168,29 @@ namespace WeddingShare.Helpers.Database
 
             if (gallery != null)
             {
-                if (ProtectedValues.GalleryNames.Any(x => x.ToLower().Equals(model.Name?.Trim().ToLower())))
+                if (ProtectedValues.IsProtectedGalleryName(model.Name))
                 {
                     return await GetGallery(gallery.Id); // Prevent users from creating galleries with the same name as a protected gallery
                 }
 
                 gallery.Name = model.Name;
                 gallery.SecretKey = model.SecretKey;
+
+                await _db.SaveChangesAsync();
+
+                return await GetGallery(gallery.Id);
+            }
+
+            return null;
+        }
+
+        public async Task<GalleryModel?> RelinkGallery(GalleryModel model)
+        {
+            var gallery = await _db.Galleries.FirstOrDefaultAsync(x => x.Id == model.Id);
+
+            if (gallery != null)
+            {
+                gallery.UserId = model.Owner;
 
                 await _db.SaveChangesAsync();
 
@@ -740,12 +756,16 @@ namespace WeddingShare.Helpers.Database
         public async Task<CustomResourceModel?> GetCustomResource(int id)
         {
             return await _db.CustomResources
+                .Where(cr => cr.Id == id)
                 .Select(cr => new CustomResourceModel()
                 {
+                    Id = cr.Id,
+                    Title = cr.Title,
                     FileName = cr.Filename,
-                    Owner = cr.UserId ?? 0
+                    Owner = cr.UserId ?? 0,
+                    UploadedBy = cr.User!.Username
                 })
-                .FirstOrDefaultAsync(cr => cr.Id == id);
+                .FirstOrDefaultAsync();
         }
 
         public async Task<List<CustomResourceModel>> GetCustomResources(int? userId = null)
@@ -754,10 +774,13 @@ namespace WeddingShare.Helpers.Database
                 .Where(cr => userId == null || cr.UserId == userId)
                 .Select(cr => new CustomResourceModel()
                 {
+                    Id = cr.Id,
+                    Title = cr.Title,
                     FileName = cr.Filename,
-                    Owner = cr.UserId ?? 0
+                    Owner = cr.UserId ?? 0,
+                    UploadedBy = cr.User!.Username
                 })
-                .OrderBy(cr => cr.FileName!.ToLower())
+                .OrderBy(cr => cr.Title!.ToLower())
                 .ToListAsync();
         }
 
@@ -765,6 +788,7 @@ namespace WeddingShare.Helpers.Database
         {
             var customResourceEntry = await _db.CustomResources.AddAsync(new CustomResource()
             {
+                Title = model.Title,
                 Filename = model.FileName,
                 UserId = model.Owner,
                 CreatedAt = DateTimeOffset.UtcNow
@@ -780,6 +804,7 @@ namespace WeddingShare.Helpers.Database
 
             if (customResource != null)
             {
+                customResource.Title = model.Title;
                 customResource.Filename = model.FileName;
                 customResource.UserId = model.Owner;
 

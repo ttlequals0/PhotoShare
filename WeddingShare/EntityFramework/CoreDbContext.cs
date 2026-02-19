@@ -137,7 +137,8 @@ namespace WeddingShare.EntityFramework
 
             mb.Entity<CustomResource>(e =>
             {
-                e.Property(x => x.Filename).HasMaxLength(2000);
+                e.Property(x => x.Title).HasMaxLength(2000);
+                e.Property(x => x.Filename).HasMaxLength(50);
                 e.Property(x => x.CreatedAt).HasConversion(
                     v => v.UtcTicks,
                     v => new DateTimeOffset(v, TimeSpan.Zero)
