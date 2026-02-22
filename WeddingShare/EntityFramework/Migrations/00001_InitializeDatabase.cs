@@ -144,7 +144,7 @@ namespace WeddingShare.EntityFramework.Migrations
                         .Annotation("SqlServer:Identity", "1, 1")
                         .Annotation("Sqlite:Autoincrement", true),
                     GalleryId = table.Column<int>(nullable: false),
-                    Title = table.Column<string>(maxLength: 100, nullable: false),
+                    Title = table.Column<string>(maxLength: 500, nullable: false),
                     UploadedBy = table.Column<string>(maxLength: 100, nullable: false),
                     Checksum = table.Column<string>(maxLength: 1000, nullable: true),
                     FileSize = table.Column<int>(nullable: false),

@@ -69,7 +69,7 @@ namespace WeddingShare.EntityFramework
 
             mb.Entity<GalleryItem>(e =>
             {
-                e.Property(x => x.Title).HasMaxLength(100);
+                e.Property(x => x.Title).HasMaxLength(500);
                 e.Property(x => x.UploadedBy).HasMaxLength(100);
                 e.Property(x => x.Checksum).HasMaxLength(1000);
                 e.Property(x => x.FileSize).HasDefaultValue(0);
