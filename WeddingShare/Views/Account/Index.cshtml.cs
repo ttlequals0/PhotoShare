@@ -11,7 +11,8 @@ namespace WeddingShare.Views.Account
         {
         }
 
-        public AccountTabs ActiveTab { get; set; } = AccountTabs.Reviews;
+        public AccountTabs ActiveTab { get; set; } = AccountTabs.Account;
+        public UserModel? Account { get; set; }
         public List<PhotoGallery>? PendingRequests { get; set; }
         public List<UserModel>? Users { get; set; }
         public List<GalleryModel>? Galleries { get; set; }

@@ -2,12 +2,13 @@
 {
     public enum AccountTabs
     {
-        Reviews = 0,
-        Galleries = 1,
-        Users = 2,
-        Resources = 3,
-        Settings = 4,
-        Audit = 5,
-        Data = 6
+        Account = 0,
+        Reviews = 1,
+        Galleries = 2,
+        Users = 3,
+        Resources = 4,
+        Settings = 5,
+        Audit = 6,
+        Data = 7
     }
 }

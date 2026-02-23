@@ -27,6 +27,12 @@
                 <div class="row">
                     <div class="col-12">
                         <ul class="nav nav-tabs nav-horizontal-scroller">
+                            @if (userPermissions.Account.HasFlag(AccountPermissions.View))
+                            {
+                                <li class="nav-item">
+                                    <a class="pnl-selector nav-link @(Model.ActiveTab == AccountTabs.Account ? "active" : string.Empty)" href="#" data-tab="account">@_localizer["Account"].Value</a>
+                                </li>
+                            }
                             @if (userPermissions.Review.HasFlag(ReviewPermissions.View))
                             {
                                 <li class="nav-item">
@@ -75,7 +81,11 @@
             </div>
         </section>
 
-        @if (Model.ActiveTab == AccountTabs.Reviews && userPermissions.Review.HasFlag(ReviewPermissions.View))
+        @if (Model.ActiveTab == AccountTabs.Account && userPermissions.Account.HasFlag(AccountPermissions.View))
+        {
+            <partial name="~/Views/Account/Tabs/Account.cshtml" model="new AccountModel() { Account = Model.Account }" />
+        }
+        else if (Model.ActiveTab == AccountTabs.Reviews && userPermissions.Review.HasFlag(ReviewPermissions.View))
         {
             <partial name="~/Views/Account/Tabs/Reviews.cshtml" model="new ReviewsModel() { PendingRequests = Model?.PendingRequests, TotalItems = Model?.TotalItems ?? 0, TotalItemsPerPage = Model?.TotalItemsPerPage ?? 50 }" />
         }

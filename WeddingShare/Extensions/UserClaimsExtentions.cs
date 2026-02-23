@@ -140,7 +140,11 @@ namespace WeddingShare.Extensions
         public static AccountTabs GetDefaultTab(this IIdentity identity)
         {
             var userPermissions = identity?.GetUserPermissions() ?? new Permissions();
-            if (userPermissions.Review.HasFlag(ReviewPermissions.View))
+            if (userPermissions.Account.HasFlag(AccountPermissions.View))
+            {
+                return AccountTabs.Account;
+            }
+            else if (userPermissions.Review.HasFlag(ReviewPermissions.View))
             {
                 return AccountTabs.Reviews;
             }
@@ -184,7 +188,11 @@ namespace WeddingShare.Extensions
                     else
                     {
                         var hasPermissions = false;
-                        if (type.GetType() == typeof(ReviewPermissions))
+                        if (type.GetType() == typeof(AccountPermissions))
+                        {
+                            hasPermissions = permissions.Account.HasFlag(type);
+                        }
+                        else if (type.GetType() == typeof(ReviewPermissions))
                         {
                             hasPermissions = permissions.Review.HasFlag(type);
                         }

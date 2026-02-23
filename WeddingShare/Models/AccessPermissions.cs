@@ -6,6 +6,7 @@ namespace WeddingShare.Models
     {
         public Permissions()
         {
+            Account = AccountPermissions.None;
             Review = ReviewPermissions.None;
             Gallery = GalleryPermissions.None;
             Users = UserPermissions.None;
@@ -16,6 +17,7 @@ namespace WeddingShare.Models
             Features = FeaturePermissions.None;
         }
 
+        public AccountPermissions Account { get; set; }
         public ReviewPermissions Review { get; set; }
         public GalleryPermissions Gallery { get; set; }
         public UserPermissions Users { get; set; }
@@ -31,6 +33,9 @@ namespace WeddingShare.Models
         public BasicUserPermissions()
             : base()
         {
+            Account =
+                AccountPermissions.View
+                | AccountPermissions.Payments;
             Features = 
                 FeaturePermissions.UpgradeToUnlock;
             Gallery =
@@ -52,6 +57,9 @@ namespace WeddingShare.Models
         public PaidUserPermissions()
             : base()
         {
+            Account =
+                AccountPermissions.View
+                | AccountPermissions.Payments;
             Review =
                 ReviewPermissions.View
                 | ReviewPermissions.Approve
@@ -87,6 +95,8 @@ namespace WeddingShare.Models
         public ReviewerPermissions()
             : base()
         {
+            Account =
+                AccountPermissions.View;
             Review =
                 ReviewPermissions.View
                 | ReviewPermissions.Approve
@@ -104,6 +114,8 @@ namespace WeddingShare.Models
         public ModeratorPermissions()
             : base()
         {
+            Account =
+                AccountPermissions.View;
             Review =
                 ReviewPermissions.View
                 | ReviewPermissions.Approve
@@ -131,6 +143,8 @@ namespace WeddingShare.Models
         public AdminPermissions()
             : base()
         {
+            Account =
+                AccountPermissions.View;
             Review =
                  ReviewPermissions.View
                  | ReviewPermissions.Approve

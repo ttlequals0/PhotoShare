@@ -94,7 +94,35 @@ function bindAddUserButton() {
                         value: 'Admin'
                     }
                 ]
-            }],
+                },
+                {
+                    Id: 'user-tier',
+                    Name: localization.translate('User_Tier'),
+                    Hint: localization.translate('User_Tier_Hint'),
+                    Type: 'select',
+                    SelectOptions: [
+                        {
+                            key: '0',
+                            selected: true,
+                            value: 'None'
+                        },
+                        {
+                            key: '1',
+                            selected: false,
+                            value: 'Basic'
+                        },
+                        {
+                            key: '2',
+                            selected: false,
+                            value: 'Advanced'
+                        },
+                        {
+                            key: '3',
+                            selected: false,
+                            value: 'Premium'
+                        }
+                    ]
+                }],
             FooterHtml: `${generatePasswordValidationContainer('input#popup-modal-field-user-password')}`,
             Buttons: [{
                 Text: localization.translate('Add'),
@@ -139,10 +167,16 @@ function bindAddUserButton() {
                         return;
                     }
 
+                    let tier = $('#popup-modal-field-user-tier').val();
+                    if (tier == undefined || tier.length == 0) {
+                        displayMessage(localization.translate('User_Create'), localization.translate('User_Invalid_Tier'));
+                        return;
+                    }
+
                     $.ajax({
                         url: '/Account/AddUser',
                         method: 'POST',
-                        data: { Username: username, Email: email, Password: password, CPassword: cpassword, Level: level }
+                        data: { Username: username, Email: email, Password: password, CPassword: cpassword, Level: level, Tier: tier }
                     })
                         .done(data => {
                             if (data.success === true) {
@@ -222,6 +256,33 @@ function bindEditUserButton() {
                         value: 'Admin'
                     }
                 ] : []
+            }, {
+                Id: 'user-tier',
+                Name: localization.translate('User_Tier'),
+                Hint: localization.translate('User_Tier_Hint'),
+                Type: 'select',
+                SelectOptions: canModifyAccessLevel ? [
+                    {
+                        key: '0',
+                        selected: row.data('user-tier') == '0',
+                        value: 'None'
+                    },
+                    {
+                        key: '1',
+                        selected: row.data('user-tier') == '1',
+                        value: 'Basic'
+                    },
+                    {
+                        key: '2',
+                        selected: row.data('user-tier') == '2',
+                        value: 'Advanced'
+                    },
+                    {
+                        key: '3',
+                        selected: row.data('user-tier') == '3',
+                        value: 'Premium'
+                    }
+                ] : []
             }],
             Buttons: [{
                 Text: localization.translate('Update'),
@@ -248,10 +309,16 @@ function bindEditUserButton() {
                         return;
                     }
 
+                    let tier = $('#popup-modal-field-user-tier').val();
+                    if (canModifyAccessLevel && (tier == undefined || tier.length == 0)) {
+                        displayMessage(localization.translate('User_Edit'), localization.translate('User_Invalid_Tier'));
+                        return;
+                    }
+
                     $.ajax({
                         url: '/Account/EditUser',
                         method: 'PUT',
-                        data: { Id: id, Email: email, Level: level }
+                        data: { Id: id, Email: email, Level: level, Tier: tier }
                     })
                         .done(data => {
                             if (data.success === true) {

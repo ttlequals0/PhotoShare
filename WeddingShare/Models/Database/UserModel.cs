@@ -19,6 +19,14 @@ namespace WeddingShare.Models.Database
         public UserLevel Level { get; set; } = UserLevel.Basic;
         public PaidTier Tier { get; set; } = PaidTier.None;
 
+        public SubscriptionState SubscriptionState
+        {
+            get
+            {
+                return this.PaidUntil != null && this.PaidUntil >= DateTime.UtcNow ? SubscriptionState.Active : SubscriptionState.Inactive;
+            }
+        }
+
         public bool IsLockedOut
         {
             get 

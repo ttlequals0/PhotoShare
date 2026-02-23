@@ -1,6 +1,14 @@
 ﻿namespace WeddingShare.Enums
 {
     [Flags]
+    public enum AccountPermissions : long
+    {
+        None = 0,
+        View = 1,
+        Payments = 2
+    }
+
+    [Flags]
     public enum ReviewPermissions : long
     {
         None = 0,

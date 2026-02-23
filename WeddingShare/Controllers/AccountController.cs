@@ -555,6 +555,8 @@ namespace WeddingShare.Controllers
                 var user = await _database.GetUser(User.Identity.GetUserId());
                 if (user != null)
                 {
+                    model.Account = user;
+
                     if (User?.Identity?.IsPrivilegedUser() ?? false)
                     {
                         if (model.ActiveTab == AccountTabs.Reviews)
@@ -1380,6 +1382,7 @@ namespace WeddingShare.Controllers
                             if (User.Identity.IsPrivilegedUser() && User.Identity.GetUserPermissions().Users.HasFlag(UserPermissions.Change_Permissions_Level))
                             { 
                                 user.Level = model.Level;
+                                user.Tier = model.Tier;
                             }
                          
                             await _audit.LogAction(User?.Identity?.GetUserId(), $"{_localizer["Audit_UpdatedUser"].Value} '{user?.Username}'", AuditSeverity.Verbose);
