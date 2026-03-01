@@ -11,4 +11,4 @@ assignees: ''
 A clear and concise description of the changes being made.
 
 **Pull Request:**
-A link to the pull request containing the updates to BOTH languages resource as specified by the documentation - `https://docs.wedding-share.org/docs/languages#addingupdating-languages`.
+A link to the pull request containing the updates to language resources as specified by the documentation - `https://docs.memtly.com/docs/languages#addingupdating-languages`.
