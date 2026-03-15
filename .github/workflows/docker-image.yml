@@ -30,9 +30,11 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build the Docker image
-        run: docker build . --file Memtly.Community/Memtly.Community/Dockerfile \
-          --tag ghcr.io/memtly/memtly:ce \
-          --tag ghcr.io/memtly/memtly:latest
+        run: |
+          docker build . \
+            --file Memtly.Community/Memtly.Community/Dockerfile \
+            --tag ghcr.io/memtly/memtly:ce \
+            --tag ghcr.io/memtly/memtly:latest
 
       - name: Push the Docker image
         run: |
