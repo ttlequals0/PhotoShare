@@ -1,4 +1,4 @@
-﻿using Memtly.Community.Extensions;
+﻿using Memtly.Core.Extensions;
 
 namespace Memtly.Community
 {

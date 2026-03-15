@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://github.com/Memtly/Memtly.Assets/blob/master/Community/Memtly%20Icon%20(Community).png?raw=true" style="width: 15%;" />
+  <img src="Icon.png" style="width: 15%;" />
   <h1>Memtly.Community</h1><br/>
 </div>
 
@@ -39,42 +39,42 @@ Not all image formats are supported in browsers so although you may be able to a
 
 ### Desktop
 
-![Homepage](screenshots/Homepage.png)
+![Homepage](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Desktop/Light/Homepage.png)
 
-![Gallery](screenshots/Gallery.png)
+![Gallery](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Desktop/Light/Gallery.png)
 
-![Gallery](screenshots/Gallery-FullWidth.png)
+![Gallery](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Desktop/Light/Gallery-FullWidth.png)
 
-![Gallery](screenshots/Gallery-Presentation.png)
+![Gallery](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Desktop/Light/Gallery-Presentation.png)
 
-![Gallery](screenshots/Gallery-Slideshow.png)
+![Gallery](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Desktop/Light/Gallery-Slideshow.png)
 
-![Admin Area](screenshots/Admin.png)
+![Admin Area](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Desktop/Light/Admin.png)
 
 ### Mobile
 
-![Homepage](screenshots/Homepage-Mobile.png)
+![Homepage](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Mobile/Light/Homepage.png)
 
-![Gallery](screenshots/Gallery-Mobile.png)
+![Gallery](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Mobile/Light/Gallery.png)
 
-![Admin Area](screenshots/Admin-Mobile.png)
+![Admin Area](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Mobile/Light/Admin.png)
 
 ### Dark Mode
 
-![Homepage](screenshots/Homepage-Dark.png)
+![Homepage](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Desktop/Dark/Homepage.png)
 
-![Gallery](screenshots/Gallery-Dark.png)
+![Gallery](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Desktop/Dark/Gallery.png)
 
-![Gallery](screenshots/Gallery-FullWidth-Dark.png)
+![Gallery](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Desktop/Dark/Gallery-FullWidth.png)
 
-![Gallery](screenshots/Gallery-Presentation-Dark.png)
+![Gallery](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Desktop/Dark/Gallery-Presentation.png)
 
-![Gallery](screenshots/Gallery-Slideshow-Dark.png)
+![Gallery](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Desktop/Dark/Gallery-Slideshow.png)
 
-![Admin Area](screenshots/Admin-Dark.png)
+![Admin Area](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Desktop/Dark/Admin.png)
 
-![Homepage](screenshots/Homepage-Mobile-Dark.png)
+![Homepage](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Mobile/Dark/Homepage.png)
 
-![Gallery](screenshots/Gallery-Mobile-Dark.png)
+![Gallery](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Mobile/Dark/Gallery.png)
 
-![Admin Area](screenshots/Admin-Mobile-Dark.png)
+![Admin Area](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Mobile/Dark/Admin.png)
