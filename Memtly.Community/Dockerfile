@@ -1,5 +1,3 @@
-#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
 WORKDIR /app
 EXPOSE 5000
@@ -15,11 +13,11 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /src
-COPY ["Memtly.Community/Memtly.Community.csproj", "Memtly.Community/"]
+COPY ["Memtly.Community/Memtly.Community/Memtly.Community.csproj", "Memtly.Community/Memtly.Community/"]
 COPY ["Memtly.Core/Memtly.Core/Memtly.Core.csproj", "Memtly.Core/Memtly.Core/"]
-RUN dotnet restore -a $TARGETARCH "./Memtly.Community/Memtly.Community.csproj"
+RUN dotnet restore -a $TARGETARCH "./Memtly.Community/Memtly.Community/Memtly.Community.csproj"
 COPY . .
-WORKDIR "/src/Memtly.Community"
+WORKDIR "/src/Memtly.Community/Memtly.Community"
 RUN dotnet build "./Memtly.Community.csproj" -a $TARGETARCH -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
