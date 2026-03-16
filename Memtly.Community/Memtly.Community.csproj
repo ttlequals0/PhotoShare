@@ -24,12 +24,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Memtly.Core\Memtly.Core\Memtly.Core.csproj" />
+    <ProjectReference Include="..\Memtly.Core\Memtly.Core\Memtly.Core.csproj" />
   </ItemGroup>
   
   <Target Name="CheckMemtlyCoreExists" BeforeTargets="BeforeBuild">
-    <Error
-      Condition="!Exists('..\..\Memtly.Core\Memtly.Core\Memtly.Core.csproj')"
-      Text="Memtly.Core project not found. Please clone https://github.com/Memtly/Memtly.Core alongside this project." />
+    <Error Condition="!Exists('..\Memtly.Core\Memtly.Core\Memtly.Core.csproj')" Text="Memtly.Core project not found. Please clone all submodules by running: git submodule update --init --recursive --remote." />
   </Target>
 </Project>
