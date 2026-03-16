@@ -13,12 +13,17 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /src
-COPY ["Memtly.Community/nuget.config", "nuget.config"]
-COPY ["Memtly.Community/Memtly.Community/Memtly.Community.csproj", "Memtly.Community/Memtly.Community/"]
+COPY ["Memtly.Community/Memtly.Community.csproj", "Memtly.Community/Memtly.Community/"]
 COPY ["Memtly.Core/Memtly.Core/Memtly.Core.csproj", "Memtly.Core/Memtly.Core/"]
 RUN dotnet restore -a $TARGETARCH "./Memtly.Community/Memtly.Community/Memtly.Community.csproj"
 COPY . .
-WORKDIR "/src/Memtly.Community/Memtly.Community"
+WORKDIR "/src/Memtly.Community"
+RUN --mount=type=secret,id=nuget_token \
+    dotnet nuget update source GitHub \
+    --username x \
+    --password $(cat /run/secrets/nuget_token) \
+    --store-password-in-clear-text \
+    --configfile nuget.config
 RUN dotnet build "./Memtly.Community.csproj" -a $TARGETARCH -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
