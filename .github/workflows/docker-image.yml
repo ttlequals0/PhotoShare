@@ -29,6 +29,7 @@ jobs:
           context: .
           file: Memtly.Community/Dockerfile
           push: true
+          no-cache: true
           tags: |
             ghcr.io/memtly/memtly:ce
             ghcr.io/memtly/memtly:latest
