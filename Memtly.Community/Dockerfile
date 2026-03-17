@@ -18,7 +18,7 @@ COPY ["nuget.config", "."]
 RUN --mount=type=secret,id=nuget_token \
     dotnet nuget update source GitHub \
     --username x \
-    --password $(cat /run/secrets/nuget_token) \
+    --password $(cat /run/secrets/nuget_token | tr -d '[:space:]') \
     --store-password-in-clear-text \
     --configfile nuget.config
 
