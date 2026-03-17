@@ -19,7 +19,6 @@ COPY ["Memtly.Core/Memtly.Core/Memtly.Core.csproj", "Memtly.Core/Memtly.Core/"]
 
 RUN --mount=type=secret,id=nuget_token \
     export NUGET_TOKEN=$(cat /run/secrets/nuget_token | tr -d '[:space:]') && \
-    printenv | grep NUGET && \
     dotnet restore -a $TARGETARCH "./Memtly.Community/Memtly.Community/Memtly.Community.csproj"
 
 COPY . .
