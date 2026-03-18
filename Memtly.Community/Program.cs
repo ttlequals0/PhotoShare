@@ -1,3 +1,5 @@
+using Memtly.Core;
+using Memtly.Core.Enums;
 using Microsoft.AspNetCore;
 
 namespace Memtly.Community
@@ -7,6 +9,7 @@ namespace Memtly.Community
         public static void Main(string[] args)
         {
             CreateWebHostBuilder(args).Build().Run();
+            MemtlyCore.Version = MemtlyVersion.Community;
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
