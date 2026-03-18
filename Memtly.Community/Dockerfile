@@ -15,12 +15,10 @@ RUN apt-get update && \
 WORKDIR /src
 COPY ["Memtly.Community/Memtly.Community.csproj", "Memtly.Community/"]
 COPY ["Memtly.Core/Memtly.Core/Memtly.Core.csproj", "Memtly.Core/Memtly.Core/"]
-COPY ["nuget.config", "."]
 COPY . .
 
 RUN --mount=type=secret,id=nuget_token \
-    TOKEN=$(cat /run/secrets/nuget_token | tr -d '[:space:]') && \
-    sed -i "s|%NUGET_TOKEN%|${TOKEN}|g" nuget.config && \
+    export NUGET_TOKEN=$(cat /run/secrets/nuget_token | tr -d '[:space:]') && \
     dotnet restore -a $TARGETARCH "./Memtly.Community/Memtly.Community.csproj"
 
 WORKDIR "/src/Memtly.Community"
