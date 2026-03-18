@@ -19,7 +19,8 @@ COPY ["nuget.config", "."]
 COPY . .
 
 RUN --mount=type=secret,id=nuget_token \
-    sed -i "s|%NUGET_TOKEN%|$(cat /run/secrets/nuget_token | tr -d '[:space:]')|g" nuget.config && \
+    TOKEN=$(cat /run/secrets/nuget_token | tr -d '[:space:]') && \
+    sed -i "s|%NUGET_TOKEN%|${TOKEN}|g" nuget.config && \
     dotnet restore -a $TARGETARCH "./Memtly.Community/Memtly.Community.csproj"
 
 WORKDIR "/src/Memtly.Community"
