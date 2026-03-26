@@ -8,8 +8,8 @@ namespace Memtly.Community
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
             MemtlyCore.Version = MemtlyVersion.Community;
+            CreateWebHostBuilder(args).Build().Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
