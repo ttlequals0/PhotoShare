@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="Icon.png" style="width: 15%;" />
+  <img src="Memtly.png" style="width: 15%;" />
   <h1>Memtly.Community</h1><br/>
 </div>
 
