@@ -11,8 +11,8 @@ Memtly is a very basic site with only one goal. It provides you and your guests 
 
 Thank you to everyone that supports this project. For anyone that hasn't yet I would be grateful if you would show some support by "buying me a coffee" or sponsoring on GitHub using the links below. All proceeds will go towards maintaining and improving this project.
 
-- BuyMeACoffee - https://buymeacoffee.com/cirx08
-- GitHub Sponsors - https://github.com/sponsors/Cirx08
+- BuyMeACoffee - https://buymeacoffee.com/memtly
+- GitHub Sponsors - https://github.com/sponsors/Memtly
 
 ## Demo
 Why not give it a try before installing? Take a look at the demo site here - https://demo.memtly.com/
@@ -31,50 +31,88 @@ Not all image formats are supported in browsers so although you may be able to a
 ## Links
 - Documentation - https://docs.memtly.com
 - GitHub - https://github.com/Memtly/Memtly.Community
-- DockerHub - https://hub.docker.com/r/cirx08/memtly
-- BuyMeACoffee - https://buymeacoffee.com/cirx08
-- GitHub Sponsors - https://github.com/sponsors/Cirx08
+- DockerHub - https://hub.docker.com/r/memtly/memtly
+- BuyMeACoffee - https://buymeacoffee.com/memtly
+- GitHub Sponsors - https://github.com/sponsors/Memtly
 
 ## Screenshots
 
-### Desktop
+### Desktop (Light)
 
-![Homepage](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Desktop/Light/Homepage.png)
+![Homepage](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Community/Desktop/Light/Homepage.png)
 
-![Gallery](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Desktop/Light/Gallery.png)
+![Gallery](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Community/Desktop/Light/Gallery.png)
 
-![Gallery](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Desktop/Light/Gallery-FullWidth.png)
+![Admin Area - Reviews Tab](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Community/Desktop/Light/AdminPanel_ReviewsTab.png)
 
-![Gallery](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Desktop/Light/Gallery-Presentation.png)
+![Admin Area - Galleries Tab](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Community/Desktop/Light/AdminPanel_GalleriesTab.png)
 
-![Gallery](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Desktop/Light/Gallery-Slideshow.png)
+![Admin Area - Users Tab](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Community/Desktop/Light/AdminPanel_UsersTab.png)
 
-![Admin Area](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Desktop/Light/Admin.png)
+![Admin Area - Resources Tab](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Community/Desktop/Light/AdminPanel_ResourcesTab.png)
 
-### Mobile
+![Admin Area - Settings Tab](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Community/Desktop/Light/AdminPanel_SettingsTab.png)
 
-![Homepage](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Mobile/Light/Homepage.png)
+![Admin Area - Audit Tab](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Community/Desktop/Light/AdminPanel_AuditTab.png)
 
-![Gallery](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Mobile/Light/Gallery.png)
+![Admin Area - Data Tab](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Community/Desktop/Light/AdminPanel_DataTab.png)
 
-![Admin Area](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Mobile/Light/Admin.png)
+### Desktop (Dark)
 
-### Dark Mode
+![Homepage](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Community/Desktop/Dark/Homepage.png)
 
-![Homepage](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Desktop/Dark/Homepage.png)
+![Gallery](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Community/Desktop/Dark/Gallery.png)
 
-![Gallery](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Desktop/Dark/Gallery.png)
+![Admin Area - Reviews Tab](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Community/Desktop/Dark/AdminPanel_ReviewsTab.png)
 
-![Gallery](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Desktop/Dark/Gallery-FullWidth.png)
+![Admin Area - Galleries Tab](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Community/Desktop/Dark/AdminPanel_GalleriesTab.png)
 
-![Gallery](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Desktop/Dark/Gallery-Presentation.png)
+![Admin Area - Users Tab](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Community/Desktop/Dark/AdminPanel_UsersTab.png)
 
-![Gallery](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Desktop/Dark/Gallery-Slideshow.png)
+![Admin Area - Resources Tab](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Community/Desktop/Dark/AdminPanel_ResourcesTab.png)
 
-![Admin Area](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Desktop/Dark/Admin.png)
+![Admin Area - Settings Tab](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Community/Desktop/Dark/AdminPanel_SettingsTab.png)
 
-![Homepage](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Mobile/Dark/Homepage.png)
+![Admin Area - Audit Tab](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Community/Desktop/Dark/AdminPanel_AuditTab.png)
 
-![Gallery](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Mobile/Dark/Gallery.png)
+![Admin Area - Data Tab](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Community/Desktop/Dark/AdminPanel_DataTab.png)
 
-![Admin Area](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Mobile/Dark/Admin.png)
+### Mobile (Light)
+
+![Homepage](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Community/Mobile/Light/Homepage.png)
+
+![Gallery](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Community/Mobile/Light/Gallery.png)
+
+![Admin Area - Reviews Tab](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Community/Mobile/Light/AdminPanel_ReviewsTab.png)
+
+![Admin Area - Galleries Tab](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Community/Mobile/Light/AdminPanel_GalleriesTab.png)
+
+![Admin Area - Users Tab](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Community/Mobile/Light/AdminPanel_UsersTab.png)
+
+![Admin Area - Resources Tab](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Community/Mobile/Light/AdminPanel_ResourcesTab.png)
+
+![Admin Area - Settings Tab](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Community/Mobile/Light/AdminPanel_SettingsTab.png)
+
+![Admin Area - Audit Tab](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Community/Mobile/Light/AdminPanel_AuditTab.png)
+
+![Admin Area - Data Tab](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Community/Mobile/Light/AdminPanel_DataTab.png)
+
+### Mobile (Dark)
+
+![Homepage](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Community/Mobile/Dark/Homepage.png)
+
+![Gallery](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Community/Mobile/Dark/Gallery.png)
+
+![Admin Area - Reviews Tab](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Community/Mobile/Dark/AdminPanel_ReviewsTab.png)
+
+![Admin Area - Galleries Tab](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Community/Mobile/Dark/AdminPanel_GalleriesTab.png)
+
+![Admin Area - Users Tab](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Community/Mobile/Dark/AdminPanel_UsersTab.png)
+
+![Admin Area - Resources Tab](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Community/Mobile/Dark/AdminPanel_ResourcesTab.png)
+
+![Admin Area - Settings Tab](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Community/Mobile/Dark/AdminPanel_SettingsTab.png)
+
+![Admin Area - Audit Tab](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Community/Mobile/Dark/AdminPanel_AuditTab.png)
+
+![Admin Area - Data Tab](https://raw.githubusercontent.com/Memtly/Memtly.Assets/master/Screenshots/Community/Mobile/Dark/AdminPanel_DataTab.png)
