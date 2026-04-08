@@ -5,7 +5,11 @@
 
 ## About
 
-Memtly is a very basic site with only one goal. It provides you and your guests a way to share memories of and leading up to an event. Simply provide your guests with a link to a gallery either via a Url or even better by printing out the provided QR code and handing it out to your guests on arrival. Doing so will allow them to view your journey up to this point and give them the ability to share their experience on the day by uploading their own images and videos. 
+Memtly (formally WeddingShare) is a very basic site with only one goal. It provides you and your guests a way to share memories of and leading up to an event. Simply provide your guests with a link to a gallery either via a Url or even better by printing out the provided QR code and handing it out to your guests on arrival. Doing so will allow them to view your journey up to this point and give them the ability to share their experience on the day by uploading their own images and videos. 
+
+## Why Rebrand / Rename?
+
+Originally this project was called `WeddingShare`. As more and more people started using it we quickly realised that people were using it for more than just weddings. We've seen concerts, friend trips, and a whole host of other events. It only felt right that we rebrand to something more "generic" to cover all bases and reduce confusion when inevitably someone recommends it to a friend and their response is "but I'm not getting married". That's where Memtly comes in... Now along with the improved look, we also have an improved name.
 
 ## Support
 
@@ -15,9 +19,11 @@ Thank you to everyone that supports this project. For anyone that hasn't yet I w
 - GitHub Sponsors - https://github.com/sponsors/Memtly
 
 ## Demo
+
 Why not give it a try before installing? Take a look at the demo site here - https://demo.memtly.com/
 
 ## Documentation & Setup
+
 For a setup steps and a full list of configurable options please view the documentation site - https://docs.memtly.com.
 
 ## Disclaimer
