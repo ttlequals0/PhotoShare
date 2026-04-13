@@ -32,7 +32,7 @@ Warning. This is open-source software (GPL-V3), and while we make a best effort 
 
 ## Notes
 
-Not all image formats are supported in browsers so although you may be able to add them via the ALLOWED_FILE_TYPES environment variable they may not be supported. One such format is Apples .HEIC format. It is a licensed format which as a result has not been widely adopted outside of Apple devices. This is outside the control of this project and will not be supported, instead let users devices automatically convert the images to .JPG format. Please do not allow the .HEIC format, any issues opened will be closed as this project wil not support it until it is adopted by modern web browsers.
+Not all image formats are supported in browsers so although you may be able to add them via the `GALLERY_ALLOWED_FILE_TYPES` environment variable they may not be supported. One such format is Apples .HEIC format. It is a licensed format which as a result has not been widely adopted outside of Apple devices. This is outside the control of this project and will not be supported, instead let users devices automatically convert the images to .JPG format. Please do not allow the .HEIC format, any issues opened will be closed as this project wil not support it until it is adopted by modern web browsers.
 
 ## Links
 - Documentation - https://docs.memtly.com
