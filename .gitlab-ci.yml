@@ -104,6 +104,6 @@ push_docker_hub:
   only:
     - tags
   script:
-    - docker buildx build --tag $DOCKERHUB_USERNAME/memtly_community:$CI_COMMIT_REF_NAME --tag $DOCKERHUB_USERNAME/memtly_community:latest --tag $DOCKERHUB_USERNAME/memtly:$CI_COMMIT_REF_NAME --tag $DOCKERHUB_USERNAME/memtly:latest --platform $BUILD_PLATFORMS --build-arg BUILDKIT_MAX_PARALLELISM=$BUILD_PARALLEL_COUNT --push -f $BUILD_DOCKERFILE .
+    - docker buildx build --tag $DOCKERHUB_USERNAME/memtly_community:$CI_COMMIT_REF_NAME --tag $DOCKERHUB_USERNAME/memtly_community:latest --tag $DOCKERHUB_USERNAME/memtly:$CI_COMMIT_REF_NAME --tag $DOCKERHUB_USERNAME/memtly:ce --tag $DOCKERHUB_USERNAME/memtly:latest --platform $BUILD_PLATFORMS --build-arg BUILDKIT_MAX_PARALLELISM=$BUILD_PARALLEL_COUNT --push -f $BUILD_DOCKERFILE .
   needs:
     - push_tag
