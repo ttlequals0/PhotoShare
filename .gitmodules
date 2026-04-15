@@ -1,4 +1,4 @@
 [submodule "Memtly.Core"]
 	path = Memtly.Core
-	url = https://github.com/Memtly/Memtly.Core
+	url = https://gitlab.cirx08.com/memtly/memtly.core
 	branch = master
