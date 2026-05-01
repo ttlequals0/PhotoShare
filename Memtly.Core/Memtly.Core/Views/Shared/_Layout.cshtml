@@ -77,7 +77,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        
+
+        <link rel="manifest" href="~/manifest.webmanifest" />
+        <meta name="theme-color" content="#1b1938" media="(prefers-color-scheme: dark)" />
+        <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="@title" />
+        <link rel="apple-touch-icon" href="~/_content/Memtly.Core/images/photoshare-icon-light.svg" />
+
         <link rel="stylesheet" href="~/_content/Memtly.Core/dist/main.css" asp-append-version="true" />
         @if (theme.Equals(Themes.AutoDetect.ToString().ToLower(), StringComparison.OrdinalIgnoreCase))
         {
@@ -228,6 +236,14 @@
         
         <!-- Webpack -->
         <script src="~/_content/Memtly.Core/dist/main.js" asp-append-version="true"></script>
+
+        <script>
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function () {
+                    navigator.serviceWorker.register('/sw.js').catch(function () { /* ignore */ });
+                });
+            }
+        </script>
 
         @await RenderSectionAsync("Scripts", required: false)
 
