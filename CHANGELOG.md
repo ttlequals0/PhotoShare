@@ -10,6 +10,13 @@ changes shipped below.
 
 ## [Unreleased]
 
+### Added
+
+- **`/healthz` liveness endpoint** for Docker / Cloudflare Tunnel
+  origin checks / external uptime monitors. Anonymous, no DB hit,
+  returns 200 / "Healthy". Dockerfile gains a `HEALTHCHECK`
+  instruction that pings it every 30 seconds.
+
 ### Security
 
 - **MFA failure now counts toward lockout and is rate-limited.**

@@ -33,4 +33,6 @@ RUN groupadd -r --gid 10001 photoshare && \
 COPY --from=publish --chown=photoshare:photoshare /app/publish .
 RUN mkdir -p /app/config && chown -R photoshare:photoshare /app
 USER photoshare
+HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
+  CMD wget --no-verbose --tries=1 --spider http://localhost:5000/healthz || exit 1
 ENTRYPOINT ["dotnet", "PhotoShare.dll"]
