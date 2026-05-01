@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="Memtly.Core/Memtly.Core/wwwroot/images/photoshare-logo-light.svg" alt="PhotoShare" width="240" />
+  <img src="Memtly.Core/Memtly.Core/wwwroot/images/photoshare-logo-light.svg" alt="PhotoShare" width="560" />
   <h1>PhotoShare</h1>
 </div>
 
