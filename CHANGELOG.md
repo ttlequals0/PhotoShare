@@ -10,6 +10,68 @@ changes shipped below.
 
 ## [Unreleased]
 
+### Added
+
+- **Design system foundation** (`src/css/tokens.css`) - Superhuman-inspired
+  tokens for color (hue + semantic), typography (Inter Variable at the
+  non-standard 460/540 weights from DESIGN.md), 8px spacing scale,
+  binary 8/16px radius, restrained shadows. Tokens flip light/dark via
+  `prefers-color-scheme` AND via Memtly's `<body data-theme>` cookie.
+- **Inter Variable self-hosted** at `src/fonts/InterVariable.woff2`
+  (rsms/inter, OFL).
+- **PWA artifacts**:
+  - `wwwroot/manifest.webmanifest` (theme/background colors, standalone
+    display, portrait orientation).
+  - `wwwroot/sw.js` service worker with three caching strategies:
+    cache-first for hashed bundle output, stale-while-revalidate for the
+    app shell, never cache for `/uploads`, `/thumbnails`, `/temp`,
+    `/custom_resources`.
+  - PNG icon set at `wwwroot/icons/icon-{16,32,180,192,256,384,512}.png`
+    (rsvg-convert from the PhotoShare icon SVG, white background composited).
+- **`.hero-surface` utility** - DESIGN.md gradient hero composition
+  (radial lavender glow over a vertical purple gradient). Children get
+  white-on-purple typography automatically.
+
+### Changed
+
+- **Body typography** uses tokens: Inter at weight 460, type-body 16/1.5,
+  ink color, surface background.
+- **Headings** (`h1`-`h6` and `.h1`-`.h6`) follow DESIGN.md type scale
+  with negative letter-spacing on display-tier sizes; mobile breakpoint
+  at 768px scales h1/h2/h3 down.
+- **Bootstrap components reskinned** to consume tokens:
+  - Buttons: `.btn`, `.btn-primary` (warm cream + charcoal),
+    `.btn-secondary` (charcoal + white), `.btn-link`. Semantic variants
+    (`.btn-success`, `.btn-danger`, `.btn-warning`, `.btn-info`)
+    intentionally untouched.
+  - Forms: `.form-control`, `.form-select`, `.form-label`, `.form-text`,
+    `.form-check-input`, `.invalid-feedback`. Charcoal focus border with
+    3px amethyst@15% ring.
+  - Cards: 16px radius, parchment border, `--elevation-card` shadow,
+    24/16px body padding.
+  - Navbar: surface bg, parchment bottom border, Inter at 460/540, plus
+    `.navbar-dark` inversion.
+  - Modals, alerts, tables, dropdowns, pagination, badges, list-groups,
+    tabs (`.nav-tabs`/`.nav-pills`), toasts, spinners.
+- **App-specific selectors** `.btn-upload`, `.upload_drop`, `.image-tile`
+  pulled onto tokens without changing structural behavior.
+- **Apple touch icon** now points to a 180x180 PNG (was a wide-aspect
+  SVG that iOS Safari rendered inconsistently).
+- **Browser favicon** uses dedicated 16x16 / 32x32 PNGs (was the wide
+  logo SVG with a mismatched `type="image/png"` attribute).
+- **Logo backgrounds removed** from the four PhotoShare brand SVGs so
+  they compose cleanly on whatever surface they land on. Dark variants
+  retain their semi-transparent heroGlow overlay (alpha-aware).
+- **Logo size in README** bumped 240 -> 560 px.
+
+### Documentation
+
+- `docs/cloudflare.md` - Cloudflare Tunnel + WAF ruleset for public
+  exposure (Tunnel config, SSL/TLS Full Strict, custom rules,
+  rate-limiting, Bot Fight Mode, Cloudflare Access for `/Admin*`,
+  Turnstile on `/Account/Register`, cache rules, ForwardedHeaders
+  coordination).
+
 ## [2.0.0] - 2026-05-01
 
 First PhotoShare release. Forked from Memtly.Community 1.0.2.2 at SHA `2dd5f06`.
