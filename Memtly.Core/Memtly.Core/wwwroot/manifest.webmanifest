@@ -1,0 +1,25 @@
+{
+  "name": "PhotoShare",
+  "short_name": "PhotoShare",
+  "description": "Share memories from your event - upload photos, browse the gallery, and download what you love.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#ffffff",
+  "theme_color": "#1b1938",
+  "icons": [
+    {
+      "src": "/_content/Memtly.Core/images/photoshare-icon-light.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/_content/Memtly.Core/images/photoshare-icon-dark.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "monochrome"
+    }
+  ]
+}

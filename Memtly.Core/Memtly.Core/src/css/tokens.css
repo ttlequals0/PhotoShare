@@ -1,0 +1,98 @@
+/*
+ * PhotoShare design tokens.
+ * Source: DESIGN.md (Superhuman-inspired). Tokens are *named functionally*;
+ * see DESIGN.md for the original palette names. Existing Memtly theme files
+ * in src/themes/ continue to ship and override visual specifics per-theme;
+ * these tokens establish the new vocabulary the upcoming reskin will use.
+ */
+
+:root {
+  /* Hue tokens - constant across light/dark */
+  --color-purple-deep:      #1b1938;
+  --color-amethyst:         #714cb6;
+  --color-lavender:         #cbb7fb;
+  --color-charcoal:         #292827;
+  --color-cream:            #e9e5dd;
+  --color-parchment:        #dcd7d3;
+  --color-pure-white:       #ffffff;
+  --color-on-dark:          rgba(255, 255, 255, 0.95);
+  --color-on-dark-muted:    rgba(255, 255, 255, 0.80);
+  --color-on-dark-border:   rgba(255, 255, 255, 0.20);
+
+  /* Semantic surface tokens - light by default */
+  --surface:                var(--color-pure-white);
+  --surface-raised:         var(--color-pure-white);
+  --surface-button:         var(--color-cream);
+  --surface-hero:           var(--color-purple-deep);
+  --ink:                    var(--color-charcoal);
+  --ink-muted:              rgba(41, 40, 39, 0.70);
+  --link:                   var(--color-amethyst);
+  --accent:                 var(--color-lavender);
+  --border:                 var(--color-parchment);
+
+  /* Typography */
+  --font-sans: 'Inter Variable', 'Inter', system-ui, -apple-system,
+               BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Non-standard weights between Regular(400) and Medium(500), per DESIGN.md.
+     Browsers without variable-font support will fall back to the nearest
+     available static weight; Inter Variable supports 460 / 540 directly. */
+  --font-weight-regular:    460;
+  --font-weight-medium:     540;
+  --font-weight-semibold:   600;
+  --font-weight-bold:       700;
+
+  /* Type scale (px) */
+  --type-display-hero:      64px;
+  --type-display-section:   48px;
+  --type-feature:           28px;
+  --type-subheading:        26px;
+  --type-card-heading:      22px;
+  --type-body-heading:      20px;
+  --type-emphasis:          18px;
+  --type-body:              16px;
+  --type-caption:           14px;
+  --type-micro:             12px;
+
+  /* Line heights */
+  --line-display:           0.96;   /* compressed display */
+  --line-feature:           1.14;
+  --line-tight:             1.20;
+  --line-body:              1.50;   /* generous body */
+
+  /* Spacing scale (8px base) */
+  --space-1:   2px;
+  --space-2:   4px;
+  --space-3:   8px;
+  --space-4:  12px;
+  --space-5:  16px;
+  --space-6:  24px;
+  --space-7:  32px;
+  --space-8:  48px;
+  --space-9:  64px;
+
+  /* Radii (binary scale per DESIGN.md) */
+  --radius-sm:              8px;
+  --radius-lg:             16px;
+
+  /* Borders */
+  --border-light:           1px solid var(--border);
+  --border-strong:          1px solid var(--ink);
+  --border-on-hero:         1px solid var(--color-on-dark-border);
+
+  /* Shadows - restrained per DESIGN.md */
+  --elevation-card:         0 1px 0 rgba(0, 0, 0, 0.02);
+  --elevation-overlay:      0 24px 64px rgba(27, 25, 56, 0.08);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --surface:              var(--color-purple-deep);
+    --surface-raised:       #232043;
+    --surface-button:       rgba(255, 255, 255, 0.08);
+    --ink:                  var(--color-on-dark);
+    --ink-muted:            var(--color-on-dark-muted);
+    --link:                 var(--color-lavender);
+    --border:               var(--color-on-dark-border);
+  }
+}
