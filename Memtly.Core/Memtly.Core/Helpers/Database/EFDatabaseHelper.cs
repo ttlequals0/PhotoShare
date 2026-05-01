@@ -553,6 +553,25 @@ namespace Memtly.Core.Helpers.Database
                 .CountAsync(u => u.Level != UserLevel.System && u.Username.ToLower().Equals(username.ToLower()) && u.Password.Equals(password))) > 0;
         }
 
+        public async Task<string?> GetUserPasswordHash(string username)
+        {
+            return await _db.Users
+                .Where(u => u.Level != UserLevel.System && u.Username.ToLower().Equals(username.ToLower()))
+                .Select(u => u.Password)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<bool> UpdateUserPasswordHash(int userId, string newHash)
+        {
+            var user = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            if (user == null)
+            {
+                return false;
+            }
+            user.Password = newHash;
+            return await _db.SaveChangesAsync() > 0;
+        }
+
         public async Task<int> GetUserCount()
         {
             return await _db.Users

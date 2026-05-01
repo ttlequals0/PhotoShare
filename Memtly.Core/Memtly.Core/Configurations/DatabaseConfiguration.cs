@@ -87,7 +87,7 @@ namespace Memtly.Core.Configurations
 
             ctx.Database.Migrate();
 
-            var encryption = bsp.GetRequiredService<IEncryptionHelper>();
+            var passwordHasher = bsp.GetRequiredService<IPasswordHasher>();
             var logger = bsp.GetRequiredService<ILogger<EFDatabaseHelper>>();
 
             using (var scope = bsp.CreateScope())
@@ -95,15 +95,18 @@ namespace Memtly.Core.Configurations
                 var db = scope.ServiceProvider.GetRequiredService<IDatabaseHelper>();
 
                 logger.LogInformation($"Initializing database - {MemtlyCore.DatabaseType}");
-                InitializeDatabase(config, db, encryption, logger);
+                InitializeDatabase(config, db, passwordHasher, logger);
                 logger.LogInformation($"Initialization complete");
             }
         }
 
-        private static void InitializeDatabase(IConfigHelper config, IDatabaseHelper database, IEncryptionHelper encryption, ILogger logger)
+        private static void InitializeDatabase(IConfigHelper config, IDatabaseHelper database, IPasswordHasher passwordHasher, ILogger logger)
         {
             var isDemoMode = config.GetOrDefault(MemtlyConfiguration.IsDemoMode, false);
-            var password = encryption.Encrypt(!isDemoMode ? config.GetOrDefault(MemtlyConfiguration.Account.Admin.Password, config.GetOrDefault(MemtlyConfiguration.Account.Admin.Password, "admin")) : "demo", UserAccounts.AdminUser.ToLower());
+            var adminPlaintext = !isDemoMode
+                ? config.GetOrDefault(MemtlyConfiguration.Account.Admin.Password, "admin")
+                : "demo";
+            var password = passwordHasher.Hash(adminPlaintext);
             var allowInsecureGalleries = config.GetOrDefault(MemtlyConfiguration.Security.Hardening.AllowInsecureGalleries, true);
             var defaultSecretKey = config.GetOrDefault(MemtlyConfiguration.Basic.DefaultGallerySecretKey, string.Empty);
 

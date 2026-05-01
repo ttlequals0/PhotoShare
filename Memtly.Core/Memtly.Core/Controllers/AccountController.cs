@@ -34,6 +34,7 @@ namespace Memtly.Core.Controllers
         private readonly IDeviceDetector _deviceDetector;
         private readonly IFileHelper _fileHelper;
         private readonly IEncryptionHelper _encryption;
+        private readonly IPasswordHasher _passwordHasher;
         private readonly INotificationHelper _notificationHelper;
         private readonly ISmtpClientWrapper _smtpClientWrapper;
         private readonly Helpers.IUrlHelper _url;
@@ -49,7 +50,7 @@ namespace Memtly.Core.Controllers
         private readonly string ThumbnailsDirectory;
         private readonly string CustomResourcesDirectory;
 
-        public AccountController(ISettingsHelper settings, IDatabaseHelper database, IDeviceDetector deviceDetector, IFileHelper fileHelper, IEncryptionHelper encryption, INotificationHelper notificationHelper, ISmtpClientWrapper smtpClientWrapper, Helpers.IUrlHelper url, IAuditHelper audit, ILoggerFactory loggerFactory, IStringLocalizer<Localization.Translations> localizer)
+        public AccountController(ISettingsHelper settings, IDatabaseHelper database, IDeviceDetector deviceDetector, IFileHelper fileHelper, IEncryptionHelper encryption, IPasswordHasher passwordHasher, INotificationHelper notificationHelper, ISmtpClientWrapper smtpClientWrapper, Helpers.IUrlHelper url, IAuditHelper audit, ILoggerFactory loggerFactory, IStringLocalizer<Localization.Translations> localizer)
             : base()
         {
             _settings = settings;
@@ -57,6 +58,7 @@ namespace Memtly.Core.Controllers
             _deviceDetector = deviceDetector;
             _fileHelper = fileHelper;
             _encryption = encryption;
+            _passwordHasher = passwordHasher;
             _notificationHelper = notificationHelper;
             _smtpClientWrapper = smtpClientWrapper;
             _url = url;
@@ -107,8 +109,20 @@ namespace Memtly.Core.Controllers
                     }
                     else if (user.State == AccountState.Active && !user.IsLockedOut)
                     {
-                        if (await _database.ValidateCredentials(user.Username, _encryption.Encrypt(model.Password, user.Username.ToLower())))
+                        var storedHash = await _database.GetUserPasswordHash(user.Username);
+                        var verification = _passwordHasher.Verify(model.Password, storedHash, user.Username);
+
+                        if (verification == PasswordVerification.Failed)
                         {
+                            await this.FailedLoginDetected(model, user);
+                        }
+                        else
+                        {
+                            if (verification == PasswordVerification.SuccessNeedsRehash)
+                            {
+                                await _database.UpdateUserPasswordHash(user.Id, _passwordHasher.Hash(model.Password));
+                            }
+
                             if (user.FailedLogins > 0)
                             {
                                 await _database.ResetLockoutCount(user.Id);
@@ -139,10 +153,6 @@ namespace Memtly.Core.Controllers
 
                                 return Json(new LoginResponse(await this.SetUserClaims(this.HttpContext, user)));
                             }
-                        }
-                        else
-                        {
-                            await this.FailedLoginDetected(model, user);
                         }
                     }
                 }
@@ -224,7 +234,7 @@ namespace Memtly.Core.Controllers
                             Firstname = model.Firstname?.Trim(),
                             Lastname = model.Lastname?.Trim(),
                             Email = model.EmailAddress.Trim().ToLower(),
-                            Password = _encryption.Encrypt(model.Password, model.Username.ToLower()),
+                            Password = _passwordHasher.Hash(model.Password),
                             State = requireEmailValidation ? AccountState.PendingActivation : AccountState.Active,
                             Level = UserLevel.Basic,
                             Tier = PaidTier.None
@@ -451,7 +461,7 @@ namespace Memtly.Core.Controllers
                             {
                                 if (await _database.VerifyUserSecret(user.Id, data.Validator))
                                 {
-                                    user.Password = _encryption.Encrypt(model.Password, user.Username.ToLower());
+                                    user.Password = _passwordHasher.Hash(model.Password);
 
                                     if (await _database.ChangePassword(user))
                                     {
@@ -501,8 +511,20 @@ namespace Memtly.Core.Controllers
                     var user = await _database.GetUserByUsername(model.Username);
                     if (user != null && user.State == AccountState.Active && !user.IsLockedOut)
                     {
-                        if (await _database.ValidateCredentials(user.Username, _encryption.Encrypt(model.Password, user.Username.ToLower())))
+                        var storedHash = await _database.GetUserPasswordHash(user.Username);
+                        var verification = _passwordHasher.Verify(model.Password, storedHash, user.Username);
+
+                        if (verification == PasswordVerification.Failed)
                         {
+                            await this.FailedLoginDetected(model, user);
+                        }
+                        else
+                        {
+                            if (verification == PasswordVerification.SuccessNeedsRehash)
+                            {
+                                await _database.UpdateUserPasswordHash(user.Id, _passwordHasher.Hash(model.Password));
+                            }
+
                             if (user.FailedLogins > 0)
                             {
                                 await _audit.LogAction(user?.Id, _localizer["Audit_FailedLoginAttemptReset"].Value, AuditSeverity.Warning);
@@ -536,10 +558,6 @@ namespace Memtly.Core.Controllers
 
                                 return Json(new { success = await this.SetUserClaims(this.HttpContext, user) });
                             }
-                        }
-                        else
-                        {
-                            await this.FailedLoginDetected(model, user);
                         }
                     }
                 }
@@ -1420,7 +1438,7 @@ namespace Memtly.Core.Controllers
                             model.Firstname = model.Firstname?.Trim();
                             model.Lastname = model.Lastname?.Trim();
                             model.Email = model.Email?.Trim();
-                            model.Password = _encryption.Encrypt(model.Password, model.Username.ToLower());
+                            model.Password = _passwordHasher.Hash(model.Password);
                             model.CPassword = string.Empty;
 
                             await _audit.LogAction(User?.Identity?.GetUserId(), $"{_localizer["Audit_CreatedNewUser"].Value} '{model?.Username}'", AuditSeverity.Verbose);
@@ -1505,7 +1523,7 @@ namespace Memtly.Core.Controllers
                         var user = await _database.GetUser(model.Id);
                         if (user != null && User.Identity.CanEdit(UserPermissions.Change_Password, user.Id))
                         {
-                            user.Password = _encryption.Encrypt(model.Password, user.Username.ToLower());
+                            user.Password = _passwordHasher.Hash(model.Password);
 
                             await _audit.LogAction(User?.Identity?.GetUserId(), $"{_localizer["Audit_UpdatedUser"].Value} '{user?.Username}'", AuditSeverity.Verbose);
 
