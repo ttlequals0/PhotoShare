@@ -405,6 +405,332 @@ tr td {
     }
 }
 
+/*
+ * Modals - same shape language as cards (16px radius, parchment border,
+ * subtle elevation) with stronger shadow because they overlay content.
+ */
+.modal-content {
+    background-color: var(--surface);
+    border: var(--border-light);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--elevation-overlay);
+    color: var(--ink);
+}
+
+.modal-header {
+    border-bottom-color: var(--border);
+    padding: var(--space-5) var(--space-6);
+}
+
+.modal-body {
+    padding: var(--space-6);
+}
+
+.modal-footer {
+    border-top-color: var(--border);
+    padding: var(--space-4) var(--space-6);
+    gap: var(--space-3);
+}
+
+.modal-title {
+    font-family: var(--font-sans);
+    font-size: var(--type-feature);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-feature);
+    letter-spacing: -0.0225em;
+    color: var(--ink);
+}
+
+.modal-backdrop.show {
+    opacity: 0.6;
+}
+
+@media (max-width: 768px) {
+    .modal-header, .modal-body { padding: var(--space-5); }
+    .modal-footer { padding: var(--space-4) var(--space-5); }
+}
+
+/*
+ * Alerts - keep Bootstrap's color semantics but flatten the shape and
+ * pull typography into the design system.
+ */
+.alert {
+    font-family: var(--font-sans);
+    font-size: var(--type-body);
+    line-height: var(--line-body);
+    border-radius: var(--radius-sm);
+    border: 1px solid transparent;
+    padding: var(--space-4) var(--space-5);
+    margin-bottom: var(--space-5);
+}
+
+.alert-heading {
+    font-family: var(--font-sans);
+    font-size: var(--type-body-heading);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-tight);
+    margin-bottom: var(--space-3);
+}
+
+/*
+ * Tables - admin lists. Reset Bootstrap's harsh borders, lean on
+ * tokens for typography and dividers.
+ */
+.table {
+    font-family: var(--font-sans);
+    font-size: var(--type-caption);
+    line-height: var(--line-body);
+    color: var(--ink);
+    --bs-table-bg: transparent;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.table > thead > tr > th {
+    font-size: var(--type-micro);
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-muted);
+    background-color: transparent;
+    border-bottom: var(--border-light);
+    padding: var(--space-3) var(--space-4);
+}
+
+.table > tbody > tr > td {
+    border-top: 1px solid var(--border);
+    border-bottom: none;
+    padding: var(--space-3) var(--space-4);
+    color: var(--ink);
+    vertical-align: middle;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) > * {
+    background-color: var(--color-cream);
+    color: var(--ink);
+}
+
+/*
+ * Dropdown menu
+ */
+.dropdown-menu {
+    background-color: var(--surface);
+    border: var(--border-light);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--elevation-overlay);
+    padding: var(--space-3) 0;
+    min-width: 12rem;
+}
+
+.dropdown-item {
+    font-family: var(--font-sans);
+    font-size: var(--type-body);
+    color: var(--ink);
+    padding: var(--space-3) var(--space-5);
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+    background-color: var(--color-cream);
+    color: var(--ink);
+}
+
+.dropdown-divider {
+    border-top: 1px solid var(--border);
+    margin: var(--space-3) 0;
+}
+
+/*
+ * Pagination
+ */
+.pagination {
+    gap: var(--space-2);
+}
+
+.page-link {
+    font-family: var(--font-sans);
+    font-size: var(--type-body);
+    font-weight: var(--font-weight-regular);
+    color: var(--ink);
+    background-color: var(--surface);
+    border: var(--border-light);
+    border-radius: var(--radius-sm);
+    padding: var(--space-3) var(--space-4);
+}
+
+.page-link:hover {
+    background-color: var(--color-cream);
+    color: var(--ink);
+    border-color: var(--border);
+}
+
+.page-item.active .page-link {
+    background-color: var(--color-charcoal);
+    border-color: var(--color-charcoal);
+    color: var(--color-pure-white);
+}
+
+/*
+ * Badges
+ */
+.badge {
+    font-family: var(--font-sans);
+    font-size: var(--type-micro);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: 0.04em;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-sm);
+}
+
+/*
+ * List groups
+ */
+.list-group {
+    border-radius: var(--radius-lg);
+}
+
+.list-group-item {
+    font-family: var(--font-sans);
+    background-color: var(--surface);
+    border-color: var(--border);
+    color: var(--ink);
+    padding: var(--space-4) var(--space-5);
+}
+
+.list-group-item.active {
+    background-color: var(--color-charcoal);
+    border-color: var(--color-charcoal);
+    color: var(--color-pure-white);
+}
+
+/*
+ * Tabs / Pills
+ */
+.nav-tabs {
+    border-bottom: var(--border-light);
+}
+
+.nav-tabs .nav-link {
+    font-family: var(--font-sans);
+    font-size: var(--type-body);
+    font-weight: var(--font-weight-regular);
+    color: var(--ink-muted);
+    border: none;
+    border-bottom: 2px solid transparent;
+    border-radius: 0;
+    padding: var(--space-3) var(--space-5);
+    margin-bottom: -1px;
+}
+
+.nav-tabs .nav-link:hover {
+    color: var(--ink);
+    border-color: transparent;
+}
+
+.nav-tabs .nav-link.active {
+    color: var(--ink);
+    background-color: transparent;
+    border-bottom-color: var(--color-charcoal);
+    font-weight: var(--font-weight-semibold);
+}
+
+.nav-pills .nav-link {
+    color: var(--ink);
+    border-radius: var(--radius-sm);
+    padding: var(--space-3) var(--space-5);
+}
+
+.nav-pills .nav-link.active {
+    background-color: var(--color-charcoal);
+    color: var(--color-pure-white);
+}
+
+/*
+ * Toasts
+ */
+.toast {
+    background-color: var(--surface);
+    border: var(--border-light);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--elevation-overlay);
+    color: var(--ink);
+}
+
+.toast-header {
+    background-color: transparent;
+    border-bottom: 1px solid var(--border);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-semibold);
+}
+
+/*
+ * Hero surface - utility for gradient hero sections per DESIGN.md.
+ * Apply by adding class="hero-surface" to a container; child content
+ * defaults to white-on-purple typography.
+ */
+.hero-surface {
+    background:
+        radial-gradient(120% 80% at 30% 20%, rgba(203, 183, 251, 0.25) 0%, rgba(27, 25, 56, 0) 60%),
+        linear-gradient(180deg, var(--color-purple-deep) 0%, #2a2752 100%);
+    color: var(--color-on-dark);
+    border-radius: var(--radius-lg);
+    padding: var(--space-9) var(--space-7);
+}
+
+.hero-surface h1,
+.hero-surface .h1,
+.hero-surface h2,
+.hero-surface .h2,
+.hero-surface h3,
+.hero-surface .h3 {
+    color: var(--color-on-dark);
+}
+
+.hero-surface a {
+    color: var(--color-lavender);
+}
+
+@media (max-width: 768px) {
+    .hero-surface {
+        padding: var(--space-7) var(--space-5);
+        border-radius: var(--radius-sm);
+    }
+}
+
+/*
+ * Spinners - tint with the design palette.
+ */
+.spinner-border,
+.spinner-grow {
+    color: var(--color-amethyst);
+}
+
+/*
+ * App-specific overrides - bring existing Memtly classes in line with
+ * the new system without changing their structural behavior.
+ */
+.btn-upload {
+    background-color: var(--surface-button);
+    color: var(--color-charcoal);
+    border-radius: var(--radius-sm);
+}
+
+.btn-upload:hover, .btn-upload:focus {
+    background-color: var(--surface-button);
+    color: var(--color-charcoal);
+    opacity: 0.9;
+}
+
+.upload_drop {
+    border-radius: var(--radius-lg);
+}
+
+.image-tile {
+    border-radius: var(--radius-sm);
+    box-shadow: var(--elevation-card);
+}
+
 .banner-message {
     color: var(--bs-gallery-warning-color);
     background-color: var(--bs-gallery-warning-bg-color);
