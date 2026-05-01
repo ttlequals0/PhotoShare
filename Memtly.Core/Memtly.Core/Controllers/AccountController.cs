@@ -528,6 +528,12 @@ namespace Memtly.Core.Controllers
                                     await _audit.LogAction(user?.Id, _localizer["Audit_MultiFactorPassed"].Value, AuditSeverity.Debug);
                                     return Json(new { success = await this.SetUserClaims(this.HttpContext, user) });
                                 }
+
+                                // TOTP failed: count toward the lockout counter
+                                // and audit the attempt, otherwise an attacker
+                                // with a stolen password could brute-force the
+                                // 6-digit TOTP without throttling.
+                                await this.FailedLoginDetected(model, user);
                             }
                             else
                             {
