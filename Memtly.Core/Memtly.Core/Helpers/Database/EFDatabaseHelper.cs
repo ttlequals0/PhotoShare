@@ -547,10 +547,20 @@ namespace Memtly.Core.Helpers.Database
         #endregion
 
         #region Users
-        public async Task<bool> ValidateCredentials(string username, string password)
+        public async Task<string?> GetUserPasswordHash(string username)
         {
-            return (await _db.Users
-                .CountAsync(u => u.Level != UserLevel.System && u.Username.ToLower().Equals(username.ToLower()) && u.Password.Equals(password))) > 0;
+            return await _db.Users
+                .Where(u => u.Level != UserLevel.System && u.Username.ToLower().Equals(username.ToLower()))
+                .Select(u => u.Password)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<bool> UpdateUserPasswordHash(int userId, string newHash)
+        {
+            var rows = await _db.Users
+                .Where(u => u.Id == userId)
+                .ExecuteUpdateAsync(s => s.SetProperty(u => u.Password, newHash));
+            return rows > 0;
         }
 
         public async Task<int> GetUserCount()
