@@ -6,8 +6,6 @@
     </linearGradient>
   </defs>
 
-  <rect x="0" y="0" width="128" height="128" rx="24" fill="#ffffff"/>
-
   <g transform="translate(28, 28)">
     <rect x="6" y="14" width="60" height="60" rx="12"
           fill="none" stroke="#cbb7fb" stroke-width="2.5"
