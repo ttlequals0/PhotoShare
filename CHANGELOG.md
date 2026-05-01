@@ -10,6 +10,20 @@ changes shipped below.
 
 ## [Unreleased]
 
+### Security
+
+- **MFA failure now counts toward lockout and is rate-limited.**
+  `AccountController.ValidateMultifactorAuth` previously fell through
+  silently on a bad TOTP - an attacker holding the right password
+  could brute-force the 6-digit code. Now calls `FailedLoginDetected`
+  on TOTP mismatch (5-strikes lockout) and the auth-overlay rate
+  limiter (10/min/IP fixed window) covers the endpoint.
+- **Email verification + password reset tokens are now protected by
+  ASP.NET Core's `ITimeLimitedDataProtector`.** Replaces the previous
+  base64-encoded JSON envelope. Tokens are signed (tamper-resistant)
+  and **expire after 24 hours**. Underlying per-user `Validator`
+  secret-code check is retained as defense in depth.
+
 ### Added
 
 - **Design system foundation** (`src/css/tokens.css`) - Superhuman-inspired
