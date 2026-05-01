@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Net;
+using System.Reflection;
 using System.Threading.RateLimiting;
 using Memtly.Core.BackgroundWorkers;
 using Memtly.Core.Configurations;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.FileProviders;
@@ -52,6 +54,27 @@ namespace Memtly.Core.Extensions
             services.Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded = context => true;
+            });
+
+            // Forwarded Headers: required when running behind Cloudflare Tunnel
+            // (cloudflared sends X-Forwarded-Proto: https). Without this the app
+            // sees the request as HTTP, which means the auth/session cookies
+            // configured with SecurePolicy=Always are never emitted - login
+            // silently fails. Only loopback and RFC1918 ranges are trusted; the
+            // tunnel itself is the only public ingress, and the only proxy
+            // reaching this service runs on the same host or private network.
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor
+                                         | ForwardedHeaders.XForwardedProto
+                                         | ForwardedHeaders.XForwardedHost;
+                options.KnownNetworks.Clear();
+                options.KnownProxies.Clear();
+                options.KnownNetworks.Add(new Microsoft.AspNetCore.HttpOverrides.IPNetwork(IPAddress.Loopback, 8));            // 127.0.0.0/8
+                options.KnownNetworks.Add(new Microsoft.AspNetCore.HttpOverrides.IPNetwork(IPAddress.IPv6Loopback, 128));      // ::1
+                options.KnownNetworks.Add(new Microsoft.AspNetCore.HttpOverrides.IPNetwork(IPAddress.Parse("10.0.0.0"), 8));   // RFC1918
+                options.KnownNetworks.Add(new Microsoft.AspNetCore.HttpOverrides.IPNetwork(IPAddress.Parse("172.16.0.0"), 12));// RFC1918 (Docker default bridge)
+                options.KnownNetworks.Add(new Microsoft.AspNetCore.HttpOverrides.IPNetwork(IPAddress.Parse("192.168.0.0"), 16));// RFC1918
             });
 
             const long maxBodyBytes = 256L * 1024 * 1024;       // 256 MB
@@ -164,6 +187,12 @@ namespace Memtly.Core.Extensions
             EnforceRequiredSecurityConfig(config, env, logger);
 
             logger.LogInformation($"Release Version - '{settings.GetReleaseVersion(4)}'");
+
+            // ForwardedHeaders MUST run before any middleware that examines
+            // request scheme, host, or remote IP - that means before
+            // UseExceptionHandler, UseHsts, UseHttpsRedirection,
+            // UseAuthentication, and UseRateLimiter.
+            app.UseForwardedHeaders();
 
             app.UseExceptionHandler();
 
