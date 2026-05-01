@@ -133,7 +133,8 @@ namespace Memtly.Core.Extensions
                     var isAuthPost = ctx.Request.Method == HttpMethods.Post
                         && (path.StartsWith("/Account/Login", StringComparison.OrdinalIgnoreCase)
                             || path.StartsWith("/Account/Register", StringComparison.OrdinalIgnoreCase)
-                            || path.StartsWith("/Account/ResetPassword", StringComparison.OrdinalIgnoreCase));
+                            || path.StartsWith("/Account/ResetPassword", StringComparison.OrdinalIgnoreCase)
+                            || path.StartsWith("/Account/ValidateMultifactorAuth", StringComparison.OrdinalIgnoreCase));
 
                     if (isAuthPost)
                     {
