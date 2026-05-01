@@ -167,6 +167,8 @@ namespace Memtly.Core.Extensions
             {
                 options.AddPolicy("timeout_1h", TimeSpan.FromHours(1));
             });
+
+            services.AddHealthChecks();
         }
 
         public static void ConfigureCommunity(this IApplicationBuilder app, IWebHostEnvironment env)
@@ -301,6 +303,13 @@ namespace Memtly.Core.Extensions
 
             app.UseEndpoints(endpoints =>
             {
+                // Liveness probe. Returns 200/Healthy without touching the
+                // database; meant for Docker HEALTHCHECK, Cloudflare Tunnel
+                // origin checks, and external uptime monitors. Anonymous
+                // and exempt from rate-limiting (path predicate in the
+                // partitioned rate limiter only matches /Account paths).
+                endpoints.MapHealthChecks("/healthz").AllowAnonymous();
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action}/{id?}",
