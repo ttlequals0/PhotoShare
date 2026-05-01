@@ -76,9 +76,9 @@ namespace Memtly.Core.Helpers.Notifications
 
         public async Task<bool> SendTo(string host, int port, string from, string displayName, bool enableSSL, NetworkCredential? credentials, string recipients, string title, string message)
         {
-            var addressList = recipients?.Split(new char[] { ';', ',' }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)?.Select(x => new MailAddress(x));
-            
-            if (addressList != null && addressList.Any())
+            var addressList = recipients?.Split(new char[] { ';', ',' }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)?.Select(x => new MailAddress(x))?.ToList();
+
+            if (addressList != null && addressList.Count > 0)
             { 
                 if (!string.IsNullOrWhiteSpace(host))
                 {
@@ -102,13 +102,16 @@ namespace Memtly.Core.Helpers.Notifications
                                 {
                                     try
                                     {
-                                        await _client.SendMailAsync(smtp, new MailMessage(sender, to)
+                                        using (var msg = new MailMessage(sender, to)
                                         {
                                             Sender = sender,
                                             Subject = title,
                                             Body = message,
                                             IsBodyHtml = true,
-                                        });
+                                        })
+                                        {
+                                            await _client.SendMailAsync(smtp, msg);
+                                        }
                                     }
                                     catch (Exception ex)
                                     {
