@@ -97,7 +97,10 @@
   :root {
     --surface:              var(--color-purple-deep);
     --surface-raised:       #232043;
-    --surface-button:       rgba(255, 255, 255, 0.08);
+    /* Warm cream stays the primary-button surface even in dark mode -
+       per DESIGN.md the hero CTA is cream-on-purple, so this token
+       composes correctly on either background. */
+    --surface-button:       var(--color-cream);
     --ink:                  var(--color-on-dark);
     --ink-muted:            var(--color-on-dark-muted);
     --link:                 var(--color-lavender);
