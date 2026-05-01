@@ -136,6 +136,88 @@ h6, .h6 {
     opacity: 0.85;
 }
 
+/*
+ * Form controls - DESIGN.md "Dark-bordered inputs with Charcoal Ink
+ * borders and warm-toned placeholder text. Focus: Border emphasis
+ * increase, likely shifting from Parchment Border to Charcoal Ink."
+ */
+.form-control,
+.form-select {
+    font-family: var(--font-sans);
+    font-size: var(--type-body);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-tight);
+    color: var(--ink);
+    background-color: var(--surface);
+    border: var(--border-light);
+    border-radius: var(--radius-sm);
+    padding: var(--space-4) var(--space-5);
+    transition: border-color 120ms ease, box-shadow 120ms ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--ink);
+    box-shadow: 0 0 0 3px rgba(113, 76, 182, 0.15); /* amethyst @ 15% */
+    outline: none;
+}
+
+.form-control::placeholder {
+    color: var(--ink-muted);
+    opacity: 1;
+}
+
+.form-control:disabled,
+.form-select:disabled {
+    background-color: var(--color-parchment);
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.form-label {
+    font-family: var(--font-sans);
+    font-size: var(--type-caption);
+    font-weight: var(--font-weight-semibold);
+    color: var(--ink);
+    margin-bottom: var(--space-3);
+    letter-spacing: 0.02em;
+}
+
+.form-text {
+    font-size: var(--type-caption);
+    color: var(--ink-muted);
+}
+
+.form-check-input {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background-color: var(--surface);
+}
+
+.form-check-input:checked {
+    background-color: var(--color-amethyst);
+    border-color: var(--color-amethyst);
+}
+
+.form-check-input:focus {
+    border-color: var(--ink);
+    box-shadow: 0 0 0 3px rgba(113, 76, 182, 0.15);
+}
+
+.form-check-label {
+    color: var(--ink);
+    font-weight: var(--font-weight-regular);
+}
+
+.invalid-feedback {
+    font-size: var(--type-caption);
+    color: #b91c1c;
+}
+
+.is-invalid {
+    border-color: #b91c1c !important;
+}
+
 #main-wrapper {
     position: fixed;
     width: 100%;
