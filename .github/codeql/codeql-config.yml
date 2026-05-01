@@ -1,0 +1,16 @@
+name: PhotoShare CodeQL config
+
+# Exclude generated / build-output paths from analysis. Without this,
+# autobuild on csharp emits Razor-compiled .g.cs files into obj/Debug/
+# and bin/, and CodeQL flags every auto-generated tag-helper field as
+# 'cs/missed-readonly-modifier' etc. These files are NOT in source
+# control (.gitignore covers them) and are regenerated per build, so
+# any "fix" is meaningless.
+paths-ignore:
+  - '**/obj/**'
+  - '**/bin/**'
+  - '**/wwwroot/dist/**'
+  - '**/node_modules/**'
+
+queries:
+  - uses: security-and-quality
