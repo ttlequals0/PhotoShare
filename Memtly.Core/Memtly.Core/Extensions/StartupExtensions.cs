@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.FileProviders;
@@ -47,9 +48,23 @@ namespace Memtly.Core.Extensions
 
             services.AddResponseCaching();
             services.AddRazorPages();
-            services.AddControllersWithViews()
+
+            // Global anti-forgery validation. Applies to every POST/PUT/DELETE/PATCH
+            // unless the action is explicitly marked [IgnoreAntiforgeryToken].
+            // _Layout.cshtml renders @Html.AntiForgeryToken() so all pages have a
+            // token cookie pair; main.js installs an $.ajaxSetup that injects the
+            // 'RequestVerificationToken' header on every jQuery AJAX call. Form
+            // POSTs continue to send the __RequestVerificationToken hidden input.
+            services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+            })
                 .AddRazorRuntimeCompilation()
                 .AddApplicationPart(typeof(Memtly.Core.MemtlyCore).Assembly);
+            services.AddAntiforgery(options =>
+            {
+                options.HeaderName = "RequestVerificationToken";
+            });
 
             services.Configure<CookiePolicyOptions>(options =>
             {

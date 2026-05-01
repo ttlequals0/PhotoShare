@@ -1320,7 +1320,7 @@ namespace Memtly.Core.Helpers.Database
 
         public async Task FlushLogsOlderThan(int days = 30)
         {
-            var flushDate = DateTimeOffset.UtcNow.AddDays(Math.Abs(days) * -1);
+            var flushDate = DateTimeOffset.UtcNow.AddDays(-Math.Abs((double)days));
             await _db.AuditLogs
                 .Where(al => al.CreatedAt < flushDate)
                 .ExecuteDeleteAsync();

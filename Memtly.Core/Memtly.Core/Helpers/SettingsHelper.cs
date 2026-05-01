@@ -55,7 +55,7 @@ namespace Memtly.Core.Helpers
                     }
                     catch (Exception ex)
                     {
-                        _logger.LogDebug(ex, $"Failed to find key '{key}' in database. If you are seeing this on first setup please ignore as the database might not have initialized the table yet.");
+                        _logger.LogDebug(ex, "Failed to find key in database. If you are seeing this on first setup please ignore as the database might not have initialized the table yet.");
                     }
 
                     var configValue = _configHelper.Get(key);
@@ -70,7 +70,7 @@ namespace Memtly.Core.Helpers
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogDebug(ex, $"Failed to find key '{key}' in either database or config. If you are seeing this on first setup please ignore as the database might not have initialized the table yet.");
+                    _logger.LogDebug(ex, "Failed to find key in either database or config. If you are seeing this on first setup please ignore as the database might not have initialized the table yet.");
                 }
             }
 

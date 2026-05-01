@@ -31,6 +31,45 @@ changes shipped below.
 
 ### Security
 
+- **Global anti-forgery (CSRF) protection.** `AutoValidateAntiforgeryTokenAttribute`
+  is now a global filter; every POST/PUT/DELETE/PATCH endpoint requires a
+  valid token. `_Layout.cshtml` renders `@Html.AntiForgeryToken()` once
+  and `main.js` installs an `$.ajaxSend` hook that injects the
+  `RequestVerificationToken` header on every jQuery AJAX call. Form
+  POSTs continue to work via the existing `__RequestVerificationToken`
+  hidden input. Closes 21 CodeQL `cs/web/missing-token-validation`
+  alerts across `AccountController`, `GalleryController`,
+  `MultiFactorController`, `NotificationController`, `MediaViewerController`,
+  `HomeController`, `LanguageController`, `ThemesController`, `AuditController`.
+- **`PasswordHelper` now uses cryptographically-secure randomness.**
+  Replaces `System.Random` with `RandomNumberGenerator.GetInt32`. Affects
+  `GenerateGallerySecretKey`, `GenerateSecretCode`, and `GenerateTempPassword`
+  (used for the bootstrap admin if `ADMIN_PASSWORD` defaults are taken,
+  the System user's password, the email-verification `Validator`, and
+  ad-hoc gallery secret keys). Closes 4 CodeQL `cs/insecure-randomness`.
+- **Cookies set in controllers now `Secure` + `SameSite=Lax`.** Five
+  cookie writes in `GalleryController`, `LanguageController`,
+  `ThemesController` were missing the `Secure` flag. Closes 5 CodeQL
+  `cs/web/cookie-secure-not-set`.
+- **Stop logging user-controlled / sensitive values.** Twelve log sites
+  across `AccountController`, `HomeController`, `MediaViewerController`,
+  `LanguageController`, `ThemesController`, `ConfigHelper`,
+  `SettingsHelper`, `AuditHelper` were interpolating user-controlled or
+  sensitive identifiers (email, username, theme name, language code,
+  config-key paths) into log messages. Switched to constant message
+  templates - the exception's stack trace still tells operators where
+  the failure was. Closes 7 `cs/log-forging`, 7
+  `cs/exposure-of-sensitive-information`, 5
+  `cs/cleartext-storage-of-sensitive-information`.
+- **`[AllowAnonymous]` made explicit** on
+  `LanguageController.ChangeDisplayLanguage` and
+  `ThemesController.ChangeDisplayTheme`. Closes 2 CodeQL
+  `cs/web/missing-function-level-access-control`.
+- **Integer-multiplication overflow casts.** `EFDatabaseHelper.
+  FlushLogsOlderThan` and `GalleryModel.CalculateUsage` now do their
+  arithmetic in `double` to avoid losing precision on large values.
+  Closes 2 CodeQL `cs/loss-of-precision`.
+
 - **Video uploads now magic-byte validated** alongside images.
   `ImageHelper.ContentMatchesExtension` reads the first 16 bytes of
   uploaded video files and rejects mismatches:
