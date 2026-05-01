@@ -5,7 +5,28 @@
 
 ## About
 
-PhotoShare is an independent fork of [Memtly.Community](https://github.com/Memtly/Memtly.Community) (formerly WeddingShare). Most credit and most of the codebase belongs to the upstream maintainers; this fork carries hardening, branding, and UI changes specific to its operator.
+PhotoShare is an independent fork of [Memtly.Community](https://github.com/Memtly/Memtly.Community) (formerly WeddingShare). Most credit and most of the codebase belongs to the upstream maintainers; this fork carries hardening, branding, and UI changes specific to its operator. See [`CHANGELOG.md`](CHANGELOG.md) for everything that diverges from upstream.
+
+## Quick start
+
+Postgres-backed deploy via Docker Compose:
+
+```bash
+git clone git@github.com:ttlequals0/PhotoShare.git
+cd PhotoShare
+cp .env.example .env
+# edit .env - the app refuses to start if ENCRYPTION_KEY, ENCRYPTION_SALT,
+# ADMIN_EMAIL, or ADMIN_PASSWORD are empty or set to placeholder values.
+docker compose up -d
+docker compose logs -f app
+```
+
+Open http://localhost:5000 and log in with the admin credentials from `.env`.
+
+For public exposure (Cloudflare Tunnel + WAF rules), see:
+- [`docs/docker.md`](docs/docker.md) - compose deploy details, env vars, volume layout, backups
+- [`docs/cloudflare.md`](docs/cloudflare.md) - Tunnel config, WAF custom + rate-limit rules, Cloudflare Access for `/Admin*`, Turnstile on `/Account/Register`, cache rules
+- [`CHANGELOG.md`](CHANGELOG.md) - release notes; the operator follow-up checklist for 2.0.0 lists every value you need to set before deploying publicly
 
 Memtly (formerly WeddingShare) is a very basic site with only one goal. It provides you and your guests a way to share memories of and leading up to an event. Simply provide your guests with a link to a gallery either via a Url or even better by printing out the provided QR code and handing it out to your guests on arrival. Doing so will allow them to view your journey up to this point and give them the ability to share their experience on the day by uploading their own images and videos. 
 
