@@ -66,6 +66,76 @@ h6, .h6 {
     h3, .h3 { font-size: 22px; }
 }
 
+/*
+ * Buttons - DESIGN.md primary system.
+ * Restyles Bootstrap's .btn / .btn-primary / .btn-secondary while leaving
+ * semantic variants (.btn-success, .btn-danger, .btn-warning, .btn-info)
+ * to Bootstrap's defaults. Memtly's app-specific button rules later in
+ * this file (.btn-upload, .image-tile .btn, etc.) compose on these.
+ */
+.btn {
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--type-body);
+    line-height: 1;
+    padding: var(--space-4) var(--space-6);
+    border-radius: var(--radius-sm);
+    border: none;
+    transition: opacity 120ms ease, background-color 120ms ease, color 120ms ease;
+    cursor: pointer;
+}
+
+.btn:hover {
+    opacity: 0.92;
+}
+
+.btn:disabled, .btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-primary,
+.btn-primary:focus,
+.btn-primary:active {
+    background-color: var(--surface-button);
+    color: var(--color-charcoal);
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: var(--surface-button);
+    color: var(--color-charcoal);
+    opacity: 0.9;
+}
+
+.btn-secondary,
+.btn-secondary:focus,
+.btn-secondary:active {
+    background-color: var(--color-charcoal);
+    color: var(--color-pure-white);
+    border: none;
+}
+
+.btn-secondary:hover {
+    background-color: var(--color-charcoal);
+    color: var(--color-pure-white);
+    opacity: 0.9;
+}
+
+.btn-link,
+.btn-link:focus,
+.btn-link:active {
+    background: transparent;
+    color: var(--link);
+    text-decoration: underline;
+    padding-inline: 0;
+}
+
+.btn-link:hover {
+    color: var(--link);
+    opacity: 0.85;
+}
+
 #main-wrapper {
     position: fixed;
     width: 100%;
