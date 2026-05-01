@@ -12,6 +12,18 @@ changes shipped below.
 
 ### Added
 
+- **`docker-compose.yml`** for the recommended Postgres-backed deploy.
+  Uses non-root UID 10001 (matches the Dockerfile), wires the `/healthz`
+  endpoint as the container healthcheck, ships an optional cloudflared
+  sidecar (commented), uses named volumes that auto-resolve UID
+  ownership.
+- **`.env.example`** documenting every required secret with hints on
+  generating strong random values via `openssl rand`.
+- **`docs/docker.md`** walking through the compose deploy: env vars
+  (both `UPPER_SNAKE_CASE` and `Memtly__Section__Key` forms work), volume
+  layout, host-path `chown` for non-default mounts, Cloudflare Tunnel
+  sidecar usage, update procedure, and backup commands for Postgres +
+  uploads volume.
 - **`/healthz` liveness endpoint** for Docker / Cloudflare Tunnel
   origin checks / external uptime monitors. Anonymous, no DB hit,
   returns 200 / "Healthy". Dockerfile gains a `HEALTHCHECK`
