@@ -283,6 +283,47 @@ tr td {
 
 .card {
     overflow: hidden;
+    background-color: var(--surface);
+    border: var(--border-light);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--elevation-card);
+    color: var(--ink);
+}
+
+.card-body {
+    padding: var(--space-6);
+}
+
+.card-header,
+.card-footer {
+    background-color: transparent;
+    border-color: var(--border);
+    padding: var(--space-5) var(--space-6);
+}
+
+.card-title {
+    font-family: var(--font-sans);
+    font-size: var(--type-card-heading);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-tight);
+    letter-spacing: -0.0143em;
+    color: var(--ink);
+    margin: 0 0 var(--space-3);
+}
+
+.card-subtitle {
+    font-size: var(--type-caption);
+    color: var(--ink-muted);
+    font-weight: var(--font-weight-regular);
+}
+
+.card-text {
+    color: var(--ink);
+}
+
+@media (max-width: 768px) {
+    .card-body { padding: var(--space-5); }
+    .card-header, .card-footer { padding: var(--space-4) var(--space-5); }
 }
 
 .banner-message {
