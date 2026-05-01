@@ -1,9 +1,11 @@
 <div align="center">
-  <img src="Memtly.png" style="width: 15%;" />
-  <h1>Memtly.Community</h1><br/>
+  <img src="Memtly.Core/Memtly.Core/wwwroot/images/photoshare-logo-light.svg" alt="PhotoShare" width="560" />
+  <h1>PhotoShare</h1>
 </div>
 
 ## About
+
+PhotoShare is an independent fork of [Memtly.Community](https://github.com/Memtly/Memtly.Community) (formerly WeddingShare). Most credit and most of the codebase belongs to the upstream maintainers; this fork carries hardening, branding, and UI changes specific to its operator.
 
 Memtly (formerly WeddingShare) is a very basic site with only one goal. It provides you and your guests a way to share memories of and leading up to an event. Simply provide your guests with a link to a gallery either via a Url or even better by printing out the provided QR code and handing it out to your guests on arrival. Doing so will allow them to view your journey up to this point and give them the ability to share their experience on the day by uploading their own images and videos. 
 

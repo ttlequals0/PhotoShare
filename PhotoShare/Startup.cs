@@ -1,6 +1,6 @@
 ﻿using Memtly.Core.Extensions;
 
-namespace Memtly.Community
+namespace PhotoShare
 {
     public class Startup
     {

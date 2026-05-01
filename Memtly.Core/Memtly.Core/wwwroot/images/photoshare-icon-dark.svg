@@ -10,7 +10,6 @@
     </linearGradient>
   </defs>
 
-  <rect x="0" y="0" width="128" height="128" rx="24" fill="#1b1938"/>
   <rect x="0" y="0" width="128" height="128" rx="24" fill="url(#heroGlow)"/>
 
   <g transform="translate(28, 28)">

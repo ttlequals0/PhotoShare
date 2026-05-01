@@ -2,7 +2,7 @@ using Memtly.Core;
 using Memtly.Core.Enums;
 using Microsoft.AspNetCore;
 
-namespace Memtly.Community
+namespace PhotoShare
 {
     public class Program
     {

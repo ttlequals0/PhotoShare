@@ -32,10 +32,10 @@ jobs:
           dotnet-version: '9.0.x'
 
       - name: Restore
-        run: dotnet restore Memtly.Community.sln
+        run: dotnet restore PhotoShare.sln
 
       - name: Test
-        run: dotnet test Memtly.Community.sln --configuration Release --no-restore --verbosity normal
+        run: dotnet test PhotoShare.sln --configuration Release --no-restore --verbosity normal
 
   build:
     name: build (linux/amd64)
@@ -100,7 +100,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          file: Memtly.Community/Dockerfile
+          file: PhotoShare/Dockerfile
           push: ${{ steps.gate.outputs.pushed == 'true' }}
           platforms: linux/amd64
           tags: ${{ steps.meta.outputs.tags }}

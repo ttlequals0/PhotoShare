@@ -13,18 +13,18 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /src
-COPY ["Memtly.Community/Memtly.Community.csproj", "Memtly.Community/"]
+COPY ["PhotoShare/PhotoShare.csproj", "PhotoShare/"]
 COPY ["Memtly.Core/Memtly.Core/Memtly.Core.csproj", "Memtly.Core/Memtly.Core/"]
 COPY . .
 
-RUN dotnet restore -a $TARGETARCH "./Memtly.Community/Memtly.Community.csproj"
+RUN dotnet restore -a $TARGETARCH "./PhotoShare/PhotoShare.csproj"
 
-WORKDIR "/src/Memtly.Community"
-RUN dotnet build "./Memtly.Community.csproj" -a $TARGETARCH -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/PhotoShare"
+RUN dotnet build "./PhotoShare.csproj" -a $TARGETARCH -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./Memtly.Community.csproj" -a $TARGETARCH -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./PhotoShare.csproj" -a $TARGETARCH -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
@@ -33,4 +33,4 @@ RUN groupadd -r --gid 10001 photoshare && \
 COPY --from=publish --chown=photoshare:photoshare /app/publish .
 RUN mkdir -p /app/config && chown -R photoshare:photoshare /app
 USER photoshare
-ENTRYPOINT ["dotnet", "Memtly.Community.dll"]
+ENTRYPOINT ["dotnet", "PhotoShare.dll"]

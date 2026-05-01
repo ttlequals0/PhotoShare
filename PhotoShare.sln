@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Memtly.Community", "Memtly.Community\Memtly.Community.csproj", "{1E5B4227-C87D-42DA-9946-4F86C9034F35}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhotoShare", "PhotoShare\PhotoShare.csproj", "{1E5B4227-C87D-42DA-9946-4F86C9034F35}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Memtly.Core", "Memtly.Core\Memtly.Core\Memtly.Core.csproj", "{229B0B5F-49A6-7891-9223-1E4D9613A492}"
 EndProject

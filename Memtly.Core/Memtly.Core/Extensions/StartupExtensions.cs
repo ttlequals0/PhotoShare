@@ -186,7 +186,8 @@ namespace Memtly.Core.Extensions
 
             EnforceRequiredSecurityConfig(config, env, logger);
 
-            logger.LogInformation($"Release Version - '{settings.GetReleaseVersion(4)}'");
+            var appTitle = config.GetOrDefault(MemtlyConfiguration.Basic.Title, "PhotoShare");
+            logger.LogInformation("{App} starting, version {Version}", appTitle, settings.GetReleaseVersion(3));
 
             // ForwardedHeaders MUST run before any middleware that examines
             // request scheme, host, or remote IP - that means before
