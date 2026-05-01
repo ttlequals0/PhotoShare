@@ -34,6 +34,7 @@ namespace Memtly.Core.Controllers
         private readonly IDeviceDetector _deviceDetector;
         private readonly IFileHelper _fileHelper;
         private readonly IPasswordHasher _passwordHasher;
+        private readonly IEmailVerificationTokenProtector _tokenProtector;
         private readonly INotificationHelper _notificationHelper;
         private readonly ISmtpClientWrapper _smtpClientWrapper;
         private readonly Helpers.IUrlHelper _url;
@@ -49,7 +50,7 @@ namespace Memtly.Core.Controllers
         private readonly string ThumbnailsDirectory;
         private readonly string CustomResourcesDirectory;
 
-        public AccountController(ISettingsHelper settings, IDatabaseHelper database, IDeviceDetector deviceDetector, IFileHelper fileHelper, IPasswordHasher passwordHasher, INotificationHelper notificationHelper, ISmtpClientWrapper smtpClientWrapper, Helpers.IUrlHelper url, IAuditHelper audit, ILoggerFactory loggerFactory, IStringLocalizer<Localization.Translations> localizer)
+        public AccountController(ISettingsHelper settings, IDatabaseHelper database, IDeviceDetector deviceDetector, IFileHelper fileHelper, IPasswordHasher passwordHasher, IEmailVerificationTokenProtector tokenProtector, INotificationHelper notificationHelper, ISmtpClientWrapper smtpClientWrapper, Helpers.IUrlHelper url, IAuditHelper audit, ILoggerFactory loggerFactory, IStringLocalizer<Localization.Translations> localizer)
             : base()
         {
             _settings = settings;
@@ -57,6 +58,7 @@ namespace Memtly.Core.Controllers
             _deviceDetector = deviceDetector;
             _fileHelper = fileHelper;
             _passwordHasher = passwordHasher;
+            _tokenProtector = tokenProtector;
             _notificationHelper = notificationHelper;
             _smtpClientWrapper = smtpClientWrapper;
             _url = url;
@@ -248,11 +250,11 @@ namespace Memtly.Core.Controllers
                                             Heading = _localizer["Verify"].Value,
                                             Value = _url.GenerateFullUrl(HttpContext?.Request, "/Account/VerifyEmail", new List<KeyValuePair<string, string>>
                                                 {
-                                                    new KeyValuePair<string, string>("data", EncodingHelper.Base64Encode(JsonSerializer.Serialize(new EmailVerificationModel()
+                                                    new KeyValuePair<string, string>("data", _tokenProtector.Protect(new EmailVerificationModel
                                                     {
                                                         Username = user.Username,
                                                         Validator = await _database.SetUserSecret(user.Id, PasswordHelper.GenerateSecretCode())
-                                                    })))
+                                                    }, TimeSpan.FromHours(24)))
                                                 })
                                         }
                                     });
@@ -301,13 +303,13 @@ namespace Memtly.Core.Controllers
             {
                 try
                 {
-                    var json = EncodingHelper.Base64Decode(HttpUtility.UrlDecode(data));
-                    var model = JsonSerializer.Deserialize<EmailVerificationModel>(json);
-                    if (!string.IsNullOrWhiteSpace(model?.Username) && !string.IsNullOrWhiteSpace(model?.Validator))
+                    if (_tokenProtector.TryUnprotect(data, out var model)
+                        && !string.IsNullOrWhiteSpace(model?.Username)
+                        && !string.IsNullOrWhiteSpace(model?.Validator))
                     {
                         var user = await _database.GetUserByUsername(model.Username);
                         if (user != null)
-                        { 
+                        {
                             if (await _database.VerifyUserSecret(user.Id, model.Validator))
                             {
                                 user.State = AccountState.Active;
@@ -364,11 +366,11 @@ namespace Memtly.Core.Controllers
                                     Heading = _localizer["Visit"].Value,
                                     Value = _url.GenerateFullUrl(HttpContext?.Request, "/Account/ResetPassword", new List<KeyValuePair<string, string>>
                                     {
-                                        new KeyValuePair<string, string>("data", EncodingHelper.Base64Encode(JsonSerializer.Serialize(new EmailVerificationModel()
+                                        new KeyValuePair<string, string>("data", _tokenProtector.Protect(new EmailVerificationModel
                                         {
                                             Username = user.Username,
                                             Validator = await _database.SetUserSecret(user.Id, PasswordHelper.GenerateSecretCode())
-                                        })))
+                                        }, TimeSpan.FromHours(24)))
                                     })
                                 }
                             });
@@ -395,9 +397,9 @@ namespace Memtly.Core.Controllers
             {
                 try
                 {
-                    var json = EncodingHelper.Base64Decode(HttpUtility.UrlDecode(data));
-                    var model = JsonSerializer.Deserialize<EmailVerificationModel>(json);
-                    if (!string.IsNullOrWhiteSpace(model?.Username) && !string.IsNullOrWhiteSpace(model?.Validator))
+                    if (_tokenProtector.TryUnprotect(data, out var model)
+                        && !string.IsNullOrWhiteSpace(model?.Username)
+                        && !string.IsNullOrWhiteSpace(model?.Validator))
                     {
                         var user = await _database.GetUserByUsername(model.Username);
                         if (user != null && !string.IsNullOrWhiteSpace(user.Email))
@@ -444,9 +446,9 @@ namespace Memtly.Core.Controllers
                     }
                     else
                     {
-                        var json = EncodingHelper.Base64Decode(HttpUtility.UrlDecode(model.Data));
-                        var data = JsonSerializer.Deserialize<EmailVerificationModel>(json);
-                        if (!string.IsNullOrWhiteSpace(data?.Username) && !string.IsNullOrWhiteSpace(data?.Validator))
+                        if (_tokenProtector.TryUnprotect(model.Data, out var data)
+                            && !string.IsNullOrWhiteSpace(data?.Username)
+                            && !string.IsNullOrWhiteSpace(data?.Validator))
                         {
                             var user = await _database.GetUserByUsername(data.Username);
                             if (user != null && !string.IsNullOrWhiteSpace(user.Email))

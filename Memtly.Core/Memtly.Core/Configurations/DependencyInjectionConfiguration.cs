@@ -15,6 +15,7 @@ namespace Memtly.Core.Configurations
             services.AddSingleton<ISmtpClientWrapper, SmtpClientWrapper>();
             services.AddSingleton<IEncryptionHelper, EncryptionHelper>();
             services.AddSingleton<IPasswordHasher, PasswordHasher>();
+            services.AddSingleton<IEmailVerificationTokenProtector, EmailVerificationTokenProtector>();
             services.AddSingleton<IUrlHelper, UrlHelper>();
             services.AddSingleton<IAuditHelper, AuditHelper>();
             services.AddSingleton<ILanguageHelper, LanguageHelper>();
