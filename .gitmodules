@@ -1,4 +1,0 @@
-[submodule "Memtly.Core"]
-	path = Memtly.Core
-	url = ../memtly.core.git
-	branch = master

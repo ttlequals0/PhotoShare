@@ -1,0 +1,44 @@
+{
+  "tiers": [
+    {
+      "name": "Platinum",
+      "priority": 1,
+      "platforms": [
+        {
+          "name": "Github",
+          "sponsors": []
+        }
+      ]
+    },
+    {
+      "name": "Gold",
+      "priority": 2,
+      "platforms": [
+        {
+          "name": "Github",
+          "sponsors": []
+        }
+      ]
+    },
+    {
+      "name": "Silver",
+      "priority": 3,
+      "platforms": [
+        {
+          "name": "Github",
+          "sponsors": []
+        }
+      ]
+    },
+    {
+      "name": "Bronze",
+      "priority": 4,
+      "platforms": [
+        {
+          "name": "Github",
+          "sponsors": []
+        }
+      ]
+    }
+  ]
+}
