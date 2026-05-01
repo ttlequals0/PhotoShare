@@ -22,3 +22,7 @@
 /**/banners/**/*
 /node_modules
 /ffmpeg
+
+# Per-developer Claude Code context, not shared
+CLAUDE.md
+.claude.local.md
