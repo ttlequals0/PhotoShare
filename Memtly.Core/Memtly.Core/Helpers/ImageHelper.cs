@@ -14,6 +14,7 @@ namespace Memtly.Core.Helpers
         Task<ImageOrientation> GetOrientation(string path);
         ImageOrientation GetOrientation(Image img);
         MediaType GetMediaType(string filePath);
+        Task<bool> ContentMatchesExtension(string filePath);
         Task<bool> DownloadFFMPEG(string path);
     }
 
@@ -119,8 +120,61 @@ namespace Memtly.Core.Helpers
                 }
             }
             catch { }
-                
+
             return MediaType.Unknown;
+        }
+
+        // Reject content whose magic bytes don't match the claimed extension.
+        // Images: ImageSharp's IdentifyAsync reads only headers and resolves
+        // the actual format. Videos: deferred (would require ffprobe), trust
+        // extension + size limit.
+        public async Task<bool> ContentMatchesExtension(string filePath)
+        {
+            try
+            {
+                var ext = Path.GetExtension(filePath)?.TrimStart('.')?.ToLowerInvariant();
+                if (string.IsNullOrEmpty(ext))
+                {
+                    return false;
+                }
+
+                var mediaType = GetMediaType(filePath);
+                if (mediaType == MediaType.Image)
+                {
+                    try
+                    {
+                        var info = await Image.IdentifyAsync(filePath);
+                        if (info == null)
+                        {
+                            return false;
+                        }
+                        var format = info.Metadata.DecodedImageFormat;
+                        if (format == null)
+                        {
+                            return false;
+                        }
+                        // jpg/jpeg are aliases; treat them as equivalent
+                        var formatExtensions = format.FileExtensions.Select(e => e.ToLowerInvariant()).ToList();
+                        if (string.Equals(ext, "jpg", StringComparison.OrdinalIgnoreCase))
+                        {
+                            return formatExtensions.Contains("jpg") || formatExtensions.Contains("jpeg");
+                        }
+                        return formatExtensions.Contains(ext);
+                    }
+                    catch
+                    {
+                        return false;
+                    }
+                }
+
+                // Non-image media: rely on extension whitelist + size limits.
+                // Video magic-byte verification is a follow-up.
+                return mediaType == MediaType.Video;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public async Task<ImageOrientation> GetOrientation(string path)

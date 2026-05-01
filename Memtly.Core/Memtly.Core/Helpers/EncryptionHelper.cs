@@ -41,9 +41,8 @@ namespace Memtly.Core.Helpers
                 var saltBytes = Encoding.Unicode.GetBytes(salt ?? _salt);
 
                 using (var encryptor = Aes.Create())
+                using (var pdb = new Rfc2898DeriveBytes(_key, saltBytes, _iterations, _hashType))
                 {
-                    var pdb = new Rfc2898DeriveBytes(_key, saltBytes, _iterations, _hashType);
-
                     encryptor.Key = pdb.GetBytes(32);
                     encryptor.IV = pdb.GetBytes(16);
 

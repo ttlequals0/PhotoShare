@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Threading.RateLimiting;
 using Memtly.Core.BackgroundWorkers;
 using Memtly.Core.Configurations;
 using Memtly.Core.Constants;
@@ -6,7 +7,9 @@ using Memtly.Core.Helpers;
 using Memtly.Core.Middleware;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.FileProviders;
 
@@ -51,35 +54,86 @@ namespace Memtly.Core.Extensions
                 options.CheckConsentNeeded = context => true;
             });
 
+            const long maxBodyBytes = 256L * 1024 * 1024;       // 256 MB
+            const int  memBufferThresholdBytes = 64 * 1024;     // 64 KB - spill to disk above this
+
             services.Configure<KestrelServerOptions>(options =>
             {
-                options.Limits.MaxRequestBodySize = int.MaxValue;
+                options.Limits.MaxRequestBodySize = maxBodyBytes;
             });
 
             services.Configure<FormOptions>(x =>
             {
-                x.MultipartHeadersLengthLimit = Int32.MaxValue;
-                x.MultipartBoundaryLengthLimit = Int32.MaxValue;
-                x.MultipartBodyLengthLimit = Int64.MaxValue;
-                x.ValueLengthLimit = Int32.MaxValue;
-                x.BufferBodyLengthLimit = Int64.MaxValue;
-                x.MemoryBufferThreshold = Int32.MaxValue;
+                x.MultipartHeadersLengthLimit = 16 * 1024;        // 16 KB
+                x.MultipartBoundaryLengthLimit = 1024;            // 1 KB
+                x.MultipartBodyLengthLimit = maxBodyBytes;
+                x.ValueLengthLimit = 1024 * 1024;                 // 1 MB per form value
+                x.BufferBodyLengthLimit = maxBodyBytes;
+                x.MemoryBufferThreshold = memBufferThresholdBytes;
             });
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
-                    options.Cookie.HttpOnly = false;
-                    options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+                    options.Cookie.HttpOnly = true;
+                    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                    options.Cookie.SameSite = SameSiteMode.Lax;
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
 
                     options.LoginPath = "/Account/Login";
                     options.AccessDeniedPath = $"/Error?Reason={ErrorCode.Unauthorized}";
                     options.SlidingExpiration = true;
                 });
             services.AddSession(options => {
-                options.IdleTimeout = TimeSpan.FromMinutes(10);
+                options.IdleTimeout = TimeSpan.FromMinutes(60);
                 options.Cookie.Name = ".Memtly.Session";
                 options.Cookie.IsEssential = true;
+                options.Cookie.HttpOnly = true;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                options.Cookie.SameSite = SameSiteMode.Lax;
+            });
+
+            services.AddHsts(options =>
+            {
+                options.MaxAge = TimeSpan.FromDays(365);
+                options.IncludeSubDomains = true;
+                options.Preload = true;
+            });
+
+            services.AddRateLimiter(options =>
+            {
+                options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+                options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(ctx =>
+                {
+                    var ip = ctx.Connection.RemoteIpAddress?.ToString() ?? "anon";
+                    var path = ctx.Request.Path.Value ?? string.Empty;
+                    var isAuthPost = ctx.Request.Method == HttpMethods.Post
+                        && (path.StartsWith("/Account/Login", StringComparison.OrdinalIgnoreCase)
+                            || path.StartsWith("/Account/Register", StringComparison.OrdinalIgnoreCase)
+                            || path.StartsWith("/Account/ResetPassword", StringComparison.OrdinalIgnoreCase));
+
+                    if (isAuthPost)
+                    {
+                        return RateLimitPartition.GetFixedWindowLimiter($"auth-{ip}", _ => new FixedWindowRateLimiterOptions
+                        {
+                            PermitLimit = 10,
+                            Window = TimeSpan.FromMinutes(1),
+                            QueueLimit = 0,
+                            QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+                            AutoReplenishment = true,
+                        });
+                    }
+
+                    return RateLimitPartition.GetTokenBucketLimiter(ip, _ => new TokenBucketRateLimiterOptions
+                    {
+                        TokenLimit = 120,
+                        TokensPerPeriod = 2,
+                        ReplenishmentPeriod = TimeSpan.FromSeconds(1),
+                        QueueLimit = 0,
+                        QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+                        AutoReplenishment = true,
+                    });
+                });
             });
             services.AddDataProtection()
                 .SetApplicationName("Memtly")
@@ -106,6 +160,8 @@ namespace Memtly.Core.Extensions
             var config = app.ApplicationServices.GetRequiredService<IConfigHelper>();
             var settings = app.ApplicationServices.GetRequiredService<ISettingsHelper>();
             var logger = app.ApplicationServices.GetRequiredService<ILogger<MemtlyCore>>();
+
+            EnforceRequiredSecurityConfig(config, env, logger);
 
             logger.LogInformation($"Release Version - '{settings.GetReleaseVersion(4)}'");
 
@@ -182,7 +238,19 @@ namespace Memtly.Core.Extensions
                         context.Response.Headers.Append("X-Content-Type-Options", config.GetOrDefault(MemtlyConfiguration.Security.Headers.XContentTypeOptions, "nosniff"));
 
                         context.Response.Headers.Remove("Content-Security-Policy");
-                        context.Response.Headers.Append("Content-Security-Policy", config.GetOrDefault(MemtlyConfiguration.Security.Headers.CSP, $"default-src 'self' {(!string.IsNullOrWhiteSpace(baseUrlCSP) ? baseUrlCSP : "http://localhost:* ws://localhost:*")}; script-src 'self' 'unsafe-inline' 'unsafe-eval'{(!string.IsNullOrWhiteSpace(trackersUrlCSP) ? $" {trackersUrlCSP}" : string.Empty)}; style-src 'self' 'unsafe-inline'; connect-src 'self' {(!string.IsNullOrWhiteSpace(baseUrlCSP) ? baseUrlCSP : "http://localhost:* ws://localhost:*")}{(!string.IsNullOrWhiteSpace(trackersUrlCSP) ? $" {trackersUrlCSP}" : string.Empty)}; font-src 'self'; img-src 'self' https://github.com/ https://avatars.githubusercontent.com/ data:; frame-src 'self'; frame-ancestors 'self';"));
+                        context.Response.Headers.Append("Content-Security-Policy", config.GetOrDefault(MemtlyConfiguration.Security.Headers.CSP, $"default-src 'self' {(!string.IsNullOrWhiteSpace(baseUrlCSP) ? baseUrlCSP : "http://localhost:* ws://localhost:*")}; script-src 'self' 'unsafe-inline' 'unsafe-eval'{(!string.IsNullOrWhiteSpace(trackersUrlCSP) ? $" {trackersUrlCSP}" : string.Empty)}; style-src 'self' 'unsafe-inline'; connect-src 'self' {(!string.IsNullOrWhiteSpace(baseUrlCSP) ? baseUrlCSP : "http://localhost:* ws://localhost:*")}{(!string.IsNullOrWhiteSpace(trackersUrlCSP) ? $" {trackersUrlCSP}" : string.Empty)}; font-src 'self'; img-src 'self' https://github.com/ https://avatars.githubusercontent.com/ data:; frame-src 'self'; frame-ancestors 'self'; object-src 'none'; base-uri 'self';"));
+
+                        context.Response.Headers.Remove("Referrer-Policy");
+                        context.Response.Headers.Append("Referrer-Policy", "strict-origin-when-cross-origin");
+
+                        context.Response.Headers.Remove("Permissions-Policy");
+                        context.Response.Headers.Append("Permissions-Policy", "camera=(), microphone=(), geolocation=(), interest-cohort=()");
+
+                        context.Response.Headers.Remove("Cross-Origin-Opener-Policy");
+                        context.Response.Headers.Append("Cross-Origin-Opener-Policy", "same-origin");
+
+                        context.Response.Headers.Remove("Cross-Origin-Resource-Policy");
+                        context.Response.Headers.Append("Cross-Origin-Resource-Policy", "same-site");
 
                         await next();
                     });
@@ -192,6 +260,7 @@ namespace Memtly.Core.Extensions
 
             app.UseStaticFiles();
             app.UseRouting();
+            app.UseRateLimiter();
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseRequestLocalization();
@@ -207,6 +276,59 @@ namespace Memtly.Core.Extensions
                     defaults: new { controller = "Home", action = "Index" });
                 endpoints.MapRazorPages();
             });
+        }
+
+        // Refuse to start in production with placeholder secrets. Development is
+        // exempt so local "dotnet run" without env vars still works for
+        // contributors. Operators must override these via env vars or a
+        // secrets file before deploying.
+        private static void EnforceRequiredSecurityConfig(IConfigHelper config, IWebHostEnvironment env, ILogger logger)
+        {
+            if (env.IsDevelopment())
+            {
+                return;
+            }
+
+            // The error message uses string literals only - the constants
+            // MemtlyConfiguration.* contain "Password"/"Email" in their names
+            // and CodeQL's cs/cleartext-storage taint tracker would flag any
+            // constant -> log flow as sensitive even though these are config
+            // key paths, not values. Reading the value via config.GetOrDefault
+            // is fine because the result is used only for the bool check and
+            // never stored or logged.
+            var missing = new List<string>();
+
+            static bool IsMissingOrPlaceholder(string actual, string forbidden)
+            {
+                if (string.IsNullOrWhiteSpace(actual)) return true;
+                return string.Equals(actual, forbidden, StringComparison.Ordinal);
+            }
+
+            if (IsMissingOrPlaceholder(config.GetOrDefault(MemtlyConfiguration.Security.Encryption.Key, string.Empty), "ChangeMe"))
+            {
+                missing.Add("Memtly:Security:Encryption:Key");
+            }
+            if (IsMissingOrPlaceholder(config.GetOrDefault(MemtlyConfiguration.Security.Encryption.Salt, string.Empty), "ChangeMe"))
+            {
+                missing.Add("Memtly:Security:Encryption:Salt");
+            }
+            if (IsMissingOrPlaceholder(config.GetOrDefault(MemtlyConfiguration.Account.Admin.EmailAddress, string.Empty), "admin@example.com"))
+            {
+                missing.Add("Memtly:Account:Admin:Email");
+            }
+            if (IsMissingOrPlaceholder(config.GetOrDefault(MemtlyConfiguration.Account.Admin.Password, string.Empty), "admin"))
+            {
+                missing.Add("Memtly:Account:Admin:Password");
+            }
+
+            if (missing.Count > 0)
+            {
+                var msg = "PhotoShare cannot start: required security configuration is missing or set to placeholder defaults. "
+                       + "Set these via environment variables or appsettings.Production.json before deploying:\n  - "
+                       + string.Join("\n  - ", missing);
+                logger.LogCritical(msg);
+                throw new InvalidOperationException(msg);
+            }
         }
     }
 }
