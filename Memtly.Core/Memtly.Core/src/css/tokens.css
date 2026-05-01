@@ -107,3 +107,31 @@
     --border:               var(--color-on-dark-border);
   }
 }
+
+/* Bridge to Memtly's manual theme cookie. _Layout sets data-theme on
+   <body>; tokens defined here cascade to descendants. AutoDetect picks
+   per OS scheme above; explicit dark theme overrides regardless. */
+body[data-theme="darkblue"],
+body[data-theme="darkgreen"],
+body[data-theme="darkpink"] {
+  --surface:                var(--color-purple-deep);
+  --surface-raised:         #232043;
+  --surface-button:         var(--color-cream);
+  --ink:                    var(--color-on-dark);
+  --ink-muted:              var(--color-on-dark-muted);
+  --link:                   var(--color-lavender);
+  --border:                 var(--color-on-dark-border);
+}
+
+/* Explicit light themes win over OS preference when set. */
+body[data-theme="blue"],
+body[data-theme="green"],
+body[data-theme="pink"] {
+  --surface:                var(--color-pure-white);
+  --surface-raised:         var(--color-pure-white);
+  --surface-button:         var(--color-cream);
+  --ink:                    var(--color-charcoal);
+  --ink-muted:              rgba(41, 40, 39, 0.70);
+  --link:                   var(--color-amethyst);
+  --border:                 var(--color-parchment);
+}
