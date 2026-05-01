@@ -1,0 +1,92 @@
+# PhotoShare with Postgres backend.
+#
+# Quick start:
+#   1. cp .env.example .env  &&  edit .env to fill in real secrets.
+#   2. (First time only, if mounting host paths instead of named volumes:)
+#        sudo chown -R 10001:10001 /path/to/host/uploads etc.
+#      Named volumes (default below) are auto-owned by the container UID.
+#   3. docker compose up -d
+#
+# The container runs as non-root user UID 10001 (set in the Dockerfile).
+# /healthz is a liveness endpoint exposed by the app; Docker reports the
+# container unhealthy after 3 consecutive failures.
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: photoshare
+      POSTGRES_USER: photoshare
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set in .env}
+    volumes:
+      - photoshare-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U photoshare -d photoshare"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    # Database is reached by the app container over the internal compose
+    # network; no port published to host. Uncomment to expose 5432 for
+    # local DB tooling.
+    # ports:
+    #   - "5432:5432"
+
+  app:
+    image: ttlequals0/photoshare:latest
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      # --- Database ---
+      DATABASE_TYPE: postgres
+      DATABASE_CONNECTION_STRING: "Host=db;Database=photoshare;Username=photoshare;Password=${POSTGRES_PASSWORD};Include Error Detail=true"
+
+      # --- Required hardening secrets (fail-fast at startup) ---
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY:?ENCRYPTION_KEY must be set in .env}
+      ENCRYPTION_SALT: ${ENCRYPTION_SALT:?ENCRYPTION_SALT must be set in .env}
+      ACCOUNT_ADMIN_EMAIL: ${ADMIN_EMAIL:?ADMIN_EMAIL must be set in .env}
+      ACCOUNT_ADMIN_PASSWORD: ${ADMIN_PASSWORD:?ADMIN_PASSWORD must be set in .env}
+
+      # --- Recommended for public exposure ---
+      FORCE_HTTPS: "true"
+      BASE_URL: ${BASE_URL:-http://localhost:5000}
+      TITLE: PhotoShare
+      ASPNETCORE_ENVIRONMENT: Production
+    ports:
+      - "5000:5000"
+    volumes:
+      - photoshare-config:/app/config
+      - photoshare-uploads:/app/uploads
+      - photoshare-thumbnails:/app/thumbnails
+      - photoshare-custom-resources:/app/custom_resources
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:5000/healthz || exit 1"]
+      interval: 30s
+      timeout: 5s
+      start_period: 30s
+      retries: 3
+
+# ---
+# Optional: cloudflared sidecar. Uncomment + populate TUNNEL_TOKEN to
+# publish without exposing the host port. Recommended for the public
+# event deploy. See docs/cloudflare.md for the matching WAF / Access
+# ruleset.
+#
+#  cloudflared:
+#    image: cloudflare/cloudflared:latest
+#    restart: unless-stopped
+#    command: tunnel --no-autoupdate run
+#    environment:
+#      TUNNEL_TOKEN: ${CLOUDFLARED_TOKEN:?CLOUDFLARED_TOKEN must be set in .env}
+#    depends_on:
+#      app:
+#        condition: service_healthy
+
+volumes:
+  photoshare-pgdata:
+  photoshare-config:
+  photoshare-uploads:
+  photoshare-thumbnails:
+  photoshare-custom-resources:
