@@ -279,7 +279,7 @@ namespace Memtly.Core.Controllers
                             }
                             catch (Exception ex)
                             {
-                                _logger.LogError(ex, $"{_localizer["Registration_Email_Send_Failed"].Value} Email: '{model.EmailAddress}'");
+                                _logger.LogError(ex, "{Failure}", _localizer["Registration_Email_Send_Failed"].Value);
                             }
 
                             return Json(new { success = true, validation = requireEmailValidation });
@@ -382,7 +382,7 @@ namespace Memtly.Core.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, $"{_localizer["ForgotPassword_Failed"].Value}. EmailAddress: '{emailAddress}' - {ex?.Message}");
+                    _logger.LogError(ex, "{Failure}", _localizer["ForgotPassword_Failed"].Value);
                 }
             }
 

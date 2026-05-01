@@ -119,7 +119,7 @@ namespace Memtly.Core.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"{_localizer["Identity_Session_Error"].Value}: '{name}'");
+                _logger.LogError(ex, "{Failure}", _localizer["Identity_Session_Error"].Value);
             }
 
             return Json(new { success = false });

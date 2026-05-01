@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Security.Cryptography;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Memtly.Core.Helpers
@@ -22,40 +23,39 @@ namespace Memtly.Core.Helpers
 
         public static string GenerateTempPassword(bool lower, bool upper, bool numbers, bool symbols, int length = 12)
         {
-            var rand = new Random();
             var characterSet = BuildCharacterSet(lower, upper, numbers, symbols);
 
             if (characterSet != null && characterSet.Length > 0)
-            { 
+            {
                 var passwordBuilder = new StringBuilder();
                 for (var i = 0; i < length; i++)
                 {
-                    passwordBuilder.Append(PickRandomCharacter(rand, characterSet));
+                    passwordBuilder.Append(PickRandomCharacter(characterSet));
                 }
 
                 var password = passwordBuilder.ToString();
 
                 if (lower && !HasLowerCaseLetter(password))
                 {
-                    password = ReplaceRandomCharacter(rand, password, PickRandomCharacter(rand, BuildCharacterSet(lower: true, upper: false, numbers: false, symbols: false)));
+                    password = ReplaceRandomCharacter(password, PickRandomCharacter(BuildCharacterSet(lower: true, upper: false, numbers: false, symbols: false)));
                 }
 
                 if (upper && !HasUpperCaseLetter(password))
                 {
-                    password = ReplaceRandomCharacter(rand, password, PickRandomCharacter(rand, BuildCharacterSet(lower: false, upper: true, numbers: false, symbols: false)));
+                    password = ReplaceRandomCharacter(password, PickRandomCharacter(BuildCharacterSet(lower: false, upper: true, numbers: false, symbols: false)));
                 }
 
                 if (numbers && !HasNumber(password))
                 {
-                    password = ReplaceRandomCharacter(rand, password, PickRandomCharacter(rand, BuildCharacterSet(lower: false, upper: false, numbers: true, symbols: false)));
+                    password = ReplaceRandomCharacter(password, PickRandomCharacter(BuildCharacterSet(lower: false, upper: false, numbers: true, symbols: false)));
                 }
 
                 if (symbols && !HasSymbol(password))
                 {
-                    password = ReplaceRandomCharacter(rand, password, PickRandomCharacter(rand, BuildCharacterSet(lower: false, upper: false, numbers: false, symbols: true)));
+                    password = ReplaceRandomCharacter(password, PickRandomCharacter(BuildCharacterSet(lower: false, upper: false, numbers: false, symbols: true)));
                 }
 
-                return password.ToString();
+                return password;
             }
 
             return string.Empty;
@@ -140,15 +140,15 @@ namespace Memtly.Core.Helpers
             return characterSetBuilder.ToString();
         }
 
-        private static char PickRandomCharacter(Random rand, string characterSet)
+        private static char PickRandomCharacter(string characterSet)
         {
-            return characterSet[rand.Next(characterSet.Length)];
+            return characterSet[RandomNumberGenerator.GetInt32(characterSet.Length)];
         }
 
-        private static string ReplaceRandomCharacter(Random rand, string baseString, char character)
+        private static string ReplaceRandomCharacter(string baseString, char character)
         {
             var characterArr = baseString.ToCharArray();
-            characterArr[rand.Next(baseString.Length)] = character;
+            characterArr[RandomNumberGenerator.GetInt32(baseString.Length)] = character;
 
             return new string(characterArr);
         }

@@ -235,6 +235,10 @@
             <i class="btn-show-sponsors fas fa-bolt"></i>
         }
         
+        <!-- Anti-forgery token rendered once so JS can read it for the
+             RequestVerificationToken header (see main.js $.ajaxSetup). -->
+        @Html.AntiForgeryToken()
+
         <!-- Webpack -->
         <script src="~/_content/Memtly.Core/dist/main.js" asp-append-version="true"></script>
 

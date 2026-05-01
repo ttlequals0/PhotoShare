@@ -58,6 +58,7 @@ namespace Memtly.Core.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> ChangeDisplayTheme(string theme)
         {
             try
@@ -81,14 +82,14 @@ namespace Memtly.Core.Controllers
                 Response.Cookies.Append(
                     SessionKey.Theme.Selected,
                     selectedTheme,
-                    new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1), IsEssential = true }
+                    new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1), IsEssential = true, Secure = true, SameSite = SameSiteMode.Lax }
                 );
 
                 return Json(new { success = true });
             }
             catch (Exception ex) 
             {
-                _logger.LogWarning(ex, $"Failed to set display theme to '{theme}' - {ex?.Message}");
+                _logger.LogWarning(ex, "Failed to set display theme");
 
                 theme = Enums.Themes.AutoDetect.ToString();
 
@@ -96,7 +97,7 @@ namespace Memtly.Core.Controllers
                 Response.Cookies.Append(
                     SessionKey.Theme.Selected,
                     theme,
-                    new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1), IsEssential = true }
+                    new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1), IsEssential = true, Secure = true, SameSite = SameSiteMode.Lax }
                 );
             }
 

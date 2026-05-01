@@ -249,7 +249,7 @@ namespace Memtly.Core.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, $"An unexpected error occurred while performing action '{action}' on item '{id}' - {ex?.Message}");
+                    _logger.LogError(ex, "An unexpected error occurred while performing action on item.");
                 }
             }
 

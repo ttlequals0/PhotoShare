@@ -91,6 +91,7 @@ namespace Memtly.Core.Controllers
 
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> ChangeDisplayLanguage(string culture)
         {
             try
@@ -101,14 +102,14 @@ namespace Memtly.Core.Controllers
                 Response.Cookies.Append(
                     CookieRequestCultureProvider.DefaultCookieName,
                     CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
-                    new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1), IsEssential = true }
+                    new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1), IsEssential = true, Secure = true, SameSite = SameSiteMode.Lax }
                 );
 
                 return Json(new { success = true });
             }
             catch (Exception ex) 
             {
-                _logger.LogWarning(ex, $"Failed to set display language to '{culture}' - {ex?.Message}");
+                _logger.LogWarning(ex, "Failed to set display language");
 
                 culture = "en-GB";
 
@@ -116,7 +117,7 @@ namespace Memtly.Core.Controllers
                 Response.Cookies.Append(
                     CookieRequestCultureProvider.DefaultCookieName,
                     CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
-                    new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1), IsEssential = true }
+                    new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1), IsEssential = true, Secure = true, SameSite = SameSiteMode.Lax }
                 );
             }
 

@@ -45,7 +45,7 @@
             }
             catch (Exception ex)
             {
-                _logger.LogWarning(ex, "Failed to get environment variable '{Key}' for gallery '{GalleryId}'", key, galleryId);
+                _logger.LogWarning(ex, "Failed to get environment variable for gallery '{GalleryId}'", galleryId);
             }
 
             return null;
@@ -63,7 +63,7 @@
             }
             catch (Exception ex)
             {
-                _logger.LogWarning(ex, "Failed to get config value '{Key}'", key);
+                _logger.LogWarning(ex, "Failed to get config value");
             }
 
             return null;
@@ -93,7 +93,7 @@
             }
             catch (Exception ex)
             {
-                _logger.LogWarning(ex, "Failed to find key '{Key}' in either environment variables or appsettings", key);
+                _logger.LogWarning(ex, "Failed to find key in either environment variables or appsettings");
             }
 
             return null;

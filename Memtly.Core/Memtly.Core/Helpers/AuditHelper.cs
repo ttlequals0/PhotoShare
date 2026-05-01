@@ -51,7 +51,7 @@ namespace Memtly.Core.Helpers
                 }
                 catch (Exception ex) 
                 {
-                    _logger.LogError($"Failed to log audit message '{action}' for user '{userId ?? 0}'", ex);
+                    _logger.LogError(ex, "Failed to log audit message");
                 }
             }
 

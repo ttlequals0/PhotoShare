@@ -8,6 +8,20 @@ import 'jquery-qrcode';
 import 'jquery-validation';
 import 'jquery-validation-unobtrusive';
 
+// Auto-attach the anti-forgery token header to every jQuery AJAX request.
+// _Layout.cshtml renders @Html.AntiForgeryToken() so the input always exists.
+// AutoValidateAntiforgeryToken on the server side (configured in
+// StartupExtensions) checks every POST/PUT/DELETE/PATCH; this header path
+// makes browser-side AJAX work without each caller having to set it.
+$(document).ajaxSend(function (event, jqXhr, settings) {
+    if (settings.type && settings.type.toUpperCase() !== 'GET') {
+        var token = $('input[name="__RequestVerificationToken"]').val();
+        if (token) {
+            jqXhr.setRequestHeader('RequestVerificationToken', token);
+        }
+    }
+});
+
 import { Localization } from '@modules/localization';
 import initGdpr from '@modules/gdpr';
 import { default as initThemes, getSelectedTheme } from '@themes';
