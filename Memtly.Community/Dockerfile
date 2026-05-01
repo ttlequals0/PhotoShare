@@ -28,6 +28,9 @@ RUN dotnet publish "./Memtly.Community.csproj" -a $TARGETARCH -c $BUILD_CONFIGUR
 
 FROM base AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
-RUN mkdir -p /app/config
+RUN groupadd -r --gid 10001 photoshare && \
+    useradd -r -u 10001 -g photoshare -m -d /home/photoshare photoshare
+COPY --from=publish --chown=photoshare:photoshare /app/publish .
+RUN mkdir -p /app/config && chown -R photoshare:photoshare /app
+USER photoshare
 ENTRYPOINT ["dotnet", "Memtly.Community.dll"]

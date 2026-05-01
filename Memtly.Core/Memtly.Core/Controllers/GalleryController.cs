@@ -432,6 +432,16 @@ namespace Memtly.Core.Controllers
                                             System.IO.File.Copy(Path.Combine(AssetsDirectory, $"DemoImage.png"), filePath, true);
                                         }
 
+                                        // Magic-byte content validation: reject files whose actual
+                                        // bytes don't match the claimed extension (e.g. HTML renamed
+                                        // to .png). Skip in demo mode (DemoImage.png is a known good).
+                                        if (!isDemoMode && !await _imageHelper.ContentMatchesExtension(filePath))
+                                        {
+                                            errors.Add($"{_localizer["File_Upload_Failed"].Value}. {_localizer["Invalid_File_Type"].Value}");
+                                            _fileHelper.DeleteFileIfExists(filePath);
+                                            continue;
+                                        }
+
                                         var checksum = await _fileHelper.GetChecksum(filePath);
                                         if (await _settings.GetOrDefault(MemtlyConfiguration.Gallery.PreventDuplicates, true, gallery.Id) && (string.IsNullOrWhiteSpace(checksum) || await _database.GetGalleryItemByChecksum(gallery.Id, checksum) != null))
                                         {
