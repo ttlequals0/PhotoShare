@@ -48,7 +48,6 @@ namespace Memtly.Core.Helpers.Database
         #endregion
 
         #region Users
-        Task<bool> ValidateCredentials(string username, string password);
         Task<string?> GetUserPasswordHash(string username);
         Task<bool> UpdateUserPasswordHash(int userId, string newHash);
         Task<int> GetUserCount();

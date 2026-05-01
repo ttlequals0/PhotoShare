@@ -33,7 +33,6 @@ namespace Memtly.Core.Controllers
         private readonly IDatabaseHelper _database;
         private readonly IDeviceDetector _deviceDetector;
         private readonly IFileHelper _fileHelper;
-        private readonly IEncryptionHelper _encryption;
         private readonly IPasswordHasher _passwordHasher;
         private readonly INotificationHelper _notificationHelper;
         private readonly ISmtpClientWrapper _smtpClientWrapper;
@@ -50,14 +49,13 @@ namespace Memtly.Core.Controllers
         private readonly string ThumbnailsDirectory;
         private readonly string CustomResourcesDirectory;
 
-        public AccountController(ISettingsHelper settings, IDatabaseHelper database, IDeviceDetector deviceDetector, IFileHelper fileHelper, IEncryptionHelper encryption, IPasswordHasher passwordHasher, INotificationHelper notificationHelper, ISmtpClientWrapper smtpClientWrapper, Helpers.IUrlHelper url, IAuditHelper audit, ILoggerFactory loggerFactory, IStringLocalizer<Localization.Translations> localizer)
+        public AccountController(ISettingsHelper settings, IDatabaseHelper database, IDeviceDetector deviceDetector, IFileHelper fileHelper, IPasswordHasher passwordHasher, INotificationHelper notificationHelper, ISmtpClientWrapper smtpClientWrapper, Helpers.IUrlHelper url, IAuditHelper audit, ILoggerFactory loggerFactory, IStringLocalizer<Localization.Translations> localizer)
             : base()
         {
             _settings = settings;
             _database = database;
             _deviceDetector = deviceDetector;
             _fileHelper = fileHelper;
-            _encryption = encryption;
             _passwordHasher = passwordHasher;
             _notificationHelper = notificationHelper;
             _smtpClientWrapper = smtpClientWrapper;
@@ -109,8 +107,7 @@ namespace Memtly.Core.Controllers
                     }
                     else if (user.State == AccountState.Active && !user.IsLockedOut)
                     {
-                        var storedHash = await _database.GetUserPasswordHash(user.Username);
-                        var verification = _passwordHasher.Verify(model.Password, storedHash, user.Username);
+                        var verification = await this.VerifyAndRehashIfNeeded(user, model.Password);
 
                         if (verification == PasswordVerification.Failed)
                         {
@@ -118,11 +115,6 @@ namespace Memtly.Core.Controllers
                         }
                         else
                         {
-                            if (verification == PasswordVerification.SuccessNeedsRehash)
-                            {
-                                await _database.UpdateUserPasswordHash(user.Id, _passwordHasher.Hash(model.Password));
-                            }
-
                             if (user.FailedLogins > 0)
                             {
                                 await _database.ResetLockoutCount(user.Id);
@@ -511,8 +503,7 @@ namespace Memtly.Core.Controllers
                     var user = await _database.GetUserByUsername(model.Username);
                     if (user != null && user.State == AccountState.Active && !user.IsLockedOut)
                     {
-                        var storedHash = await _database.GetUserPasswordHash(user.Username);
-                        var verification = _passwordHasher.Verify(model.Password, storedHash, user.Username);
+                        var verification = await this.VerifyAndRehashIfNeeded(user, model.Password);
 
                         if (verification == PasswordVerification.Failed)
                         {
@@ -520,11 +511,6 @@ namespace Memtly.Core.Controllers
                         }
                         else
                         {
-                            if (verification == PasswordVerification.SuccessNeedsRehash)
-                            {
-                                await _database.UpdateUserPasswordHash(user.Id, _passwordHasher.Hash(model.Password));
-                            }
-
                             if (user.FailedLogins > 0)
                             {
                                 await _audit.LogAction(user?.Id, _localizer["Audit_FailedLoginAttemptReset"].Value, AuditSeverity.Warning);
@@ -2186,6 +2172,17 @@ namespace Memtly.Core.Controllers
             {
                 return false;
             }
+        }
+
+        private async Task<PasswordVerification> VerifyAndRehashIfNeeded(UserModel user, string plaintext)
+        {
+            var storedHash = await _database.GetUserPasswordHash(user.Username);
+            var verification = _passwordHasher.Verify(plaintext, storedHash, user.Username);
+            if (verification == PasswordVerification.SuccessNeedsRehash)
+            {
+                await _database.UpdateUserPasswordHash(user.Id, _passwordHasher.Hash(plaintext));
+            }
+            return verification;
         }
 
         private async Task<bool> FailedLoginDetected(LoginModel model, UserModel user)

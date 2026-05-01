@@ -4,9 +4,6 @@ namespace Memtly.Core.Helpers
     {
         Failed = 0,
         Success = 1,
-        // Stored credential matched the supplied password but is in the legacy
-        // reversibly-encrypted format. Caller should rehash with BCrypt and
-        // persist the new hash before returning success to the user.
         SuccessNeedsRehash = 2,
     }
 
@@ -52,14 +49,16 @@ namespace Memtly.Core.Helpers
                         ? PasswordVerification.Success
                         : PasswordVerification.Failed;
                 }
-                catch
+                catch (BCrypt.Net.SaltParseException)
+                {
+                    return PasswordVerification.Failed;
+                }
+                catch (ArgumentException)
                 {
                     return PasswordVerification.Failed;
                 }
             }
 
-            // Legacy: reversibly encrypted via IEncryptionHelper, salted by
-            // lowercase username. Reproduce the encryption and compare.
             var legacyEncrypted = _encryption.Encrypt(plaintext, usernameForLegacy.ToLower());
             return string.Equals(storedHash, legacyEncrypted, StringComparison.Ordinal)
                 ? PasswordVerification.SuccessNeedsRehash
