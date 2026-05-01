@@ -326,6 +326,85 @@ tr td {
     .card-header, .card-footer { padding: var(--space-4) var(--space-5); }
 }
 
+/*
+ * Navigation - DESIGN.md "Clean white background on content sections,
+ * Super Sans links at 16px weight 460/600, Warm Cream CTA pill, sticky
+ * on scroll with background transition."
+ */
+.navbar {
+    font-family: var(--font-sans);
+    background-color: var(--surface);
+    border-bottom: var(--border-light);
+    padding: var(--space-4) var(--space-6);
+}
+
+.navbar-brand {
+    font-family: var(--font-sans);
+    font-size: var(--type-body-heading);
+    font-weight: var(--font-weight-medium);
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    padding: 0;
+    margin-right: var(--space-7);
+}
+
+.navbar-brand:hover,
+.navbar-brand:focus {
+    color: var(--ink);
+    opacity: 0.85;
+}
+
+.nav-link,
+.navbar-nav .nav-link {
+    font-family: var(--font-sans);
+    font-size: var(--type-body);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-tight);
+    color: var(--ink);
+    padding: var(--space-3) var(--space-4);
+    transition: color 120ms ease, opacity 120ms ease;
+}
+
+.nav-link:hover,
+.nav-link:focus,
+.navbar-nav .nav-link:hover {
+    color: var(--ink);
+    opacity: 0.7;
+}
+
+.nav-link.active,
+.navbar-nav .nav-link.active {
+    color: var(--link);
+    font-weight: var(--font-weight-semibold);
+}
+
+/* Inverted variant - if the layout sets navbar-dark on the hero. */
+.navbar-dark {
+    background-color: var(--color-purple-deep);
+    border-bottom: 1px solid var(--color-on-dark-border);
+}
+
+.navbar-dark .navbar-brand,
+.navbar-dark .nav-link,
+.navbar-dark .navbar-nav .nav-link {
+    color: var(--color-on-dark);
+}
+
+.navbar-dark .nav-link:hover {
+    color: var(--color-on-dark);
+    opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        padding: var(--space-3) var(--space-4);
+    }
+    .navbar-brand {
+        font-size: var(--type-body);
+        margin-right: var(--space-4);
+    }
+}
+
 .banner-message {
     color: var(--bs-gallery-warning-color);
     background-color: var(--bs-gallery-warning-bg-color);
