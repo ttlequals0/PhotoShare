@@ -81,6 +81,11 @@ namespace Memtly.Core.UnitTests.Tests.Helpers
 
 			_file.GetChecksum(Arg.Any<string>()).Returns(Guid.NewGuid().ToString());
 
+			// Mock files in tests have no real bytes; the magic-byte content
+			// validator would reject them. Default to "valid" here; tests
+			// that exercise rejection should override.
+			_image.ContentMatchesExtension(Arg.Any<string>()).Returns(Task.FromResult(true));
+
 			_notification.Send(Arg.Any<string>(), Arg.Any<string>()).Returns(Task.FromResult(true));
 
 			_localizer[Arg.Any<string>()].Returns(new LocalizedString("UnitTest", "UnitTest"));
