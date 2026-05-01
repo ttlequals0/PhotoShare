@@ -17,7 +17,7 @@ namespace Memtly.Core.Models.Database
 
         public string CalculateUsage(long maxSizeMB = long.MaxValue)
         {
-            return ((double)(TotalGallerySize / (maxSizeMB * 1000000.0))).ToString("0.00%");
+            return (TotalGallerySize / (maxSizeMB * 1000000.0)).ToString("0.00%");
         }
     }
 }
