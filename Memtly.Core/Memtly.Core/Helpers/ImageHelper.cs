@@ -102,6 +102,60 @@ namespace Memtly.Core.Helpers
             return false;
         }
 
+        // Read the first 16 bytes of the file and verify the container
+        // signature matches the claimed extension. Default allowed video
+        // extensions in PhotoShare are .mp4 and .mov - both ISO Base Media
+        // (QuickTime) which place a 4-byte 'ftyp' marker at offset 4.
+        // .webm starts with EBML header bytes 1A 45 DF A3.
+        // .avi starts with 'RIFF' ... 'AVI '.
+        // Operators who widen Allowed_File_Types to additional video formats
+        // should extend this match table.
+        private static async Task<bool> VideoHeaderMatchesExtension(string filePath, string ext)
+        {
+            try
+            {
+                var info = new FileInfo(filePath);
+                if (!info.Exists || info.Length < 16)
+                {
+                    return false;
+                }
+
+                var head = new byte[16];
+                using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    var read = await fs.ReadAsync(head.AsMemory(0, 16));
+                    if (read < 16)
+                    {
+                        return false;
+                    }
+                }
+
+                switch (ext)
+                {
+                    case "mp4":
+                    case "mov":
+                    case "m4v":
+                    case "m4a":
+                        // bytes 4..7 == "ftyp" (66 74 79 70)
+                        return head[4] == 0x66 && head[5] == 0x74 && head[6] == 0x79 && head[7] == 0x70;
+                    case "webm":
+                    case "mkv":
+                        // EBML header magic 1A 45 DF A3
+                        return head[0] == 0x1A && head[1] == 0x45 && head[2] == 0xDF && head[3] == 0xA3;
+                    case "avi":
+                        // 'RIFF' ... 'AVI '
+                        return head[0] == 0x52 && head[1] == 0x49 && head[2] == 0x46 && head[3] == 0x46
+                            && head[8] == 0x41 && head[9] == 0x56 && head[10] == 0x49 && head[11] == 0x20;
+                    default:
+                        return false;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public MediaType GetMediaType(string path)
         {
             try
@@ -167,9 +221,12 @@ namespace Memtly.Core.Helpers
                     }
                 }
 
-                // Non-image media: rely on extension whitelist + size limits.
-                // Video magic-byte verification is a follow-up.
-                return mediaType == MediaType.Video;
+                if (mediaType == MediaType.Video)
+                {
+                    return await VideoHeaderMatchesExtension(filePath, ext);
+                }
+
+                return false;
             }
             catch
             {

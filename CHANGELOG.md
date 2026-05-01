@@ -19,6 +19,14 @@ changes shipped below.
 
 ### Security
 
+- **Video uploads now magic-byte validated** alongside images.
+  `ImageHelper.ContentMatchesExtension` reads the first 16 bytes of
+  uploaded video files and rejects mismatches:
+    - `.mp4` / `.mov` / `.m4v` / `.m4a`: `ftyp` at offset 4 (ISO Base Media)
+    - `.webm` / `.mkv`: EBML magic `1A 45 DF A3`
+    - `.avi`: `RIFF` ... `AVI `
+  Closes the audit hole "video uploads still rely on extension whitelist"
+  without requiring ffmpeg in the image (the previous deferred plan).
 - **MFA failure now counts toward lockout and is rate-limited.**
   `AccountController.ValidateMultifactorAuth` previously fell through
   silently on a bad TOTP - an attacker holding the right password
