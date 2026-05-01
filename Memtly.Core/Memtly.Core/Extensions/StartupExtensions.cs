@@ -293,9 +293,17 @@ namespace Memtly.Core.Extensions
 
             void CheckPlaceholder(string key, string actual, params string[] forbidden)
             {
-                if (string.IsNullOrWhiteSpace(actual) || forbidden.Any(f => string.Equals(actual, f, StringComparison.Ordinal)))
+                // Do not log the actual value: even matching-a-placeholder
+                // values ("admin", "ChangeMe") are not safe to write to logs.
+                // CodeQL: cs/cleartext-storage-of-sensitive-information.
+                if (string.IsNullOrWhiteSpace(actual))
                 {
-                    problems.Add($"  - {key} must be set to a non-placeholder value (currently '{actual}').");
+                    problems.Add($"  - {key} must be set (currently empty).");
+                    return;
+                }
+                if (forbidden.Any(f => string.Equals(actual, f, StringComparison.Ordinal)))
+                {
+                    problems.Add($"  - {key} must be set to a non-placeholder value.");
                 }
             }
 
