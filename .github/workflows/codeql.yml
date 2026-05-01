@@ -1,4 +1,4 @@
-name: CodeQL Advanced
+name: CodeQL
 
 on:
   push:
@@ -10,32 +10,19 @@ on:
 
 jobs:
   analyze:
-    name: Analyze (${{ matrix.language }})
+    name: Analyze (csharp)
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
-      security-events: write
-      packages: read
       actions: read
       contents: read
-
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - language: actions
-            build-mode: none
-          - language: csharp
-            build-mode: autobuild
-          - language: javascript-typescript
-            build-mode: none
+      security-events: write
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup .NET
-        if: matrix.language == 'csharp'
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '9.0.x'
@@ -43,11 +30,11 @@ jobs:
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
-          languages: ${{ matrix.language }}
-          build-mode: ${{ matrix.build-mode }}
+          languages: csharp
+          build-mode: autobuild
           queries: security-and-quality
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
         with:
-          category: "/language:${{ matrix.language }}"
+          category: /language:csharp
