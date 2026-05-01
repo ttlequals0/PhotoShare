@@ -9,6 +9,63 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+h1, .h1 {
+    font-family: var(--font-sans);
+    font-size: var(--type-display-section);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-display);
+    letter-spacing: -0.0275em;
+    margin: 0 0 var(--space-5);
+}
+
+h2, .h2 {
+    font-family: var(--font-sans);
+    font-size: var(--type-feature);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-feature);
+    letter-spacing: -0.0225em;
+    margin: 0 0 var(--space-4);
+}
+
+h3, .h3 {
+    font-family: var(--font-sans);
+    font-size: var(--type-subheading);
+    font-weight: var(--font-weight-regular);
+    line-height: 1.30;
+    margin: 0 0 var(--space-4);
+}
+
+h4, .h4 {
+    font-family: var(--font-sans);
+    font-size: var(--type-card-heading);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-tight);
+    letter-spacing: -0.0143em;
+    margin: 0 0 var(--space-3);
+}
+
+h5, .h5 {
+    font-family: var(--font-sans);
+    font-size: var(--type-body-heading);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-tight);
+    margin: 0 0 var(--space-3);
+}
+
+h6, .h6 {
+    font-family: var(--font-sans);
+    font-size: var(--type-emphasis);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-body);
+    margin: 0 0 var(--space-3);
+}
+
+@media (max-width: 768px) {
+    h1, .h1 { font-size: 36px; letter-spacing: -0.025em; }
+    h2, .h2 { font-size: 24px; }
+    h3, .h3 { font-size: 22px; }
+}
+
 #main-wrapper {
     position: fixed;
     width: 100%;
