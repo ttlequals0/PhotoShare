@@ -9,12 +9,16 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+/* All headings inherit the theme-flipping --ink token. Without an
+   explicit color: declaration here, upstream Memtly theme CSS sets a
+   hardcoded heading color and the dark-mode token cascade gets lost. */
 h1, .h1 {
     font-family: var(--font-sans);
     font-size: var(--type-display-section);
     font-weight: var(--font-weight-regular);
     line-height: var(--line-display);
     letter-spacing: -0.0275em;
+    color: var(--ink);
     margin: 0 0 var(--space-5);
 }
 
@@ -24,6 +28,7 @@ h2, .h2 {
     font-weight: var(--font-weight-medium);
     line-height: var(--line-feature);
     letter-spacing: -0.0225em;
+    color: var(--ink);
     margin: 0 0 var(--space-4);
 }
 
@@ -32,6 +37,7 @@ h3, .h3 {
     font-size: var(--type-subheading);
     font-weight: var(--font-weight-regular);
     line-height: 1.30;
+    color: var(--ink);
     margin: 0 0 var(--space-4);
 }
 
@@ -41,6 +47,7 @@ h4, .h4 {
     font-weight: var(--font-weight-regular);
     line-height: var(--line-tight);
     letter-spacing: -0.0143em;
+    color: var(--ink);
     margin: 0 0 var(--space-3);
 }
 
@@ -49,6 +56,7 @@ h5, .h5 {
     font-size: var(--type-body-heading);
     font-weight: var(--font-weight-regular);
     line-height: var(--line-tight);
+    color: var(--ink);
     margin: 0 0 var(--space-3);
 }
 
@@ -57,6 +65,7 @@ h6, .h6 {
     font-size: var(--type-emphasis);
     font-weight: var(--font-weight-medium);
     line-height: var(--line-body);
+    color: var(--ink);
     margin: 0 0 var(--space-3);
 }
 
@@ -148,7 +157,11 @@ h6, .h6 {
     font-weight: var(--font-weight-regular);
     line-height: var(--line-tight);
     color: var(--ink);
-    background-color: var(--surface);
+    /* surface-raised, not surface - in dark mode --surface is purple-deep
+       (the page bg), and an input painted with the same color disappears.
+       --surface-raised is one step lighter on dark and stays white on
+       light, so inputs remain visually distinct in either theme. */
+    background-color: var(--surface-raised);
     border: var(--border-light);
     border-radius: var(--radius-sm);
     padding: var(--space-4) var(--space-5);
@@ -983,3 +996,123 @@ tr td {
     .nav-horizontal-scroller::-webkit-scrollbar {
         display: none;
     }
+
+/* Replacements for inline styles removed for CSP compliance. */
+.svg-sprite { display: none; }
+.media-viewer-popup-hidden { opacity: 0; }
+.error-title { font-size: 30px; }
+.error-detail { font-size: 15px; }
+
+/*
+ * Theme-cascade overrides.
+ *
+ * Upstream Memtly's themes/blue.css and themes/darkblue.css set
+ * `color: rgba(var(--primary-text-1), 1.0) !important;` on `input,
+ * select` and `color: rgba(var(--primary-bg-1), 1.0) !important;` on
+ * `h1..h6`. PhotoShare's design tokens flip --ink/--surface-raised
+ * correctly between light and dark via tokens.css, but the upstream
+ * !important rules win the cascade and pin form text to a color that
+ * disappears on dark surfaces (purple-deep on near-purple). These
+ * overrides retake the cascade with the same !important weight.
+ */
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+    color: var(--ink) !important;
+}
+
+input.form-control,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="search"],
+input[type="tel"],
+input[type="url"],
+textarea.form-control,
+select.form-select,
+select.form-control {
+    color: var(--ink) !important;
+    background-color: var(--surface-raised) !important;
+    border: 1px solid var(--border) !important;
+}
+
+input.form-control::placeholder,
+textarea.form-control::placeholder {
+    color: var(--ink-muted) !important;
+    opacity: 1 !important;
+}
+
+select.form-select option,
+select.form-control option {
+    color: var(--ink);
+    background-color: var(--surface-raised);
+}
+
+.form-label {
+    color: var(--ink) !important;
+}
+
+/* Modal/dialog: dark variant ships modal-content bg = navbar-bg
+   (purple-deep), but body text and labels inside default to upstream
+   --primary-text-1 which is purple-deep on dark - invisible. Pin
+   modal descendants to --ink. */
+.modal .modal-body,
+.modal .modal-body p,
+.modal .modal-body label,
+.modal .modal-body span:not(.btn):not(.badge),
+dialog,
+dialog p,
+dialog label {
+    color: var(--ink) !important;
+}
+
+/*
+ * Mobile-first sizing. The brand navbar logo SVG is 128x128 native;
+ * without a cap it eats the whole top bar at narrow widths. Type
+ * scale already drops at <=768px in the @media block above, but the
+ * gallery selector card paddings and modal sizing benefit from
+ * tighter constraints below 480px.
+ */
+.navbar-logo {
+    max-width: 32px;
+    max-height: 32px;
+    width: auto;
+    height: auto;
+}
+
+@media (max-width: 480px) {
+    .navbar .container,
+    .navbar .container-fluid {
+        padding-left: var(--space-4);
+        padding-right: var(--space-4);
+    }
+    .navbar-brand .navbar-title {
+        font-size: var(--type-emphasis);
+    }
+    .content,
+    .container .content {
+        padding: var(--space-5) !important;
+    }
+    h1, .h1 {
+        font-size: 28px;
+        letter-spacing: -0.02em;
+    }
+    h2, .h2 { font-size: 22px; }
+    h3, .h3 { font-size: 20px; }
+    .modal-dialog {
+        margin: var(--space-4);
+        max-width: calc(100vw - var(--space-4) * 2);
+    }
+    .popup-modal,
+    .popup-modal-content {
+        max-width: calc(100vw - var(--space-4) * 2);
+    }
+    /* Visit/primary action buttons need a readable contrast at the
+       bottom of the gallery card. Upstream sets text via
+       --primary-text-3 which goes opaque-on-opaque in dark mode. */
+    .btn-primary-1,
+    .btn-primary-2,
+    .btn-primary-3 {
+        font-weight: var(--font-weight-medium);
+    }
+}

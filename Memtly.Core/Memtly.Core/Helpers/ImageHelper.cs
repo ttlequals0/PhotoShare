@@ -43,8 +43,17 @@ namespace Memtly.Core.Helpers
                     if (mediaType == MediaType.Image || mediaType == MediaType.Video)
                     {
                         var filename = Path.GetFileName(filePath);
+                        var ext = Path.GetExtension(filePath)?.TrimStart('.')?.ToLowerInvariant();
 
-                        if (mediaType == MediaType.Video)
+                        // ffmpeg handles two cases here: extracting a frame
+                        // from video, and decoding HEIC/HEIF stills (which
+                        // ImageSharp's default codec set can't read). In
+                        // both cases ffmpeg writes a JPEG to savePath that
+                        // the ImageSharp block below then resizes.
+                        var needsFfmpegDecode = mediaType == MediaType.Video
+                            || ext is "heic" or "heif";
+
+                        if (needsFfmpegDecode)
                         {
                             if (FfmpegInstalled == false)
                             {
@@ -156,10 +165,61 @@ namespace Memtly.Core.Helpers
             }
         }
 
+        // HEIC/HEIF still images share the ISOBMFF container with MP4/MOV.
+        // Bytes 4..7 == "ftyp" and bytes 8..11 carry the major brand. The
+        // brands below cover Apple's iOS HEIC output, multi-image HEIF
+        // sequences (.heif), and the burst-photo sequence brands. Anything
+        // else gets rejected so a malicious upload can't hide behind a
+        // .heic extension.
+        private static async Task<bool> HeifHeaderMatchesExtension(string filePath)
+        {
+            try
+            {
+                var info = new FileInfo(filePath);
+                if (!info.Exists || info.Length < 12)
+                {
+                    return false;
+                }
+
+                var head = new byte[12];
+                using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    var read = await fs.ReadAsync(head.AsMemory(0, 12));
+                    if (read < 12)
+                    {
+                        return false;
+                    }
+                }
+
+                // bytes 4..7 == "ftyp"
+                if (!(head[4] == 0x66 && head[5] == 0x74 && head[6] == 0x79 && head[7] == 0x70))
+                {
+                    return false;
+                }
+
+                // brand at bytes 8..11
+                var brand = System.Text.Encoding.ASCII.GetString(head, 8, 4);
+                return brand is "heic" or "heix" or "heim" or "heis"
+                            or "hevc" or "hevx" or "mif1" or "msf1";
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public MediaType GetMediaType(string path)
         {
             try
             {
+                // HEIC/HEIF aren't in the default FileExtensionContentTypeProvider
+                // map yet, so route them manually before the provider lookup.
+                var ext = Path.GetExtension(path)?.TrimStart('.')?.ToLowerInvariant();
+                if (ext is "heic" or "heif")
+                {
+                    return MediaType.Image;
+                }
+
                 var provider = new FileExtensionContentTypeProvider();
                 if (provider.TryGetContentType(path, out string? contentType))
                 {
@@ -195,6 +255,16 @@ namespace Memtly.Core.Helpers
                 var mediaType = GetMediaType(filePath);
                 if (mediaType == MediaType.Image)
                 {
+                    // HEIC/HEIF files use the ISOBMFF container with an
+                    // ftyp box and a brand identifying the heif family.
+                    // ImageSharp's default codec set returns null for them,
+                    // so do a magic-byte check instead - same pattern as
+                    // VideoHeaderMatchesExtension.
+                    if (ext is "heic" or "heif")
+                    {
+                        return await HeifHeaderMatchesExtension(filePath);
+                    }
+
                     try
                     {
                         var info = await Image.IdentifyAsync(filePath);

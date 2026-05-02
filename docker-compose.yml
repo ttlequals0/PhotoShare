@@ -3,13 +3,14 @@
 # Quick start:
 #   1. cp .env.example .env  &&  edit .env to fill in real secrets.
 #   2. (First time only, if mounting host paths instead of named volumes:)
-#        sudo chown -R 10001:10001 /path/to/host/uploads etc.
+#        sudo chown -R 1654:1654 /path/to/host/uploads etc.
 #      Named volumes (default below) are auto-owned by the container UID.
 #   3. docker compose up -d
 #
-# The container runs as non-root user UID 10001 (set in the Dockerfile).
-# /healthz is a liveness endpoint exposed by the app; Docker reports the
-# container unhealthy after 3 consecutive failures.
+# The container runs as non-root user 'app' (uid 1654) - the built-in
+# user from mcr.microsoft.com/dotnet/aspnet:9.0-noble-chiseled-extra.
+# /healthz is a liveness endpoint exposed by the app; probe it from
+# outside the container (chiseled has no shell to run wget/curl in).
 
 services:
   db:
@@ -39,21 +40,33 @@ services:
       db:
         condition: service_healthy
     environment:
+      # ASP.NET Core env var convention: double-underscore replaces the
+      # colon in nested config keys. `Memtly__Account__Admin__Email` binds
+      # to the `Memtly:Account:Admin:Email` setting in appsettings.json.
+      # Shorthand names like ACCOUNT_ADMIN_EMAIL or ENCRYPTION_KEY do NOT
+      # bind to anything - the app will read empty appsettings defaults
+      # and fail-fast at startup.
+
       # --- Database ---
-      DATABASE_TYPE: postgres
-      DATABASE_CONNECTION_STRING: "Host=db;Database=photoshare;Username=photoshare;Password=${POSTGRES_PASSWORD};Include Error Detail=true"
+      Memtly__Database__Type: postgres
+      Memtly__Database__Connection_String: "Host=db;Database=photoshare;Username=photoshare;Password=${POSTGRES_PASSWORD};Include Error Detail=true"
 
       # --- Required hardening secrets (fail-fast at startup) ---
-      ENCRYPTION_KEY: ${ENCRYPTION_KEY:?ENCRYPTION_KEY must be set in .env}
-      ENCRYPTION_SALT: ${ENCRYPTION_SALT:?ENCRYPTION_SALT must be set in .env}
-      ACCOUNT_ADMIN_EMAIL: ${ADMIN_EMAIL:?ADMIN_EMAIL must be set in .env}
-      ACCOUNT_ADMIN_PASSWORD: ${ADMIN_PASSWORD:?ADMIN_PASSWORD must be set in .env}
+      Memtly__Security__Encryption__Key: ${ENCRYPTION_KEY:?ENCRYPTION_KEY must be set in .env}
+      Memtly__Security__Encryption__Salt: ${ENCRYPTION_SALT:?ENCRYPTION_SALT must be set in .env}
+      Memtly__Account__Admin__Email: ${ADMIN_EMAIL:?ADMIN_EMAIL must be set in .env}
+      Memtly__Account__Admin__Password: ${ADMIN_PASSWORD:?ADMIN_PASSWORD must be set in .env}
 
       # --- Recommended for public exposure ---
-      FORCE_HTTPS: "true"
-      BASE_URL: ${BASE_URL:-http://localhost:5000}
-      TITLE: PhotoShare
+      Memtly__Force_Https: "true"
+      Memtly__Base_Url: ${BASE_URL:-http://localhost:5000}
+      Memtly__Title: PhotoShare
       ASPNETCORE_ENVIRONMENT: Production
+
+      # FFmpeg auto-download target. Upstream default is "/ffmpeg" which is
+      # not writable by the chiseled non-root user (uid 1654). Point it at
+      # /app/ffmpeg, inside the writable app directory.
+      FFMPEG__InstallPath: /app/ffmpeg
     ports:
       - "5000:5000"
     volumes:
@@ -61,12 +74,13 @@ services:
       - photoshare-uploads:/app/uploads
       - photoshare-thumbnails:/app/thumbnails
       - photoshare-custom-resources:/app/custom_resources
-    healthcheck:
-      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:5000/healthz || exit 1"]
-      interval: 30s
-      timeout: 5s
-      start_period: 30s
-      retries: 3
+    # In-container healthcheck removed: the app image is built on
+    # mcr.microsoft.com/dotnet/aspnet:9.0-noble-chiseled-extra which has
+    # no shell, no wget, no curl. /healthz is still exposed; probe it
+    # from the host (`curl http://localhost:5000/healthz`), from
+    # Cloudflare Tunnel's origin check, or from an external uptime
+    # monitor. The Postgres healthcheck above still gates the app's
+    # depends_on condition.
 
 # ---
 # Optional: cloudflared sidecar. Uncomment + populate TUNNEL_TOKEN to

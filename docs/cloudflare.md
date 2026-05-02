@@ -57,13 +57,15 @@ lower number runs first.
 
 ```
 Expression:
-  (http.request.uri.path contains ".php") or
-  (http.request.uri.path contains "wp-admin") or
-  (http.request.uri.path contains ".env") or
+(http.host eq "site.example.com") and (
+  (ends_with(http.request.uri.path, ".php")) or
+  (http.request.uri.path contains "/wp-admin") or
+  (http.request.uri.path contains "/.env") or
   (http.request.uri.path contains "/.git/") or
-  (http.user_agent contains "sqlmap") or
-  (http.user_agent contains "nikto") or
-  (http.user_agent contains "nuclei")
+  (lower(http.user_agent) contains "sqlmap") or
+  (lower(http.user_agent) contains "nikto") or
+  (lower(http.user_agent) contains "nuclei")
+)
 
 Action: Block
 ```
@@ -85,9 +87,7 @@ locking yourself out.
 
 ```
 Expression:
-  (ip.geoip.is_in_european_union and cf.threat_score gt 30) or
-  (cf.threat_score gt 50) or
-  (ip.geoip.continent eq "T1")
+(http.host eq "site.example.com") and ((cf.threat_score gt 30) or (ip.src.continent eq "T1"))
 
 Action: Managed Challenge
 ```
@@ -241,6 +241,36 @@ The middleware trusts loopback (127.0.0.0/8 + ::1) plus RFC1918
 ranges (10/8, 172.16/12, 192.168/16). If you run cloudflared on a
 host outside those ranges, edit `StartupExtensions.cs`
 `Configure<ForwardedHeadersOptions>` to add the correct network.
+
+## 10. Operator runbook (verification)
+
+Once the rules above are configured in the dashboard, walk this list
+once before flipping public DNS. Each command runs from a host
+outside the LAN so it actually traverses the Cloudflare edge.
+
+```bash
+# 1. DNS resolves to Cloudflare (104.16.x.x / 172.64.x.x range)
+dig +short photoshare.ttlequals0.com
+
+# 2. Edge serves the app over HTTPS with a cf-ray header
+curl -sI https://photoshare.ttlequals0.com/healthz | grep -iE 'HTTP/|cf-ray|content-type'
+
+# 3. WAF blocks the obvious nasties
+curl -sI https://photoshare.ttlequals0.com/wp-admin
+curl -sI -A 'sqlmap/1.0' https://photoshare.ttlequals0.com/
+# Both should return 403 with cf-ray.
+
+# 4. /Admin requires Cloudflare Access
+curl -sI https://photoshare.ttlequals0.com/Admin/Login
+# Should redirect (302/307) to a *.cloudflareaccess.com auth URL,
+# not the app's own login page.
+
+# 5. Origin can't be reached directly (LAN test)
+curl --connect-timeout 5 -sI http://services04:5000/healthz
+# Should still work from inside the LAN. Failure here means the
+# tunnel killed local origin access too - investigate before going
+# live. From outside the LAN, this same request must time out.
+```
 
 ## Required GitHub repo secrets
 

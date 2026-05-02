@@ -33,7 +33,18 @@ namespace Memtly.Core.Helpers
             if (ctx != null)
             {
                 var scheme = _settings.GetOrDefault(MemtlyConfiguration.Basic.ForceHttps, false).Result ? "https" : ctx.Scheme;
-                var host = ExtractHost(_settings.GetOrDefault(MemtlyConfiguration.Basic.BaseUrl, ctx.Host.Value).Result);
+
+                // The request's own host wins when we're in-flight - that
+                // way visitors who came in on photoshare-admin.example.com
+                // don't get bounced to the canonical photoshare.example.com.
+                // The configured Base_Url is only the right answer when ctx
+                // is null (background workers, notification email URLs).
+                // ForwardedHeaders is wired with XForwardedHost in
+                // StartupExtensions, so behind a reverse proxy ctx.Host is
+                // already the public hostname, not "app:5000".
+                var host = !string.IsNullOrWhiteSpace(ctx.Host.Value)
+                    ? ExtractHost(ctx.Host.Value)
+                    : ExtractHost(_settings.GetOrDefault(MemtlyConfiguration.Basic.BaseUrl, string.Empty).Result);
 
                 return $"{scheme}://{host}/{path?.TrimStart('/')}";
             }

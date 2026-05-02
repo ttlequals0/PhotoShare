@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Photoshare icon">
+  <defs>
+    <linearGradient id="lavenderLight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#cbb7fb"/>
+      <stop offset="100%" stop-color="#714cb6"/>
+    </linearGradient>
+  </defs>
+
+  <g transform="translate(28, 28)">
+    <rect x="6" y="14" width="60" height="60" rx="12"
+          fill="none" stroke="#cbb7fb" stroke-width="2.5"
+          transform="rotate(-12 36 44)"/>
+    <rect x="14" y="10" width="60" height="60" rx="12"
+          fill="none" stroke="#714cb6" stroke-width="2.5"
+          transform="rotate(6 44 40)"/>
+    <rect x="12" y="14" width="60" height="60" rx="12" fill="#1b1938"/>
+    <circle cx="42" cy="44" r="15" fill="none" stroke="#e9e5dd" stroke-width="3"/>
+    <circle cx="42" cy="44" r="6" fill="url(#lavenderLight)"/>
+    <circle cx="60" cy="24" r="3" fill="#cbb7fb"/>
+  </g>
+</svg>

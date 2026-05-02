@@ -1,67 +1,70 @@
 ﻿:root {
+    /* PhotoShare DARK theme - Superhuman-inspired purple/lavender palette.
+       Mirrors blue.css structure; surfaces sink to purple-deep, primary
+       inverts to lavender against the dark canvas. */
     /* Generic */
     --white: 255, 255, 255;
     --black: 0, 0, 0;
-    --text-contrast: 255, 255, 255;
+    --text-contrast: 243, 240, 235;
     /* Navbar */
-    --navbar-bg: 31, 41, 55;
-    --navbar-border: 37, 99, 235;
-    --navbar-title-text: 250, 250, 250;
-    --navbar-options-text: 96, 165, 250;
-    --navbar-options-text-hover: 59, 130, 246;
+    --navbar-bg: 27, 25, 56;
+    --navbar-border: 56, 51, 99;
+    --navbar-title-text: 243, 240, 235;
+    --navbar-options-text: 203, 183, 251;
+    --navbar-options-text-hover: 219, 200, 252;
     /* Navigation */
-    --nav-text: 96, 165, 250;
-    --nav-bg: 31, 41, 55;
-    --nav-border: 59, 130, 246;
-    --nav-hover-text: 255, 255, 255;
-    --nav-hover-bg: 59, 130, 246;
-    --nav-hover-border: 59, 130, 246;
+    --nav-text: 203, 183, 251;
+    --nav-bg: 37, 34, 69;
+    --nav-border: 113, 76, 182;
+    --nav-hover-text: 27, 25, 56;
+    --nav-hover-bg: 203, 183, 251;
+    --nav-hover-border: 203, 183, 251;
     /* Tables */
-    --table-border: 37, 99, 235;
-    --table-header-text: 37, 99, 235;
-    --table-header-bg: 37, 99, 235;
-    --table-data-text: 229, 231, 235;
-    --table-data-bg: 31, 41, 55;
+    --table-border: 56, 51, 99;
+    --table-header-text: 243, 240, 235;
+    --table-header-bg: 37, 34, 69;
+    --table-data-text: 233, 229, 221;
+    --table-data-bg: 27, 25, 56;
     /* Forms */
-    --form-text: 255, 255, 255;
+    --form-text: 243, 240, 235;
     /* Footer */
-    --footer-text: 229, 231, 235;
-    --footer-bg: 17, 24, 39;
-    /* Colour Scheme (Primary 1) */
-    --primary-text-1: 255, 255, 255;
-    --primary-bg-1: 37, 99, 235;
-    --primary-border-1: 37, 99, 235;
-    --primary-hover-text-1: 255, 255, 255;
-    --primary-hover-bg-1: 29, 78, 216;
-    --primary-hover-border-1: 29, 78, 216;
-    /* Colour Scheme (Primary 2) */
+    --footer-text: 233, 229, 221;
+    --footer-bg: 14, 13, 31;
+    /* Colour Scheme (Primary 1) - lavender on dark */
+    --primary-text-1: 27, 25, 56;
+    --primary-bg-1: 203, 183, 251;
+    --primary-border-1: 203, 183, 251;
+    --primary-hover-text-1: 27, 25, 56;
+    --primary-hover-bg-1: 219, 200, 252;
+    --primary-hover-border-1: 219, 200, 252;
+    /* Colour Scheme (Primary 2) - amethyst */
     --primary-text-2: 255, 255, 255;
-    --primary-bg-2: 59, 130, 246;
-    --primary-border-2: 59, 130, 246;
+    --primary-bg-2: 138, 96, 200;
+    --primary-border-2: 138, 96, 200;
     --primary-hover-text-2: 255, 255, 255;
-    --primary-hover-bg-2: 37, 99, 235;
-    --primary-hover-border-2: 37, 99, 235;
-    /* Colour Scheme (Primary 3) */
+    --primary-hover-bg-2: 113, 76, 182;
+    --primary-hover-border-2: 113, 76, 182;
+    /* Colour Scheme (Primary 3) - amethyst-deep */
     --primary-text-3: 255, 255, 255;
-    --primary-bg-3: 96, 165, 250;
-    --primary-border-3: 96, 165, 250;
+    --primary-bg-3: 113, 76, 182;
+    --primary-border-3: 113, 76, 182;
     --primary-hover-text-3: 255, 255, 255;
-    --primary-hover-bg-3: 59, 130, 246;
-    --primary-hover-border-3: 59, 130, 246;
-    /* Colour Scheme (Secondary 1) */
-    --secondary-text-1: 255, 255, 255;
-    --secondary-bg-1: 99, 102, 241;
-    --secondary-border-1: 99, 102, 241;
-    --secondary-hover-text-1: 255, 255, 255;
-    --secondary-hover-bg-1: 79, 70, 229;
-    --secondary-hover-border-1: 79, 70, 229;
-    /* Colour Scheme (Secondary 2) */
-    --secondary-text-2: 255, 255, 255;
-    --secondary-bg-2: 129, 140, 248;
-    --secondary-border-2: 129, 140, 248;
-    --secondary-hover-text-2: 255, 255, 255;
-    --secondary-hover-bg-2: 99, 102, 241;
-    --secondary-hover-border-2: 99, 102, 241;
+    --primary-hover-bg-3: 90, 58, 153;
+    --primary-hover-border-3: 90, 58, 153;
+    /* Colour Scheme (Secondary 1) - elevated surface */
+    --secondary-text-1: 243, 240, 235;
+    --secondary-bg-1: 56, 51, 99;
+    --secondary-border-1: 76, 70, 130;
+    --secondary-hover-text-1: 243, 240, 235;
+    --secondary-hover-bg-1: 76, 70, 130;
+    --secondary-hover-border-1: 96, 88, 161;
+    /* Colour Scheme (Secondary 2) - lavender muted */
+    --secondary-text-2: 27, 25, 56;
+    --secondary-bg-2: 178, 154, 240;
+    --secondary-border-2: 178, 154, 240;
+    --secondary-hover-text-2: 27, 25, 56;
+    --secondary-hover-bg-2: 203, 183, 251;
+    --secondary-hover-border-2: 203, 183, 251;
     /* Colour Scheme (Danger) */
     --danger-text: 255, 255, 255;
     --danger-bg: 248, 113, 113;

@@ -10,26 +10,254 @@ changes shipped below.
 
 ## [Unreleased]
 
+## [2.0.7] - 2026-05-02
+
+### Added
+
+- **Auto-approve gallery uploads** — UI clarification on the existing
+  per-gallery `Memtly:Gallery:Require_Review` setting. The data layer
+  already keyed this setting per gallery (`GalleryController.cs:389`)
+  and the upload handler already routes to `GalleryItemState.Approved`
+  when off, but the UI was buried under Account → Settings → Gallery
+  → (pick gallery) → Reviews with no explanation that "Require Review:
+  No" is the auto-approve switch. Added a banner at the top of the
+  Reviews override page spelling out the trade-off.
+
+### Removed
+
+- Stray `wwwroot/sponsors.json` orphan from the 2.0.4 sponsor module
+  deletion.
+
+## [2.0.6] - 2026-05-02
+
+### Fixed
+
+- **Dark-mode form inputs and headings finally readable.** Upstream
+  Memtly's `themes/darkblue.css` pins `input, select` text to
+  `--primary-text-1` and `h1..h6` to `--primary-bg-1` with
+  `!important`. PhotoShare's amethyst palette inverted those values
+  for buttons (which need the contrast pair), but the same pair on
+  inputs renders purple-deep text on a near-purple-deep page - text
+  vanishes. site.css now retakes the cascade with matching
+  `!important` overrides on `input.form-control`, `select.form-select`,
+  textareas, `h1..h6`, `.form-label`, and modal-body descendants. All
+  bind to `var(--ink)` / `var(--surface-raised)` / `var(--border)` so
+  they flip with the rest of the design system.
+- **Modal dialog text contrast.** `.modal .modal-body p`,
+  `.modal .modal-body label`, and the native `<dialog>` element
+  family all force `color: var(--ink) !important` so labels and
+  helper text stay readable inside guest-name / theme-picker /
+  identity-check / qr-code dialogs.
+
+### Changed
+
+- **Mobile-first sizing pass.** Navbar logo capped at 32x32 (the SVG
+  is 128x128 natively and overflowed at narrow widths). Type scale
+  drops further below 480px (h1: 28px, h2: 22px, h3: 20px). Modal
+  margins and width clamp to viewport with a 12px gutter on both
+  sides. Card paddings shrink so the gallery selector doesn't
+  overrun the screen edge on iPhone-class devices.
+
+## [2.0.5] - 2026-05-02
+
+### Fixed
+
+- **Hotfix: restore `'unsafe-inline'` on CSP `style-src`.** 2.0.4
+  dropped `'unsafe-inline'` from both `script-src` and `style-src`
+  on the assumption that webpack's `MiniCssExtractPlugin` meant no
+  runtime style injection happens. That was wrong - jQuery `.css()`,
+  Bootstrap collapse/dropdown/modal animations, and FontAwesome's
+  SVG-replacement JS all set `element.style` at runtime, which the
+  browser counts as inline style under CSP. With `style-src 'self'`
+  alone, the live page rendered with no layout, FontAwesome icons
+  blew up to natural SVG size, and modals lost their transitions.
+  `script-src 'self'` (no unsafe-inline) stays - the inline-script
+  cleanup from 2.0.4 still holds.
+
+## [2.0.4] - 2026-05-01
+
+### Added
+
+- **HEIC/HEIF photo upload acceptance.** iOS Camera defaults to HEIC for
+  still photos; uploads were rejected because `.heic`/`.heif` weren't on
+  the allowlist and ImageSharp's default codec set returns null on the
+  format. Allowed_File_Types now includes `.heic,.heif`. New
+  `HeifHeaderMatchesExtension` validates the ftyp box brand against the
+  HEIF family (`heic`, `heix`, `heim`, `heis`, `hevc`, `hevx`, `mif1`,
+  `msf1`). HEVC video already worked - it ships inside `.mov` containers
+  which were already on the allowlist.
+- **HEIC thumbnail generation via ffmpeg.** `ImageHelper.GenerateThumbnail`
+  now routes HEIC/HEIF through the same Xabe.FFmpeg snapshot pipeline
+  the video frame extractor uses. ffmpeg decodes the HEIC, writes a
+  JPEG, then the existing ImageSharp resize path produces the final
+  WebP thumbnail.
+- **Cloudflare Tunnel verification runbook** added to `docs/cloudflare.md`
+  - five `curl` checks to walk before going public.
+
+### Changed
+
+- **Theme switcher reduced to Auto / Light / Dark.** PhotoShare ships
+  a single brand palette so the upstream Memtly Green/Pink themes were
+  noise. The enum stays unchanged for backward compat with persisted
+  Settings rows; the picker only surfaces three options now and labels
+  them functionally.
+- **Username column width 10 -> 64.** `CoreDbContext` `HasMaxLength(64)`
+  on `Users.Username`. Operator must run
+  `cd Memtly.Core/Memtly.Core && pwsh ./generate-migrations.ps1
+  -MigrationName ExpandUsernameLength` from a dev environment with
+  pwsh + dotnet SDK + MySQL/Postgres/sqlcmd to emit the per-provider
+  migration files; the deployed app picks them up on the next startup.
+- **`UrlHelper.GenerateBaseUrl` prefers `ctx.Host` over `Memtly:Base_Url`.**
+  Visitors who came in on a non-canonical hostname (LAN reverse-proxy,
+  staging, alternate domain) no longer get redirected to the
+  configured `BASE_URL` host, which often doesn't resolve from their
+  network. `BASE_URL` still wins when there's no request context
+  (background workers, notification email URL building).
+
+### Fixed
+
+- **Dark mode contrast.** Headings (`h1` through `h6`) now declare
+  `color: var(--ink)` so they flip with the theme; previously the
+  upstream Memtly theme CSS hard-coded a heading color and the
+  dark-mode token cascade was lost. Form inputs (`.form-control`,
+  `.form-select`) switched from `var(--surface)` to `var(--surface-raised)`
+  so the input box stays visually distinct from the page background in
+  dark mode.
+- **Logo stays visible in dark mode.** Layout `<img src="@logo">`
+  replaced with `<picture>` + `<source media="(prefers-color-scheme: dark)">`
+  so the dark-on-dark logo SVG variant loads when the OS prefers
+  dark.
+- **Sponsor lightning-bolt button removed** from the lower-left of
+  every page. The whole sponsors module (`src/modules/sponsors/`,
+  `Controllers/SponsorsController.cs`, `Views/Sponsors/`) is deleted -
+  upstream-Memtly artifact, irrelevant on a private fork. `/Sponsors`
+  route now 404s.
+
+### Security
+
+- **CSP `'unsafe-inline'` and `'unsafe-eval'` removed** from
+  `script-src`; `'unsafe-inline'` removed from `style-src`. Six inline
+  artifacts in Razor views were rewritten:
+  - service-worker registration moved into `main.js`
+  - `<svg style="display:none">` -> `<svg class="svg-sprite">`
+  - media viewer `style="opacity: 0;"` -> `.media-viewer-popup-hidden` class
+  - error page inline font sizes -> `.error-title` / `.error-detail` classes
+  - `_Layout` and `_BasicLayout` `onerror=` on the navbar logo
+    replaced with `<picture>` + `<source>` (also fixes dark-mode logo)
+  Webpack's `MiniCssExtractPlugin` was already in use, so dropping
+  `style-src 'unsafe-inline'` doesn't affect runtime CSS injection -
+  there isn't any.
+
+## [2.0.3] - 2026-05-01
+
+### Fixed
+
+- **Brand assets at root scope.** SVG logos and PNG icons are now mirrored
+  into `PhotoShare/wwwroot/{images,icons}/` so they serve at `/images/...`
+  and `/icons/...` instead of only `/_content/Memtly.Core/...`. The
+  appsettings default Logo path is back to `/images/photoshare-logo-light.svg`
+  (matching what's already persisted in the Settings table on existing
+  deploys) and the broken-image icon next to "PhotoShare" goes away.
+- **`/manifest.webmanifest` 404.** The manifest moved to
+  `PhotoShare/wwwroot/manifest.webmanifest` so it serves at the root
+  scope the layout's `<link rel="manifest" href="~/manifest.webmanifest">`
+  expects. Icon srcs inside the manifest now use root paths too.
+- **Theme colors weren't actually PhotoShare's.** `themes/blue.css` and
+  `themes/darkblue.css` (the AutoDetect default for the Community
+  variant) shipped upstream Memtly's blue/indigo palette, which loaded
+  *after* `main.css` and overrode the design tokens. The theme files are
+  now rewritten with PhotoShare's amethyst/lavender/parchment values
+  (variable names preserved so the existing `--bs-*` Bootstrap mappings
+  continue to work).
+- **Footer reads "PhotoShare", not "Memtly".** Layout footer
+  copyright string updated; sponsor badges (GitHub Sponsors,
+  BuyMeACoffee) removed - they were upstream-Memtly artifacts and
+  irrelevant on a private fork.
+- **Layout icon links.** `<link rel="icon">` and `apple-touch-icon`
+  references switched from `~/_content/Memtly.Core/icons/` to `~/icons/`
+  for the root-scope copies.
+
+## [2.0.2] - 2026-05-01
+
+### Fixed
+
+- **Rate limiter starved page loads.** The token bucket (120 tokens, 2/sec
+  replenishment, partitioned per `RemoteIpAddress`) was small enough that
+  one page load's CSS/JS/font/icon burst could exhaust it for a minute -
+  and behind a Cloudflare Tunnel every visitor shares the sidecar's IP
+  until `ForwardedHeaders` rewrites the source. Result: the login page
+  rendered unstyled, with `429 Too Many Requests` on `/dist/main.css`,
+  `/_content/Memtly.Core/images/logo.png`, `/manifest.webmanifest`,
+  `/Language/GetTranslations`, etc. Static-asset paths (`/_content/*`,
+  `/dist/*`, `/icons/*`, `/images/*`, `/fonts/*`, `/favicon*`,
+  `/manifest.webmanifest`, `/sw.js`, `/healthz`) now bypass the limiter
+  entirely; the general bucket is bumped to 600 tokens with 30/sec
+  replenishment.
+- **Brand logo 404.** `appsettings.json -> Memtly.Logo` pointed at
+  `/images/photoshare-logo-light.svg`, but the SVG ships under
+  `Memtly.Core/wwwroot/images/` and is served at
+  `/_content/Memtly.Core/images/photoshare-logo-light.svg`. The layout's
+  `onerror` fallback masked it as `logo.png`, but the `429` flood made
+  even that fail. Default value corrected.
+
+## [2.0.1] - 2026-05-01
+
+### Fixed
+
+- **Compose env var binding** — `docker-compose.yml` mapped shorthand names
+  (`ENCRYPTION_KEY`, `ACCOUNT_ADMIN_EMAIL`, `DATABASE_TYPE`, `FORCE_HTTPS`,
+  `BASE_URL`) that ASP.NET Core's environment variable provider does not
+  bind to anything. Containers booted with empty `appsettings.json`
+  defaults and hit the `EnforceRequiredSecurityConfig` fail-fast on every
+  start. Renamed to the proper `Memtly__Section__Key` form (double
+  underscore replaces the config-key colon).
+- **FFmpeg auto-download path on chiseled images** —
+  `Memtly.Core/Memtly.Core/Configurations/FfmpegConfiguration.cs` defaulted
+  the install path to `/ffmpeg`, which the chiseled non-root user (uid
+  1654) cannot write to. Default is now `/app/ffmpeg`. Operators no longer
+  need an `FFMPEG__InstallPath` override.
+
+### Documentation
+
+- **`docs/cloudflare.md`** — host-scoped the WAF expressions
+  (`http.host eq "..."`) so a shared Cloudflare account doesn't apply
+  PhotoShare rules to unrelated tunnels. User-agent matches now lower-case
+  the input (`lower(http.user_agent) contains "sqlmap"`) so casing tricks
+  don't bypass the rule. Path matches use `ends_with()` for `.php` and
+  leading slashes for `wp-admin`/`.env`/`.git/` to avoid false positives
+  on legitimate query strings or filenames.
+
 ### Added
 
 - **`docker-compose.yml`** for the recommended Postgres-backed deploy.
-  Uses non-root UID 10001 (matches the Dockerfile), wires the `/healthz`
-  endpoint as the container healthcheck, ships an optional cloudflared
-  sidecar (commented), uses named volumes that auto-resolve UID
-  ownership.
+  Runs as the chiseled built-in `app` user (UID 1654), ships an optional
+  cloudflared sidecar (commented), uses named volumes that auto-resolve
+  UID ownership.
 - **`.env.example`** documenting every required secret with hints on
   generating strong random values via `openssl rand`.
 - **`docs/docker.md`** walking through the compose deploy: env vars
-  (both `UPPER_SNAKE_CASE` and `Memtly__Section__Key` forms work), volume
-  layout, host-path `chown` for non-default mounts, Cloudflare Tunnel
-  sidecar usage, update procedure, and backup commands for Postgres +
-  uploads volume.
-- **`/healthz` liveness endpoint** for Docker / Cloudflare Tunnel
-  origin checks / external uptime monitors. Anonymous, no DB hit,
-  returns 200 / "Healthy". Dockerfile gains a `HEALTHCHECK`
-  instruction that pings it every 30 seconds.
+  (`Memtly__Section__Key` form, double underscore replaces colon),
+  volume layout, host-path `chown` for non-default mounts, Cloudflare
+  Tunnel sidecar usage, update procedure, and backup commands for
+  Postgres + uploads volume.
+- **`/healthz` liveness endpoint** for Cloudflare Tunnel origin checks
+  / external uptime monitors. Anonymous, no DB hit, returns 200 /
+  "Healthy". The chiseled image has no shell, so probe from outside
+  the container (host curl, tunnel origin check, external monitor).
 
 ### Security
+
+- **Container base swapped to `mcr.microsoft.com/dotnet/aspnet:9.0-noble-chiseled-extra`.**
+  Eliminates **all 9 HIGH and 1 CRITICAL** Trivy CVEs from the previous
+  Debian base (`zlib1g`, `libsystemd0`, `libgcrypt20`, `ncurses-*`,
+  `libtinfo6`, all upstream-`will_not_fix` or unfixed). Image size
+  drops 417 MB to 252 MB. Side effects: built-in non-root user is now
+  `app` (UID 1654) instead of `photoshare` (UID 10001); no shell, no
+  `wget`, no `curl` in the runtime image, so the in-container
+  `HEALTHCHECK` is removed - operators probe `/healthz` from outside
+  (host curl, Cloudflare Tunnel origin check, external monitor).
+  `docker-compose.yml` updated to drop the in-container app
+  healthcheck and document the UID change.
 
 - **Global anti-forgery (CSRF) protection.** `AutoValidateAntiforgeryTokenAttribute`
   is now a global filter; every POST/PUT/DELETE/PATCH endpoint requires a
@@ -181,9 +409,9 @@ First PhotoShare release. Forked from Memtly.Community 1.0.2.2 at SHA `2dd5f06`.
 - **Startup fail-fast** when `Encryption.Key`, `Encryption.Salt`,
   `Account.Admin.Email`, or `Account.Admin.Password` are empty or set to
   placeholder values in non-Development environments.
-- **Container runs as non-root** user `photoshare` (UID 10001).
-  Operators using a host-mounted `/app/config` volume must
-  `chown -R 10001:10001` the host directory.
+- **Container runs as non-root** user `app` (UID 1654, the chiseled
+  base's built-in user). Operators using a host-mounted `/app/config`
+  volume must `chown -R 1654:1654` the host directory.
 - **`ForwardedHeaders` middleware** wired so the app correctly sees HTTPS
   when running behind a Cloudflare Tunnel. Without this, the new cookie
   `SecurePolicy=Always` would silently drop Set-Cookie on every request.
@@ -248,11 +476,18 @@ First PhotoShare release. Forked from Memtly.Community 1.0.2.2 at SHA `2dd5f06`.
   - `Memtly__Account__Admin__Email`
   - `Memtly__Account__Admin__Password`
 - If using a host-mounted `/app/config` volume:
-  `chown -R 10001:10001 /path/to/volume`
+  `chown -R 1654:1654 /path/to/volume`
 - Disable CodeQL Default Setup in repo Settings (UI; API-driven disable
   does not persist) so the advanced workflow's SARIF uploads cleanly.
 - Add Docker Hub secrets to repo before the first tag push:
   `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN`.
 
-[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.0...HEAD
+[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.7...HEAD
+[2.0.7]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.6...v2.0.7
+[2.0.6]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.5...v2.0.6
+[2.0.5]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.4...v2.0.5
+[2.0.4]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.3...v2.0.4
+[2.0.3]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.2...v2.0.3
+[2.0.2]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.1...v2.0.2
+[2.0.1]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/ttlequals0/PhotoShare/releases/tag/v2.0.0

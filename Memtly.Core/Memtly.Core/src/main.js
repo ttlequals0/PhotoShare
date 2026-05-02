@@ -26,7 +26,6 @@ import { Localization } from '@modules/localization';
 import initGdpr from '@modules/gdpr';
 import { default as initThemes, getSelectedTheme } from '@themes';
 import initIdentityCheck from '@modules/identity-check';
-import initSponsors from '@modules/sponsors';
 import initQrCodes from '@modules/qr-codes';
 import { displayMessage } from '@modules/message-box';
 
@@ -53,7 +52,6 @@ async function init() {
     initGdpr();
     initThemes();
     initIdentityCheck();
-    initSponsors();
     initQrCodes();
 
     app.config.theme = getSelectedTheme();
@@ -167,5 +165,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     init();
 });
+
+// Service worker registration. Lifted out of _Layout.cshtml so the
+// CSP can drop 'unsafe-inline' from script-src.
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/sw.js').catch(function () { /* ignore */ });
+    });
+}
 
 export { app };

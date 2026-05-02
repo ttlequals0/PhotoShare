@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 140" role="img" aria-label="Photoshare logo">
+  <defs>
+    <linearGradient id="lavenderLight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#cbb7fb"/>
+      <stop offset="100%" stop-color="#714cb6"/>
+    </linearGradient>
+  </defs>
+
+  <g transform="translate(24, 28)">
+    <rect x="6" y="14" width="60" height="60" rx="12"
+          fill="none" stroke="#cbb7fb" stroke-width="2"
+          transform="rotate(-12 36 44)"/>
+    <rect x="14" y="10" width="60" height="60" rx="12"
+          fill="none" stroke="#714cb6" stroke-width="2"
+          transform="rotate(6 44 40)"/>
+    <rect x="12" y="14" width="60" height="60" rx="12"
+          fill="#1b1938" stroke="#1b1938" stroke-width="1"/>
+    <circle cx="42" cy="44" r="14" fill="none" stroke="#e9e5dd" stroke-width="2.5"/>
+    <circle cx="42" cy="44" r="5" fill="url(#lavenderLight)"/>
+    <circle cx="60" cy="24" r="2.5" fill="#cbb7fb"/>
+  </g>
+
+  <g transform="translate(132, 0)" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', system-ui, sans-serif">
+    <text x="0" y="80" font-size="44" font-weight="540" fill="#292827" letter-spacing="-1">
+      Photo<tspan fill="#714cb6">share</tspan>
+    </text>
+    <text x="2" y="104" font-size="12" font-weight="600" fill="#292827" letter-spacing="1.5" opacity="0.7">
+      MEMORIES, TOGETHER
+    </text>
+  </g>
+</svg>

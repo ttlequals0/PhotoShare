@@ -71,8 +71,8 @@
 <html lang="en">
     <head>
         <title>@title</title>
-        <link rel="icon" type="image/png" sizes="32x32" href="~/_content/Memtly.Core/icons/icon-32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="~/_content/Memtly.Core/icons/icon-16.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="~/icons/icon-32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="~/icons/icon-16.png" />
 
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
@@ -85,7 +85,7 @@
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="@title" />
-        <link rel="apple-touch-icon" sizes="180x180" href="~/_content/Memtly.Core/icons/icon-180.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="~/icons/icon-180.png" />
 
         <link rel="stylesheet" href="~/_content/Memtly.Core/dist/main.css" asp-append-version="true" />
         @if (theme.Equals(Themes.AutoDetect.ToString().ToLower(), StringComparison.OrdinalIgnoreCase))
@@ -111,7 +111,10 @@
         <nav class="navbar navbar-expand-lg">
             <div class="container px-3 px-lg-5 @(viewMode == ViewMode.Presentation || viewMode == ViewMode.Slideshow ? "justify-content-center" : string.Empty)">
                 <a class="navbar-brand" href="@(await _settings.GetOrDefault(MemtlyConfiguration.Basic.HomeLink, true) ? "/" : "#")">
-                    <img class="navbar-logo" src="@logo" onerror="this.onerror=null;this.src='/_content/Memtly.Core/images/logo.png';" />
+                    <picture>
+                        <source srcset="/images/photoshare-logo-dark.svg" media="(prefers-color-scheme: dark)" />
+                        <img class="navbar-logo" src="@logo" alt="PhotoShare" />
+                    </picture>
                     <span class="navbar-title">@title</span>
                 </a>
                 
@@ -216,11 +219,7 @@
             <div class="container">
                 <p class="m-0 text-white">
                     <span class="float-none">
-                        <a class="text-link" href="@_config.GetConfigValue(MemtlyStaticConfiguration.Links.GitHub)" title="Copyright Memtly" target="_blank"><i class="fa-brands fa-github"></i> v@(_settings.GetReleaseVersion(3)) &copy; Memtly @DateTime.UtcNow.Year</a>
-                    </span>
-                    <span class="float-end">
-                        <a class="text-link" href="@_config.GetConfigValue(MemtlyStaticConfiguration.Links.GitHubSponsors)" title="GitHub Sponsors" target="_blank"><img class="fa-sponsor-badge" src="/_content/Memtly.Core/images/github.png" /></a>
-                        <a class="text-link" href="@_config.GetConfigValue(MemtlyStaticConfiguration.Links.BuyMeACoffee)" title="BuyMeACoffee" target="_blank"><img class="fa-sponsor-badge" src="/_content/Memtly.Core/images/buymeacoffee.gif" /></a>
+                        <a class="text-link" href="@_config.GetConfigValue(MemtlyStaticConfiguration.Links.GitHub)" title="Copyright PhotoShare" target="_blank"><i class="fa-brands fa-github"></i> v@(_settings.GetReleaseVersion(3)) &copy; PhotoShare @DateTime.UtcNow.Year</a>
                     </span>
                 </p>
             </div>
@@ -229,26 +228,12 @@
         <!-- GDPR Cookie Consent -->
         <partial name="_CookieConsentPartial" />
 
-        <!-- Sponsors Button -->
-        @if (MemtlyCore.Version == MemtlyVersion.Community)
-        {
-            <i class="btn-show-sponsors fas fa-bolt"></i>
-        }
-        
         <!-- Anti-forgery token rendered once so JS can read it for the
              RequestVerificationToken header (see main.js $.ajaxSetup). -->
         @Html.AntiForgeryToken()
 
         <!-- Webpack -->
         <script src="~/_content/Memtly.Core/dist/main.js" asp-append-version="true"></script>
-
-        <script>
-            if ('serviceWorker' in navigator) {
-                window.addEventListener('load', function () {
-                    navigator.serviceWorker.register('/sw.js').catch(function () { /* ignore */ });
-                });
-            }
-        </script>
 
         @await RenderSectionAsync("Scripts", required: false)
 

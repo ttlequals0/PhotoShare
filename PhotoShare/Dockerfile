@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:9.0-noble-chiseled-extra AS base
 WORKDIR /app
 EXPOSE 5000
 
@@ -28,11 +28,14 @@ RUN dotnet publish "./PhotoShare.csproj" -a $TARGETARCH -c $BUILD_CONFIGURATION 
 
 FROM base AS final
 WORKDIR /app
-RUN groupadd -r --gid 10001 photoshare && \
-    useradd -r -u 10001 -g photoshare -m -d /home/photoshare photoshare
-COPY --from=publish --chown=photoshare:photoshare /app/publish .
-RUN mkdir -p /app/config && chown -R photoshare:photoshare /app
-USER photoshare
-HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
-  CMD wget --no-verbose --tries=1 --spider http://localhost:5000/healthz || exit 1
+# Chiseled-extra ships a built-in non-root user 'app' (uid 1654, gid 1654)
+# and no shell - we cannot RUN groupadd / chown / mkdir. The application
+# creates /app/config, /app/uploads, /app/thumbnails etc. itself at
+# startup via Directory.CreateDirectory; volume mounts must be writable
+# by uid 1654.
+COPY --from=publish --chown=app:app /app/publish .
+USER app
 ENTRYPOINT ["dotnet", "PhotoShare.dll"]
+# In-container HEALTHCHECK removed - chiseled has no wget/curl. Operators
+# probe /healthz from outside the container (Cloudflare Tunnel origin
+# check, external uptime monitor) or via a sidecar that has a shell.

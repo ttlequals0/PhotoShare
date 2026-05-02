@@ -7,8 +7,8 @@ included `docker-compose.yml` with a Postgres backend.
 Reference: upstream Memtly's [Docker setup
 docs](https://docs.memtly.com/docs/Setup/docker) for background; the
 PhotoShare fork tightens the defaults (BCrypt password hashing,
-fail-fast on placeholder secrets, non-root UID 10001) and adds a
-`/healthz` endpoint that the compose file uses.
+fail-fast on placeholder secrets, chiseled-extra base, non-root UID
+1654) and adds a `/healthz` endpoint operators can probe externally.
 
 ## Quick start
 
@@ -26,50 +26,54 @@ docker compose up -d
 docker compose logs -f app
 ```
 
-Once the `app` container is healthy (Docker reports `(healthy)` after a
-successful `/healthz` probe), open http://localhost:5000 and log in
+The chiseled image has no shell, so there's no in-container
+healthcheck - probe `/healthz` from the host (`curl
+http://localhost:5000/healthz`) or via Cloudflare Tunnel's origin
+check. Once it returns 200, open http://localhost:5000 and log in
 with the `ADMIN_EMAIL` / `ADMIN_PASSWORD` you set.
 
 ## Environment variables
 
-PhotoShare's `ConfigHelper` accepts the simple `UPPER_SNAKE_CASE` form
-(`DATABASE_TYPE`, `ENCRYPTION_KEY`, etc. - same convention as upstream
-Memtly), and the standard ASP.NET Core form (`Memtly__Database__Type`)
-also works. The compose file uses the simple form.
+The compose file binds via the canonical ASP.NET Core form:
+`Memtly__Section__Key` (double underscore replaces the colon in the
+nested `Memtly:Section:Key` config path). Set these as container env
+vars, not shell vars - the compose file already wires them up from
+`.env`.
 
 Required (the app refuses to start without these in non-Development):
 
-| Var | Purpose |
-|-----|---------|
-| `ENCRYPTION_KEY` | Symmetric key for gallery secret-key encryption + MFA token storage |
-| `ENCRYPTION_SALT` | Salt for the same |
-| `ACCOUNT_ADMIN_EMAIL` | Initial admin account email |
-| `ACCOUNT_ADMIN_PASSWORD` | Initial admin password (BCrypt-hashed on seed) |
+| Container env var | Purpose |
+|-------------------|---------|
+| `Memtly__Security__Encryption__Key` | Symmetric key for gallery secret-key encryption + MFA token storage |
+| `Memtly__Security__Encryption__Salt` | Salt for the same |
+| `Memtly__Account__Admin__Email` | Initial admin account email |
+| `Memtly__Account__Admin__Password` | Initial admin password (BCrypt-hashed on seed) |
 
 Recommended for public exposure:
 
-| Var | Purpose |
-|-----|---------|
-| `FORCE_HTTPS` | `true` - app emits `Set-Cookie; Secure` and HSTS |
-| `BASE_URL` | Public hostname; used in verification emails + CSP |
-| `TITLE` | App name shown in nav and emails |
+| Container env var | Purpose |
+|-------------------|---------|
+| `Memtly__Force_Https` | `true` - app emits `Set-Cookie; Secure` and HSTS |
+| `Memtly__Base_Url` | Public hostname (include `https://`); used in verification emails + CSP |
+| `Memtly__Title` | App name shown in nav and emails |
 | `ASPNETCORE_ENVIRONMENT` | `Production` |
 
 Database:
 
-| Var | Purpose |
-|-----|---------|
-| `DATABASE_TYPE` | `sqlite` (default) / `mysql` / `postgres` / `mssql` / `mariadb` |
-| `DATABASE_CONNECTION_STRING` | Provider-specific |
+| Container env var | Purpose |
+|-------------------|---------|
+| `Memtly__Database__Type` | `sqlite` (default) / `mysql` / `postgres` / `mssql` / `mariadb` |
+| `Memtly__Database__Connection_String` | Provider-specific |
 
 ## Volumes
 
-The image runs as **non-root user UID 10001** (group 10001). If you bind
-mount host directories instead of using the named volumes the compose
-file ships with, you must `chown` them first:
+The image runs as **chiseled-extra's built-in `app` user (UID 1654,
+group 1654)**. If you bind-mount host directories instead of using the
+named volumes the compose file ships with, you must `chown` them
+first:
 
 ```bash
-sudo chown -R 10001:10001 /var/photoshare/{config,uploads,thumbnails,custom_resources}
+sudo chown -R 1654:1654 /var/photoshare/{config,uploads,thumbnails,custom_resources}
 ```
 
 Container paths:
