@@ -10,6 +10,24 @@ changes shipped below.
 
 ## [Unreleased]
 
+## [2.0.7] - 2026-05-02
+
+### Added
+
+- **Auto-approve gallery uploads** — UI clarification on the existing
+  per-gallery `Memtly:Gallery:Require_Review` setting. The data layer
+  already keyed this setting per gallery (`GalleryController.cs:389`)
+  and the upload handler already routes to `GalleryItemState.Approved`
+  when off, but the UI was buried under Account → Settings → Gallery
+  → (pick gallery) → Reviews with no explanation that "Require Review:
+  No" is the auto-approve switch. Added a banner at the top of the
+  Reviews override page spelling out the trade-off.
+
+### Removed
+
+- Stray `wwwroot/sponsors.json` orphan from the 2.0.4 sponsor module
+  deletion.
+
 ## [2.0.6] - 2026-05-02
 
 ### Fixed
@@ -464,7 +482,8 @@ First PhotoShare release. Forked from Memtly.Community 1.0.2.2 at SHA `2dd5f06`.
 - Add Docker Hub secrets to repo before the first tag push:
   `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN`.
 
-[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.6...HEAD
+[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.7...HEAD
+[2.0.7]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.6...v2.0.7
 [2.0.6]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.5...v2.0.6
 [2.0.5]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.4...v2.0.5
 [2.0.4]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.3...v2.0.4
