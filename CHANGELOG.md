@@ -10,24 +10,50 @@ changes shipped below.
 
 ## [Unreleased]
 
+## [2.0.1] - 2026-05-01
+
+### Fixed
+
+- **Compose env var binding** — `docker-compose.yml` mapped shorthand names
+  (`ENCRYPTION_KEY`, `ACCOUNT_ADMIN_EMAIL`, `DATABASE_TYPE`, `FORCE_HTTPS`,
+  `BASE_URL`) that ASP.NET Core's environment variable provider does not
+  bind to anything. Containers booted with empty `appsettings.json`
+  defaults and hit the `EnforceRequiredSecurityConfig` fail-fast on every
+  start. Renamed to the proper `Memtly__Section__Key` form (double
+  underscore replaces the config-key colon).
+- **FFmpeg auto-download path on chiseled images** —
+  `Memtly.Core/Memtly.Core/Configurations/FfmpegConfiguration.cs` defaulted
+  the install path to `/ffmpeg`, which the chiseled non-root user (uid
+  1654) cannot write to. Default is now `/app/ffmpeg`. Operators no longer
+  need an `FFMPEG__InstallPath` override.
+
+### Documentation
+
+- **`docs/cloudflare.md`** — host-scoped the WAF expressions
+  (`http.host eq "..."`) so a shared Cloudflare account doesn't apply
+  PhotoShare rules to unrelated tunnels. User-agent matches now lower-case
+  the input (`lower(http.user_agent) contains "sqlmap"`) so casing tricks
+  don't bypass the rule. Path matches use `ends_with()` for `.php` and
+  leading slashes for `wp-admin`/`.env`/`.git/` to avoid false positives
+  on legitimate query strings or filenames.
+
 ### Added
 
 - **`docker-compose.yml`** for the recommended Postgres-backed deploy.
-  Uses non-root UID 10001 (matches the Dockerfile), wires the `/healthz`
-  endpoint as the container healthcheck, ships an optional cloudflared
-  sidecar (commented), uses named volumes that auto-resolve UID
-  ownership.
+  Runs as the chiseled built-in `app` user (UID 1654), ships an optional
+  cloudflared sidecar (commented), uses named volumes that auto-resolve
+  UID ownership.
 - **`.env.example`** documenting every required secret with hints on
   generating strong random values via `openssl rand`.
 - **`docs/docker.md`** walking through the compose deploy: env vars
-  (both `UPPER_SNAKE_CASE` and `Memtly__Section__Key` forms work), volume
-  layout, host-path `chown` for non-default mounts, Cloudflare Tunnel
-  sidecar usage, update procedure, and backup commands for Postgres +
-  uploads volume.
-- **`/healthz` liveness endpoint** for Docker / Cloudflare Tunnel
-  origin checks / external uptime monitors. Anonymous, no DB hit,
-  returns 200 / "Healthy". Dockerfile gains a `HEALTHCHECK`
-  instruction that pings it every 30 seconds.
+  (`Memtly__Section__Key` form, double underscore replaces colon),
+  volume layout, host-path `chown` for non-default mounts, Cloudflare
+  Tunnel sidecar usage, update procedure, and backup commands for
+  Postgres + uploads volume.
+- **`/healthz` liveness endpoint** for Cloudflare Tunnel origin checks
+  / external uptime monitors. Anonymous, no DB hit, returns 200 /
+  "Healthy". The chiseled image has no shell, so probe from outside
+  the container (host curl, tunnel origin check, external monitor).
 
 ### Security
 
@@ -193,9 +219,9 @@ First PhotoShare release. Forked from Memtly.Community 1.0.2.2 at SHA `2dd5f06`.
 - **Startup fail-fast** when `Encryption.Key`, `Encryption.Salt`,
   `Account.Admin.Email`, or `Account.Admin.Password` are empty or set to
   placeholder values in non-Development environments.
-- **Container runs as non-root** user `photoshare` (UID 10001).
-  Operators using a host-mounted `/app/config` volume must
-  `chown -R 10001:10001` the host directory.
+- **Container runs as non-root** user `app` (UID 1654, the chiseled
+  base's built-in user). Operators using a host-mounted `/app/config`
+  volume must `chown -R 1654:1654` the host directory.
 - **`ForwardedHeaders` middleware** wired so the app correctly sees HTTPS
   when running behind a Cloudflare Tunnel. Without this, the new cookie
   `SecurePolicy=Always` would silently drop Set-Cookie on every request.
@@ -260,11 +286,12 @@ First PhotoShare release. Forked from Memtly.Community 1.0.2.2 at SHA `2dd5f06`.
   - `Memtly__Account__Admin__Email`
   - `Memtly__Account__Admin__Password`
 - If using a host-mounted `/app/config` volume:
-  `chown -R 10001:10001 /path/to/volume`
+  `chown -R 1654:1654 /path/to/volume`
 - Disable CodeQL Default Setup in repo Settings (UI; API-driven disable
   does not persist) so the advanced workflow's SARIF uploads cleanly.
 - Add Docker Hub secrets to repo before the first tag push:
   `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN`.
 
-[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.0...HEAD
+[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.1...HEAD
+[2.0.1]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/ttlequals0/PhotoShare/releases/tag/v2.0.0

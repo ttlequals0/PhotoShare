@@ -57,13 +57,15 @@ lower number runs first.
 
 ```
 Expression:
-  (http.request.uri.path contains ".php") or
-  (http.request.uri.path contains "wp-admin") or
-  (http.request.uri.path contains ".env") or
+(http.host eq "site.example.com") and (
+  (ends_with(http.request.uri.path, ".php")) or
+  (http.request.uri.path contains "/wp-admin") or
+  (http.request.uri.path contains "/.env") or
   (http.request.uri.path contains "/.git/") or
-  (http.user_agent contains "sqlmap") or
-  (http.user_agent contains "nikto") or
-  (http.user_agent contains "nuclei")
+  (lower(http.user_agent) contains "sqlmap") or
+  (lower(http.user_agent) contains "nikto") or
+  (lower(http.user_agent) contains "nuclei")
+)
 
 Action: Block
 ```
@@ -85,9 +87,7 @@ locking yourself out.
 
 ```
 Expression:
-  (ip.geoip.is_in_european_union and cf.threat_score gt 30) or
-  (cf.threat_score gt 50) or
-  (ip.geoip.continent eq "T1")
+(http.host eq "site.example.com") and ((cf.threat_score gt 30) or (ip.src.continent eq "T1"))
 
 Action: Managed Challenge
 ```

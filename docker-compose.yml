@@ -40,21 +40,33 @@ services:
       db:
         condition: service_healthy
     environment:
+      # ASP.NET Core env var convention: double-underscore replaces the
+      # colon in nested config keys. `Memtly__Account__Admin__Email` binds
+      # to the `Memtly:Account:Admin:Email` setting in appsettings.json.
+      # Shorthand names like ACCOUNT_ADMIN_EMAIL or ENCRYPTION_KEY do NOT
+      # bind to anything - the app will read empty appsettings defaults
+      # and fail-fast at startup.
+
       # --- Database ---
-      DATABASE_TYPE: postgres
-      DATABASE_CONNECTION_STRING: "Host=db;Database=photoshare;Username=photoshare;Password=${POSTGRES_PASSWORD};Include Error Detail=true"
+      Memtly__Database__Type: postgres
+      Memtly__Database__Connection_String: "Host=db;Database=photoshare;Username=photoshare;Password=${POSTGRES_PASSWORD};Include Error Detail=true"
 
       # --- Required hardening secrets (fail-fast at startup) ---
-      ENCRYPTION_KEY: ${ENCRYPTION_KEY:?ENCRYPTION_KEY must be set in .env}
-      ENCRYPTION_SALT: ${ENCRYPTION_SALT:?ENCRYPTION_SALT must be set in .env}
-      ACCOUNT_ADMIN_EMAIL: ${ADMIN_EMAIL:?ADMIN_EMAIL must be set in .env}
-      ACCOUNT_ADMIN_PASSWORD: ${ADMIN_PASSWORD:?ADMIN_PASSWORD must be set in .env}
+      Memtly__Security__Encryption__Key: ${ENCRYPTION_KEY:?ENCRYPTION_KEY must be set in .env}
+      Memtly__Security__Encryption__Salt: ${ENCRYPTION_SALT:?ENCRYPTION_SALT must be set in .env}
+      Memtly__Account__Admin__Email: ${ADMIN_EMAIL:?ADMIN_EMAIL must be set in .env}
+      Memtly__Account__Admin__Password: ${ADMIN_PASSWORD:?ADMIN_PASSWORD must be set in .env}
 
       # --- Recommended for public exposure ---
-      FORCE_HTTPS: "true"
-      BASE_URL: ${BASE_URL:-http://localhost:5000}
-      TITLE: PhotoShare
+      Memtly__Force_Https: "true"
+      Memtly__Base_Url: ${BASE_URL:-http://localhost:5000}
+      Memtly__Title: PhotoShare
       ASPNETCORE_ENVIRONMENT: Production
+
+      # FFmpeg auto-download target. Upstream default is "/ffmpeg" which is
+      # not writable by the chiseled non-root user (uid 1654). Point it at
+      # /app/ffmpeg, inside the writable app directory.
+      FFMPEG__InstallPath: /app/ffmpeg
     ports:
       - "5000:5000"
     volumes:
