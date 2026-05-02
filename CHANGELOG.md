@@ -31,6 +31,18 @@ changes shipped below.
 
 ### Security
 
+- **Container base swapped to `mcr.microsoft.com/dotnet/aspnet:9.0-noble-chiseled-extra`.**
+  Eliminates **all 9 HIGH and 1 CRITICAL** Trivy CVEs from the previous
+  Debian base (`zlib1g`, `libsystemd0`, `libgcrypt20`, `ncurses-*`,
+  `libtinfo6`, all upstream-`will_not_fix` or unfixed). Image size
+  drops 417 MB to 252 MB. Side effects: built-in non-root user is now
+  `app` (UID 1654) instead of `photoshare` (UID 10001); no shell, no
+  `wget`, no `curl` in the runtime image, so the in-container
+  `HEALTHCHECK` is removed - operators probe `/healthz` from outside
+  (host curl, Cloudflare Tunnel origin check, external monitor).
+  `docker-compose.yml` updated to drop the in-container app
+  healthcheck and document the UID change.
+
 - **Global anti-forgery (CSRF) protection.** `AutoValidateAntiforgeryTokenAttribute`
   is now a global filter; every POST/PUT/DELETE/PATCH endpoint requires a
   valid token. `_Layout.cshtml` renders `@Html.AntiForgeryToken()` once

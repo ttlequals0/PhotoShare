@@ -3,13 +3,14 @@
 # Quick start:
 #   1. cp .env.example .env  &&  edit .env to fill in real secrets.
 #   2. (First time only, if mounting host paths instead of named volumes:)
-#        sudo chown -R 10001:10001 /path/to/host/uploads etc.
+#        sudo chown -R 1654:1654 /path/to/host/uploads etc.
 #      Named volumes (default below) are auto-owned by the container UID.
 #   3. docker compose up -d
 #
-# The container runs as non-root user UID 10001 (set in the Dockerfile).
-# /healthz is a liveness endpoint exposed by the app; Docker reports the
-# container unhealthy after 3 consecutive failures.
+# The container runs as non-root user 'app' (uid 1654) - the built-in
+# user from mcr.microsoft.com/dotnet/aspnet:9.0-noble-chiseled-extra.
+# /healthz is a liveness endpoint exposed by the app; probe it from
+# outside the container (chiseled has no shell to run wget/curl in).
 
 services:
   db:
@@ -61,12 +62,13 @@ services:
       - photoshare-uploads:/app/uploads
       - photoshare-thumbnails:/app/thumbnails
       - photoshare-custom-resources:/app/custom_resources
-    healthcheck:
-      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:5000/healthz || exit 1"]
-      interval: 30s
-      timeout: 5s
-      start_period: 30s
-      retries: 3
+    # In-container healthcheck removed: the app image is built on
+    # mcr.microsoft.com/dotnet/aspnet:9.0-noble-chiseled-extra which has
+    # no shell, no wget, no curl. /healthz is still exposed; probe it
+    # from the host (`curl http://localhost:5000/healthz`), from
+    # Cloudflare Tunnel's origin check, or from an external uptime
+    # monitor. The Postgres healthcheck above still gates the app's
+    # depends_on condition.
 
 # ---
 # Optional: cloudflared sidecar. Uncomment + populate TUNNEL_TOKEN to
