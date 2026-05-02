@@ -10,6 +10,35 @@ changes shipped below.
 
 ## [Unreleased]
 
+## [2.0.3] - 2026-05-01
+
+### Fixed
+
+- **Brand assets at root scope.** SVG logos and PNG icons are now mirrored
+  into `PhotoShare/wwwroot/{images,icons}/` so they serve at `/images/...`
+  and `/icons/...` instead of only `/_content/Memtly.Core/...`. The
+  appsettings default Logo path is back to `/images/photoshare-logo-light.svg`
+  (matching what's already persisted in the Settings table on existing
+  deploys) and the broken-image icon next to "PhotoShare" goes away.
+- **`/manifest.webmanifest` 404.** The manifest moved to
+  `PhotoShare/wwwroot/manifest.webmanifest` so it serves at the root
+  scope the layout's `<link rel="manifest" href="~/manifest.webmanifest">`
+  expects. Icon srcs inside the manifest now use root paths too.
+- **Theme colors weren't actually PhotoShare's.** `themes/blue.css` and
+  `themes/darkblue.css` (the AutoDetect default for the Community
+  variant) shipped upstream Memtly's blue/indigo palette, which loaded
+  *after* `main.css` and overrode the design tokens. The theme files are
+  now rewritten with PhotoShare's amethyst/lavender/parchment values
+  (variable names preserved so the existing `--bs-*` Bootstrap mappings
+  continue to work).
+- **Footer reads "PhotoShare", not "Memtly".** Layout footer
+  copyright string updated; sponsor badges (GitHub Sponsors,
+  BuyMeACoffee) removed - they were upstream-Memtly artifacts and
+  irrelevant on a private fork.
+- **Layout icon links.** `<link rel="icon">` and `apple-touch-icon`
+  references switched from `~/_content/Memtly.Core/icons/` to `~/icons/`
+  for the root-scope copies.
+
 ## [2.0.2] - 2026-05-01
 
 ### Fixed
@@ -315,7 +344,8 @@ First PhotoShare release. Forked from Memtly.Community 1.0.2.2 at SHA `2dd5f06`.
 - Add Docker Hub secrets to repo before the first tag push:
   `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN`.
 
-[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.2...HEAD
+[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.3...HEAD
+[2.0.3]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.2...v2.0.3
 [2.0.2]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.1...v2.0.2
 [2.0.1]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/ttlequals0/PhotoShare/releases/tag/v2.0.0

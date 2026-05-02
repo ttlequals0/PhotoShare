@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Photoshare icon">
+  <defs>
+    <radialGradient id="heroGlow" cx="30%" cy="30%" r="80%">
+      <stop offset="0%" stop-color="#cbb7fb" stop-opacity="0.35"/>
+      <stop offset="60%" stop-color="#1b1938" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="lavender" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#cbb7fb"/>
+      <stop offset="100%" stop-color="#714cb6"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="0" y="0" width="128" height="128" rx="24" fill="url(#heroGlow)"/>
+
+  <g transform="translate(28, 28)">
+    <rect x="6" y="14" width="60" height="60" rx="12"
+          fill="none" stroke="#714cb6" stroke-width="2.5"
+          transform="rotate(-12 36 44)" opacity="0.7"/>
+    <rect x="14" y="10" width="60" height="60" rx="12"
+          fill="none" stroke="#cbb7fb" stroke-width="2.5"
+          transform="rotate(6 44 40)" opacity="0.85"/>
+    <rect x="12" y="14" width="60" height="60" rx="12" fill="#e9e5dd"/>
+    <circle cx="42" cy="44" r="15" fill="none" stroke="#1b1938" stroke-width="3"/>
+    <circle cx="42" cy="44" r="6" fill="url(#lavender)"/>
+    <circle cx="60" cy="24" r="3" fill="#714cb6"/>
+  </g>
+</svg>
