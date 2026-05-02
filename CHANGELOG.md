@@ -10,6 +10,80 @@ changes shipped below.
 
 ## [Unreleased]
 
+## [2.0.4] - 2026-05-01
+
+### Added
+
+- **HEIC/HEIF photo upload acceptance.** iOS Camera defaults to HEIC for
+  still photos; uploads were rejected because `.heic`/`.heif` weren't on
+  the allowlist and ImageSharp's default codec set returns null on the
+  format. Allowed_File_Types now includes `.heic,.heif`. New
+  `HeifHeaderMatchesExtension` validates the ftyp box brand against the
+  HEIF family (`heic`, `heix`, `heim`, `heis`, `hevc`, `hevx`, `mif1`,
+  `msf1`). HEVC video already worked - it ships inside `.mov` containers
+  which were already on the allowlist.
+- **HEIC thumbnail generation via ffmpeg.** `ImageHelper.GenerateThumbnail`
+  now routes HEIC/HEIF through the same Xabe.FFmpeg snapshot pipeline
+  the video frame extractor uses. ffmpeg decodes the HEIC, writes a
+  JPEG, then the existing ImageSharp resize path produces the final
+  WebP thumbnail.
+- **Cloudflare Tunnel verification runbook** added to `docs/cloudflare.md`
+  - five `curl` checks to walk before going public.
+
+### Changed
+
+- **Theme switcher reduced to Auto / Light / Dark.** PhotoShare ships
+  a single brand palette so the upstream Memtly Green/Pink themes were
+  noise. The enum stays unchanged for backward compat with persisted
+  Settings rows; the picker only surfaces three options now and labels
+  them functionally.
+- **Username column width 10 -> 64.** `CoreDbContext` `HasMaxLength(64)`
+  on `Users.Username`. Operator must run
+  `cd Memtly.Core/Memtly.Core && pwsh ./generate-migrations.ps1
+  -MigrationName ExpandUsernameLength` from a dev environment with
+  pwsh + dotnet SDK + MySQL/Postgres/sqlcmd to emit the per-provider
+  migration files; the deployed app picks them up on the next startup.
+- **`UrlHelper.GenerateBaseUrl` prefers `ctx.Host` over `Memtly:Base_Url`.**
+  Visitors who came in on a non-canonical hostname (LAN reverse-proxy,
+  staging, alternate domain) no longer get redirected to the
+  configured `BASE_URL` host, which often doesn't resolve from their
+  network. `BASE_URL` still wins when there's no request context
+  (background workers, notification email URL building).
+
+### Fixed
+
+- **Dark mode contrast.** Headings (`h1` through `h6`) now declare
+  `color: var(--ink)` so they flip with the theme; previously the
+  upstream Memtly theme CSS hard-coded a heading color and the
+  dark-mode token cascade was lost. Form inputs (`.form-control`,
+  `.form-select`) switched from `var(--surface)` to `var(--surface-raised)`
+  so the input box stays visually distinct from the page background in
+  dark mode.
+- **Logo stays visible in dark mode.** Layout `<img src="@logo">`
+  replaced with `<picture>` + `<source media="(prefers-color-scheme: dark)">`
+  so the dark-on-dark logo SVG variant loads when the OS prefers
+  dark.
+- **Sponsor lightning-bolt button removed** from the lower-left of
+  every page. The whole sponsors module (`src/modules/sponsors/`,
+  `Controllers/SponsorsController.cs`, `Views/Sponsors/`) is deleted -
+  upstream-Memtly artifact, irrelevant on a private fork. `/Sponsors`
+  route now 404s.
+
+### Security
+
+- **CSP `'unsafe-inline'` and `'unsafe-eval'` removed** from
+  `script-src`; `'unsafe-inline'` removed from `style-src`. Six inline
+  artifacts in Razor views were rewritten:
+  - service-worker registration moved into `main.js`
+  - `<svg style="display:none">` -> `<svg class="svg-sprite">`
+  - media viewer `style="opacity: 0;"` -> `.media-viewer-popup-hidden` class
+  - error page inline font sizes -> `.error-title` / `.error-detail` classes
+  - `_Layout` and `_BasicLayout` `onerror=` on the navbar logo
+    replaced with `<picture>` + `<source>` (also fixes dark-mode logo)
+  Webpack's `MiniCssExtractPlugin` was already in use, so dropping
+  `style-src 'unsafe-inline'` doesn't affect runtime CSS injection -
+  there isn't any.
+
 ## [2.0.3] - 2026-05-01
 
 ### Fixed
@@ -344,7 +418,8 @@ First PhotoShare release. Forked from Memtly.Community 1.0.2.2 at SHA `2dd5f06`.
 - Add Docker Hub secrets to repo before the first tag push:
   `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN`.
 
-[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.3...HEAD
+[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.4...HEAD
+[2.0.4]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.3...v2.0.4
 [2.0.3]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.2...v2.0.3
 [2.0.2]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.1...v2.0.2
 [2.0.1]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.0...v2.0.1

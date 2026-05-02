@@ -27,7 +27,7 @@ namespace Memtly.Core.EntityFramework
             mb.Entity<User>(e =>
             {
                 e.HasIndex(x => x.Username).IsUnique();
-                e.Property(x => x.Username).HasMaxLength(10);
+                e.Property(x => x.Username).HasMaxLength(64);
                 e.HasIndex(x => x.EmailAddress).IsUnique();
                 e.Property(x => x.EmailAddress).HasMaxLength(200);
                 e.Property(x => x.Firstname).HasMaxLength(50);

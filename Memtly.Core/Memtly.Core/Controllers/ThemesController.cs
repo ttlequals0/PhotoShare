@@ -16,6 +16,19 @@ namespace Memtly.Core.Controllers
         private readonly ILogger<ThemesController> _logger;
         private readonly IStringLocalizer<Localization.Translations> _localizer;
 
+        // PhotoShare ships a single brand palette - operators get
+        // Auto / Light (Blue) / Dark (DarkBlue). The other upstream
+        // Memtly themes (Green/DarkGreen/Pink/DarkPink) stay on the
+        // enum so previously-persisted Settings rows don't break,
+        // but they're hidden from the picker. Display labels are
+        // hardcoded (not localized) because they're brand UI copy.
+        private static readonly Dictionary<Themes, string> SelectableThemes = new()
+        {
+            { Themes.AutoDetect, "Auto" },
+            { Themes.Blue, "Light" },
+            { Themes.DarkBlue, "Dark" },
+        };
+
         public ThemesController(ISettingsHelper settings, ILanguageHelper languageHelper, ILogger<ThemesController> logger, IStringLocalizer<Localization.Translations> localizer)
             : base()
         {
@@ -37,18 +50,13 @@ namespace Memtly.Core.Controllers
                     selectedTheme = await _settings.GetOrDefault(MemtlyConfiguration.Themes.Default, Themes.AutoDetect.ToString());
                 }
 
-                foreach (Themes item in Enum.GetValues(typeof(Themes)))
+                foreach (var item in SelectableThemes)
                 {
-                    if (MemtlyCore.Version == MemtlyVersion.Community && (item == Themes.Green || item == Themes.DarkGreen))
-                    {
-                        continue;
-                    }
-
                     options.Themes.Add(new SupportedThemes()
                         {
-                            Name = _localizer[item.ToString()].Value,
-                            Value = item.ToString(),
-                            Selected = selectedTheme.Equals(item.ToString(), StringComparison.OrdinalIgnoreCase)
+                            Name = item.Value,
+                            Value = item.Key.ToString(),
+                            Selected = selectedTheme.Equals(item.Key.ToString(), StringComparison.OrdinalIgnoreCase)
                         });
                 }
             }
@@ -64,13 +72,8 @@ namespace Memtly.Core.Controllers
             try
             {
                 var selectedTheme = await _settings.GetOrDefault(MemtlyConfiguration.Themes.Default, Themes.AutoDetect.ToString());
-                foreach (Themes item in Enum.GetValues(typeof(Themes)))
+                foreach (var item in SelectableThemes.Keys)
                 {
-                    if (MemtlyCore.Version == MemtlyVersion.Community && (item == Themes.Green || item == Themes.DarkGreen))
-                    {
-                        continue;
-                    }
-
                     if (item.ToString().Equals(theme, StringComparison.OrdinalIgnoreCase))
                     {
                         selectedTheme = item.ToString();

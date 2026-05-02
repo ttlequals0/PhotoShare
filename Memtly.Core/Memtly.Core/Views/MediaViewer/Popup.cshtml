@@ -1,6 +1,6 @@
 ﻿@model Memtly.Core.Views.MediaViewer.Popup
 
-<div id="media-viewer-popup" style="opacity: 0;">
+<div id="media-viewer-popup" class="media-viewer-popup-hidden">
     <div class="media-viewer" data-media-viewer-index="1" data-media-viewer-collection="@Model.Collection" data-type="@Model.Type.ToLower()" data-source="@Model.Source">
         @if (!string.IsNullOrWhiteSpace(Model.Title))
         {

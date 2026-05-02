@@ -310,7 +310,16 @@ namespace Memtly.Core.Extensions
                         context.Response.Headers.Append("X-Content-Type-Options", config.GetOrDefault(MemtlyConfiguration.Security.Headers.XContentTypeOptions, "nosniff"));
 
                         context.Response.Headers.Remove("Content-Security-Policy");
-                        context.Response.Headers.Append("Content-Security-Policy", config.GetOrDefault(MemtlyConfiguration.Security.Headers.CSP, $"default-src 'self' {(!string.IsNullOrWhiteSpace(baseUrlCSP) ? baseUrlCSP : "http://localhost:* ws://localhost:*")}; script-src 'self' 'unsafe-inline' 'unsafe-eval'{(!string.IsNullOrWhiteSpace(trackersUrlCSP) ? $" {trackersUrlCSP}" : string.Empty)}; style-src 'self' 'unsafe-inline'; connect-src 'self' {(!string.IsNullOrWhiteSpace(baseUrlCSP) ? baseUrlCSP : "http://localhost:* ws://localhost:*")}{(!string.IsNullOrWhiteSpace(trackersUrlCSP) ? $" {trackersUrlCSP}" : string.Empty)}; font-src 'self'; img-src 'self' https://github.com/ https://avatars.githubusercontent.com/ data:; frame-src 'self'; frame-ancestors 'self'; object-src 'none'; base-uri 'self';"));
+                        // 'unsafe-inline' / 'unsafe-eval' dropped: every
+                        // inline <script>/<style>/style="..."/on*= attribute
+                        // moved into main.js or site.css. Webpack already
+                        // extracts CSS via MiniCssExtractPlugin so no
+                        // runtime <style> injection happens. See CSP audit
+                        // notes in CHANGELOG 2.0.4.
+                        var origins = !string.IsNullOrWhiteSpace(baseUrlCSP) ? baseUrlCSP : "http://localhost:* ws://localhost:*";
+                        var trackers = !string.IsNullOrWhiteSpace(trackersUrlCSP) ? $" {trackersUrlCSP}" : string.Empty;
+                        var defaultCsp = $"default-src 'self' {origins}; script-src 'self'{trackers}; style-src 'self'; connect-src 'self' {origins}{trackers}; font-src 'self'; img-src 'self' https://github.com/ https://avatars.githubusercontent.com/ data:; frame-src 'self'; frame-ancestors 'self'; object-src 'none'; base-uri 'self';";
+                        context.Response.Headers.Append("Content-Security-Policy", config.GetOrDefault(MemtlyConfiguration.Security.Headers.CSP, defaultCsp));
 
                         context.Response.Headers.Remove("Referrer-Policy");
                         context.Response.Headers.Append("Referrer-Policy", "strict-origin-when-cross-origin");

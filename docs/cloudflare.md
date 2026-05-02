@@ -242,6 +242,36 @@ ranges (10/8, 172.16/12, 192.168/16). If you run cloudflared on a
 host outside those ranges, edit `StartupExtensions.cs`
 `Configure<ForwardedHeadersOptions>` to add the correct network.
 
+## 10. Operator runbook (verification)
+
+Once the rules above are configured in the dashboard, walk this list
+once before flipping public DNS. Each command runs from a host
+outside the LAN so it actually traverses the Cloudflare edge.
+
+```bash
+# 1. DNS resolves to Cloudflare (104.16.x.x / 172.64.x.x range)
+dig +short photoshare.ttlequals0.com
+
+# 2. Edge serves the app over HTTPS with a cf-ray header
+curl -sI https://photoshare.ttlequals0.com/healthz | grep -iE 'HTTP/|cf-ray|content-type'
+
+# 3. WAF blocks the obvious nasties
+curl -sI https://photoshare.ttlequals0.com/wp-admin
+curl -sI -A 'sqlmap/1.0' https://photoshare.ttlequals0.com/
+# Both should return 403 with cf-ray.
+
+# 4. /Admin requires Cloudflare Access
+curl -sI https://photoshare.ttlequals0.com/Admin/Login
+# Should redirect (302/307) to a *.cloudflareaccess.com auth URL,
+# not the app's own login page.
+
+# 5. Origin can't be reached directly (LAN test)
+curl --connect-timeout 5 -sI http://services04:5000/healthz
+# Should still work from inside the LAN. Failure here means the
+# tunnel killed local origin access too - investigate before going
+# live. From outside the LAN, this same request must time out.
+```
+
 ## Required GitHub repo secrets
 
 Before the first tag push that triggers a Docker Hub release:
