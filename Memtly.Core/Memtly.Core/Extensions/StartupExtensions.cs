@@ -143,8 +143,26 @@ namespace Memtly.Core.Extensions
                 options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
                 options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(ctx =>
                 {
-                    var ip = ctx.Connection.RemoteIpAddress?.ToString() ?? "anon";
                     var path = ctx.Request.Path.Value ?? string.Empty;
+
+                    // Static-asset paths bypass the limiter. A single page
+                    // load pulls in 30+ CSS/JS/font/icon files in a burst;
+                    // counting each one against the bucket starves real
+                    // requests behind it.
+                    if (path.StartsWith("/_content/", StringComparison.OrdinalIgnoreCase)
+                        || path.StartsWith("/dist/", StringComparison.OrdinalIgnoreCase)
+                        || path.StartsWith("/icons/", StringComparison.OrdinalIgnoreCase)
+                        || path.StartsWith("/images/", StringComparison.OrdinalIgnoreCase)
+                        || path.StartsWith("/fonts/", StringComparison.OrdinalIgnoreCase)
+                        || path.Equals("/manifest.webmanifest", StringComparison.OrdinalIgnoreCase)
+                        || path.Equals("/sw.js", StringComparison.OrdinalIgnoreCase)
+                        || path.StartsWith("/favicon", StringComparison.OrdinalIgnoreCase)
+                        || path.Equals("/healthz", StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RateLimitPartition.GetNoLimiter<string>("static");
+                    }
+
+                    var ip = ctx.Connection.RemoteIpAddress?.ToString() ?? "anon";
                     var isAuthPost = ctx.Request.Method == HttpMethods.Post
                         && (path.StartsWith("/Account/Login", StringComparison.OrdinalIgnoreCase)
                             || path.StartsWith("/Account/Register", StringComparison.OrdinalIgnoreCase)
@@ -163,10 +181,16 @@ namespace Memtly.Core.Extensions
                         });
                     }
 
+                    // Behind a Cloudflare Tunnel, all visitors share the
+                    // cloudflared sidecar's IP unless ForwardedHeaders
+                    // rewrites RemoteIpAddress (which it does for
+                    // RFC1918/loopback peers). The limit needs enough
+                    // headroom to accommodate genuine concurrent users
+                    // while still stopping a runaway client.
                     return RateLimitPartition.GetTokenBucketLimiter(ip, _ => new TokenBucketRateLimiterOptions
                     {
-                        TokenLimit = 120,
-                        TokensPerPeriod = 2,
+                        TokenLimit = 600,
+                        TokensPerPeriod = 30,
                         ReplenishmentPeriod = TimeSpan.FromSeconds(1),
                         QueueLimit = 0,
                         QueueProcessingOrder = QueueProcessingOrder.OldestFirst,

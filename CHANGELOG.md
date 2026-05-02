@@ -10,6 +10,29 @@ changes shipped below.
 
 ## [Unreleased]
 
+## [2.0.2] - 2026-05-01
+
+### Fixed
+
+- **Rate limiter starved page loads.** The token bucket (120 tokens, 2/sec
+  replenishment, partitioned per `RemoteIpAddress`) was small enough that
+  one page load's CSS/JS/font/icon burst could exhaust it for a minute -
+  and behind a Cloudflare Tunnel every visitor shares the sidecar's IP
+  until `ForwardedHeaders` rewrites the source. Result: the login page
+  rendered unstyled, with `429 Too Many Requests` on `/dist/main.css`,
+  `/_content/Memtly.Core/images/logo.png`, `/manifest.webmanifest`,
+  `/Language/GetTranslations`, etc. Static-asset paths (`/_content/*`,
+  `/dist/*`, `/icons/*`, `/images/*`, `/fonts/*`, `/favicon*`,
+  `/manifest.webmanifest`, `/sw.js`, `/healthz`) now bypass the limiter
+  entirely; the general bucket is bumped to 600 tokens with 30/sec
+  replenishment.
+- **Brand logo 404.** `appsettings.json -> Memtly.Logo` pointed at
+  `/images/photoshare-logo-light.svg`, but the SVG ships under
+  `Memtly.Core/wwwroot/images/` and is served at
+  `/_content/Memtly.Core/images/photoshare-logo-light.svg`. The layout's
+  `onerror` fallback masked it as `logo.png`, but the `429` flood made
+  even that fail. Default value corrected.
+
 ## [2.0.1] - 2026-05-01
 
 ### Fixed
@@ -292,6 +315,7 @@ First PhotoShare release. Forked from Memtly.Community 1.0.2.2 at SHA `2dd5f06`.
 - Add Docker Hub secrets to repo before the first tag push:
   `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN`.
 
-[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.1...HEAD
+[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.2...HEAD
+[2.0.2]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.1...v2.0.2
 [2.0.1]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/ttlequals0/PhotoShare/releases/tag/v2.0.0
