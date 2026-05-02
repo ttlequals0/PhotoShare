@@ -10,6 +10,36 @@ changes shipped below.
 
 ## [Unreleased]
 
+## [2.0.6] - 2026-05-02
+
+### Fixed
+
+- **Dark-mode form inputs and headings finally readable.** Upstream
+  Memtly's `themes/darkblue.css` pins `input, select` text to
+  `--primary-text-1` and `h1..h6` to `--primary-bg-1` with
+  `!important`. PhotoShare's amethyst palette inverted those values
+  for buttons (which need the contrast pair), but the same pair on
+  inputs renders purple-deep text on a near-purple-deep page - text
+  vanishes. site.css now retakes the cascade with matching
+  `!important` overrides on `input.form-control`, `select.form-select`,
+  textareas, `h1..h6`, `.form-label`, and modal-body descendants. All
+  bind to `var(--ink)` / `var(--surface-raised)` / `var(--border)` so
+  they flip with the rest of the design system.
+- **Modal dialog text contrast.** `.modal .modal-body p`,
+  `.modal .modal-body label`, and the native `<dialog>` element
+  family all force `color: var(--ink) !important` so labels and
+  helper text stay readable inside guest-name / theme-picker /
+  identity-check / qr-code dialogs.
+
+### Changed
+
+- **Mobile-first sizing pass.** Navbar logo capped at 32x32 (the SVG
+  is 128x128 natively and overflowed at narrow widths). Type scale
+  drops further below 480px (h1: 28px, h2: 22px, h3: 20px). Modal
+  margins and width clamp to viewport with a 12px gutter on both
+  sides. Card paddings shrink so the gallery selector doesn't
+  overrun the screen edge on iPhone-class devices.
+
 ## [2.0.5] - 2026-05-02
 
 ### Fixed
@@ -434,7 +464,8 @@ First PhotoShare release. Forked from Memtly.Community 1.0.2.2 at SHA `2dd5f06`.
 - Add Docker Hub secrets to repo before the first tag push:
   `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN`.
 
-[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.5...HEAD
+[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.6...HEAD
+[2.0.6]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.5...v2.0.6
 [2.0.5]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.4...v2.0.5
 [2.0.4]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.3...v2.0.4
 [2.0.3]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.2...v2.0.3
