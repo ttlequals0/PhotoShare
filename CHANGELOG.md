@@ -10,6 +10,22 @@ changes shipped below.
 
 ## [Unreleased]
 
+## [2.0.5] - 2026-05-02
+
+### Fixed
+
+- **Hotfix: restore `'unsafe-inline'` on CSP `style-src`.** 2.0.4
+  dropped `'unsafe-inline'` from both `script-src` and `style-src`
+  on the assumption that webpack's `MiniCssExtractPlugin` meant no
+  runtime style injection happens. That was wrong - jQuery `.css()`,
+  Bootstrap collapse/dropdown/modal animations, and FontAwesome's
+  SVG-replacement JS all set `element.style` at runtime, which the
+  browser counts as inline style under CSP. With `style-src 'self'`
+  alone, the live page rendered with no layout, FontAwesome icons
+  blew up to natural SVG size, and modals lost their transitions.
+  `script-src 'self'` (no unsafe-inline) stays - the inline-script
+  cleanup from 2.0.4 still holds.
+
 ## [2.0.4] - 2026-05-01
 
 ### Added
@@ -418,7 +434,8 @@ First PhotoShare release. Forked from Memtly.Community 1.0.2.2 at SHA `2dd5f06`.
 - Add Docker Hub secrets to repo before the first tag push:
   `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN`.
 
-[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.4...HEAD
+[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.5...HEAD
+[2.0.5]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.4...v2.0.5
 [2.0.4]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.3...v2.0.4
 [2.0.3]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.2...v2.0.3
 [2.0.2]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.1...v2.0.2

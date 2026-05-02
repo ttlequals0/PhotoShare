@@ -310,15 +310,22 @@ namespace Memtly.Core.Extensions
                         context.Response.Headers.Append("X-Content-Type-Options", config.GetOrDefault(MemtlyConfiguration.Security.Headers.XContentTypeOptions, "nosniff"));
 
                         context.Response.Headers.Remove("Content-Security-Policy");
-                        // 'unsafe-inline' / 'unsafe-eval' dropped: every
-                        // inline <script>/<style>/style="..."/on*= attribute
-                        // moved into main.js or site.css. Webpack already
-                        // extracts CSS via MiniCssExtractPlugin so no
-                        // runtime <style> injection happens. See CSP audit
-                        // notes in CHANGELOG 2.0.4.
+                        // script-src dropped 'unsafe-inline'/'unsafe-eval' in
+                        // 2.0.4: every <script> block moved into main.js,
+                        // every on*= handler converted to addEventListener.
+                        //
+                        // style-src KEEPS 'unsafe-inline' because jQuery
+                        // .css() calls, Bootstrap collapse/dropdown/modal
+                        // animations, and FontAwesome JS-injected SVG sizing
+                        // all set element.style at runtime - which CSP
+                        // counts as inline style. Removing it (tried in
+                        // 2.0.4, reverted in 2.0.5) breaks layout entirely.
+                        // The XSS risk on style-src is much smaller than
+                        // script-src and acceptable for the interactivity
+                        // we get back.
                         var origins = !string.IsNullOrWhiteSpace(baseUrlCSP) ? baseUrlCSP : "http://localhost:* ws://localhost:*";
                         var trackers = !string.IsNullOrWhiteSpace(trackersUrlCSP) ? $" {trackersUrlCSP}" : string.Empty;
-                        var defaultCsp = $"default-src 'self' {origins}; script-src 'self'{trackers}; style-src 'self'; connect-src 'self' {origins}{trackers}; font-src 'self'; img-src 'self' https://github.com/ https://avatars.githubusercontent.com/ data:; frame-src 'self'; frame-ancestors 'self'; object-src 'none'; base-uri 'self';";
+                        var defaultCsp = $"default-src 'self' {origins}; script-src 'self'{trackers}; style-src 'self' 'unsafe-inline'; connect-src 'self' {origins}{trackers}; font-src 'self'; img-src 'self' https://github.com/ https://avatars.githubusercontent.com/ data:; frame-src 'self'; frame-ancestors 'self'; object-src 'none'; base-uri 'self';";
                         context.Response.Headers.Append("Content-Security-Policy", config.GetOrDefault(MemtlyConfiguration.Security.Headers.CSP, defaultCsp));
 
                         context.Response.Headers.Remove("Referrer-Policy");
