@@ -10,6 +10,13 @@ changes shipped below.
 
 ## [Unreleased]
 
+## [2.0.8] - 2026-05-09
+
+### Security
+
+- Bump transitive `fast-uri` 3.1.0 -> 3.1.2 via Dependabot PR #27.
+  Patch in the `npm_and_yarn` group; only `package-lock.json` changed.
+
 ## [2.0.7] - 2026-05-02
 
 ### Added
@@ -482,7 +489,8 @@ First PhotoShare release. Forked from Memtly.Community 1.0.2.2 at SHA `2dd5f06`.
 - Add Docker Hub secrets to repo before the first tag push:
   `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN`.
 
-[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.7...HEAD
+[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.8...HEAD
+[2.0.8]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.7...v2.0.8
 [2.0.7]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.6...v2.0.7
 [2.0.6]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.5...v2.0.6
 [2.0.5]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.4...v2.0.5
