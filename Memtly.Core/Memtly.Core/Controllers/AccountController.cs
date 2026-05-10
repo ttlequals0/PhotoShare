@@ -225,8 +225,8 @@ namespace Memtly.Core.Controllers
                         var user = await _database.AddUser(new UserModel()
                         {
                             Username = model.Username.Trim().ToLower(),
-                            Firstname = model.Firstname?.Trim(),
-                            Lastname = model.Lastname?.Trim(),
+                            Firstname = model.Firstname.Trim(),
+                            Lastname = model.Lastname.Trim(),
                             Email = model.EmailAddress.Trim().ToLower(),
                             Password = _passwordHasher.Hash(model.Password),
                             State = requireEmailValidation ? AccountState.PendingActivation : AccountState.Active,
