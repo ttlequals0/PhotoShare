@@ -162,14 +162,41 @@ class UploadBox {
     async handleFiles(dataRefs) {
         let files = [...dataRefs.files];
 
-        // Remove unaccepted file types
-        files = files.filter(item => {
-            const isAllowed = this.isImageFile(item) || this.isVideoFile(item);
-            if (!isAllowed) {
-                console.log(`File type '${item.type}' is not allowed. Filename: '${item.name}'`);
-            }
-            return isAllowed;
-        });
+        // Extension match against the server's Allowed_File_Types setting,
+        // exposed as a data-attribute on the input. We do this client-side
+        // BEFORE uploading because Cloudflare Tunnel + chunked uploads mean
+        // an unsupported .mkv could push hundreds of MB before the server
+        // rejects it at ingest. Fall back to the upstream MIME-prefix check
+        // if the attribute is missing (older view, no list available).
+        const allowedRaw = (dataRefs.input.getAttribute('data-allowed-file-types') || '').trim();
+        const rejected = [];
+
+        if (allowedRaw.length > 0) {
+            const allowedExts = allowedRaw.split(',')
+                .map(s => s.trim().toLowerCase().replace(/^\./, ''))
+                .filter(Boolean);
+
+            files = files.filter(item => {
+                const ext = (item.name.split('.').pop() || '').toLowerCase();
+                if (allowedExts.includes(ext)) return true;
+                rejected.push(`${item.name}: .${ext}`);
+                return false;
+            });
+        } else {
+            files = files.filter(item => {
+                const allowed = this.isImageFile(item) || this.isVideoFile(item);
+                if (!allowed) rejected.push(`${item.name}: ${item.type || 'unknown'}`);
+                return allowed;
+            });
+        }
+
+        if (rejected.length > 0) {
+            displayMessage(
+                localization.translate('Upload'),
+                localization.translate('Invalid_File_Type'),
+                rejected
+            );
+        }
 
         if (!files.length) return;
 

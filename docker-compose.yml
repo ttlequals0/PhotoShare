@@ -63,9 +63,10 @@ services:
       Memtly__Title: PhotoShare
       ASPNETCORE_ENVIRONMENT: Production
 
-      # FFmpeg auto-download target. Upstream default is "/ffmpeg" which is
-      # not writable by the chiseled non-root user (uid 1654). Point it at
-      # /app/ffmpeg, inside the writable app directory.
+      # FFmpeg path. The image bakes static ffmpeg+ffprobe at /app/ffmpeg
+      # (since 2.0.12), so the runtime auto-download is no longer used.
+      # Kept here for clarity; do NOT bind-mount /app/ffmpeg or the baked
+      # binaries will be shadowed and video thumbnails will fail.
       FFMPEG__InstallPath: /app/ffmpeg
     ports:
       - "5000:5000"

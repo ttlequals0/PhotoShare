@@ -4,8 +4,14 @@ import { displayPopup } from '@modules/popups';
 function init() {
     bindEventHandlers();
 
+    // Page-load auto-prompt. Skip if an upload form is on the page - that
+    // flow already triggers a required prompt the first time the user
+    // clicks upload, and firing both produces the "Name box prompts twice"
+    // experience operators were seeing. Auto-prompt remains useful on
+    // view-only gallery pages where there's no upload action.
     const pageLoadEnabled = $('body').data('identity-check');
-    if (pageLoadEnabled) {
+    const hasUploadForm = $('form.file-uploader-form').length > 0;
+    if (pageLoadEnabled && !hasUploadForm) {
         displayIdentityCheck(false);
     }
 }

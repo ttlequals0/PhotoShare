@@ -10,6 +10,40 @@ changes shipped below.
 
 ## [Unreleased]
 
+## [2.0.12] - 2026-05-10
+
+### Fixed
+
+- **Video thumbnails missing.** Loki showed
+  `Xabe.FFmpeg.Exceptions.FFmpegNotFoundException: Cannot find FFmpeg
+  in /app/ffmpeg or PATH` on every `.mp4`/`.mov` upload. Root cause:
+  the runtime auto-download into `/app/ffmpeg` depends on the
+  host-bind-mount being writable by the container UID - which has
+  repeatedly failed in practice. Baked a static ffmpeg + ffprobe
+  build (John Van Sickle release) into the image at `/app/ffmpeg/`
+  via a Dockerfile copy from the SDK stage. No more dependence on
+  bind-mount writability for the thumbnail pipeline.
+  Operators currently bind-mounting `/app/ffmpeg` should DROP that
+  line from their compose - the bind-mount shadows the baked-in
+  binaries.
+- **"Guest Name" prompt fired twice.** Page-load auto-prompt
+  (`identity-check/index.js:7-9`) plus the upload-click required
+  prompt both ran on gallery pages with an upload form. Skip the
+  auto-prompt when an upload form is present - the upload-click
+  flow handles the prompt with the right "required" semantics. The
+  auto-prompt still fires on view-only gallery pages.
+
+### Added
+
+- **Client-side allowed-file-type pre-check.** Server's
+  `Memtly:Gallery:Allowed_File_Types` is now mirrored onto the
+  upload `<input>` as `data-allowed-file-types`. The upload-box
+  filters by file extension against that list before adding files
+  to Resumable. A 567 MB `.mkv` upload would otherwise stream all
+  21 chunks before being rejected at server ingest - now it's
+  rejected instantly with a per-file list of which extensions
+  weren't allowed.
+
 ## [2.0.11] - 2026-05-10
 
 ### Fixed
@@ -565,7 +599,8 @@ First PhotoShare release. Forked from Memtly.Community 1.0.2.2 at SHA `2dd5f06`.
 - Add Docker Hub secrets to repo before the first tag push:
   `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN`.
 
-[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.11...HEAD
+[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.12...HEAD
+[2.0.12]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.11...v2.0.12
 [2.0.11]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.10...v2.0.11
 [2.0.10]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.9...v2.0.10
 [2.0.9]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.7...v2.0.9
