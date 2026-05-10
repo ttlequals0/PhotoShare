@@ -83,8 +83,6 @@ namespace Memtly.Core.Configurations
             bsp = services.BuildServiceProvider();
             var ctx = bsp.GetRequiredService<CoreDbContext>();
 
-            var dbProvider = ctx.Database.ProviderName;
-
             ctx.Database.Migrate();
 
             var passwordHasher = bsp.GetRequiredService<IPasswordHasher>();

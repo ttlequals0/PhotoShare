@@ -60,7 +60,10 @@ namespace Memtly.Core.Controllers
                         });
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Failed to enumerate themes");
+            }
 
             return Json(options);
         }

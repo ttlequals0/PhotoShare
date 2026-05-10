@@ -43,7 +43,6 @@ namespace Memtly.Core.Helpers
                     var mediaType = GetMediaType(filePath);
                     if (mediaType == MediaType.Image || mediaType == MediaType.Video)
                     {
-                        var filename = Path.GetFileName(filePath);
                         var ext = Path.GetExtension(filePath)?.TrimStart('.')?.ToLowerInvariant();
 
                         // ffmpeg handles two cases here: extracting a frame

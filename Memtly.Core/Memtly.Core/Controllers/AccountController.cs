@@ -304,8 +304,9 @@ namespace Memtly.Core.Controllers
                 try
                 {
                     if (_tokenProtector.TryUnprotect(data, out var model)
-                        && !string.IsNullOrWhiteSpace(model?.Username)
-                        && !string.IsNullOrWhiteSpace(model?.Validator))
+                        && model != null
+                        && !string.IsNullOrWhiteSpace(model.Username)
+                        && !string.IsNullOrWhiteSpace(model.Validator))
                     {
                         var user = await _database.GetUserByUsername(model.Username);
                         if (user != null)
@@ -398,8 +399,9 @@ namespace Memtly.Core.Controllers
                 try
                 {
                     if (_tokenProtector.TryUnprotect(data, out var model)
-                        && !string.IsNullOrWhiteSpace(model?.Username)
-                        && !string.IsNullOrWhiteSpace(model?.Validator))
+                        && model != null
+                        && !string.IsNullOrWhiteSpace(model.Username)
+                        && !string.IsNullOrWhiteSpace(model.Validator))
                     {
                         var user = await _database.GetUserByUsername(model.Username);
                         if (user != null && !string.IsNullOrWhiteSpace(user.Email))
@@ -447,8 +449,9 @@ namespace Memtly.Core.Controllers
                     else
                     {
                         if (_tokenProtector.TryUnprotect(model.Data, out var data)
-                            && !string.IsNullOrWhiteSpace(data?.Username)
-                            && !string.IsNullOrWhiteSpace(data?.Validator))
+                            && data != null
+                            && !string.IsNullOrWhiteSpace(data.Username)
+                            && !string.IsNullOrWhiteSpace(data.Validator))
                         {
                             var user = await _database.GetUserByUsername(data.Username);
                             if (user != null && !string.IsNullOrWhiteSpace(user.Email))
