@@ -457,6 +457,16 @@ namespace Memtly.Core.Controllers
 
                                             var savePath = Path.Combine(gallerySavePath, $"{Path.GetFileNameWithoutExtension(filePath)}.webp");
                                             await _imageHelper.GenerateThumbnail(filePath, savePath, await _settings.GetOrDefault(MemtlyConfiguration.Basic.ThumbnailSize, 720));
+
+                                            // HEIC sidecar: Chrome / Firefox can't decode HEIC,
+                                            // so emit a high-quality JPEG next to the original.
+                                            // Gallery views render <picture> with both sources.
+                                            var heicExt = Path.GetExtension(filePath)?.TrimStart('.')?.ToLowerInvariant();
+                                            if (heicExt is "heic" or "heif")
+                                            {
+                                                var jpegSidecar = Path.ChangeExtension(filePath, ".jpg");
+                                                await _imageHelper.ConvertHeicToJpeg(filePath, jpegSidecar);
+                                            }
                                             
                                             var item = await _database.AddGalleryItem(new GalleryItemModel()
                                             {
@@ -712,6 +722,273 @@ namespace Memtly.Core.Controllers
         public string GenerateSecretKey()
         {
             return PasswordHelper.GenerateGallerySecretKey();
+        }
+
+        // Chunked upload endpoint - lets the client upload files larger
+        // than Cloudflare Tunnel free tier's 100 MB per-request cap by
+        // splitting into 25 MB chunks. Client is Resumable.js
+        // (src/main.js wires the upload form).
+        //
+        // POST writes one chunk to /app/temp/<galleryId>/<uploadId>/<n>.part.
+        // On the final chunk, the server reassembles parts in order and
+        // hands the resulting on-disk file to the same ingest pipeline
+        // UploadImage uses.
+        //
+        // GET is Resumable.js's resume-probe: 200 = chunk already on disk,
+        // 204 = client needs to (re)send.
+        [HttpPost]
+        [DisableRequestSizeLimit]
+        public async Task<IActionResult> UploadChunk()
+        {
+            try
+            {
+                var form = Request?.Form;
+                if (form == null)
+                {
+                    return BadRequest();
+                }
+
+                if (!int.TryParse(form["resumableGalleryId"], out var galleryId))
+                {
+                    return Json(new { success = false, errors = new[] { _localizer["Invalid_Gallery_Id"].Value } });
+                }
+
+                var gallery = await _database.GetGallery(galleryId);
+                if (gallery == null)
+                {
+                    return Json(new { success = false, errors = new[] { _localizer["Gallery_Does_Not_Exist"].Value } });
+                }
+
+                var key = form["resumableSecretKey"].ToString();
+                if (!string.IsNullOrWhiteSpace(gallery.SecretKey) && !string.Equals(gallery.SecretKey, key))
+                {
+                    return Json(new { success = false, errors = new[] { _localizer["Invalid_Secret_Key_Warning"].Value } });
+                }
+
+                if (!int.TryParse(form["resumableChunkNumber"], out var chunkNumber) ||
+                    !int.TryParse(form["resumableTotalChunks"], out var totalChunks) ||
+                    !long.TryParse(form["resumableTotalSize"], out var totalSize))
+                {
+                    return BadRequest();
+                }
+
+                // Resumable.js generates a unique identifier per file; we
+                // sanitize it so it can safely be a directory name.
+                var uploadId = _fileHelper.SanitizeFilename(form["resumableIdentifier"].ToString());
+                var originalName = _fileHelper.SanitizeFilename(form["resumableFilename"].ToString());
+                if (string.IsNullOrWhiteSpace(uploadId) || string.IsNullOrWhiteSpace(originalName))
+                {
+                    return BadRequest();
+                }
+
+                var chunkDir = Path.Combine(TempDirectory, gallery.Identifier, uploadId);
+                _fileHelper.CreateDirectoryIfNotExists(chunkDir);
+
+                var chunkFile = form.Files.FirstOrDefault();
+                if (chunkFile == null || chunkFile.Length == 0)
+                {
+                    return BadRequest();
+                }
+
+                var partPath = Path.Combine(chunkDir, $"{chunkNumber}.part");
+                using (var fs = new FileStream(partPath, FileMode.Create, FileAccess.Write))
+                {
+                    await chunkFile.CopyToAsync(fs);
+                }
+
+                if (chunkNumber < totalChunks)
+                {
+                    return Json(new { success = true, chunk = chunkNumber, totalChunks });
+                }
+
+                // Final chunk: reassemble and ingest.
+                var allChunksPresent = Enumerable.Range(1, totalChunks)
+                    .All(n => System.IO.File.Exists(Path.Combine(chunkDir, $"{n}.part")));
+                if (!allChunksPresent)
+                {
+                    return Json(new { success = false, errors = new[] { _localizer["File_Upload_Failed"].Value + " (missing chunks)" } });
+                }
+
+                var assembledPath = Path.Combine(chunkDir, originalName);
+                using (var outFs = new FileStream(assembledPath, FileMode.Create, FileAccess.Write))
+                {
+                    for (var n = 1; n <= totalChunks; n++)
+                    {
+                        var partFile = Path.Combine(chunkDir, $"{n}.part");
+                        using (var partStream = new FileStream(partFile, FileMode.Open, FileAccess.Read))
+                        {
+                            await partStream.CopyToAsync(outFs);
+                        }
+                    }
+                }
+
+                // Stream the assembled file through the same per-file ingest
+                // path UploadImage uses (validation + magic-byte check +
+                // thumbnail + HEIC sidecar + DB row). We rebuild an IFormFile
+                // wrapper so the helper can stay stream-based.
+                var galleryOwner = await _database.GetUser(gallery.Owner);
+                var isFreeGallery = gallery.Owner > 0 && (galleryOwner?.Level ?? UserLevel.Basic) == UserLevel.Basic;
+                var requiresReview = !isFreeGallery && await _settings.GetOrDefault(MemtlyConfiguration.Gallery.RequireReview, true, gallery.Id);
+
+                string uploadedBy = HttpContext.Session.GetString(SessionKey.Viewer.Identity)?.Trim() ?? "Anonymous";
+                string uploaderEmail = HttpContext.Session.GetString(SessionKey.Viewer.EmailAddress)?.Trim() ?? "Anonymous";
+
+                var assembledLength = new FileInfo(assembledPath).Length;
+                IFormFile asFormFile;
+                using (var assembledStream = new FileStream(assembledPath, FileMode.Open, FileAccess.Read))
+                {
+                    asFormFile = new FormFile(assembledStream, 0, assembledLength, "file", originalName);
+                    var result = await IngestUploadedFile(gallery, uploadedBy, uploaderEmail, requiresReview, asFormFile);
+
+                    // Clean up the chunk dir regardless of result.
+                    try { Directory.Delete(chunkDir, recursive: true); } catch { }
+
+                    if (!result.success)
+                    {
+                        return Json(new { success = false, errors = new[] { result.error ?? _localizer["File_Upload_Failed"].Value } });
+                    }
+                }
+
+                if (uploadedBy != "Anonymous" && requiresReview && await _settings.GetOrDefault(MemtlyConfiguration.Alerts.PendingReview, true))
+                {
+                    await _notificationHelper.Send(
+                        _localizer["New_Items_Pending_Review"].Value,
+                        $"A new item has been uploaded to gallery '{gallery.Name}' by '{uploadedBy}' and is awaiting your review.",
+                        _urlHelper.GenerateBaseUrl(HttpContext?.Request, "/Account"));
+                }
+
+                return Json(new { success = true, uploaded = 1, uploadedBy, requiresReview });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Chunked upload failed");
+                return StatusCode((int)HttpStatusCode.InternalServerError, new { success = false, errors = new[] { _localizer["File_Upload_Failed"].Value } });
+            }
+        }
+
+        // Resumable.js GET probe - returns 200 if the chunk file already
+        // exists on disk (no need to resend), 204 otherwise.
+        [HttpGet("Gallery/UploadChunk")]
+        public async Task<IActionResult> UploadChunkProbe([FromQuery(Name = "resumableGalleryId")] int galleryId,
+                                                          [FromQuery(Name = "resumableIdentifier")] string? identifier,
+                                                          [FromQuery(Name = "resumableChunkNumber")] int chunkNumber)
+        {
+            if (galleryId <= 0 || string.IsNullOrWhiteSpace(identifier))
+            {
+                return BadRequest();
+            }
+
+            var gallery = await _database.GetGallery(galleryId);
+            if (gallery == null)
+            {
+                return BadRequest();
+            }
+
+            var safeIdent = _fileHelper.SanitizeFilename(identifier);
+            var chunkFile = Path.Combine(TempDirectory, gallery.Identifier, safeIdent, $"{chunkNumber}.part");
+            return System.IO.File.Exists(chunkFile)
+                ? Ok()
+                : NoContent();
+        }
+
+        // Per-file ingest. Extracted so UploadImage (multipart direct POST)
+        // and UploadChunk (Resumable.js final chunk) share the same
+        // validation -> magic-byte check -> thumbnail -> HEIC sidecar ->
+        // DB row pipeline. Returns (success, error message).
+        private async Task<(bool success, string? error)> IngestUploadedFile(
+            GalleryModel gallery,
+            string uploadedBy,
+            string uploaderEmail,
+            bool requiresReview,
+            IFormFile file)
+        {
+            try
+            {
+                var extension = Path.GetExtension(file.FileName);
+                var maxGallerySize = await _settings.GetOrDefault(MemtlyConfiguration.Gallery.MaxSizeMB, 1024L, gallery.Id) * 1000000;
+                var maxFileSize = await _settings.GetOrDefault(MemtlyConfiguration.Gallery.MaxFileSizeMB, 50L, gallery.Id) * 1000000;
+                var galleryPath = Path.Combine(UploadsDirectory, gallery.Identifier);
+
+                var allowedFileTypes = (await _settings.GetOrDefault(MemtlyConfiguration.Gallery.AllowedFileTypes, ".jpg,.jpeg,.png,.mp4,.mov", gallery.Id))
+                    .Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+                if (!allowedFileTypes.Any(x => string.Equals(x.Trim('.'), extension.Trim('.'), StringComparison.OrdinalIgnoreCase)))
+                {
+                    return (false, $"{_localizer["File_Upload_Failed"].Value}. {_localizer["Invalid_File_Type"].Value}");
+                }
+                if (file.Length > maxFileSize)
+                {
+                    return (false, $"{_localizer["File_Upload_Failed"].Value}. {_localizer["Max_File_Size"].Value} {maxFileSize} bytes");
+                }
+                if ((_fileHelper.GetDirectorySize(galleryPath) + file.Length) > maxGallerySize)
+                {
+                    return (false, $"{_localizer["File_Upload_Failed"].Value}. {_localizer["Gallery_Full"].Value} {maxGallerySize} bytes");
+                }
+
+                var fileName = _fileHelper.SanitizeFilename($"{(!string.IsNullOrWhiteSpace(uploadedBy) && uploadedBy != "Anonymous" ? $"{uploadedBy.Replace(" ", "_")}-" : string.Empty)}{Guid.NewGuid()}{extension}");
+                var finalGalleryPath = requiresReview ? Path.Combine(galleryPath, "Pending") : galleryPath;
+                _fileHelper.CreateDirectoryIfNotExists(finalGalleryPath);
+
+                var filePath = Path.Combine(finalGalleryPath, fileName);
+                var isDemoMode = await _settings.GetOrDefault(MemtlyConfiguration.IsDemoMode, false);
+                if (!isDemoMode)
+                {
+                    await _fileHelper.SaveFile(file, filePath, FileMode.Create);
+                }
+                else
+                {
+                    System.IO.File.Copy(Path.Combine(AssetsDirectory, "DemoImage.png"), filePath, true);
+                }
+
+                if (!isDemoMode && !await _imageHelper.ContentMatchesExtension(filePath))
+                {
+                    _fileHelper.DeleteFileIfExists(filePath);
+                    return (false, $"{_localizer["File_Upload_Failed"].Value}. {_localizer["Invalid_File_Type"].Value}");
+                }
+
+                var checksum = await _fileHelper.GetChecksum(filePath);
+                if (await _settings.GetOrDefault(MemtlyConfiguration.Gallery.PreventDuplicates, true, gallery.Id)
+                    && (string.IsNullOrWhiteSpace(checksum) || await _database.GetGalleryItemByChecksum(gallery.Id, checksum) != null))
+                {
+                    _fileHelper.DeleteFileIfExists(filePath);
+                    return (false, $"{_localizer["File_Upload_Failed"].Value}. {_localizer["Duplicate_Item_Detected"].Value}");
+                }
+
+                var thumbsDir = Path.Combine(ThumbnailsDirectory, gallery.Identifier);
+                _fileHelper.CreateDirectoryIfNotExists(ThumbnailsDirectory);
+                _fileHelper.CreateDirectoryIfNotExists(thumbsDir);
+                var thumbPath = Path.Combine(thumbsDir, $"{Path.GetFileNameWithoutExtension(filePath)}.webp");
+                await _imageHelper.GenerateThumbnail(filePath, thumbPath, await _settings.GetOrDefault(MemtlyConfiguration.Basic.ThumbnailSize, 720));
+
+                var ingestExt = Path.GetExtension(filePath)?.TrimStart('.')?.ToLowerInvariant();
+                if (ingestExt is "heic" or "heif")
+                {
+                    var jpegSidecar = Path.ChangeExtension(filePath, ".jpg");
+                    await _imageHelper.ConvertHeicToJpeg(filePath, jpegSidecar);
+                }
+
+                var item = await _database.AddGalleryItem(new GalleryItemModel
+                {
+                    GalleryId = gallery.Id,
+                    Title = fileName,
+                    UploadedBy = uploadedBy,
+                    UploaderEmailAddress = uploaderEmail,
+                    UploadedDate = await _fileHelper.GetCreationDatetime(filePath),
+                    Checksum = checksum,
+                    MediaType = _imageHelper.GetMediaType(filePath),
+                    Orientation = await _imageHelper.GetOrientation(thumbPath),
+                    State = requiresReview ? GalleryItemState.Pending : GalleryItemState.Approved,
+                    FileSize = file.Length,
+                });
+
+                return item?.Id > 0
+                    ? (true, null)
+                    : (false, _localizer["File_Upload_Failed"].Value);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Per-file ingest failed");
+                return (false, _localizer["File_Upload_Failed"].Value);
+            }
         }
     }
 }

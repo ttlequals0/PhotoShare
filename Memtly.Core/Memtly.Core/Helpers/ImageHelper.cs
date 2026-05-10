@@ -11,6 +11,7 @@ namespace Memtly.Core.Helpers
     public interface IImageHelper
     {
         Task<bool> GenerateThumbnail(string filePath, string savePath, int size = 720);
+        Task<bool> ConvertHeicToJpeg(string heicPath, string jpegPath);
         Task<ImageOrientation> GetOrientation(string path);
         ImageOrientation GetOrientation(Image img);
         MediaType GetMediaType(string filePath);
@@ -345,6 +346,40 @@ namespace Memtly.Core.Helpers
             }
 
             return ImageOrientation.Unknown;
+        }
+
+        // ImageSharp's default codec set can't decode HEIC; ffmpeg can. The
+        // upload pipeline writes the original .heic, then this generates a
+        // JPEG sidecar next to it (same basename, .jpg) so the gallery view
+        // can offer it via <picture> for Chrome/Firefox while Safari still
+        // gets the HEIC. Returns true on success; failures log and let the
+        // HEIC survive on its own (Safari will still render it).
+        public async Task<bool> ConvertHeicToJpeg(string heicPath, string jpegPath)
+        {
+            try
+            {
+                if (!_fileHelper.FileExists(heicPath))
+                {
+                    return false;
+                }
+
+                if (FfmpegInstalled == false)
+                {
+                    _logger.LogWarning(_localizer["FFMPEG_Downloading"].Value);
+                    return false;
+                }
+
+                // -q:v 2 picks a near-lossless JPEG quality (range 2..31, 2 is best).
+                var conversion = await FFmpeg.Conversions.FromSnippet.Snapshot(heicPath, jpegPath, TimeSpan.Zero);
+                conversion.AddParameter("-q:v 2", ParameterPosition.PostInput);
+                await conversion.Start();
+                return _fileHelper.FileExists(jpegPath);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Failed to convert HEIC to JPEG sidecar - '{Heic}'", heicPath);
+                return false;
+            }
         }
 
         public async Task<bool> DownloadFFMPEG(string path)

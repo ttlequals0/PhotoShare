@@ -26,6 +26,7 @@ import { Localization } from '@modules/localization';
 import initGdpr from '@modules/gdpr';
 import { default as initThemes, getSelectedTheme } from '@themes';
 import initIdentityCheck from '@modules/identity-check';
+import initHeicFallback from '@modules/heic-fallback';
 import initQrCodes from '@modules/qr-codes';
 import { displayMessage } from '@modules/message-box';
 
@@ -52,6 +53,7 @@ async function init() {
     initGdpr();
     initThemes();
     initIdentityCheck();
+    initHeicFallback();
     initQrCodes();
 
     app.config.theme = getSelectedTheme();

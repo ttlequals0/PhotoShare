@@ -35,6 +35,11 @@ namespace Memtly.Core.Extensions
             services.AddExceptionHandler<GlobalExceptionHandler>();
             services.AddProblemDetails();
 
+            // IMiddleware needs to be registered for UseMiddleware<T>() to
+            // resolve via DI. Constructor reads ADMIN_ALLOWED_NETWORKS env
+            // at instantiation.
+            services.AddSingleton<Memtly.Core.Middleware.AdminNetworkGate>();
+
             services.AddDependencyInjectionConfiguration();
             services.AddDatabaseConfiguration();
             services.AddWebClientConfiguration();
@@ -236,6 +241,10 @@ namespace Memtly.Core.Extensions
             // UseExceptionHandler, UseHsts, UseHttpsRedirection,
             // UseAuthentication, and UseRateLimiter.
             app.UseForwardedHeaders();
+
+            // Network-gated admin surface. Reads ADMIN_ALLOWED_NETWORKS at
+            // construction; empty (default) is a no-op.
+            app.UseMiddleware<Memtly.Core.Middleware.AdminNetworkGate>();
 
             app.UseExceptionHandler();
 

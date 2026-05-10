@@ -14,8 +14,21 @@
         <div id="gallery-slideshow" class="slideshow col-12">
             @foreach (var image in Model.Images.Take(slideLimit))
             {
+                var slideExt = System.IO.Path.GetExtension(image.ImagePath ?? string.Empty).ToLowerInvariant();
+                var slideIsHeic = slideExt == ".heic" || slideExt == ".heif";
+                var slideJpegSidecar = slideIsHeic ? System.IO.Path.ChangeExtension(image.ImagePath!, ".jpg") : image.ImagePath;
                 <div class="slideshow-slide">
-                    <img src="@image.ImagePath" class="slideshow-slide-img shadow-1-strong" loading="lazy" />
+                    @if (slideIsHeic)
+                    {
+                        <picture>
+                            <source type="image/heic" srcset="@image.ImagePath" />
+                            <img src="@slideJpegSidecar" data-heic-src="@image.ImagePath" class="slideshow-slide-img shadow-1-strong" loading="lazy" />
+                        </picture>
+                    }
+                    else
+                    {
+                        <img src="@image.ImagePath" class="slideshow-slide-img shadow-1-strong" loading="lazy" />
+                    }
                     @if (identityEnabled)
                     {
                         <h6 class="credits text-contrast">@_localizer["Uploaded_By"].Value: @(!string.IsNullOrWhiteSpace(image?.UploadedBy) ? image.UploadedBy : "Anonymous")</h6>

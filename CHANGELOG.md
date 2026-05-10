@@ -10,12 +10,47 @@ changes shipped below.
 
 ## [Unreleased]
 
-## [2.0.8] - 2026-05-09
+## [2.0.9] - 2026-05-10
+
+### Added
+
+- **Chunked uploads via Resumable.js.** Each file is split into 25 MB
+  chunks before POST, keeping individual requests well under
+  Cloudflare Tunnel free tier's 100 MB body cap. Server reassembles
+  parts in `/app/temp/<gallery>/<uploadId>/` and feeds the assembled
+  file through the existing validation -> magic-byte check ->
+  thumbnail -> HEIC sidecar -> DB row pipeline (extracted as
+  `IngestUploadedFile` in `GalleryController`). New endpoints:
+  `POST /Gallery/UploadChunk` (chunk write + final-chunk ingest) and
+  `GET /Gallery/UploadChunk` (Resumable.js resume probe).
+- **Server-side HEIC -> JPEG sidecar.** On HEIC upload, ffmpeg writes a
+  high-quality JPEG (`-q:v 2`) next to the original. Gallery slideshow
+  and media viewer render `<picture><source type="image/heic">` with
+  a JPEG `<img>` fallback - Safari fetches the HEIC, Chrome/Firefox
+  fall through to the sidecar without an extra network request.
+- **Browser-side HEIC decoder.** Lazy-loaded libheif-js (~600 KB
+  gzipped) decodes HEIC to a blob URL when `<img data-heic-src>`
+  decode fails natively. Covers direct HEIC links shared outside the
+  `<picture>` wrapping in the gallery view.
+- **`ADMIN_ALLOWED_NETWORKS` env gate.** New `AdminNetworkGate`
+  middleware reads a comma-separated CIDR list at startup; when set,
+  every request to `/Account/*`, `/Admin/*`, or `/MultiFactor/*` from
+  an IP outside the allowlist returns 404 (not 403 - hides the auth
+  surface entirely). Default empty = unrestricted. Operators can now
+  expose the public tunnel for guest uploads while keeping the login
+  surface LAN-only. Documented in `.env.example`.
+
+### Changed
+
+- **`.webp` added to `Allowed_File_Types`.** Covers Android animated
+  WhatsApp/iMessage stickers and opt-in Android Camera WebP output.
+  ImageSharp recognizes WebP natively so no special branch needed in
+  `ContentMatchesExtension`.
 
 ### Security
 
-- Bump transitive `fast-uri` 3.1.0 -> 3.1.2 via Dependabot PR #27.
-  Patch in the `npm_and_yarn` group; only `package-lock.json` changed.
+- Rolls in the Dependabot `fast-uri` 3.1.0 -> 3.1.2 lockfile patch
+  from PR #27 (previously slated for 2.0.8).
 
 ## [2.0.7] - 2026-05-02
 
@@ -489,8 +524,8 @@ First PhotoShare release. Forked from Memtly.Community 1.0.2.2 at SHA `2dd5f06`.
 - Add Docker Hub secrets to repo before the first tag push:
   `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN`.
 
-[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.8...HEAD
-[2.0.8]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.7...v2.0.8
+[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.9...HEAD
+[2.0.9]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.7...v2.0.9
 [2.0.7]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.6...v2.0.7
 [2.0.6]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.5...v2.0.6
 [2.0.5]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.4...v2.0.5
