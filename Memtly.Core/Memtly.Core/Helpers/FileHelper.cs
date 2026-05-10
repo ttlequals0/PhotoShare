@@ -163,7 +163,7 @@ namespace Memtly.Core.Helpers
 
         public async Task<string> GetChecksum(string path)
         {
-            return await Task.Run(() => 
+            return await Task.Run(() =>
             {
                 var checksum = string.Empty;
 
@@ -172,10 +172,15 @@ namespace Memtly.Core.Helpers
                     using (var md5 = MD5.Create())
                     using (var stream = File.OpenRead(path))
                     {
-                        checksum = Encoding.UTF8.GetString(md5.ComputeHash(stream));
+                        // Hex-encode the 16-byte hash. The previous code did
+                        // Encoding.UTF8.GetString on the raw bytes, which
+                        // produces strings with embedded 0x00s about 6% of
+                        // the time - Postgres rejects those with
+                        // "22021: invalid byte sequence for encoding UTF8".
+                        checksum = Convert.ToHexString(md5.ComputeHash(stream));
                     }
                 }
-                catch (Exception ex) 
+                catch (Exception ex)
                 {
                     _logger.LogWarning(ex, $"Failed to compute MD5 checksum for file '{path}'");
                 }

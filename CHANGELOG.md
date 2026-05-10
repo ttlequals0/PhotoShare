@@ -10,6 +10,24 @@ changes shipped below.
 
 ## [Unreleased]
 
+## [2.0.10] - 2026-05-10
+
+### Fixed
+
+- **Uploads broken on Postgres with `22021: invalid byte sequence for
+  encoding "UTF8": 0x00`.** Upstream `FileHelper.GetChecksum` did
+  `Encoding.UTF8.GetString(md5.ComputeHash(stream))` - interpreting the
+  raw 16-byte hash as UTF-8 produces strings with embedded `0x00` bytes
+  about 6% of the time. SQLite tolerated them; Postgres rejects them
+  on INSERT. Hex-encoded the checksum (`Convert.ToHexString`) so the
+  stored value is always valid UTF-8 text. Affected every upload, not
+  just chunked - 2.0.9 + Postgres made the failure visible.
+- **Service worker 404 at `/sw.js`.** `main.js` registers
+  `/sw.js` (root path) but the file shipped only at
+  `/_content/Memtly.Core/sw.js`. Service workers can only control
+  paths at or below their own location, so we want it at the root
+  scope. Copied to `PhotoShare/wwwroot/sw.js`.
+
 ## [2.0.9] - 2026-05-10
 
 ### Added
@@ -524,7 +542,8 @@ First PhotoShare release. Forked from Memtly.Community 1.0.2.2 at SHA `2dd5f06`.
 - Add Docker Hub secrets to repo before the first tag push:
   `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN`.
 
-[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.9...HEAD
+[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.10...HEAD
+[2.0.10]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.9...v2.0.10
 [2.0.9]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.7...v2.0.9
 [2.0.7]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.6...v2.0.7
 [2.0.6]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.5...v2.0.6
