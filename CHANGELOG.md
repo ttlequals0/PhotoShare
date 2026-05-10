@@ -10,6 +10,25 @@ changes shipped below.
 
 ## [Unreleased]
 
+## [2.0.14] - 2026-05-10
+
+### Code quality
+
+- CodeQL cleanup on PR #29:
+  - Dropped unused locals (`filename` in `ImageHelper.GenerateThumbnail`,
+    `dbProvider` in `DatabaseConfiguration`) flagged by
+    `cs/useless-assignment-to-local`.
+  - `ThemesController.Index` `catch {}` -> `catch (Exception ex)` with
+    logging (`cs/empty-catch-block`).
+  - `AccountController` registration + token-unprotect blocks: drop
+    redundant `?.` on `model.Firstname` / `model.Lastname` / `model.X` /
+    `data.X` where earlier `IsNullOrWhiteSpace` guards already prove
+    the value is non-null (`cs/constant-condition`, 4 locations).
+  - Delete `Startup.Ready` static - written by instance method and
+    never read anywhere (`cs/static-field-written-by-instance`).
+  - Dismissed 17 `cs/catch-of-all-exceptions` notes and 1
+    `cs/linq/missed-where` note as accepted upstream Memtly patterns.
+
 ## [2.0.13] - 2026-05-10
 
 ### Fixed
@@ -623,7 +642,8 @@ First PhotoShare release. Forked from Memtly.Community 1.0.2.2 at SHA `2dd5f06`.
 - Add Docker Hub secrets to repo before the first tag push:
   `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN`.
 
-[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.13...HEAD
+[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.14...HEAD
+[2.0.14]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.13...v2.0.14
 [2.0.13]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.12...v2.0.13
 [2.0.12]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.11...v2.0.12
 [2.0.11]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.10...v2.0.11
