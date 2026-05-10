@@ -10,6 +10,30 @@ changes shipped below.
 
 ## [Unreleased]
 
+## [2.0.13] - 2026-05-10
+
+### Fixed
+
+- **Navbar logo too small.** The 32x32 cap from 2.0.6's mobile-first
+  pass was over-aggressive and the brand SVG rendered as a tiny
+  speck. Bumped to 56px tall on desktop, 44px on phones, with
+  `object-fit: contain` so the aspect ratio is preserved across
+  screen sizes.
+- **CleanupService failed on every cron tick when `/app/temp` is a
+  bind-mount.** Upstream Memtly's cleanup calls
+  `Directory.Delete(/app/temp, recursive: true)` which tries to
+  `rmdir` the mount point itself - filesystem says "Access denied"
+  because the mount is owned by the kernel mountns. Switched the
+  cleanup to walk the directory's children and delete each
+  subdirectory/file individually, leaving the mount point intact.
+
+### Known follow-up
+
+- Video items uploaded before 2.0.12 (when ffmpeg was missing) have
+  no `.webp` thumbnail on disk. They're DB-tracked but render as
+  broken in the default gallery view. Re-upload to regenerate, or a
+  future build can add a startup task to retro-process those items.
+
 ## [2.0.12] - 2026-05-10
 
 ### Fixed
@@ -599,7 +623,8 @@ First PhotoShare release. Forked from Memtly.Community 1.0.2.2 at SHA `2dd5f06`.
 - Add Docker Hub secrets to repo before the first tag push:
   `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN`.
 
-[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.12...HEAD
+[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.13...HEAD
+[2.0.13]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.12...v2.0.13
 [2.0.12]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.11...v2.0.12
 [2.0.11]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.10...v2.0.11
 [2.0.10]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.9...v2.0.10

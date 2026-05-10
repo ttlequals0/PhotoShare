@@ -76,7 +76,21 @@ namespace Memtly.Core.BackgroundWorkers
                         {
                             try
                             {
-                                _fileHelper.DeleteDirectoryIfExists(path);
+                                // Don't rmdir the path itself - in container
+                                // deployments /app/temp is a bind-mount whose
+                                // directory entry cannot be removed from inside
+                                // the container. Clear its contents instead.
+                                if (!Directory.Exists(path)) continue;
+                                foreach (var sub in Directory.EnumerateDirectories(path))
+                                {
+                                    try { Directory.Delete(sub, recursive: true); }
+                                    catch (Exception subEx) { _logger.LogWarning(subEx, $"Cleanup skipped subdir '{sub}'"); }
+                                }
+                                foreach (var f in Directory.EnumerateFiles(path))
+                                {
+                                    try { File.Delete(f); }
+                                    catch (Exception fEx) { _logger.LogWarning(fEx, $"Cleanup skipped file '{f}'"); }
+                                }
                             }
                             catch (Exception ex)
                             {
