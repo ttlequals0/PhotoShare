@@ -273,6 +273,15 @@ class UploadBox {
             this.handleUploadComplete(uploadedCount, requiresReview, errors, galleryId, secretKey, dataRefs);
         });
 
+        // Resumable.js's bootstrap (chunk creation) is async via setTimeout(0)
+        // and so is the fileAdded event. If we call r.upload() synchronously
+        // after r.addFile(f), the file has no chunks yet, upload() sees
+        // nothing to send, and fires 'complete' immediately with 0 uploaded
+        // - producing "There was an issue uploading some files" before any
+        // network traffic. Call upload() from the fileAdded handler instead;
+        // by then bootstrap has run and the chunks array is populated.
+        r.on('fileAdded', () => r.upload());
+
         displayLoader(
             `${localization.translate('Upload_Progress')}...<br/><br/><span id="file-upload-progress">0%</span>`
         );
@@ -280,7 +289,6 @@ class UploadBox {
         for (const f of dataRefs.files) {
             r.addFile(f);
         }
-        r.upload();
     }
 
     handleUploadComplete(uploadedCount, requiresReview, errors, galleryId, secretKey, dataRefs) {

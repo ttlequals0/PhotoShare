@@ -10,6 +10,29 @@ changes shipped below.
 
 ## [Unreleased]
 
+## [2.0.11] - 2026-05-10
+
+### Fixed
+
+- **Chunked upload fired "There was an issue uploading some files" with
+  zero network traffic.** 2.0.9's `upload-box` wired Resumable.js as:
+  ```
+  r.addFile(f);
+  r.upload();   // <-- synchronous call right after addFile
+  ```
+  Resumable's chunk creation (`bootstrap()`) and `fileAdded` event both
+  defer to `setTimeout(0)`. When `r.upload()` ran synchronously, the
+  file had `chunks=[]`, so `upload()` immediately fired `complete` with
+  zero chunks processed and the UI showed `Upload_Failed`. Confirmed via
+  in-page Playwright probe: event order was `uploadStart`, `complete`,
+  `chunkingComplete`, `fileAdded`, `filesAdded` - upload "completed"
+  before chunks existed.
+
+  Fix: register `r.on('fileAdded', () => r.upload())` instead of
+  calling upload synchronously. By the time `fileAdded` fires (deferred
+  setTimeout), `bootstrap()` has populated the chunks array and
+  `r.upload()` has work to do.
+
 ## [2.0.10] - 2026-05-10
 
 ### Fixed
@@ -542,7 +565,8 @@ First PhotoShare release. Forked from Memtly.Community 1.0.2.2 at SHA `2dd5f06`.
 - Add Docker Hub secrets to repo before the first tag push:
   `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN`.
 
-[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.10...HEAD
+[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.11...HEAD
+[2.0.11]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.10...v2.0.11
 [2.0.10]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.9...v2.0.10
 [2.0.9]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.7...v2.0.9
 [2.0.7]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.6...v2.0.7
