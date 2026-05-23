@@ -293,7 +293,10 @@ namespace Memtly.Core.BackgroundWorkers
                                 await _auditHelper.LogAction($"Directory scanner added new custom resource '{filename}'", AuditSeverity.Verbose);
                             }
                         }
-                        catch { }
+                        catch (Exception resourceEx) when (resourceEx is IOException || resourceEx is UnauthorizedAccessException || resourceEx is Microsoft.EntityFrameworkCore.DbUpdateException)
+                        {
+                            _logger.LogWarning(resourceEx, "Directory scanner failed to add custom resource '{File}'", filename);
+                        }
                     }
                 }
             }

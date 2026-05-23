@@ -34,7 +34,10 @@ namespace Memtly.Core.Configurations
                         fileHelper.CreateDirectoryIfNotExists(Path.GetDirectoryName(databasePathMatch.Groups[1].Value)!);
                     }
                 }
-                catch { }
+                catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException || ex is PathTooLongException || ex is ArgumentException)
+                {
+                    Console.Error.WriteLine($"Failed to ensure sqlite database directory exists: {ex.Message}");
+                }
             }
 
             services.AddDbContext<CoreDbContext>(options =>
@@ -234,7 +237,10 @@ namespace Memtly.Core.Configurations
                                 }
                             }
                         }
-                        catch { }
+                        catch (Exception keyEx) when (keyEx is Microsoft.EntityFrameworkCore.DbUpdateException || keyEx is InvalidOperationException)
+                        {
+                            logger.LogWarning(keyEx, "Failed to import system setting '{Key}'", key);
+                        }
                     }
 
                     if (galleries != null && galleries.Any())
@@ -258,7 +264,10 @@ namespace Memtly.Core.Configurations
                                             }, gallery.Id);
                                         }
                                     }
-                                    catch { }
+                                    catch (Exception galleryKeyEx) when (galleryKeyEx is Microsoft.EntityFrameworkCore.DbUpdateException || galleryKeyEx is InvalidOperationException)
+                                    {
+                                        logger.LogWarning(galleryKeyEx, "Failed to import gallery setting '{Key}' for '{Gallery}'", key, gallery.Name);
+                                    }
                                 }
                             }
                         }
@@ -275,11 +284,17 @@ namespace Memtly.Core.Configurations
                         {
                             try
                             {
-                                gallery.SecretKey = config.GetOrDefault(MemtlyConfiguration.Basic.DefaultGallerySecretKey, allowInsecureGalleries ? string.Empty : PasswordHelper.GenerateGallerySecretKey());
+                                // We're inside `if (!allowInsecureGalleries)` so the ternary's
+                                // `allowInsecureGalleries ? string.Empty : ...` always picks the
+                                // generated secret. Inline the live branch for clarity.
+                                gallery.SecretKey = config.GetOrDefault(MemtlyConfiguration.Basic.DefaultGallerySecretKey, PasswordHelper.GenerateGallerySecretKey());
 
                                 await database.EditGallery(gallery);
                             }
-                            catch { }
+                            catch (Exception secretEx) when (secretEx is Microsoft.EntityFrameworkCore.DbUpdateException || secretEx is InvalidOperationException)
+                            {
+                                logger.LogWarning(secretEx, "Failed to assign generated secret key to gallery '{Id}'", gallery.Id);
+                            }
                         }
                     }
                 }
@@ -315,7 +330,11 @@ namespace Memtly.Core.Configurations
                 keys.AddRange(GetKeys<MemtlyConfiguration.Themes>());
                 keys.AddRange(GetKeys<MemtlyConfiguration.Trackers>());
             }
-            catch { }
+            catch (Exception ex) when (ex is System.Reflection.TargetInvocationException || ex is System.Reflection.ReflectionTypeLoadException || ex is MemberAccessException)
+            {
+                /* Reflection-sweep failure on one of the config groups: we return whatever
+                 * we collected; missing keys can still be set via env vars. */
+            }
 
             return keys.Where(x => !string.IsNullOrWhiteSpace(x)).Distinct();
         }
@@ -332,7 +351,10 @@ namespace Memtly.Core.Configurations
                     keys.Add((string)(val.GetValue(obj) ?? string.Empty));
                 }
             }
-            catch { }
+            catch (Exception ex) when (ex is System.Reflection.TargetInvocationException || ex is MissingMethodException || ex is MemberAccessException)
+            {
+                /* Reflection failure on a single config-class enumeration; skip it. */
+            }
 
             return keys.Where(x => !string.IsNullOrWhiteSpace(x) && !x.EndsWith(':'));
         }
@@ -365,7 +387,10 @@ namespace Memtly.Core.Configurations
                     }
                 }
             }
-            catch { }
+            catch (Exception ex) when (ex is System.Reflection.TargetInvocationException || ex is System.Reflection.ReflectionTypeLoadException || ex is MemberAccessException)
+            {
+                /* Reflection sweep over constants; return whatever we collected. */
+            }
 
             return (FieldInfo[])constants.ToArray(typeof(FieldInfo));
         }

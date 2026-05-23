@@ -196,7 +196,7 @@ namespace Memtly.Core.Controllers
                             new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1), IsEssential = true, Secure = true, SameSite = SameSiteMode.Lax }
                         );
                     }
-                    catch { }
+                    catch (InvalidOperationException) { /* culture cookie write is best-effort */ }
                 }
 
                 try
@@ -228,11 +228,10 @@ namespace Memtly.Core.Controllers
                     ViewBag.SecretKey = gallery.SecretKey;
 
                     var currentPage = 1;
-                    try
+                    if (Request.Query.TryGetValue("page", out var rawPage) && int.TryParse(rawPage.ToString(), out var parsedPage))
                     {
-                        currentPage = int.Parse((Request.Query.ContainsKey("page") && !string.IsNullOrWhiteSpace(Request.Query["page"])) ? Request.Query["page"].ToString().ToLower() : "1");
+                        currentPage = parsedPage;
                     }
-                    catch { }
 
                     var galleryGroup = group ?? (GalleryGroup)(await _settings.GetOrDefault(MemtlyConfiguration.Gallery.DefaultGroup, (int)GalleryGroup.None, gallery?.Id));
                     var galleryOrder = order ?? (GalleryOrder)(await _settings.GetOrDefault(MemtlyConfiguration.Gallery.DefaultOrder, (int)GalleryOrder.Descending, gallery?.Id));
@@ -647,7 +646,10 @@ namespace Memtly.Core.Controllers
                                                     }
                                                 }
                                             }
-                                            catch { }
+                                            catch (Exception filterEx) when (filterEx is NullReferenceException || filterEx is InvalidOperationException)
+                                            {
+                                                _logger.LogDebug(filterEx, "Download grouping/filter assembly skipped");
+                                            }
 
                                             break;
                                         }
@@ -700,7 +702,10 @@ namespace Memtly.Core.Controllers
                                             listing.Add(new ZipListing(scanner.Path, files, scanner.Name));
                                         }
                                     }
-                                    catch { }
+                                    catch (Exception scannerEx) when (scannerEx is IOException || scannerEx is UnauthorizedAccessException || scannerEx is DirectoryNotFoundException)
+                                    {
+                                        _logger.LogDebug(scannerEx, "Zip scanner skipped path {Path}", scanner.Path);
+                                    }
                                 }
                             }
                                 

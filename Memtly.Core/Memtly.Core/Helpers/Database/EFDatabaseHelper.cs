@@ -1232,7 +1232,10 @@ namespace Memtly.Core.Helpers.Database
                         }
                     }
                 }
-                catch { }
+                catch (Exception ex) when (ex is Microsoft.EntityFrameworkCore.DbUpdateException || ex is InvalidOperationException)
+                {
+                    _logger.LogWarning(ex, "SetSetting failed for key '{Key}'", model.Id);
+                }
             }
 
             return new SettingModel()
