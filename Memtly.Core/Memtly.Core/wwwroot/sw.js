@@ -8,7 +8,7 @@
  * Bump SW_VERSION below to invalidate caches on deploy.
  */
 
-const SW_VERSION = '2.0.0';
+const SW_VERSION = '2.0.21';
 const STATIC_CACHE = `photoshare-static-${SW_VERSION}`;
 const SHELL_CACHE = `photoshare-shell-${SW_VERSION}`;
 
@@ -44,9 +44,14 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // App shell HTML: stale-while-revalidate.
+  // App-shell HTML: network-first. This page bakes session-derived flags
+  // into the body (data-identity-check, data-theme, etc), so serving stale
+  // HTML caused the "Guest Name prompt comes back after I set my name"
+  // bug - the SW returned cached pre-identity HTML on reload before the
+  // background revalidate finished. Only fall back to cache when the
+  // network is unreachable so the PWA still loads offline.
   if (req.mode === 'navigate' || req.headers.get('accept')?.includes('text/html')) {
-    event.respondWith(staleWhileRevalidate(SHELL_CACHE, req));
+    event.respondWith(networkFirst(SHELL_CACHE, req));
     return;
   }
 });
@@ -64,12 +69,14 @@ async function cacheFirst(cacheName, request) {
   }
 }
 
-async function staleWhileRevalidate(cacheName, request) {
+async function networkFirst(cacheName, request) {
   const cache = await caches.open(cacheName);
-  const cached = await cache.match(request);
-  const network = fetch(request).then((response) => {
+  try {
+    const response = await fetch(request);
     if (response.ok) cache.put(request, response.clone());
     return response;
-  }).catch(() => cached);
-  return cached || network;
+  } catch (err) {
+    const cached = await cache.match(request);
+    return cached || new Response('', { status: 504, statusText: 'Gateway Timeout' });
+  }
 }

@@ -10,6 +10,29 @@ changes shipped below.
 
 ## [Unreleased]
 
+## [2.0.21] - 2026-05-23
+
+### Fixed
+
+- **Guest Name prompt returning after the user submits a name (real root
+  cause).** Reproduced live with Playwright: after Tell Us -> AJAX 200 ->
+  reload, the body came back with `data-identity-check="true"` and the
+  prompt appeared again. Confirmed via a network-bypassing fetch that
+  the server was already rendering `data-identity-check="false"` for
+  that session - the stale DOM came from the service worker's
+  `staleWhileRevalidate` strategy returning the previously-cached
+  pre-identity HTML on reload, with the background revalidate only
+  updating the cache for the *next* navigation. None of the earlier
+  attempted fixes (sessionStorage marker in 2.0.19, module flag in
+  2.0.20) addressed this because they were JS-side guards on a
+  server-rendered flag.
+
+  Switched the SW navigation strategy to **network-first**: we always
+  go to the network for HTML, falling back to cache only when offline.
+  Bumped SW_VERSION 2.0.0 -> 2.0.21 to invalidate the existing shell
+  cache on first install of the new worker. The PWA still works offline
+  for the previously-cached shell.
+
 ## [2.0.20] - 2026-05-23
 
 ### Fixed
@@ -837,7 +860,8 @@ First PhotoShare release. Forked from Memtly.Community 1.0.2.2 at SHA `2dd5f06`.
 - Add Docker Hub secrets to repo before the first tag push:
   `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN`.
 
-[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.20...HEAD
+[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.21...HEAD
+[2.0.21]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.20...v2.0.21
 [2.0.20]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.19...v2.0.20
 [2.0.19]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.18...v2.0.19
 [2.0.18]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.17...v2.0.18
