@@ -14,6 +14,15 @@ changes shipped below.
 
 ### Added
 
+- **Hide the login button from clients outside the admin allowlist.**
+  When `ADMIN_ALLOWED_NETWORKS` is set, the navbar Login button now
+  only renders for clients whose IP matches an allowed CIDR. External
+  visitors see no admin surface at all - which matches the 404 that
+  `AdminNetworkGate` already returns for `/Account/Login`, so probes
+  can't even discover that an auth endpoint exists. When the gate is
+  disabled (env var unset) the button renders for everyone, preserving
+  the default behaviour. Exposed as `AdminNetworkGate.IsAllowed(ctx)`
+  and `IsEnabled` for any other view that wants to gate admin UI.
 - **Structured per-request access logging.** New `AccessLogMiddleware`
   wired right after `UseForwardedHeaders` (so `RemoteIp` reflects the
   real client behind cloudflared / a LAN reverse proxy) and before

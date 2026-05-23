@@ -4,6 +4,7 @@
 @inject Memtly.Core.Helpers.ILanguageHelper _language
 @inject Memtly.Core.Helpers.Database.IDatabaseHelper _database
 @inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment HostEnvironment
+@inject Memtly.Core.Middleware.AdminNetworkGate _adminGate
 
 @{
     var galleryIdentifier = (!string.IsNullOrWhiteSpace(ViewBag?.GalleryIdentifier) && !ViewBag.GalleryIdentifier.Equals(SystemGalleries.AllGallery, StringComparison.OrdinalIgnoreCase)) ? ViewBag.GalleryIdentifier.ToLower() : "default";
@@ -169,8 +170,14 @@
                                         <i class="fas fa-door-open fa-2x"></i>
                                     </a>
                                 }
-                                else
+                                else if (_adminGate.IsAllowed(Context))
                                 {
+                                    // Hide the login button entirely for clients outside
+                                    // ADMIN_ALLOWED_NETWORKS - matches the 404 the gate
+                                    // returns for /Account/Login so external probes have
+                                    // nothing to discover. When the gate is disabled
+                                    // (env var unset) IsAllowed returns true for everyone,
+                                    // preserving default behaviour.
                                     var tooltip = _localizer["Login"].Value;
                                     <a href="@Url.Action("Login", "Account")" alt="@tooltip" title="@tooltip">
                                         <i class="fas fa-circle-user fa-2x text-secondary"></i>

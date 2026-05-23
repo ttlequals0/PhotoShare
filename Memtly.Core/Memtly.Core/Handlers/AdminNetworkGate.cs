@@ -36,6 +36,21 @@ namespace Memtly.Core.Middleware
             }
         }
 
+        // True when the env var is set and the gate is actively filtering.
+        // Views/controllers consult this to decide whether to suppress the
+        // admin UI (login button etc) for clients outside the allowlist.
+        public bool IsEnabled => _allowed.Count > 0;
+
+        // True when the request originates from an IP in the allowlist (or
+        // when the gate is disabled, which preserves the default permissive
+        // behaviour for non-public deployments).
+        public bool IsAllowed(HttpContext ctx)
+        {
+            if (_allowed.Count == 0) return true;
+            var ip = ctx?.Connection.RemoteIpAddress;
+            return ip != null && _allowed.Any(n => n.Contains(ip));
+        }
+
         public async Task InvokeAsync(HttpContext ctx, RequestDelegate next)
         {
             if (_allowed.Count == 0)
@@ -54,14 +69,13 @@ namespace Memtly.Core.Middleware
                 return;
             }
 
-            var ip = ctx.Connection.RemoteIpAddress;
-            if (ip != null && _allowed.Any(n => n.Contains(ip)))
+            if (IsAllowed(ctx))
             {
                 await next(ctx);
                 return;
             }
 
-            _logger.LogWarning("AdminNetworkGate blocked {Path} from {Ip}", path, ip);
+            _logger.LogWarning("AdminNetworkGate blocked {Path} from {Ip}", path, ctx.Connection.RemoteIpAddress);
             ctx.Response.StatusCode = StatusCodes.Status404NotFound;
         }
 
