@@ -76,7 +76,7 @@ namespace Memtly.Core.Middleware
                     : (addr.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6 ? 128 : 32);
                 return new Microsoft.AspNetCore.HttpOverrides.IPNetwork(addr, prefix);
             }
-            catch
+            catch (Exception ex) when (ex is FormatException || ex is ArgumentException || ex is OverflowException)
             {
                 return null;
             }

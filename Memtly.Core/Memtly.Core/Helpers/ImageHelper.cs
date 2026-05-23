@@ -55,7 +55,7 @@ namespace Memtly.Core.Helpers
 
                         if (needsFfmpegDecode)
                         {
-                            if (FfmpegInstalled == false)
+                            if (!FfmpegInstalled)
                             {
                                 _logger.LogWarning(_localizer["FFMPEG_Downloading"].Value);
                                 return false;
@@ -362,7 +362,7 @@ namespace Memtly.Core.Helpers
                     return false;
                 }
 
-                if (FfmpegInstalled == false)
+                if (!FfmpegInstalled)
                 {
                     _logger.LogWarning(_localizer["FFMPEG_Downloading"].Value);
                     return false;

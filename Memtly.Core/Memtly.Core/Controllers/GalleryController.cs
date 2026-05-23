@@ -786,7 +786,7 @@ namespace Memtly.Core.Controllers
                     return BadRequest();
                 }
 
-                var chunkDir = Path.Combine(TempDirectory, gallery.Identifier, uploadId);
+                var chunkDir = Path.Join(TempDirectory, gallery.Identifier, uploadId);
                 _fileHelper.CreateDirectoryIfNotExists(chunkDir);
 
                 var chunkFile = form.Files.FirstOrDefault();
@@ -795,7 +795,7 @@ namespace Memtly.Core.Controllers
                     return BadRequest();
                 }
 
-                var partPath = Path.Combine(chunkDir, $"{chunkNumber}.part");
+                var partPath = Path.Join(chunkDir, $"{chunkNumber}.part");
                 using (var fs = new FileStream(partPath, FileMode.Create, FileAccess.Write))
                 {
                     await chunkFile.CopyToAsync(fs);
@@ -808,18 +808,18 @@ namespace Memtly.Core.Controllers
 
                 // Final chunk: reassemble and ingest.
                 var allChunksPresent = Enumerable.Range(1, totalChunks)
-                    .All(n => System.IO.File.Exists(Path.Combine(chunkDir, $"{n}.part")));
+                    .All(n => System.IO.File.Exists(Path.Join(chunkDir, $"{n}.part")));
                 if (!allChunksPresent)
                 {
                     return Json(new { success = false, errors = new[] { _localizer["File_Upload_Failed"].Value + " (missing chunks)" } });
                 }
 
-                var assembledPath = Path.Combine(chunkDir, originalName);
+                var assembledPath = Path.Join(chunkDir, originalName);
                 using (var outFs = new FileStream(assembledPath, FileMode.Create, FileAccess.Write))
                 {
                     for (var n = 1; n <= totalChunks; n++)
                     {
-                        var partFile = Path.Combine(chunkDir, $"{n}.part");
+                        var partFile = Path.Join(chunkDir, $"{n}.part");
                         using (var partStream = new FileStream(partFile, FileMode.Open, FileAccess.Read))
                         {
                             await partStream.CopyToAsync(outFs);
@@ -891,7 +891,7 @@ namespace Memtly.Core.Controllers
             }
 
             var safeIdent = _fileHelper.SanitizeFilename(identifier);
-            var chunkFile = Path.Combine(TempDirectory, gallery.Identifier, safeIdent, $"{chunkNumber}.part");
+            var chunkFile = Path.Join(TempDirectory, gallery.Identifier, safeIdent, $"{chunkNumber}.part");
             return System.IO.File.Exists(chunkFile)
                 ? Ok()
                 : NoContent();
@@ -913,7 +913,7 @@ namespace Memtly.Core.Controllers
                 var extension = Path.GetExtension(file.FileName);
                 var maxGallerySize = await _settings.GetOrDefault(MemtlyConfiguration.Gallery.MaxSizeMB, 1024L, gallery.Id) * 1000000;
                 var maxFileSize = await _settings.GetOrDefault(MemtlyConfiguration.Gallery.MaxFileSizeMB, 50L, gallery.Id) * 1000000;
-                var galleryPath = Path.Combine(UploadsDirectory, gallery.Identifier);
+                var galleryPath = Path.Join(UploadsDirectory, gallery.Identifier);
 
                 var allowedFileTypes = (await _settings.GetOrDefault(MemtlyConfiguration.Gallery.AllowedFileTypes, ".jpg,.jpeg,.png,.mp4,.mov", gallery.Id))
                     .Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
@@ -931,10 +931,10 @@ namespace Memtly.Core.Controllers
                 }
 
                 var fileName = _fileHelper.SanitizeFilename($"{(!string.IsNullOrWhiteSpace(uploadedBy) && uploadedBy != "Anonymous" ? $"{uploadedBy.Replace(" ", "_")}-" : string.Empty)}{Guid.NewGuid()}{extension}");
-                var finalGalleryPath = requiresReview ? Path.Combine(galleryPath, "Pending") : galleryPath;
+                var finalGalleryPath = requiresReview ? Path.Join(galleryPath, "Pending") : galleryPath;
                 _fileHelper.CreateDirectoryIfNotExists(finalGalleryPath);
 
-                var filePath = Path.Combine(finalGalleryPath, fileName);
+                var filePath = Path.Join(finalGalleryPath, fileName);
                 var isDemoMode = await _settings.GetOrDefault(MemtlyConfiguration.IsDemoMode, false);
                 if (!isDemoMode)
                 {
@@ -942,7 +942,7 @@ namespace Memtly.Core.Controllers
                 }
                 else
                 {
-                    System.IO.File.Copy(Path.Combine(AssetsDirectory, "DemoImage.png"), filePath, true);
+                    System.IO.File.Copy(Path.Join(AssetsDirectory, "DemoImage.png"), filePath, true);
                 }
 
                 if (!isDemoMode && !await _imageHelper.ContentMatchesExtension(filePath))
@@ -959,10 +959,10 @@ namespace Memtly.Core.Controllers
                     return (false, $"{_localizer["File_Upload_Failed"].Value}. {_localizer["Duplicate_Item_Detected"].Value}");
                 }
 
-                var thumbsDir = Path.Combine(ThumbnailsDirectory, gallery.Identifier);
+                var thumbsDir = Path.Join(ThumbnailsDirectory, gallery.Identifier);
                 _fileHelper.CreateDirectoryIfNotExists(ThumbnailsDirectory);
                 _fileHelper.CreateDirectoryIfNotExists(thumbsDir);
-                var thumbPath = Path.Combine(thumbsDir, $"{Path.GetFileNameWithoutExtension(filePath)}.webp");
+                var thumbPath = Path.Join(thumbsDir, $"{Path.GetFileNameWithoutExtension(filePath)}.webp");
                 await _imageHelper.GenerateThumbnail(filePath, thumbPath, await _settings.GetOrDefault(MemtlyConfiguration.Basic.ThumbnailSize, 720));
 
                 var ingestExt = Path.GetExtension(filePath)?.TrimStart('.')?.ToLowerInvariant();

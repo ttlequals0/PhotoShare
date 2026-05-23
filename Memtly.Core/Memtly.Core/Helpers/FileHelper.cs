@@ -180,7 +180,7 @@ namespace Memtly.Core.Helpers
                         checksum = Convert.ToHexString(md5.ComputeHash(stream));
                     }
                 }
-                catch (Exception ex)
+                catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException)
                 {
                     _logger.LogWarning(ex, $"Failed to compute MD5 checksum for file '{path}'");
                 }
