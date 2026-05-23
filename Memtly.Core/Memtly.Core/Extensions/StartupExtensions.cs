@@ -263,7 +263,7 @@ namespace Memtly.Core.Extensions
 
             foreach (var dirName in $"{Directories.Public.Uploads},{Directories.Public.CustomResources},{Directories.Public.Thumbnails},{Directories.Public.TempFiles}".Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
             {
-                var dirPath = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)!, dirName);
+                var dirPath = Path.Join(Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)!, dirName);
                 Directory.CreateDirectory(dirPath);
 
                 app.UseStaticFiles(new StaticFileOptions
@@ -275,7 +275,7 @@ namespace Memtly.Core.Extensions
 
             foreach (var dirName in $"{Directories.Private.Config}".Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
             {
-                var dirPath = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)!, dirName);
+                var dirPath = Path.Join(Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)!, dirName);
                 Directory.CreateDirectory(dirPath);
             }
 

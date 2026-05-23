@@ -53,10 +53,10 @@ namespace Memtly.Core.Controllers
             _localizer = localizer;
 
             RootDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)!;
-            AssetsDirectory = Path.Combine(RootDirectory, Directories.Private.Assets);
-            TempDirectory = Path.Combine(RootDirectory, Directories.Public.TempFiles);
-            UploadsDirectory = Path.Combine(RootDirectory, Directories.Public.Uploads);
-            ThumbnailsDirectory = Path.Combine(RootDirectory, Directories.Public.Thumbnails);
+            AssetsDirectory = Path.Join(RootDirectory, Directories.Private.Assets);
+            TempDirectory = Path.Join(RootDirectory, Directories.Public.TempFiles);
+            UploadsDirectory = Path.Join(RootDirectory, Directories.Public.Uploads);
+            ThumbnailsDirectory = Path.Join(RootDirectory, Directories.Public.Thumbnails);
         }
 
         [HttpGet]
@@ -220,9 +220,9 @@ namespace Memtly.Core.Controllers
                 GalleryModel? gallery = await _database.GetGallery(galleryId.Value);
                 if (gallery != null)
                 {
-                    var galleryPath = Path.Combine(UploadsDirectory, gallery.Identifier);
+                    var galleryPath = Path.Join(UploadsDirectory, gallery.Identifier);
                     _fileHelper.CreateDirectoryIfNotExists(galleryPath);
-                    _fileHelper.CreateDirectoryIfNotExists(Path.Combine(galleryPath, "Pending"));
+                    _fileHelper.CreateDirectoryIfNotExists(Path.Join(galleryPath, "Pending"));
 
                     ViewBag.GalleryIdentifier = gallery.Identifier;
                     ViewBag.SecretKey = gallery.SecretKey;
@@ -341,8 +341,8 @@ namespace Memtly.Core.Controllers
                                 UploadedBy = x.UploadedBy ?? "Unknown",
                                 UploaderEmailAddress = x.UploaderEmailAddress,
                                 UploadDate = x.UploadedDate,
-                                ImagePath = $"/{Path.Combine(UploadsDirectory, galleryIdentifier).Remove(RootDirectory).Replace('\\', '/').TrimStart('/')}/{x.Title}",
-                                ThumbnailPath = $"/{Path.Combine(ThumbnailsDirectory, galleryIdentifier).Remove(RootDirectory).Replace('\\', '/').TrimStart('/')}/{Path.GetFileNameWithoutExtension(x.Title)}.webp",
+                                ImagePath = $"/{Path.Join(UploadsDirectory, galleryIdentifier).Remove(RootDirectory).Replace('\\', '/').TrimStart('/')}/{x.Title}",
+                                ThumbnailPath = $"/{Path.Join(ThumbnailsDirectory, galleryIdentifier).Remove(RootDirectory).Replace('\\', '/').TrimStart('/')}/{Path.GetFileNameWithoutExtension(x.Title)}.webp",
                                 MediaType = x.MediaType
                             };
                         })?.ToList(),
@@ -406,7 +406,7 @@ namespace Memtly.Core.Controllers
                                 var extension = Path.GetExtension(file.FileName);
                                 var maxGallerySize = await _settings.GetOrDefault(MemtlyConfiguration.Gallery.MaxSizeMB, 1024L, gallery.Id) * 1000000;
                                 var maxFilesSize = await _settings.GetOrDefault(MemtlyConfiguration.Gallery.MaxFileSizeMB, 50L, gallery.Id) * 1000000;
-                                var galleryPath = Path.Combine(UploadsDirectory, gallery.Identifier);
+                                var galleryPath = Path.Join(UploadsDirectory, gallery.Identifier);
 
                                 var allowedFileTypes = (await _settings.GetOrDefault(MemtlyConfiguration.Gallery.AllowedFileTypes, ".jpg,.jpeg,.png,.mp4,.mov", gallery.Id)).Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
                                 if (!allowedFileTypes.Any(x => string.Equals(x.Trim('.'), extension.Trim('.'), StringComparison.OrdinalIgnoreCase)))
@@ -424,11 +424,11 @@ namespace Memtly.Core.Controllers
                                 else
                                 {
                                     var fileName = _fileHelper.SanitizeFilename($"{(!string.IsNullOrWhiteSpace(uploadedBy) ? $"{uploadedBy.Replace(" ", "_")}-" : string.Empty)}{Guid.NewGuid()}{Path.GetExtension(file.FileName)}");
-                                    galleryPath = requiresReview ? Path.Combine(galleryPath, "Pending") : galleryPath;
+                                    galleryPath = requiresReview ? Path.Join(galleryPath, "Pending") : galleryPath;
                                     
                                     _fileHelper.CreateDirectoryIfNotExists(galleryPath);
 
-                                    var filePath = Path.Combine(galleryPath, fileName);
+                                    var filePath = Path.Join(galleryPath, fileName);
                                     if (!string.IsNullOrWhiteSpace(filePath))
                                     {
                                         var isDemoMode = await _settings.GetOrDefault(MemtlyConfiguration.IsDemoMode, false);
@@ -438,7 +438,7 @@ namespace Memtly.Core.Controllers
                                         }
                                         else
                                         {
-                                            System.IO.File.Copy(Path.Combine(AssetsDirectory, $"DemoImage.png"), filePath, true);
+                                            System.IO.File.Copy(Path.Join(AssetsDirectory, $"DemoImage.png"), filePath, true);
                                         }
 
                                         // Magic-byte content validation: reject files whose actual
@@ -459,12 +459,12 @@ namespace Memtly.Core.Controllers
                                         }
                                         else
                                         {
-                                            var gallerySavePath = Path.Combine(ThumbnailsDirectory, gallery.Identifier);
+                                            var gallerySavePath = Path.Join(ThumbnailsDirectory, gallery.Identifier);
 
                                             _fileHelper.CreateDirectoryIfNotExists(ThumbnailsDirectory);
                                             _fileHelper.CreateDirectoryIfNotExists(gallerySavePath);
 
-                                            var savePath = Path.Combine(gallerySavePath, $"{Path.GetFileNameWithoutExtension(filePath)}.webp");
+                                            var savePath = Path.Join(gallerySavePath, $"{Path.GetFileNameWithoutExtension(filePath)}.webp");
                                             await _imageHelper.GenerateThumbnail(filePath, savePath, await _settings.GetOrDefault(MemtlyConfiguration.Basic.ThumbnailSize, 720));
 
                                             // HEIC sidecar: Chrome / Firefox can't decode HEIC,
@@ -597,7 +597,7 @@ namespace Memtly.Core.Controllers
 
                     if (await _settings.GetOrDefault(MemtlyConfiguration.Gallery.Download, true, gallery?.Id) || (User?.Identity != null && User.Identity.IsAuthenticated))
                     {
-                        var galleryDir = id > 0 ? Path.Combine(UploadsDirectory, gallery.Identifier) : UploadsDirectory;
+                        var galleryDir = id > 0 ? Path.Join(UploadsDirectory, gallery.Identifier) : UploadsDirectory;
                         if (_fileHelper.DirectoryExists(galleryDir))
                         {
                             fileFilter = fileFilter ?? new List<string>();
@@ -681,8 +681,8 @@ namespace Memtly.Core.Controllers
                                 var scanners = new List<ZipListingScanner>()
                                 {
                                     new ZipListingScanner("Approved", galleryDir, SearchOption.TopDirectoryOnly),
-                                    new ZipListingScanner("Pending", Path.Combine(galleryDir, "Pending"), SearchOption.AllDirectories),
-                                    new ZipListingScanner("Rejected", Path.Combine(galleryDir, "Rejected"), SearchOption.AllDirectories),
+                                    new ZipListingScanner("Pending", Path.Join(galleryDir, "Pending"), SearchOption.AllDirectories),
+                                    new ZipListingScanner("Rejected", Path.Join(galleryDir, "Rejected"), SearchOption.AllDirectories),
                                 };
 
                                 foreach (var scanner in scanners)

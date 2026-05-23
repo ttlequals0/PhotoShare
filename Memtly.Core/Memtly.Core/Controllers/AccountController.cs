@@ -68,11 +68,11 @@ namespace Memtly.Core.Controllers
             _localizer = localizer;
 
             RootDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)!;
-            AssetsDirectory = Path.Combine(RootDirectory, Directories.Private.Assets);
-            TempDirectory = Path.Combine(RootDirectory, Directories.Public.TempFiles);
-            UploadsDirectory = Path.Combine(RootDirectory, Directories.Public.Uploads);
-            ThumbnailsDirectory = Path.Combine(RootDirectory, Directories.Public.Thumbnails);
-            CustomResourcesDirectory = Path.Combine(RootDirectory, Directories.Public.CustomResources);
+            AssetsDirectory = Path.Join(RootDirectory, Directories.Private.Assets);
+            TempDirectory = Path.Join(RootDirectory, Directories.Public.TempFiles);
+            UploadsDirectory = Path.Join(RootDirectory, Directories.Public.Uploads);
+            ThumbnailsDirectory = Path.Join(RootDirectory, Directories.Public.Thumbnails);
+            CustomResourcesDirectory = Path.Join(RootDirectory, Directories.Public.CustomResources);
         }
 
         [AllowAnonymous]
@@ -912,11 +912,11 @@ namespace Memtly.Core.Controllers
                         var gallery = await _database.GetGallery(review.GalleryId);
                         if (gallery != null && User.Identity.CanEdit(ReviewPermissions.View, gallery.Owner))
                         { 
-                            var galleryDir = Path.Combine(UploadsDirectory, gallery.Identifier);
-                            var reviewFile = Path.Combine(galleryDir, "Pending", review.Title);
+                            var galleryDir = Path.Join(UploadsDirectory, gallery.Identifier);
+                            var reviewFile = Path.Join(galleryDir, "Pending", review.Title);
                             if (action == ReviewAction.Approved)
                             {
-                                _fileHelper.MoveFileIfExists(reviewFile, Path.Combine(galleryDir, review.Title));
+                                _fileHelper.MoveFileIfExists(reviewFile, Path.Join(galleryDir, review.Title));
 
                                 review.State = GalleryItemState.Approved;
                                 await _database.EditGalleryItem(review);
@@ -928,9 +928,9 @@ namespace Memtly.Core.Controllers
                                 var retain = await _settings.GetOrDefault(MemtlyConfiguration.Gallery.RetainRejectedItems, false);
                                 if (retain)
                                 {
-                                    var rejectedDir = Path.Combine(galleryDir, "Rejected");
+                                    var rejectedDir = Path.Join(galleryDir, "Rejected");
                                     _fileHelper.CreateDirectoryIfNotExists(rejectedDir);
-                                    _fileHelper.MoveFileIfExists(reviewFile, Path.Combine(rejectedDir, review.Title));
+                                    _fileHelper.MoveFileIfExists(reviewFile, Path.Join(rejectedDir, review.Title));
                                 }
                                 else
                                 {
@@ -982,11 +982,11 @@ namespace Memtly.Core.Controllers
                             {
                                 foreach (var review in galleryGroup)
                                 {
-                                    var galleryDir = Path.Combine(UploadsDirectory, gallery.Identifier);
-                                    var reviewFile = Path.Combine(galleryDir, "Pending", review.Title);
+                                    var galleryDir = Path.Join(UploadsDirectory, gallery.Identifier);
+                                    var reviewFile = Path.Join(galleryDir, "Pending", review.Title);
                                     if (action == ReviewAction.Approved)
                                     {
-                                        _fileHelper.MoveFileIfExists(reviewFile, Path.Combine(galleryDir, review.Title));
+                                        _fileHelper.MoveFileIfExists(reviewFile, Path.Join(galleryDir, review.Title));
 
                                         review.State = GalleryItemState.Approved;
                                         await _database.EditGalleryItem(review);
@@ -998,9 +998,9 @@ namespace Memtly.Core.Controllers
                                         var retain = await _settings.GetOrDefault(MemtlyConfiguration.Gallery.RetainRejectedItems, false);
                                         if (retain)
                                         {
-                                            var rejectedDir = Path.Combine(galleryDir, "Rejected");
+                                            var rejectedDir = Path.Join(galleryDir, "Rejected");
                                             _fileHelper.CreateDirectoryIfNotExists(rejectedDir);
-                                            _fileHelper.MoveFileIfExists(reviewFile, Path.Combine(rejectedDir, review.Title));
+                                            _fileHelper.MoveFileIfExists(reviewFile, Path.Join(rejectedDir, review.Title));
                                         }
                                         else
                                         {
@@ -1239,12 +1239,12 @@ namespace Memtly.Core.Controllers
                     var gallery = await _database.GetGallery(id);
                     if (gallery != null && User.Identity.CanEdit(GalleryPermissions.Wipe, gallery.Owner))
                     {
-                        var galleryDir = Path.Combine(UploadsDirectory, gallery.Identifier);
+                        var galleryDir = Path.Join(UploadsDirectory, gallery.Identifier);
                         if (_fileHelper.DirectoryExists(galleryDir))
                         {
                             foreach (var photo in _fileHelper.GetFiles(galleryDir, "*.*", SearchOption.AllDirectories))
                             {
-                                var thumbnail = Path.Combine(ThumbnailsDirectory, gallery.Identifier, $"{Path.GetFileNameWithoutExtension(photo)}.webp");
+                                var thumbnail = Path.Join(ThumbnailsDirectory, gallery.Identifier, $"{Path.GetFileNameWithoutExtension(photo)}.webp");
                                 _fileHelper.DeleteFileIfExists(thumbnail);
                             }
 
@@ -1296,7 +1296,7 @@ namespace Memtly.Core.Controllers
                             _fileHelper.DeleteFileIfExists(thumbnail);
                         }
 
-                        _fileHelper.CreateDirectoryIfNotExists(Path.Combine(UploadsDirectory, "default"));
+                        _fileHelper.CreateDirectoryIfNotExists(Path.Join(UploadsDirectory, "default"));
 
                         if (await _settings.GetOrDefault(MemtlyConfiguration.Alerts.DestructiveAction, true))
                         {
@@ -1343,7 +1343,7 @@ namespace Memtly.Core.Controllers
                             _fileHelper.DeleteFileIfExists(custom_resource);
                         }
 
-                        _fileHelper.CreateDirectoryIfNotExists(Path.Combine(UploadsDirectory, "default"));
+                        _fileHelper.CreateDirectoryIfNotExists(Path.Join(UploadsDirectory, "default"));
 
                         if (await _settings.GetOrDefault(MemtlyConfiguration.Alerts.DestructiveAction, true))
                         {
@@ -1376,7 +1376,7 @@ namespace Memtly.Core.Controllers
                     var gallery = await _database.GetGallery(id);
                     if (gallery != null && User.Identity.CanEdit(GalleryPermissions.Delete, gallery.Owner))
                     {
-                        var galleryDir = Path.Combine(UploadsDirectory, gallery.Identifier);
+                        var galleryDir = Path.Join(UploadsDirectory, gallery.Identifier);
                         _fileHelper.DeleteDirectoryIfExists(galleryDir);
 
                         if (await _settings.GetOrDefault(MemtlyConfiguration.Alerts.DestructiveAction, true))
@@ -1417,7 +1417,7 @@ namespace Memtly.Core.Controllers
                         var gallery = await _database.GetGallery(photo.GalleryId);
                         if (gallery != null && User.Identity.CanEdit(ReviewPermissions.Delete, gallery.Owner))
                         { 
-                            var photoPath = Path.Combine(UploadsDirectory, gallery.Identifier, photo.Title);
+                            var photoPath = Path.Join(UploadsDirectory, gallery.Identifier, photo.Title);
                             _fileHelper.DeleteFileIfExists(photoPath);
 
                             await _audit.LogAction(User?.Identity?.GetUserId(), $"'{photo?.Title}' {_localizer["Audit_ItemDeletedInGallery"].Value} '{gallery?.Name}'", AuditSeverity.Warning);
@@ -1731,7 +1731,7 @@ namespace Memtly.Core.Controllers
         {
             if (User?.Identity != null && User.Identity.IsAuthenticated && (User?.Identity?.IsPrivilegedUser() ?? false))
             {
-                var exportDir = Path.Combine(TempDirectory, "Export");
+                var exportDir = Path.Join(TempDirectory, "Export");
 
                 try
                 {
@@ -1741,7 +1741,7 @@ namespace Memtly.Core.Controllers
                         _fileHelper.DeleteDirectoryIfExists(exportDir);
                         _fileHelper.CreateDirectoryIfNotExists(exportDir);
 
-                        var dbExport = Path.Combine(exportDir, $"Memtly.bak");
+                        var dbExport = Path.Join(exportDir, $"Memtly.bak");
 
                         var exported = true;
                         //if (options.Database)
@@ -1809,7 +1809,7 @@ namespace Memtly.Core.Controllers
 
             if (User?.Identity != null && User.Identity.IsAuthenticated && (User?.Identity?.IsPrivilegedUser() ?? false))
             {
-                var importDir = Path.Combine(TempDirectory, "Import");
+                var importDir = Path.Join(TempDirectory, "Import");
 
                 try
                 {
@@ -1823,7 +1823,7 @@ namespace Memtly.Core.Controllers
                             {
                                 _fileHelper.CreateDirectoryIfNotExists(TempDirectory);
 
-                                var filePath = Path.Combine(TempDirectory, "Import.zip");
+                                var filePath = Path.Join(TempDirectory, "Import.zip");
                                 if (!string.IsNullOrWhiteSpace(filePath))
                                 {
 									await _fileHelper.SaveFile(file, filePath, FileMode.Create);
@@ -1837,19 +1837,19 @@ namespace Memtly.Core.Controllers
                                     _fileHelper.SafeExtractZip(filePath, importDir, true);
                                     _fileHelper.DeleteFileIfExists(filePath);
 
-                                    var uploadsZip = Path.Combine(importDir, "Uploads.bak");
+                                    var uploadsZip = Path.Join(importDir, "Uploads.bak");
                                     _fileHelper.SafeExtractZip(uploadsZip, UploadsDirectory, true);
 
-                                    var thumbnailsZip = Path.Combine(importDir, "Thumbnails.bak");
+                                    var thumbnailsZip = Path.Join(importDir, "Thumbnails.bak");
                                     _fileHelper.SafeExtractZip(thumbnailsZip, ThumbnailsDirectory, true);
 
-                                    var customResourcesZip = Path.Combine(importDir, "CustomResources.bak");
+                                    var customResourcesZip = Path.Join(importDir, "CustomResources.bak");
                                     if (_fileHelper.FileExists(customResourcesZip))
                                     {
                                         _fileHelper.SafeExtractZip(customResourcesZip, CustomResourcesDirectory, true);
                                     }
 
-                                    //var dbImport = Path.Combine(importDir, "Memtly.bak");
+                                    //var dbImport = Path.Join(importDir, "Memtly.bak");
                                     //var imported = await _database.Import($"Data Source={dbImport}");
 
                                     await _audit.LogAction(User?.Identity?.GetUserId(), _localizer["Audit_ImportedBackup"].Value, AuditSeverity.Information);
@@ -1898,7 +1898,7 @@ namespace Memtly.Core.Controllers
                                 var title = Path.GetFileNameWithoutExtension(file.FileName);
 
                                 var fileName = $"{CustomResourceHelper.GenerateCustomResourceIdentifier()}.{Path.GetExtension(file.FileName).Trim('.')}";
-                                var filePath = Path.Combine(CustomResourcesDirectory, fileName);
+                                var filePath = Path.Join(CustomResourcesDirectory, fileName);
                                 if (string.IsNullOrWhiteSpace(filePath))
                                 {
                                     continue;
@@ -1918,7 +1918,7 @@ namespace Memtly.Core.Controllers
                                     }
                                     else
                                     {
-                                        System.IO.File.Copy(Path.Combine(AssetsDirectory, $"DemoImage.png"), filePath, true);
+                                        System.IO.File.Copy(Path.Join(AssetsDirectory, $"DemoImage.png"), filePath, true);
                                     }
 
                                     var item = await _database.AddCustomResource(new CustomResourceModel()
@@ -2034,7 +2034,7 @@ namespace Memtly.Core.Controllers
 
                         if (!string.IsNullOrWhiteSpace(resource.FileName))
                         { 
-                            _fileHelper.DeleteFileIfExists(Path.Combine(CustomResourcesDirectory, resource.FileName));
+                            _fileHelper.DeleteFileIfExists(Path.Join(CustomResourcesDirectory, resource.FileName));
                         }
 
                         await _audit.LogAction(User?.Identity?.GetUserId(), $"{_localizer["Audit_CustomResourceDeleted"].Value} '{resource?.FileName}'", AuditSeverity.Warning);
@@ -2074,7 +2074,7 @@ namespace Memtly.Core.Controllers
 
                             if (!string.IsNullOrWhiteSpace(resource.FileName))
                             {
-                                _fileHelper.DeleteFileIfExists(Path.Combine(CustomResourcesDirectory, resource.FileName));
+                                _fileHelper.DeleteFileIfExists(Path.Join(CustomResourcesDirectory, resource.FileName));
                             }
 
                             await _audit.LogAction(User?.Identity?.GetUserId(), $"{_localizer["Audit_CustomResourceDeleted"].Value} '{resource?.FileName}'", AuditSeverity.Warning);
@@ -2281,8 +2281,8 @@ namespace Memtly.Core.Controllers
                                 UploadedBy = x.UploadedBy ?? "Unknown",
                                 UploaderEmailAddress = x.UploaderEmailAddress,
                                 UploadDate = x.UploadedDate,
-                                ImagePath = $"/{Path.Combine(UploadsDirectory, gallery.Identifier).Remove(RootDirectory).Replace('\\', '/').TrimStart('/')}/Pending/{x.Title}",
-                                ThumbnailPath = $"/{Path.Combine(ThumbnailsDirectory, gallery.Identifier).Remove(RootDirectory).Replace('\\', '/').TrimStart('/')}/{Path.GetFileNameWithoutExtension(x.Title)}.webp",
+                                ImagePath = $"/{Path.Join(UploadsDirectory, gallery.Identifier).Remove(RootDirectory).Replace('\\', '/').TrimStart('/')}/Pending/{x.Title}",
+                                ThumbnailPath = $"/{Path.Join(ThumbnailsDirectory, gallery.Identifier).Remove(RootDirectory).Replace('\\', '/').TrimStart('/')}/{Path.GetFileNameWithoutExtension(x.Title)}.webp",
                                 MediaType = x.MediaType
                             })?.ToList(),
                             ItemsPerPage = int.MaxValue,

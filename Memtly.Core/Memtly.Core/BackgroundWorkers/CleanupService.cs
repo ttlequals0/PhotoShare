@@ -67,7 +67,7 @@ namespace Memtly.Core.BackgroundWorkers
                 {
                     var paths = new List<string>()
                     {
-                        Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)!, Directories.Public.TempFiles)
+                        Path.Join(Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)!, Directories.Public.TempFiles)
                     };
 
                     if (paths != null)

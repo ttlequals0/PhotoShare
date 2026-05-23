@@ -36,9 +36,9 @@ namespace Memtly.Core.Controllers
             _localizer = localizer;
 
             RootDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)!;
-            UploadsDirectory = Path.Combine(RootDirectory, Directories.Public.Uploads);
-            ThumbnailsDirectory = Path.Combine(RootDirectory, Directories.Public.Thumbnails);
-            CustomResourcesDirectory = Path.Combine(RootDirectory, Directories.Public.CustomResources);
+            UploadsDirectory = Path.Join(RootDirectory, Directories.Public.Uploads);
+            ThumbnailsDirectory = Path.Join(RootDirectory, Directories.Public.Thumbnails);
+            CustomResourcesDirectory = Path.Join(RootDirectory, Directories.Public.CustomResources);
         }
 
         [AllowAnonymous]
@@ -85,8 +85,8 @@ namespace Memtly.Core.Controllers
                             {
                                 Id = id,
                                 Collection = gallery.Name,
-                                Source = $"/{Path.Combine(UploadsDirectory, gallery.Identifier).Remove(RootDirectory).Replace('\\', '/').TrimStart('/')}/{galleryItem.Title}",
-                                Thumbnail = $"/{Path.Combine(ThumbnailsDirectory, gallery.Identifier).Remove(RootDirectory).Replace('\\', '/').TrimStart('/')}/{Path.GetFileNameWithoutExtension(galleryItem.Title)}.webp",
+                                Source = $"/{Path.Join(UploadsDirectory, gallery.Identifier).Remove(RootDirectory).Replace('\\', '/').TrimStart('/')}/{galleryItem.Title}",
+                                Thumbnail = $"/{Path.Join(ThumbnailsDirectory, gallery.Identifier).Remove(RootDirectory).Replace('\\', '/').TrimStart('/')}/{Path.GetFileNameWithoutExtension(galleryItem.Title)}.webp",
                                 Author = author,
                                 Type = galleryItem.MediaType.ToString().ToLower(),
                                 Likes = new PhotoGalleryImageLikes()
@@ -190,8 +190,8 @@ namespace Memtly.Core.Controllers
                             {
                                 Id = id,
                                 Collection = gallery.Name,
-                                Source = $"/{Path.Combine(UploadsDirectory, gallery.Identifier, "Pending").Remove(RootDirectory).Replace('\\', '/').TrimStart('/')}/{galleryItem.Title}",
-                                Thumbnail = $"/{Path.Combine(ThumbnailsDirectory, gallery.Identifier).Remove(RootDirectory).Replace('\\', '/').TrimStart('/')}/{Path.GetFileNameWithoutExtension(galleryItem.Title)}.webp",
+                                Source = $"/{Path.Join(UploadsDirectory, gallery.Identifier, "Pending").Remove(RootDirectory).Replace('\\', '/').TrimStart('/')}/{galleryItem.Title}",
+                                Thumbnail = $"/{Path.Join(ThumbnailsDirectory, gallery.Identifier).Remove(RootDirectory).Replace('\\', '/').TrimStart('/')}/{Path.GetFileNameWithoutExtension(galleryItem.Title)}.webp",
                                 Title = null,
                                 Description = null,
                                 Author = author,
