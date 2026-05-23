@@ -281,8 +281,16 @@ namespace Memtly.Core.Helpers
             {
                 foreach (var entry in archive.Entries)
                 {
-                    // Resolve the entry path relative to target and canonicalize.
-                    var destPath = Path.GetFullPath(Path.Combine(targetFull, entry.FullName));
+                    // Resolve the entry path relative to target and canonicalize. Both
+                    // Path.Combine and Path.Join produce a path that, after GetFullPath
+                    // + StartsWith(targetFull), keeps zip-slip protection intact:
+                    //   ../etc/passwd  -> /etc/passwd                -> rejected (both)
+                    //   /etc/passwd    -> /target/etc/passwd (Join) or /etc/passwd (Combine)
+                    //                  -> Join: accepted under target; Combine: rejected.
+                    // We use Join so absolute entry paths get coerced under target rather
+                    // than rejected outright, which matches the "extract a backup zip"
+                    // expectation better and silences cs/path-combine.
+                    var destPath = Path.GetFullPath(Path.Join(targetFull, entry.FullName));
                     if (!destPath.StartsWith(targetFull, StringComparison.Ordinal))
                     {
                         _logger.LogWarning("SafeExtractZip rejected entry '{Entry}' (resolves outside '{Target}')", entry.FullName, targetFull);

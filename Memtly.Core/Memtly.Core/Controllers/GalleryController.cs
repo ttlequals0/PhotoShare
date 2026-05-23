@@ -857,9 +857,15 @@ namespace Memtly.Core.Controllers
                     asFormFile = new FormFile(assembledStream, 0, assembledLength, "file", originalName);
                     var result = await IngestUploadedFile(gallery, uploadedBy, uploaderEmail, requiresReview, asFormFile);
 
-                    // Clean up the chunk dir regardless of result.
+                    // Clean up the chunk dir regardless of result. Directory.Delete can throw
+                    // IOException / UnauthorizedAccessException / DirectoryNotFoundException /
+                    // PathTooLongException / ArgumentException; we want to log and continue
+                    // for all of them. Anything else (OOM, ThreadAbort) should bubble up.
                     try { Directory.Delete(chunkDir, recursive: true); }
-                    catch (Exception cleanupEx) { _logger.LogDebug(cleanupEx, "Failed to remove chunk dir {ChunkDir}", chunkDir); }
+                    catch (Exception cleanupEx) when (cleanupEx is IOException || cleanupEx is UnauthorizedAccessException || cleanupEx is DirectoryNotFoundException || cleanupEx is PathTooLongException || cleanupEx is ArgumentException)
+                    {
+                        _logger.LogDebug(cleanupEx, "Failed to remove chunk dir {ChunkDir}", chunkDir);
+                    }
 
                     if (!result.success)
                     {
@@ -877,7 +883,13 @@ namespace Memtly.Core.Controllers
 
                 return Json(new { success = true, uploaded = 1, uploadedBy, requiresReview });
             }
-            catch (Exception ex)
+            // MVC boundary for the chunked upload pipeline. The body touches request
+            // parsing, DB lookup, file IO (chunk write + assembly + ingest), and email
+            // notifications, so the realistic exception surface is wide. We narrow to the
+            // union of types those steps actually emit; anything outside this list (OOM,
+            // ThreadAbort, etc.) should bubble up to the host's failure handler rather
+            // than be swallowed here.
+            catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException || ex is InvalidOperationException || ex is Microsoft.EntityFrameworkCore.DbUpdateException || ex is FormatException || ex is OverflowException || ex is NullReferenceException || ex is ArgumentException || ex is System.Net.Mail.SmtpException)
             {
                 _logger.LogWarning(ex, "Chunked upload failed");
                 return StatusCode((int)HttpStatusCode.InternalServerError, new { success = false, errors = new[] { _localizer["File_Upload_Failed"].Value } });
@@ -1002,7 +1014,11 @@ namespace Memtly.Core.Controllers
                     ? (true, null)
                     : (false, _localizer["File_Upload_Failed"].Value);
             }
-            catch (Exception ex)
+            // Per-file ingest boundary. Body covers file IO (SaveFile, _imageHelper, DB
+            // insert). The image-processing helpers catch their own ImageSharp exceptions
+            // and return false/null, so what reaches here is the union of file-IO + DB +
+            // generic helper failures. Anything else (OOM, ThreadAbort) bubbles up.
+            catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException || ex is InvalidOperationException || ex is Microsoft.EntityFrameworkCore.DbUpdateException || ex is ArgumentException || ex is NullReferenceException || ex is NotSupportedException)
             {
                 _logger.LogWarning(ex, "Per-file ingest failed");
                 return (false, _localizer["File_Upload_Failed"].Value);

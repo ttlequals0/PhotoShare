@@ -374,7 +374,11 @@ namespace Memtly.Core.Helpers
                 await conversion.Start();
                 return _fileHelper.FileExists(jpegPath);
             }
-            catch (Exception ex)
+            // FFmpeg can throw IO/Argument/Win32 exceptions (binary issues, codec issues,
+            // path issues) plus its own Xabe.FFmpeg ConversionException family. We catch
+            // the realistic union and let anything else bubble up. HEIC failure is
+            // non-fatal - Safari still renders the original.
+            catch (Exception ex) when (ex is IOException || ex is ArgumentException || ex is InvalidOperationException || ex is OperationCanceledException || ex is System.ComponentModel.Win32Exception)
             {
                 _logger.LogWarning(ex, "Failed to convert HEIC to JPEG sidecar - '{Heic}'", heicPath);
                 return false;

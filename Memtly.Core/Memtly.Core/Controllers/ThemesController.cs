@@ -60,8 +60,11 @@ namespace Memtly.Core.Controllers
                         });
                 }
             }
-            catch (Exception ex)
+            catch (Exception ex) when (ex is InvalidOperationException || ex is NullReferenceException)
             {
+                // Session-access (no active session) + occasional null on selectedTheme
+                // when _settings.GetOrDefault returns null. Both are non-fatal: we ship
+                // whatever Themes list got populated and a fresh selection on the client.
                 _logger.LogWarning(ex, "Failed to enumerate themes");
             }
 
