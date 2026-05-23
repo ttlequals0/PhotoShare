@@ -737,6 +737,7 @@ namespace Memtly.Core.Controllers
         // GET is Resumable.js's resume-probe: 200 = chunk already on disk,
         // 204 = client needs to (re)send.
         [HttpPost]
+        [ValidateAntiForgeryToken]
         [DisableRequestSizeLimit]
         public async Task<IActionResult> UploadChunk()
         {
@@ -841,7 +842,8 @@ namespace Memtly.Core.Controllers
                     var result = await IngestUploadedFile(gallery, uploadedBy, uploaderEmail, requiresReview, asFormFile);
 
                     // Clean up the chunk dir regardless of result.
-                    try { Directory.Delete(chunkDir, recursive: true); } catch { }
+                    try { Directory.Delete(chunkDir, recursive: true); }
+                    catch (Exception cleanupEx) { _logger.LogDebug(cleanupEx, "Failed to remove chunk dir {ChunkDir}", chunkDir); }
 
                     if (!result.success)
                     {
