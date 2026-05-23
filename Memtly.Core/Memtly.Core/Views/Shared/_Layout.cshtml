@@ -108,7 +108,7 @@
             <link rel="stylesheet" href="~/_content/Memtly.Core/dist/themes/@(theme).css" asp-append-version="true" />
         }
     </head>
-    <body data-theme="@theme" data-identity-check="@identityCheck.ToString().ToLower()" data-identity-required="@identityRequired.ToString().ToLower()">
+    <body data-theme="@theme" data-identity-check="@identityCheck.ToString().ToLower()" data-identity-required="@identityRequired.ToString().ToLower()" data-app-version="@_settings.GetReleaseVersion(3)">
         <!-- Navigation -->
         <nav class="navbar navbar-expand-lg">
             <div class="container px-3 px-lg-5 @(viewMode == ViewMode.Presentation || viewMode == ViewMode.Slideshow ? "justify-content-center" : string.Empty)">

@@ -10,6 +10,20 @@ changes shipped below.
 
 ## [Unreleased]
 
+## [2.0.23] - 2026-05-23
+
+### Fixed
+
+- **Version-bust the service worker registration URL.** 2.0.22 added
+  no-cache headers on `/sw.js`, but those headers only take effect on
+  Cloudflare's NEXT origin fetch - the existing edge-cached response
+  (with `max-age=14400`) survives for up to 4 hours after deploy.
+  Existing browsers re-fetching `/sw.js` get the stale edge copy and
+  never see the new SW. Fix: include the current app version in the
+  registration URL (`/sw.js?v=2.0.23`), so each release uses a distinct
+  URL that bypasses any upstream cache by construction. Body now
+  carries `data-app-version`, main.js reads it for the SW registration.
+
 ## [2.0.22] - 2026-05-23
 
 ### Fixed
@@ -878,7 +892,8 @@ First PhotoShare release. Forked from Memtly.Community 1.0.2.2 at SHA `2dd5f06`.
 - Add Docker Hub secrets to repo before the first tag push:
   `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN`.
 
-[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.22...HEAD
+[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.23...HEAD
+[2.0.23]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.22...v2.0.23
 [2.0.22]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.21...v2.0.22
 [2.0.21]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.20...v2.0.21
 [2.0.20]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.19...v2.0.20
