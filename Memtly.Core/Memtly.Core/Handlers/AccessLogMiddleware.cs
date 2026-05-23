@@ -112,8 +112,11 @@ namespace Memtly.Core.Middleware
         private static string? TryGetGalleryIdentifier(HttpContext ctx)
         {
             // Prefer the routed parameter (controller has it bound).
-            var routed = ctx.GetRouteValue("identifier")?.ToString();
-            if (!string.IsNullOrWhiteSpace(routed)) return routed;
+            if (ctx.Request.RouteValues.TryGetValue("identifier", out var routed))
+            {
+                var s = routed?.ToString();
+                if (!string.IsNullOrWhiteSpace(s)) return s;
+            }
 
             // Fall back to query string for endpoints that take identifier there
             // (Gallery upload, Login, etc).
