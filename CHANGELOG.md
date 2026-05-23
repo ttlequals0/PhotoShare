@@ -10,6 +10,100 @@ changes shipped below.
 
 ## [Unreleased]
 
+## [2.0.15] - 2026-05-22
+
+### Security
+
+- **Path-traversal hardening on `gallery.Identifier`.**
+  `AccountController.AddGallery` and `GalleryController.Login` (POST)
+  stored the form-supplied Identifier verbatim. An authenticated user
+  with `GalleryPermissions.Create` (or any guest when
+  `Memtly.Basic.GuestGalleryCreation=true`) could post
+  `Identifier="/etc"` or `"../private"`; downstream `WipeGallery` /
+  `DeleteGallery` / `DeletePhoto` would then act on that path. Added
+  `GalleryHelper.IsSafePathSegment` (lowercase alnum + dash +
+  underscore, length cap, reject `.` / `..` / leading dots). Enforced
+  at the two controller writers (sanitize-with-fallback) and in
+  `EFDatabaseHelper.AddGallery` (defensive reject + log).
+  `DirectoryScanner` uses the same check so user-named filesystem
+  directories like `smith-wedding` still resolve.
+- **Zip-slip in backup import.** Four `ZipFile.ExtractToDirectory`
+  calls in `AccountController.ImportBackup` operated on a user-uploaded
+  zip without entry-path validation. New `FileHelper.SafeExtractZip`
+  resolves each entry against the canonical target dir and rejects
+  entries that escape it. Admin-only via
+  `[RequiresRole(DataPermissions.Import)]` but the bug was real.
+- **`FileHelper.SanitizeFilename` Linux-weak.** Linux's
+  `Path.GetInvalidFileNameChars` is only NUL and `/`, so the old code
+  accepted `..`, leading dots, `\\`, NTFS-invalid chars, and control
+  characters. Rewrote to reduce input to basename first, strip the
+  cross-platform invalid set + control chars, then reject `.` / `..` /
+  trailing-dot tokens. Same fix also closes the extension-injection
+  path - `Path.GetExtension("foo.../etc")` returned `"../etc"` which
+  was being concatenated into upload filenames.
+- **Silent security-headers swallow at startup.** The CSP / HSTS /
+  Referrer-Policy registration in `StartupExtensions` was wrapped in
+  `catch { }`. If header registration failed at boot the app launched
+  unprotected and nobody knew. Now logs via
+  `app.ApplicationServices.GetService<ILoggerFactory>()`.
+- **Log-injection sanitization** in `EFDatabaseHelper` - the
+  `AddGallery` rejection log and `SetSetting` failure log
+  interpolated user-controlled values (`model.Identifier`, `model.Id`).
+  New `SanitizeForLog` private helper strips control chars before
+  interpolation.
+- **`ImageHelper.FfmpegInstalled`** static flag declared `volatile`
+  so the single-writer-at-startup / multi-reader-after-startup
+  contract is explicit and CodeQL-visible.
+- **`@babel/preset-env` 7.28.5 -> 7.29.5** to transitively pick up
+  `@babel/plugin-transform-modules-systemjs` >= 7.29.4
+  (GHSA-fv7c-fp4j-7gwp / CVE-2026-44728, devDependency arbitrary code
+  generation). `npm audit fix` also bumped `brace-expansion` past two
+  moderate-severity advisories.
+
+### Code quality
+
+- Explicit `[ValidateAntiForgeryToken]` on all 22 `[HttpPost]`
+  controller actions. The global `AutoValidateAntiforgeryTokenAttribute`
+  filter already validated everything; the explicit attribute documents
+  intent and closes the corresponding CodeQL false positives.
+- `Path.Combine` -> `Path.Join` across every filesystem-write site in
+  controllers, background workers, and StartupExtensions. The single
+  remaining `Path.Combine` is in `FileHelper.SafeExtractZip` and is
+  intentional (combine + GetFullPath + StartsWith is the zip-slip
+  defense; subsequently swapped to Path.Join after proving Join with
+  GetFullPath also rejects `..` traversal and coerces absolute entries
+  under the target dir, preserving the same security property).
+- `SettingsHelper` / `ConfigHelper` `GetOrDefault` overloads: the
+  empty `catch {}` blocks now narrow to
+  `FormatException | OverflowException | InvalidCastException` (plus
+  `ArgumentException` on the enum overload). The string overloads keep
+  a broader catch limited to `InvalidOperationException |
+  NullReferenceException` since the underlying `Get()` already swallows
+  + logs DB errors one layer down.
+- 10 Razor pages swapped from
+  `var page = 1; try { page = int.Parse(Query[...]) } catch {}` to the
+  canonical `if (Query.TryGetValue("page", out var raw) &&
+  int.TryParse(raw, out var p)) { page = p; }`. Removed the now-dead
+  `currentPage`/`searchTerm` declarations from Users / Reviews /
+  Resources tab views where the values were never read.
+- 13 silent catches in `DirectoryScanner`, `DatabaseConfiguration`
+  (four sites), `EFDatabaseHelper`, `GalleryController` (two sites),
+  `LanguageController` now log instead of swallowing.
+- 5 boundary catches (UploadChunk, IngestUploadedFile, chunk-cleanup,
+  ThemesController.Index, ImageHelper.ConvertHeicToJpeg) narrowed to
+  provable exception-type unions with explanatory comments.
+  `OutOfMemoryException` / `ThreadAbortException` etc. intentionally
+  bubble up so the host's failure handler decides, rather than being
+  silently degraded.
+- Two unit-test asserts in `GalleryControllerTests` switched from
+  `model.ViewMode` to `model?.ViewMode` to match the surrounding
+  `?.`-using asserts in the same blocks (closes
+  `cs/dereferenced-value-may-be-null`).
+- Filesystem catches in `CleanupService` and `FileHelper` (MD5
+  checksum) narrowed to `IOException | UnauthorizedAccessException`.
+- `AdminNetworkGate` CIDR parse catch narrowed to
+  `FormatException | ArgumentException | OverflowException`.
+
 ## [2.0.14] - 2026-05-10
 
 ### Code quality
@@ -642,7 +736,8 @@ First PhotoShare release. Forked from Memtly.Community 1.0.2.2 at SHA `2dd5f06`.
 - Add Docker Hub secrets to repo before the first tag push:
   `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN`.
 
-[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.14...HEAD
+[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.15...HEAD
+[2.0.15]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.14...v2.0.15
 [2.0.14]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.13...v2.0.14
 [2.0.13]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.12...v2.0.13
 [2.0.12]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.11...v2.0.12
