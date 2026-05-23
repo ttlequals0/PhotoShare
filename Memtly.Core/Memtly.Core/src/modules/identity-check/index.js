@@ -1,41 +1,35 @@
 ﻿import { displayMessage } from '@modules/message-box';
 import { displayPopup } from '@modules/popups';
 
-// sessionStorage key used to suppress repeat page-load prompts within the
-// same browser session. The server-side flag (body data-identity-check)
-// flips to false once the user actually sets an identity, so this is only
-// load-bearing for the cases where it would otherwise fire twice:
-//   - the same init() running again after a partial JS reload
-//   - SW staleWhileRevalidate returning cached HTML with the prompt state
-//     on a tab the user has already been asked in
-//   - back-to-back navigations where the server session write lags the
-//     next page render
-const PROMPT_SHOWN_KEY = 'photoshare_identity_prompt_shown';
+// Module-level guard so init() running more than once in the SAME page
+// lifecycle (partial JS re-eval, SW returning cached HTML to a tab that
+// already started rendering, etc.) doesn't fire the page-load prompt
+// twice. Resets naturally on real navigation since the module is re-
+// evaluated. This is intentionally NOT sessionStorage - we want the
+// prompt to come back on the next page load if the user hasn't set
+// an identity yet.
+let pageLoadPromptFired = false;
 
 function init() {
     bindEventHandlers();
 
     // Skip auto-prompt when an upload form is on the page - the upload flow
     // triggers a required prompt the first time the user clicks upload, and
-    // firing both produces the double-prompt experience operators were
-    // reporting. Auto-prompt remains useful on view-only gallery pages.
+    // firing both produces the double-prompt experience.
     const pageLoadEnabled = $('body').data('identity-check');
     const hasUploadForm = $('form.file-uploader-form').length > 0;
     if (!pageLoadEnabled || hasUploadForm) return;
 
-    // Defensive dedup: don't auto-prompt again in this tab if we already
-    // did. Cleared when the user actually sets an identity (server flag
-    // flips, body data-identity-check goes false, so this branch never
-    // runs anyway).
-    try {
-        if (sessionStorage.getItem(PROMPT_SHOWN_KEY) === '1') return;
-        sessionStorage.setItem(PROMPT_SHOWN_KEY, '1');
-    } catch (_) {
-        // sessionStorage may be unavailable (private mode, blocked by
-        // policy). Fall through and prompt - matches prior behaviour.
-    }
+    if (pageLoadPromptFired) return;
+    pageLoadPromptFired = true;
 
-    displayIdentityCheck(false);
+    // Honour the server-side "require identity for upload" setting: when
+    // true, the prompt is non-dismissable (no Stay Anonymous button), so
+    // operators who configured Identity.RequireIdentityForUpload get the
+    // strict behaviour they asked for. When false, the prompt is a
+    // friendly proactive ask with a Stay Anonymous escape hatch.
+    const required = $('body').data('identity-required') === true;
+    displayIdentityCheck(required);
 }
 
 function bindEventHandlers() {

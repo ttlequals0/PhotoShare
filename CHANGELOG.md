@@ -10,6 +10,29 @@ changes shipped below.
 
 ## [Unreleased]
 
+## [2.0.20] - 2026-05-23
+
+### Fixed
+
+- **Guest Name prompt was being suppressed too aggressively after 2.0.19.**
+  The sessionStorage marker added in 2.0.19 blocked the page-load prompt
+  for the entire browser session, so operators who had configured
+  `Identity.RequireIdentityForUpload=true` got no prompt on subsequent
+  loads. Replaced the sessionStorage marker with a module-level flag
+  that resets on real navigation, so the prompt comes back on each new
+  page if the user hasn't set an identity yet. The same-page double-fire
+  protection still holds.
+
+### Changed
+
+- **Page-load prompt now honours `Identity.RequireIdentityForUpload`.**
+  Previously the auto-prompt was always non-required (always offered a
+  Stay Anonymous escape hatch) regardless of server config. Now the
+  body carries `data-identity-required`, the page-load prompt reads it,
+  and when true the prompt is non-dismissable - matching the upload
+  flow's strict behaviour and giving operators the "I want to know who
+  uploaded what" guarantee they configured.
+
 ## [2.0.19] - 2026-05-23
 
 ### Fixed
@@ -814,7 +837,8 @@ First PhotoShare release. Forked from Memtly.Community 1.0.2.2 at SHA `2dd5f06`.
 - Add Docker Hub secrets to repo before the first tag push:
   `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN`.
 
-[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.19...HEAD
+[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.20...HEAD
+[2.0.20]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.19...v2.0.20
 [2.0.19]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.18...v2.0.19
 [2.0.18]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.17...v2.0.18
 [2.0.17]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.16...v2.0.17

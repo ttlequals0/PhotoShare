@@ -66,6 +66,7 @@
     }
 
     bool identityCheck = (await _settings.GetOrDefault(MemtlyConfiguration.IdentityCheck.Enabled, true) && await _settings.GetOrDefault(MemtlyConfiguration.IdentityCheck.ShowOnPageLoad, true) && string.IsNullOrWhiteSpace(Context?.Session?.GetString(SessionKey.Viewer.Identity)));
+    bool identityRequired = await _settings.GetOrDefault(MemtlyConfiguration.IdentityCheck.RequireIdentityForUpload, false);
 }
 
 <!DOCTYPE html>
@@ -107,7 +108,7 @@
             <link rel="stylesheet" href="~/_content/Memtly.Core/dist/themes/@(theme).css" asp-append-version="true" />
         }
     </head>
-    <body data-theme="@theme" data-identity-check="@identityCheck.ToString().ToLower()">
+    <body data-theme="@theme" data-identity-check="@identityCheck.ToString().ToLower()" data-identity-required="@identityRequired.ToString().ToLower()">
         <!-- Navigation -->
         <nav class="navbar navbar-expand-lg">
             <div class="container px-3 px-lg-5 @(viewMode == ViewMode.Presentation || viewMode == ViewMode.Slideshow ? "justify-content-center" : string.Empty)">
