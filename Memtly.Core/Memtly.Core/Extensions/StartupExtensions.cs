@@ -368,7 +368,27 @@ namespace Memtly.Core.Extensions
                 }
             }
 
-            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                OnPrepareResponse = ctx =>
+                {
+                    // Never cache the service worker. The browser AND any
+                    // upstream proxy (Cloudflare) caching this for 4h means
+                    // SW updates physically cannot reach clients, leaving
+                    // them on a SW that may bake in obsolete cache logic
+                    // (this is exactly what caused 2.0.21's "popup returns
+                    // after SetIdentity" bug to persist across deploys -
+                    // the old SW kept serving stale HTML on reload).
+                    var path = ctx.Context.Request.Path.Value ?? string.Empty;
+                    if (path.Equals("/sw.js", StringComparison.OrdinalIgnoreCase) ||
+                        path.Equals("/manifest.webmanifest", StringComparison.OrdinalIgnoreCase))
+                    {
+                        ctx.Context.Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+                        ctx.Context.Response.Headers["Pragma"] = "no-cache";
+                        ctx.Context.Response.Headers["Expires"] = "0";
+                    }
+                }
+            });
             app.UseRouting();
             app.UseRateLimiter();
             app.UseAuthentication();

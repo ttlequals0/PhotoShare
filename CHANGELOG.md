@@ -10,6 +10,24 @@ changes shipped below.
 
 ## [Unreleased]
 
+## [2.0.22] - 2026-05-23
+
+### Fixed
+
+- **Service worker updates blocked by `sw.js` cache headers.** While
+  debugging the 2.0.21 SW fix with Playwright I found the server was
+  already serving the new 2.0.21 worker but browsers were still running
+  the old 2.0.0 one - `sw.js` was being returned with
+  `cache-control: max-age=14400`, so both the browser HTTP cache and
+  Cloudflare's edge cache were holding the old script for up to 4
+  hours. SW update checks bypass the local HTTP cache but still hit
+  Cloudflare's, which returned the stale version - clients never saw
+  the new SW. Added `OnPrepareResponse` to `UseStaticFiles` that sets
+  `Cache-Control: no-cache, no-store, must-revalidate` on `/sw.js` and
+  `/manifest.webmanifest` so neither the browser nor Cloudflare can
+  hold them. This unblocks the 2.0.21 networkFirst behaviour for all
+  existing clients on their next visit.
+
 ## [2.0.21] - 2026-05-23
 
 ### Fixed
@@ -860,7 +878,8 @@ First PhotoShare release. Forked from Memtly.Community 1.0.2.2 at SHA `2dd5f06`.
 - Add Docker Hub secrets to repo before the first tag push:
   `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN`.
 
-[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.21...HEAD
+[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.22...HEAD
+[2.0.22]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.21...v2.0.22
 [2.0.21]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.20...v2.0.21
 [2.0.20]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.19...v2.0.20
 [2.0.19]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.18...v2.0.19
