@@ -64,12 +64,15 @@ namespace Memtly.Core.Controllers
                 }
 
                 options.Languages = options.Languages.OrderBy(lang => lang.Name).ToList();
-                options.Languages.ForEach(language => 
+                options.Languages.ForEach(language =>
                 {
                     language.Cultures = language.Cultures.OrderBy(lang => lang.Name).ToList();
                 });
             }
-            catch { }
+            catch (Exception ex) when (ex is InvalidOperationException || ex is ArgumentException)
+            {
+                _logger.LogWarning(ex, "Failed to enumerate available languages");
+            }
 
             return Json(options);
         }
@@ -90,6 +93,7 @@ namespace Memtly.Core.Controllers
         }
 
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> ChangeDisplayLanguage(string culture)

@@ -35,6 +35,12 @@ namespace Memtly.Core.Extensions
             services.AddExceptionHandler<GlobalExceptionHandler>();
             services.AddProblemDetails();
 
+            // IMiddleware needs to be registered for UseMiddleware<T>() to
+            // resolve via DI. Constructor reads ADMIN_ALLOWED_NETWORKS env
+            // at instantiation.
+            services.AddSingleton<Memtly.Core.Middleware.AdminNetworkGate>();
+            services.AddSingleton<Memtly.Core.Middleware.AccessLogMiddleware>();
+
             services.AddDependencyInjectionConfiguration();
             services.AddDatabaseConfiguration();
             services.AddWebClientConfiguration();
@@ -237,6 +243,15 @@ namespace Memtly.Core.Extensions
             // UseAuthentication, and UseRateLimiter.
             app.UseForwardedHeaders();
 
+            // Structured per-request access log. Runs first (after forwarded
+            // headers so RemoteIp is the real client) so every request - even
+            // those rejected by AdminNetworkGate - gets a line.
+            app.UseMiddleware<Memtly.Core.Middleware.AccessLogMiddleware>();
+
+            // Network-gated admin surface. Reads ADMIN_ALLOWED_NETWORKS at
+            // construction; empty (default) is a no-op.
+            app.UseMiddleware<Memtly.Core.Middleware.AdminNetworkGate>();
+
             app.UseExceptionHandler();
 
             if (!env.IsDevelopment())
@@ -254,7 +269,7 @@ namespace Memtly.Core.Extensions
 
             foreach (var dirName in $"{Directories.Public.Uploads},{Directories.Public.CustomResources},{Directories.Public.Thumbnails},{Directories.Public.TempFiles}".Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
             {
-                var dirPath = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)!, dirName);
+                var dirPath = Path.Join(Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)!, dirName);
                 Directory.CreateDirectory(dirPath);
 
                 app.UseStaticFiles(new StaticFileOptions
@@ -266,7 +281,7 @@ namespace Memtly.Core.Extensions
 
             foreach (var dirName in $"{Directories.Private.Config}".Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
             {
-                var dirPath = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)!, dirName);
+                var dirPath = Path.Join(Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)!, dirName);
                 Directory.CreateDirectory(dirPath);
             }
 
@@ -343,10 +358,37 @@ namespace Memtly.Core.Extensions
                         await next();
                     });
                 }
-                catch { }
+                catch (Exception ex) when (ex is InvalidOperationException || ex is ArgumentException || ex is NullReferenceException)
+                {
+                    // Security-headers registration failures must not be silent: a swallowed
+                    // exception here means the app boots without CSP/HSTS/etc and no one knows.
+                    app.ApplicationServices.GetService<ILoggerFactory>()?
+                        .CreateLogger("StartupExtensions.SecurityHeaders")
+                        .LogError(ex, "Failed to register security headers middleware - app is serving without CSP/HSTS/etc");
+                }
             }
 
-            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                OnPrepareResponse = ctx =>
+                {
+                    // Never cache the service worker. The browser AND any
+                    // upstream proxy (Cloudflare) caching this for 4h means
+                    // SW updates physically cannot reach clients, leaving
+                    // them on a SW that may bake in obsolete cache logic
+                    // (this is exactly what caused 2.0.21's "popup returns
+                    // after SetIdentity" bug to persist across deploys -
+                    // the old SW kept serving stale HTML on reload).
+                    var path = ctx.Context.Request.Path.Value ?? string.Empty;
+                    if (path.Equals("/sw.js", StringComparison.OrdinalIgnoreCase) ||
+                        path.Equals("/manifest.webmanifest", StringComparison.OrdinalIgnoreCase))
+                    {
+                        ctx.Context.Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+                        ctx.Context.Response.Headers["Pragma"] = "no-cache";
+                        ctx.Context.Response.Headers["Expires"] = "0";
+                    }
+                }
+            });
             app.UseRouting();
             app.UseRateLimiter();
             app.UseAuthentication();

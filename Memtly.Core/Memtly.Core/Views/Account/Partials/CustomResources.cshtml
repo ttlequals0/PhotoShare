@@ -9,11 +9,10 @@
     var userPermissions = User?.Identity?.GetUserPermissions() ?? new Permissions();
 
     var currentPage = 1;
-    try
+    if (Context.Request.Query.TryGetValue("page", out var rawPage) && int.TryParse(rawPage.ToString(), out var parsedPage))
     {
-        currentPage = int.Parse((Context.Request.Query.ContainsKey("page") && !string.IsNullOrWhiteSpace(Context.Request.Query["page"])) ? Context.Request.Query["page"].ToString().ToLower() : "1");
+        currentPage = parsedPage;
     }
-    catch { }
 }
 
 <div class="row">

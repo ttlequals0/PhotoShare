@@ -75,10 +75,10 @@ namespace Memtly.Core.BackgroundWorkers
             try
             {
                 var rootDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)!;
-                var thumbnailsDirectory = Path.Combine(rootDirectory, Directories.Public.Thumbnails);
+                var thumbnailsDirectory = Path.Join(rootDirectory, Directories.Public.Thumbnails);
                 _fileHelper.CreateDirectoryIfNotExists(thumbnailsDirectory);
 
-                var uploadsDirectory = Path.Combine(rootDirectory, Directories.Public.Uploads);
+                var uploadsDirectory = Path.Join(rootDirectory, Directories.Public.Uploads);
                 if (_fileHelper.DirectoryExists(uploadsDirectory))
                 {
                     var galleryDirs = _fileHelper.GetDirectories(uploadsDirectory, "*", SearchOption.TopDirectoryOnly)?.Where(x => !Path.GetFileName(x).StartsWith("."));
@@ -101,7 +101,7 @@ namespace Memtly.Core.BackgroundWorkers
                                     var galleryId = await db.GetGalleryId(identifier);
                                     if (galleryId == null && await db.GetGalleryCount() < await _settingsHelper.GetOrDefault(MemtlyConfiguration.Basic.MaxGalleryCount, 1000000))
                                     {
-                                        identifier = GalleryHelper.IsValidGalleryIdentifier(galleryName) ? galleryName : GalleryHelper.GenerateGalleryIdentifier();
+                                        identifier = GalleryHelper.IsSafePathSegment(galleryName?.ToLower()) ? galleryName!.ToLower() : GalleryHelper.GenerateGalleryIdentifier();
                                         galleryId = (await db.AddGallery(new GalleryModel()
                                         {
                                             Identifier = identifier,
@@ -117,7 +117,7 @@ namespace Memtly.Core.BackgroundWorkers
                                         var galleryItem = await db.GetGallery(galleryId.Value);
                                         if (galleryItem != null)
                                         {
-                                            var galleryPath = Path.Combine(uploadsDirectory, galleryItem.Identifier);
+                                            var galleryPath = Path.Join(uploadsDirectory, galleryItem.Identifier);
                                             if (!galleryDir.Equals(galleryPath))
                                             {
                                                 _fileHelper.MoveDirectoryIfExists(galleryDir, galleryPath);
@@ -152,13 +152,13 @@ namespace Memtly.Core.BackgroundWorkers
                                                                 await _auditHelper.LogAction($"Directory scanner added new approved item '{filename}' to gallery '{identifier}'", AuditSeverity.Verbose);
                                                             }
 
-                                                            var thumbnailDir = Path.Combine(thumbnailsDirectory, galleryItem.Identifier);
-                                                            var thumbnailPath = Path.Combine(thumbnailDir, $"{Path.GetFileNameWithoutExtension(file)}.webp");
+                                                            var thumbnailDir = Path.Join(thumbnailsDirectory, galleryItem.Identifier);
+                                                            var thumbnailPath = Path.Join(thumbnailDir, $"{Path.GetFileNameWithoutExtension(file)}.webp");
                                                             if (!_fileHelper.FileExists(thumbnailPath))
                                                             {
                                                                 _fileHelper.CreateDirectoryIfNotExists(thumbnailDir);
                                                                 await _imageHelper.GenerateThumbnail(file, thumbnailPath, _settingsHelper.GetOrDefault(MemtlyConfiguration.Basic.ThumbnailSize, 720).Result);
-                                                                _fileHelper.DeleteFileIfExists(Path.Combine(thumbnailsDirectory, $"{Path.GetFileNameWithoutExtension(file)}.webp"));
+                                                                _fileHelper.DeleteFileIfExists(Path.Join(thumbnailsDirectory, $"{Path.GetFileNameWithoutExtension(file)}.webp"));
                                                             }
                                                             else
                                                             {
@@ -210,9 +210,9 @@ namespace Memtly.Core.BackgroundWorkers
                                                     }
                                                 }
 
-                                                if (Path.Exists(Path.Combine(galleryPath, "Pending")))
+                                                if (Path.Exists(Path.Join(galleryPath, "Pending")))
                                                 {
-                                                    var pendingFiles = _fileHelper.GetFiles(Path.Combine(galleryPath, "Pending"), "*.*", SearchOption.TopDirectoryOnly).Where(x => allowedFileTypes.Any(y => string.Equals(Path.GetExtension(x).Trim('.'), y.Trim('.'), StringComparison.OrdinalIgnoreCase)));
+                                                    var pendingFiles = _fileHelper.GetFiles(Path.Join(galleryPath, "Pending"), "*.*", SearchOption.TopDirectoryOnly).Where(x => allowedFileTypes.Any(y => string.Equals(Path.GetExtension(x).Trim('.'), y.Trim('.'), StringComparison.OrdinalIgnoreCase)));
                                                     if (pendingFiles != null)
                                                     {
                                                         foreach (var file in pendingFiles)
@@ -273,7 +273,7 @@ namespace Memtly.Core.BackgroundWorkers
 
                     var existing = await db.GetCustomResources();
 
-                    var customResourcesDirectory = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)!, Directories.Public.CustomResources);
+                    var customResourcesDirectory = Path.Join(Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)!, Directories.Public.CustomResources);
                     _fileHelper.CreateDirectoryIfNotExists(customResourcesDirectory);
 
                     foreach (var resource in _fileHelper.GetFiles(customResourcesDirectory))
@@ -293,7 +293,10 @@ namespace Memtly.Core.BackgroundWorkers
                                 await _auditHelper.LogAction($"Directory scanner added new custom resource '{filename}'", AuditSeverity.Verbose);
                             }
                         }
-                        catch { }
+                        catch (Exception resourceEx) when (resourceEx is IOException || resourceEx is UnauthorizedAccessException || resourceEx is Microsoft.EntityFrameworkCore.DbUpdateException)
+                        {
+                            _logger.LogWarning(resourceEx, "Directory scanner failed to add custom resource '{File}'", resource);
+                        }
                     }
                 }
             }

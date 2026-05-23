@@ -60,11 +60,18 @@ namespace Memtly.Core.Controllers
                         });
                 }
             }
-            catch { }
+            catch (Exception ex) when (ex is InvalidOperationException || ex is NullReferenceException)
+            {
+                // Session-access (no active session) + occasional null on selectedTheme
+                // when _settings.GetOrDefault returns null. Both are non-fatal: we ship
+                // whatever Themes list got populated and a fresh selection on the client.
+                _logger.LogWarning(ex, "Failed to enumerate themes");
+            }
 
             return Json(options);
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> ChangeDisplayTheme(string theme)

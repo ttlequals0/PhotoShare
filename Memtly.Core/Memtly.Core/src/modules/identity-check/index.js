@@ -1,13 +1,35 @@
 ﻿import { displayMessage } from '@modules/message-box';
 import { displayPopup } from '@modules/popups';
 
+// Module-level guard so init() running more than once in the SAME page
+// lifecycle (partial JS re-eval, SW returning cached HTML to a tab that
+// already started rendering, etc.) doesn't fire the page-load prompt
+// twice. Resets naturally on real navigation since the module is re-
+// evaluated. This is intentionally NOT sessionStorage - we want the
+// prompt to come back on the next page load if the user hasn't set
+// an identity yet.
+let pageLoadPromptFired = false;
+
 function init() {
     bindEventHandlers();
 
+    // Skip auto-prompt when an upload form is on the page - the upload flow
+    // triggers a required prompt the first time the user clicks upload, and
+    // firing both produces the double-prompt experience.
     const pageLoadEnabled = $('body').data('identity-check');
-    if (pageLoadEnabled) {
-        displayIdentityCheck(false);
-    }
+    const hasUploadForm = $('form.file-uploader-form').length > 0;
+    if (!pageLoadEnabled || hasUploadForm) return;
+
+    if (pageLoadPromptFired) return;
+    pageLoadPromptFired = true;
+
+    // Honour the server-side "require identity for upload" setting: when
+    // true, the prompt is non-dismissable (no Stay Anonymous button), so
+    // operators who configured Identity.RequireIdentityForUpload get the
+    // strict behaviour they asked for. When false, the prompt is a
+    // friendly proactive ask with a Stay Anonymous escape hatch.
+    const required = $('body').data('identity-required') === true;
+    displayIdentityCheck(required);
 }
 
 function bindEventHandlers() {

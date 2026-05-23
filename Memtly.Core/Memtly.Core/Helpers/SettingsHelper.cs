@@ -79,6 +79,9 @@ namespace Memtly.Core.Helpers
 
         public async Task<string> GetOrDefault(string key, string defaultValue, int? galleryId = null)
         {
+            // Get() already swallows + logs underlying DB errors and returns null, so
+            // the inner call is effectively non-throwing for the common case. The narrow
+            // catch below covers the remaining null-flow / cast surprises.
             try
             {
                 var value = (await this.Get(key, galleryId))?.Value;
@@ -87,7 +90,7 @@ namespace Memtly.Core.Helpers
                     return value;
                 }
             }
-            catch { }
+            catch (Exception ex) when (ex is InvalidOperationException || ex is NullReferenceException) { /* fall through to defaultValue */ }
 
             return defaultValue;
         }
@@ -102,7 +105,7 @@ namespace Memtly.Core.Helpers
                     return Convert.ToInt32(value);
                 }
             }
-            catch { }
+            catch (Exception ex) when (ex is FormatException || ex is OverflowException || ex is InvalidCastException) { /* fall through to defaultValue */ }
 
             return defaultValue;
         }
@@ -117,7 +120,7 @@ namespace Memtly.Core.Helpers
                     return Convert.ToInt64(value);
                 }
             }
-            catch { }
+            catch (Exception ex) when (ex is FormatException || ex is OverflowException || ex is InvalidCastException) { /* fall through to defaultValue */ }
 
             return defaultValue;
         }
@@ -132,7 +135,7 @@ namespace Memtly.Core.Helpers
                     return Convert.ToDecimal(value);
                 }
             }
-            catch { }
+            catch (Exception ex) when (ex is FormatException || ex is OverflowException || ex is InvalidCastException) { /* fall through to defaultValue */ }
 
             return defaultValue;
         }
@@ -147,7 +150,7 @@ namespace Memtly.Core.Helpers
                     return Convert.ToDouble(value);
                 }
             }
-            catch { }
+            catch (Exception ex) when (ex is FormatException || ex is OverflowException || ex is InvalidCastException) { /* fall through to defaultValue */ }
 
             return defaultValue;
         }
@@ -162,7 +165,7 @@ namespace Memtly.Core.Helpers
                     return Convert.ToBoolean(value);
                 }
             }
-            catch { }
+            catch (Exception ex) when (ex is FormatException || ex is OverflowException || ex is InvalidCastException) { /* fall through to defaultValue */ }
 
             return defaultValue;
         }
@@ -177,7 +180,7 @@ namespace Memtly.Core.Helpers
                     return Convert.ToDateTime(value);
                 }
             }
-            catch { }
+            catch (Exception ex) when (ex is FormatException || ex is OverflowException || ex is InvalidCastException) { /* fall through to defaultValue */ }
 
             return defaultValue;
         }
@@ -195,7 +198,7 @@ namespace Memtly.Core.Helpers
                     }
                 }
             }
-            catch { }
+            catch (Exception ex) when (ex is FormatException || ex is OverflowException || ex is InvalidCastException || ex is ArgumentException) { /* fall through to defaultValue */ }
 
             return defaultValue;
         }

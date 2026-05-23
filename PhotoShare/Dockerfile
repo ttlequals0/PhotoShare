@@ -7,10 +7,21 @@ ARG TARGETARCH
 ARG BUILD_CONFIGURATION=Release
 
 RUN apt-get update && \
-    apt-get install -y curl && \
+    apt-get install -y curl xz-utils && \
     curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
     apt-get install -y nodejs && \
     rm -rf /var/lib/apt/lists/*
+
+# Pin a known-good static ffmpeg build from John Van Sickle. Xabe's
+# runtime auto-download into /app/ffmpeg depends on the bind-mount
+# being writable by the container UID - which has bitten operators
+# repeatedly. Baking the binaries into the image makes video
+# thumbnail generation deterministic regardless of the volume setup.
+# Static build = no shared-library dep, works on chiseled-extra.
+RUN mkdir -p /opt/ffmpeg-static && \
+    curl -fsSL https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz -o /tmp/ffmpeg.tar.xz && \
+    tar -xf /tmp/ffmpeg.tar.xz -C /opt/ffmpeg-static --strip-components=1 && \
+    rm /tmp/ffmpeg.tar.xz
 
 WORKDIR /src
 COPY ["PhotoShare/PhotoShare.csproj", "PhotoShare/"]
@@ -34,6 +45,11 @@ WORKDIR /app
 # startup via Directory.CreateDirectory; volume mounts must be writable
 # by uid 1654.
 COPY --from=publish --chown=app:app /app/publish .
+# ffmpeg + ffprobe baked in. Xabe.FFmpeg reads FFMPEG__InstallPath
+# (default /app/ffmpeg in docker-compose.yml) and finds these directly.
+# If an operator still bind-mounts /app/ffmpeg over this directory,
+# the mount will shadow the baked-in binaries - drop the bind-mount.
+COPY --from=build --chown=app:app /opt/ffmpeg-static/ffmpeg /opt/ffmpeg-static/ffprobe /app/ffmpeg/
 USER app
 ENTRYPOINT ["dotnet", "PhotoShare.dll"]
 # In-container HEALTHCHECK removed - chiseled has no wget/curl. Operators

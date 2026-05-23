@@ -34,6 +34,7 @@ namespace Memtly.Core.Controllers
             _localizer = localizer;
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         [RequiresRole(SettingsPermission = SettingsPermissions.View)]
         public async Task<IActionResult> SendTestEmailNotification(EmailConfiguration config)
@@ -64,6 +65,7 @@ namespace Memtly.Core.Controllers
             return Json(new { success = false });
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         [RequiresRole(SettingsPermission = SettingsPermissions.View)]
         public async Task<IActionResult> SendTestNtfyNotification(NtfyConfiguration config)
@@ -87,6 +89,7 @@ namespace Memtly.Core.Controllers
             return Json(new { success = false });
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         [RequiresRole(SettingsPermission = SettingsPermissions.View)]
         public async Task<IActionResult> SendTestGotifyNotification(GotifyConfiguration config)

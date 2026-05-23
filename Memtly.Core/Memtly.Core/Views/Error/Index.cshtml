@@ -4,11 +4,10 @@
 
 @{
     var reasonCode = 400;
-    try
+    if (Context.Request.Query.TryGetValue("Reason", out var rawReason) && int.TryParse(rawReason.ToString(), out var parsedReason))
     {
-        reasonCode = Context.Request.Query.ContainsKey("Reason") ? Convert.ToInt32(Context.Request.Query["Reason"]) : 400;
+        reasonCode = parsedReason;
     }
-    catch { }
     
     var title = _localizer[$"{reasonCode}_Error_Title"].Value;
     var message = _localizer[$"{reasonCode}_Error_Message"].Value;

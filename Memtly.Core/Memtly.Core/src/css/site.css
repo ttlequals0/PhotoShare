@@ -1074,10 +1074,16 @@ dialog label {
  * tighter constraints below 480px.
  */
 .navbar-logo {
-    max-width: 32px;
-    max-height: 32px;
+    max-height: 56px;
     width: auto;
     height: auto;
+    object-fit: contain;
+}
+
+@media (max-width: 480px) {
+    .navbar-logo {
+        max-height: 44px;
+    }
 }
 
 @media (max-width: 480px) {

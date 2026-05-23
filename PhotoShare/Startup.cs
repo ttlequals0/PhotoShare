@@ -4,8 +4,6 @@ namespace PhotoShare
 {
     public class Startup
     {
-        public static bool Ready = false;
-        
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -16,8 +14,6 @@ namespace PhotoShare
         public void ConfigureServices(IServiceCollection services)
         {
             services.ConfigureCommunityServices();
-
-            Ready = true;
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

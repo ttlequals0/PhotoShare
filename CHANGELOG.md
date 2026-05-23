@@ -10,6 +10,416 @@ changes shipped below.
 
 ## [Unreleased]
 
+## [2.0.23] - 2026-05-23
+
+### Fixed
+
+- **Version-bust the service worker registration URL.** 2.0.22 added
+  no-cache headers on `/sw.js`, but those headers only take effect on
+  Cloudflare's NEXT origin fetch - the existing edge-cached response
+  (with `max-age=14400`) survives for up to 4 hours after deploy.
+  Existing browsers re-fetching `/sw.js` get the stale edge copy and
+  never see the new SW. Fix: include the current app version in the
+  registration URL (`/sw.js?v=2.0.23`), so each release uses a distinct
+  URL that bypasses any upstream cache by construction. Body now
+  carries `data-app-version`, main.js reads it for the SW registration.
+
+## [2.0.22] - 2026-05-23
+
+### Fixed
+
+- **Service worker updates blocked by `sw.js` cache headers.** While
+  debugging the 2.0.21 SW fix with Playwright I found the server was
+  already serving the new 2.0.21 worker but browsers were still running
+  the old 2.0.0 one - `sw.js` was being returned with
+  `cache-control: max-age=14400`, so both the browser HTTP cache and
+  Cloudflare's edge cache were holding the old script for up to 4
+  hours. SW update checks bypass the local HTTP cache but still hit
+  Cloudflare's, which returned the stale version - clients never saw
+  the new SW. Added `OnPrepareResponse` to `UseStaticFiles` that sets
+  `Cache-Control: no-cache, no-store, must-revalidate` on `/sw.js` and
+  `/manifest.webmanifest` so neither the browser nor Cloudflare can
+  hold them. This unblocks the 2.0.21 networkFirst behaviour for all
+  existing clients on their next visit.
+
+## [2.0.21] - 2026-05-23
+
+### Fixed
+
+- **Guest Name prompt returning after the user submits a name (real root
+  cause).** Reproduced live with Playwright: after Tell Us -> AJAX 200 ->
+  reload, the body came back with `data-identity-check="true"` and the
+  prompt appeared again. Confirmed via a network-bypassing fetch that
+  the server was already rendering `data-identity-check="false"` for
+  that session - the stale DOM came from the service worker's
+  `staleWhileRevalidate` strategy returning the previously-cached
+  pre-identity HTML on reload, with the background revalidate only
+  updating the cache for the *next* navigation. None of the earlier
+  attempted fixes (sessionStorage marker in 2.0.19, module flag in
+  2.0.20) addressed this because they were JS-side guards on a
+  server-rendered flag.
+
+  Switched the SW navigation strategy to **network-first**: we always
+  go to the network for HTML, falling back to cache only when offline.
+  Bumped SW_VERSION 2.0.0 -> 2.0.21 to invalidate the existing shell
+  cache on first install of the new worker. The PWA still works offline
+  for the previously-cached shell.
+
+## [2.0.20] - 2026-05-23
+
+### Fixed
+
+- **Guest Name prompt was being suppressed too aggressively after 2.0.19.**
+  The sessionStorage marker added in 2.0.19 blocked the page-load prompt
+  for the entire browser session, so operators who had configured
+  `Identity.RequireIdentityForUpload=true` got no prompt on subsequent
+  loads. Replaced the sessionStorage marker with a module-level flag
+  that resets on real navigation, so the prompt comes back on each new
+  page if the user hasn't set an identity yet. The same-page double-fire
+  protection still holds.
+
+### Changed
+
+- **Page-load prompt now honours `Identity.RequireIdentityForUpload`.**
+  Previously the auto-prompt was always non-required (always offered a
+  Stay Anonymous escape hatch) regardless of server config. Now the
+  body carries `data-identity-required`, the page-load prompt reads it,
+  and when true the prompt is non-dismissable - matching the upload
+  flow's strict behaviour and giving operators the "I want to know who
+  uploaded what" guarantee they configured.
+
+## [2.0.19] - 2026-05-23
+
+### Fixed
+
+- **Guest Name prompt appearing twice in the same browser session.**
+  The page-load auto-prompt in `identity-check/index.js` could fire more
+  than once when the same init() ran again (partial JS re-eval, SW
+  `staleWhileRevalidate` returning cached HTML with the prompt state on
+  a tab the user had already been asked in, or back-to-back navigations
+  where the server session write lagged the next page render). Added a
+  `sessionStorage` marker (`photoshare_identity_prompt_shown`) that gates
+  the auto-prompt to once per browser session. Cleared automatically
+  when the tab closes; the server-side `data-identity-check` flag flips
+  to false once the user sets an identity so the gate is a no-op for the
+  happy path. The manual "Change Identity" navbar button is not gated.
+
+## [2.0.18] - 2026-05-23
+
+### Security
+
+- **Log-injection sanitization in `AccessLogMiddleware`.** The middleware
+  added in 2.0.17 interpolated user-controlled values (request path,
+  User-Agent, session identity, gallery identifier, HTTP method) directly
+  into the log template. CodeQL flagged 3 cs/log-injection alerts because
+  a crafted value containing CR/LF could forge log lines. Added a
+  private `SanitizeForLog` helper that strips control chars (< 0x20 and
+  0x7F) and applied it to every user-controlled string field.
+
+## [2.0.17] - 2026-05-23
+
+### Added
+
+- **Hide the login button from clients outside the admin allowlist.**
+  When `ADMIN_ALLOWED_NETWORKS` is set, the navbar Login button now
+  only renders for clients whose IP matches an allowed CIDR. External
+  visitors see no admin surface at all - which matches the 404 that
+  `AdminNetworkGate` already returns for `/Account/Login`, so probes
+  can't even discover that an auth endpoint exists. When the gate is
+  disabled (env var unset) the button renders for everyone, preserving
+  the default behaviour. Exposed as `AdminNetworkGate.IsAllowed(ctx)`
+  and `IsEnabled` for any other view that wants to gate admin UI.
+- **Structured per-request access logging.** New `AccessLogMiddleware`
+  wired right after `UseForwardedHeaders` (so `RemoteIp` reflects the
+  real client behind cloudflared / a LAN reverse proxy) and before
+  `AdminNetworkGate` (so even blocked requests get a line). Emits one
+  log entry per non-static request with structured fields:
+  `Method`, `Path`, `Status`, `DurationMs`, `RemoteIp`, `UserAgent`,
+  `Identity` (session viewer name or authenticated user, "-" if
+  neither), `GalleryId` (from route or `?identifier=` query, "-" if
+  neither). 5xx and exception-throwing requests log at Warning;
+  everything else at Information. Static-asset paths
+  (`/dist`, `/images`, `/icons`, `/css`, `/js`, `/fonts`, `/lib`,
+  `favicon.ico`, `sw.js`, `manifest.webmanifest`, `robots.txt`,
+  `sitemap.xml`) are skipped so the log isn't drowned in CSS/JS noise.
+  Exceptions are rethrown after logging so `UseExceptionHandler` still
+  produces the user-facing error response.
+
+  Loki query examples once 2.0.17 is live:
+  - `{container="photoshare"} |= "access " | logfmt | Status >= 400`
+  - `{container="photoshare"} |= "access " | logfmt | GalleryId="smith-wedding"`
+  - `{container="photoshare"} |= "access " | logfmt | DurationMs > 1000`
+
+## [2.0.16] - 2026-05-23
+
+### Changed
+
+- **Upload UX: drop the redundant "Gallery vs Camera" dialog.** On mobile
+  with `Memtly.Gallery.CameraUploads` enabled, tapping the upload zone
+  previously surfaced a custom modal asking the user to pick Gallery or
+  Camera, then opened the OS picker. iOS / Android already expose Photo
+  Library + Take Photo or Video + Choose Files as native chooser entries
+  for `accept="image/*,video/*"`, so the intermediate prompt was pure
+  friction. `UploadBox.triggerSelector` now always defers to the native
+  picker. `setCameraMode` / `showUploadMethodPopup` removed.
+  The `Memtly.Gallery.CameraUploads` setting and the
+  `data-post-allow-camera` attribute are kept for now but no longer
+  affect runtime behaviour.
+
+## [2.0.15] - 2026-05-22
+
+### Security
+
+- **Path-traversal hardening on `gallery.Identifier`.**
+  `AccountController.AddGallery` and `GalleryController.Login` (POST)
+  stored the form-supplied Identifier verbatim. An authenticated user
+  with `GalleryPermissions.Create` (or any guest when
+  `Memtly.Basic.GuestGalleryCreation=true`) could post
+  `Identifier="/etc"` or `"../private"`; downstream `WipeGallery` /
+  `DeleteGallery` / `DeletePhoto` would then act on that path. Added
+  `GalleryHelper.IsSafePathSegment` (lowercase alnum + dash +
+  underscore, length cap, reject `.` / `..` / leading dots). Enforced
+  at the two controller writers (sanitize-with-fallback) and in
+  `EFDatabaseHelper.AddGallery` (defensive reject + log).
+  `DirectoryScanner` uses the same check so user-named filesystem
+  directories like `smith-wedding` still resolve.
+- **Zip-slip in backup import.** Four `ZipFile.ExtractToDirectory`
+  calls in `AccountController.ImportBackup` operated on a user-uploaded
+  zip without entry-path validation. New `FileHelper.SafeExtractZip`
+  resolves each entry against the canonical target dir and rejects
+  entries that escape it. Admin-only via
+  `[RequiresRole(DataPermissions.Import)]` but the bug was real.
+- **`FileHelper.SanitizeFilename` Linux-weak.** Linux's
+  `Path.GetInvalidFileNameChars` is only NUL and `/`, so the old code
+  accepted `..`, leading dots, `\\`, NTFS-invalid chars, and control
+  characters. Rewrote to reduce input to basename first, strip the
+  cross-platform invalid set + control chars, then reject `.` / `..` /
+  trailing-dot tokens. Same fix also closes the extension-injection
+  path - `Path.GetExtension("foo.../etc")` returned `"../etc"` which
+  was being concatenated into upload filenames.
+- **Silent security-headers swallow at startup.** The CSP / HSTS /
+  Referrer-Policy registration in `StartupExtensions` was wrapped in
+  `catch { }`. If header registration failed at boot the app launched
+  unprotected and nobody knew. Now logs via
+  `app.ApplicationServices.GetService<ILoggerFactory>()`.
+- **Log-injection sanitization** in `EFDatabaseHelper` - the
+  `AddGallery` rejection log and `SetSetting` failure log
+  interpolated user-controlled values (`model.Identifier`, `model.Id`).
+  New `SanitizeForLog` private helper strips control chars before
+  interpolation.
+- **`ImageHelper.FfmpegInstalled`** static flag declared `volatile`
+  so the single-writer-at-startup / multi-reader-after-startup
+  contract is explicit and CodeQL-visible.
+- **`@babel/preset-env` 7.28.5 -> 7.29.5** to transitively pick up
+  `@babel/plugin-transform-modules-systemjs` >= 7.29.4
+  (GHSA-fv7c-fp4j-7gwp / CVE-2026-44728, devDependency arbitrary code
+  generation). `npm audit fix` also bumped `brace-expansion` past two
+  moderate-severity advisories.
+
+### Code quality
+
+- Explicit `[ValidateAntiForgeryToken]` on all 22 `[HttpPost]`
+  controller actions. The global `AutoValidateAntiforgeryTokenAttribute`
+  filter already validated everything; the explicit attribute documents
+  intent and closes the corresponding CodeQL false positives.
+- `Path.Combine` -> `Path.Join` across every filesystem-write site in
+  controllers, background workers, and StartupExtensions. The single
+  remaining `Path.Combine` is in `FileHelper.SafeExtractZip` and is
+  intentional (combine + GetFullPath + StartsWith is the zip-slip
+  defense; subsequently swapped to Path.Join after proving Join with
+  GetFullPath also rejects `..` traversal and coerces absolute entries
+  under the target dir, preserving the same security property).
+- `SettingsHelper` / `ConfigHelper` `GetOrDefault` overloads: the
+  empty `catch {}` blocks now narrow to
+  `FormatException | OverflowException | InvalidCastException` (plus
+  `ArgumentException` on the enum overload). The string overloads keep
+  a broader catch limited to `InvalidOperationException |
+  NullReferenceException` since the underlying `Get()` already swallows
+  + logs DB errors one layer down.
+- 10 Razor pages swapped from
+  `var page = 1; try { page = int.Parse(Query[...]) } catch {}` to the
+  canonical `if (Query.TryGetValue("page", out var raw) &&
+  int.TryParse(raw, out var p)) { page = p; }`. Removed the now-dead
+  `currentPage`/`searchTerm` declarations from Users / Reviews /
+  Resources tab views where the values were never read.
+- 13 silent catches in `DirectoryScanner`, `DatabaseConfiguration`
+  (four sites), `EFDatabaseHelper`, `GalleryController` (two sites),
+  `LanguageController` now log instead of swallowing.
+- 5 boundary catches (UploadChunk, IngestUploadedFile, chunk-cleanup,
+  ThemesController.Index, ImageHelper.ConvertHeicToJpeg) narrowed to
+  provable exception-type unions with explanatory comments.
+  `OutOfMemoryException` / `ThreadAbortException` etc. intentionally
+  bubble up so the host's failure handler decides, rather than being
+  silently degraded.
+- Two unit-test asserts in `GalleryControllerTests` switched from
+  `model.ViewMode` to `model?.ViewMode` to match the surrounding
+  `?.`-using asserts in the same blocks (closes
+  `cs/dereferenced-value-may-be-null`).
+- Filesystem catches in `CleanupService` and `FileHelper` (MD5
+  checksum) narrowed to `IOException | UnauthorizedAccessException`.
+- `AdminNetworkGate` CIDR parse catch narrowed to
+  `FormatException | ArgumentException | OverflowException`.
+
+## [2.0.14] - 2026-05-10
+
+### Code quality
+
+- CodeQL cleanup on PR #29:
+  - Dropped unused locals (`filename` in `ImageHelper.GenerateThumbnail`,
+    `dbProvider` in `DatabaseConfiguration`) flagged by
+    `cs/useless-assignment-to-local`.
+  - `ThemesController.Index` `catch {}` -> `catch (Exception ex)` with
+    logging (`cs/empty-catch-block`).
+  - `AccountController` registration + token-unprotect blocks: drop
+    redundant `?.` on `model.Firstname` / `model.Lastname` / `model.X` /
+    `data.X` where earlier `IsNullOrWhiteSpace` guards already prove
+    the value is non-null (`cs/constant-condition`, 4 locations).
+  - Delete `Startup.Ready` static - written by instance method and
+    never read anywhere (`cs/static-field-written-by-instance`).
+  - Dismissed 17 `cs/catch-of-all-exceptions` notes and 1
+    `cs/linq/missed-where` note as accepted upstream Memtly patterns.
+
+## [2.0.13] - 2026-05-10
+
+### Fixed
+
+- **Navbar logo too small.** The 32x32 cap from 2.0.6's mobile-first
+  pass was over-aggressive and the brand SVG rendered as a tiny
+  speck. Bumped to 56px tall on desktop, 44px on phones, with
+  `object-fit: contain` so the aspect ratio is preserved across
+  screen sizes.
+- **CleanupService failed on every cron tick when `/app/temp` is a
+  bind-mount.** Upstream Memtly's cleanup calls
+  `Directory.Delete(/app/temp, recursive: true)` which tries to
+  `rmdir` the mount point itself - filesystem says "Access denied"
+  because the mount is owned by the kernel mountns. Switched the
+  cleanup to walk the directory's children and delete each
+  subdirectory/file individually, leaving the mount point intact.
+
+### Known follow-up
+
+- Video items uploaded before 2.0.12 (when ffmpeg was missing) have
+  no `.webp` thumbnail on disk. They're DB-tracked but render as
+  broken in the default gallery view. Re-upload to regenerate, or a
+  future build can add a startup task to retro-process those items.
+
+## [2.0.12] - 2026-05-10
+
+### Fixed
+
+- **Video thumbnails missing.** Loki showed
+  `Xabe.FFmpeg.Exceptions.FFmpegNotFoundException: Cannot find FFmpeg
+  in /app/ffmpeg or PATH` on every `.mp4`/`.mov` upload. Root cause:
+  the runtime auto-download into `/app/ffmpeg` depends on the
+  host-bind-mount being writable by the container UID - which has
+  repeatedly failed in practice. Baked a static ffmpeg + ffprobe
+  build (John Van Sickle release) into the image at `/app/ffmpeg/`
+  via a Dockerfile copy from the SDK stage. No more dependence on
+  bind-mount writability for the thumbnail pipeline.
+  Operators currently bind-mounting `/app/ffmpeg` should DROP that
+  line from their compose - the bind-mount shadows the baked-in
+  binaries.
+- **"Guest Name" prompt fired twice.** Page-load auto-prompt
+  (`identity-check/index.js:7-9`) plus the upload-click required
+  prompt both ran on gallery pages with an upload form. Skip the
+  auto-prompt when an upload form is present - the upload-click
+  flow handles the prompt with the right "required" semantics. The
+  auto-prompt still fires on view-only gallery pages.
+
+### Added
+
+- **Client-side allowed-file-type pre-check.** Server's
+  `Memtly:Gallery:Allowed_File_Types` is now mirrored onto the
+  upload `<input>` as `data-allowed-file-types`. The upload-box
+  filters by file extension against that list before adding files
+  to Resumable. A 567 MB `.mkv` upload would otherwise stream all
+  21 chunks before being rejected at server ingest - now it's
+  rejected instantly with a per-file list of which extensions
+  weren't allowed.
+
+## [2.0.11] - 2026-05-10
+
+### Fixed
+
+- **Chunked upload fired "There was an issue uploading some files" with
+  zero network traffic.** 2.0.9's `upload-box` wired Resumable.js as:
+  ```
+  r.addFile(f);
+  r.upload();   // <-- synchronous call right after addFile
+  ```
+  Resumable's chunk creation (`bootstrap()`) and `fileAdded` event both
+  defer to `setTimeout(0)`. When `r.upload()` ran synchronously, the
+  file had `chunks=[]`, so `upload()` immediately fired `complete` with
+  zero chunks processed and the UI showed `Upload_Failed`. Confirmed via
+  in-page Playwright probe: event order was `uploadStart`, `complete`,
+  `chunkingComplete`, `fileAdded`, `filesAdded` - upload "completed"
+  before chunks existed.
+
+  Fix: register `r.on('fileAdded', () => r.upload())` instead of
+  calling upload synchronously. By the time `fileAdded` fires (deferred
+  setTimeout), `bootstrap()` has populated the chunks array and
+  `r.upload()` has work to do.
+
+## [2.0.10] - 2026-05-10
+
+### Fixed
+
+- **Uploads broken on Postgres with `22021: invalid byte sequence for
+  encoding "UTF8": 0x00`.** Upstream `FileHelper.GetChecksum` did
+  `Encoding.UTF8.GetString(md5.ComputeHash(stream))` - interpreting the
+  raw 16-byte hash as UTF-8 produces strings with embedded `0x00` bytes
+  about 6% of the time. SQLite tolerated them; Postgres rejects them
+  on INSERT. Hex-encoded the checksum (`Convert.ToHexString`) so the
+  stored value is always valid UTF-8 text. Affected every upload, not
+  just chunked - 2.0.9 + Postgres made the failure visible.
+- **Service worker 404 at `/sw.js`.** `main.js` registers
+  `/sw.js` (root path) but the file shipped only at
+  `/_content/Memtly.Core/sw.js`. Service workers can only control
+  paths at or below their own location, so we want it at the root
+  scope. Copied to `PhotoShare/wwwroot/sw.js`.
+
+## [2.0.9] - 2026-05-10
+
+### Added
+
+- **Chunked uploads via Resumable.js.** Each file is split into 25 MB
+  chunks before POST, keeping individual requests well under
+  Cloudflare Tunnel free tier's 100 MB body cap. Server reassembles
+  parts in `/app/temp/<gallery>/<uploadId>/` and feeds the assembled
+  file through the existing validation -> magic-byte check ->
+  thumbnail -> HEIC sidecar -> DB row pipeline (extracted as
+  `IngestUploadedFile` in `GalleryController`). New endpoints:
+  `POST /Gallery/UploadChunk` (chunk write + final-chunk ingest) and
+  `GET /Gallery/UploadChunk` (Resumable.js resume probe).
+- **Server-side HEIC -> JPEG sidecar.** On HEIC upload, ffmpeg writes a
+  high-quality JPEG (`-q:v 2`) next to the original. Gallery slideshow
+  and media viewer render `<picture><source type="image/heic">` with
+  a JPEG `<img>` fallback - Safari fetches the HEIC, Chrome/Firefox
+  fall through to the sidecar without an extra network request.
+- **Browser-side HEIC decoder.** Lazy-loaded libheif-js (~600 KB
+  gzipped) decodes HEIC to a blob URL when `<img data-heic-src>`
+  decode fails natively. Covers direct HEIC links shared outside the
+  `<picture>` wrapping in the gallery view.
+- **`ADMIN_ALLOWED_NETWORKS` env gate.** New `AdminNetworkGate`
+  middleware reads a comma-separated CIDR list at startup; when set,
+  every request to `/Account/*`, `/Admin/*`, or `/MultiFactor/*` from
+  an IP outside the allowlist returns 404 (not 403 - hides the auth
+  surface entirely). Default empty = unrestricted. Operators can now
+  expose the public tunnel for guest uploads while keeping the login
+  surface LAN-only. Documented in `.env.example`.
+
+### Changed
+
+- **`.webp` added to `Allowed_File_Types`.** Covers Android animated
+  WhatsApp/iMessage stickers and opt-in Android Camera WebP output.
+  ImageSharp recognizes WebP natively so no special branch needed in
+  `ContentMatchesExtension`.
+
+### Security
+
+- Rolls in the Dependabot `fast-uri` 3.1.0 -> 3.1.2 lockfile patch
+  from PR #27 (previously slated for 2.0.8).
+
 ## [2.0.7] - 2026-05-02
 
 ### Added
@@ -482,7 +892,22 @@ First PhotoShare release. Forked from Memtly.Community 1.0.2.2 at SHA `2dd5f06`.
 - Add Docker Hub secrets to repo before the first tag push:
   `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN`.
 
-[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.7...HEAD
+[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.23...HEAD
+[2.0.23]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.22...v2.0.23
+[2.0.22]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.21...v2.0.22
+[2.0.21]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.20...v2.0.21
+[2.0.20]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.19...v2.0.20
+[2.0.19]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.18...v2.0.19
+[2.0.18]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.17...v2.0.18
+[2.0.17]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.16...v2.0.17
+[2.0.16]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.15...v2.0.16
+[2.0.15]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.14...v2.0.15
+[2.0.14]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.13...v2.0.14
+[2.0.13]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.12...v2.0.13
+[2.0.12]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.11...v2.0.12
+[2.0.11]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.10...v2.0.11
+[2.0.10]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.9...v2.0.10
+[2.0.9]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.7...v2.0.9
 [2.0.7]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.6...v2.0.7
 [2.0.6]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.5...v2.0.6
 [2.0.5]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.4...v2.0.5

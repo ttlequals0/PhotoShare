@@ -53,7 +53,7 @@ namespace Memtly.Core.Controllers
                                     }
 
                                     var relativePath = $"{contents.FileName.TrimStart('/')}";
-                                    var zipEntry = zipArchive.CreateEntry(!string.IsNullOrWhiteSpace(contents.Directory) ? Path.Combine(contents.Directory, relativePath) : relativePath);
+                                    var zipEntry = zipArchive.CreateEntry(!string.IsNullOrWhiteSpace(contents.Directory) ? Path.Join(contents.Directory, relativePath) : relativePath);
 
                                     using (var entryStream = zipEntry.Open())
                                     {
@@ -67,7 +67,7 @@ namespace Memtly.Core.Controllers
                                 foreach (var file in files)
                                 {
                                     var relativePath = Path.GetRelativePath(contents.SourcePath, file);
-                                    var zipEntry = zipArchive.CreateEntry(!string.IsNullOrWhiteSpace(contents.Directory) ? Path.Combine(contents.Directory, relativePath) : relativePath);
+                                    var zipEntry = zipArchive.CreateEntry(!string.IsNullOrWhiteSpace(contents.Directory) ? Path.Join(contents.Directory, relativePath) : relativePath);
 
                                     using (var fs = System.IO.File.OpenRead(file))
                                     using (var entryStream = zipEntry.Open())

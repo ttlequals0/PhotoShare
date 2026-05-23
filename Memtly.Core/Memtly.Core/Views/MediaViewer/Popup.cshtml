@@ -6,8 +6,24 @@
         {
             <div class="media-viewer-title">@Model.Title</div>
         }
+        @{
+            var mvSrc = Model.Type.Equals("Image", StringComparison.OrdinalIgnoreCase) ? Model.Source : Model.Thumbnail;
+            var mvExt = System.IO.Path.GetExtension(mvSrc ?? string.Empty).ToLowerInvariant();
+            var mvIsHeic = mvExt == ".heic" || mvExt == ".heif";
+            var mvJpegSidecar = mvIsHeic ? System.IO.Path.ChangeExtension(mvSrc!, ".jpg") : mvSrc;
+        }
         <div class="media-viewer-content">
-            <img class="media-viewer-image" src="@(Model.Type.Equals("Image", StringComparison.OrdinalIgnoreCase) ? Model.Source : Model.Thumbnail)" />
+            @if (mvIsHeic)
+            {
+                <picture>
+                    <source type="image/heic" srcset="@mvSrc" />
+                    <img class="media-viewer-image" src="@mvJpegSidecar" data-heic-src="@mvSrc" />
+                </picture>
+            }
+            else
+            {
+                <img class="media-viewer-image" src="@mvSrc" />
+            }
         </div>
         <div class="media-viewer-description mt-1 mx-0">
             <div class="row">

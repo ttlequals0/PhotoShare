@@ -24,6 +24,15 @@ module.exports = {
             '@themes': path.resolve(__dirname, 'src/themes'),
             '@styles': path.resolve(__dirname, 'src/css'),
             '@images': path.resolve(__dirname, 'src/images'),
+        },
+        // libheif-js conditionally imports Node built-ins for its
+        // server-side decode path; in the browser bundle those should
+        // be stubbed out. Webpack 5 dropped auto-polyfills, so we set
+        // the fallback explicitly.
+        fallback: {
+            crypto: false,
+            fs: false,
+            path: false,
         }
     },
     output: {

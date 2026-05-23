@@ -43,7 +43,7 @@
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception ex) when (ex is ArgumentException || ex is System.Security.SecurityException)
             {
                 _logger.LogWarning(ex, "Failed to get environment variable for gallery '{GalleryId}'", galleryId);
             }
@@ -61,7 +61,7 @@
                     return value;
                 }
             }
-            catch (Exception ex)
+            catch (Exception ex) when (ex is InvalidOperationException || ex is FormatException)
             {
                 _logger.LogWarning(ex, "Failed to get config value");
             }
@@ -91,7 +91,7 @@
                     return configValue;
                 }
             }
-            catch (Exception ex)
+            catch (Exception ex) when (ex is InvalidOperationException || ex is FormatException)
             {
                 _logger.LogWarning(ex, "Failed to find key in either environment variables or appsettings");
             }
@@ -109,7 +109,7 @@
                     return value;
                 }
             }
-            catch { }
+            catch (Exception ex) when (ex is InvalidOperationException || ex is NullReferenceException) { /* fall through to defaultValue */ }
 
             return defaultValue;
         }
@@ -124,7 +124,7 @@
                     return Convert.ToInt32(value);
                 }
             }
-            catch { }
+            catch (Exception ex) when (ex is FormatException || ex is OverflowException || ex is InvalidCastException) { /* fall through to defaultValue */ }
 
             return defaultValue;
         }
@@ -139,7 +139,7 @@
                     return Convert.ToInt64(value);
                 }
             }
-            catch { }
+            catch (Exception ex) when (ex is FormatException || ex is OverflowException || ex is InvalidCastException) { /* fall through to defaultValue */ }
 
             return defaultValue;
         }
@@ -154,7 +154,7 @@
                     return Convert.ToDecimal(value);
                 }
             }
-            catch { }
+            catch (Exception ex) when (ex is FormatException || ex is OverflowException || ex is InvalidCastException) { /* fall through to defaultValue */ }
 
             return defaultValue;
         }
@@ -169,7 +169,7 @@
                     return Convert.ToDouble(value);
                 }
             }
-            catch { }
+            catch (Exception ex) when (ex is FormatException || ex is OverflowException || ex is InvalidCastException) { /* fall through to defaultValue */ }
 
             return defaultValue;
         }
@@ -184,7 +184,7 @@
                     return Convert.ToBoolean(value);
                 }
             }
-            catch { }
+            catch (Exception ex) when (ex is FormatException || ex is OverflowException || ex is InvalidCastException) { /* fall through to defaultValue */ }
 
             return defaultValue;
         }
@@ -199,7 +199,7 @@
                     return Convert.ToDateTime(value);
                 }
             }
-            catch { }
+            catch (Exception ex) when (ex is FormatException || ex is OverflowException || ex is InvalidCastException) { /* fall through to defaultValue */ }
 
             return defaultValue;
         }

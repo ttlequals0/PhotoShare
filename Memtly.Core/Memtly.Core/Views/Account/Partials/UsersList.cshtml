@@ -10,11 +10,10 @@
     var tooltipUpgradeToUnlock = $"({_localizer["Upgrade_To_Unlock"].Value})";
 
     var currentPage = 1;
-    try
+    if (Context.Request.Query.TryGetValue("page", out var rawPage) && int.TryParse(rawPage.ToString(), out var parsedPage))
     {
-        currentPage = int.Parse((Context.Request.Query.ContainsKey("page") && !string.IsNullOrWhiteSpace(Context.Request.Query["page"])) ? Context.Request.Query["page"].ToString().ToLower() : "1");
+        currentPage = parsedPage;
     }
-    catch { }
 }
 
 @if (userPermissions.Users.HasFlag(UserPermissions.View) && Model?.Users != null && Model.Users.Any())

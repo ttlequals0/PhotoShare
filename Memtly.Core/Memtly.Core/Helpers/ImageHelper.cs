@@ -11,6 +11,7 @@ namespace Memtly.Core.Helpers
     public interface IImageHelper
     {
         Task<bool> GenerateThumbnail(string filePath, string savePath, int size = 720);
+        Task<bool> ConvertHeicToJpeg(string heicPath, string jpegPath);
         Task<ImageOrientation> GetOrientation(string path);
         ImageOrientation GetOrientation(Image img);
         MediaType GetMediaType(string filePath);
@@ -24,7 +25,7 @@ namespace Memtly.Core.Helpers
         private readonly ILogger _logger;
         private readonly IStringLocalizer<Localization.Translations> _localizer;
 
-        private static bool FfmpegInstalled = false;
+        private static volatile bool FfmpegInstalled = false;
 
         public ImageHelper(IFileHelper fileHelper, ILogger<ImageHelper> logger, IStringLocalizer<Localization.Translations> localizer)
         {
@@ -42,7 +43,6 @@ namespace Memtly.Core.Helpers
                     var mediaType = GetMediaType(filePath);
                     if (mediaType == MediaType.Image || mediaType == MediaType.Video)
                     {
-                        var filename = Path.GetFileName(filePath);
                         var ext = Path.GetExtension(filePath)?.TrimStart('.')?.ToLowerInvariant();
 
                         // ffmpeg handles two cases here: extracting a frame
@@ -55,7 +55,7 @@ namespace Memtly.Core.Helpers
 
                         if (needsFfmpegDecode)
                         {
-                            if (FfmpegInstalled == false)
+                            if (!FfmpegInstalled)
                             {
                                 _logger.LogWarning(_localizer["FFMPEG_Downloading"].Value);
                                 return false;
@@ -345,6 +345,44 @@ namespace Memtly.Core.Helpers
             }
 
             return ImageOrientation.Unknown;
+        }
+
+        // ImageSharp's default codec set can't decode HEIC; ffmpeg can. The
+        // upload pipeline writes the original .heic, then this generates a
+        // JPEG sidecar next to it (same basename, .jpg) so the gallery view
+        // can offer it via <picture> for Chrome/Firefox while Safari still
+        // gets the HEIC. Returns true on success; failures log and let the
+        // HEIC survive on its own (Safari will still render it).
+        public async Task<bool> ConvertHeicToJpeg(string heicPath, string jpegPath)
+        {
+            try
+            {
+                if (!_fileHelper.FileExists(heicPath))
+                {
+                    return false;
+                }
+
+                if (!FfmpegInstalled)
+                {
+                    _logger.LogWarning(_localizer["FFMPEG_Downloading"].Value);
+                    return false;
+                }
+
+                // -q:v 2 picks a near-lossless JPEG quality (range 2..31, 2 is best).
+                var conversion = await FFmpeg.Conversions.FromSnippet.Snapshot(heicPath, jpegPath, TimeSpan.Zero);
+                conversion.AddParameter("-q:v 2", ParameterPosition.PostInput);
+                await conversion.Start();
+                return _fileHelper.FileExists(jpegPath);
+            }
+            // FFmpeg can throw IO/Argument/Win32 exceptions (binary issues, codec issues,
+            // path issues) plus its own Xabe.FFmpeg ConversionException family. We catch
+            // the realistic union and let anything else bubble up. HEIC failure is
+            // non-fatal - Safari still renders the original.
+            catch (Exception ex) when (ex is IOException || ex is ArgumentException || ex is InvalidOperationException || ex is OperationCanceledException || ex is System.ComponentModel.Win32Exception)
+            {
+                _logger.LogWarning(ex, "Failed to convert HEIC to JPEG sidecar - '{Heic}'", heicPath);
+                return false;
+            }
         }
 
         public async Task<bool> DownloadFFMPEG(string path)

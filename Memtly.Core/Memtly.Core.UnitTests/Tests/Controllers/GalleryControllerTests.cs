@@ -114,7 +114,7 @@ namespace Memtly.Core.UnitTests.Tests.Helpers
                 Assert.That(model?.Gallery?.Identifier, Is.EqualTo(identifier));
                 Assert.That(model?.Gallery?.Name, Is.EqualTo(name));
 				Assert.That(model?.SecretKey, Is.EqualTo(key));
-				Assert.That(model.ViewMode, Is.EqualTo(mode));
+				Assert.That(model?.ViewMode, Is.EqualTo(mode));
 			}
 			else
 			{
@@ -213,7 +213,7 @@ namespace Memtly.Core.UnitTests.Tests.Helpers
 			Assert.That(model?.Gallery?.Identifier, Is.EqualTo("default"));
 			Assert.That(model?.Gallery?.Name, Is.EqualTo("default"));
             Assert.That(model?.SecretKey, Is.EqualTo("password"));
-			Assert.That(model.ViewMode, Is.EqualTo(mode));
+			Assert.That(model?.ViewMode, Is.EqualTo(mode));
 		}
 
 		[TestCase(true, 1, null)]

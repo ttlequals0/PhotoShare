@@ -16,7 +16,7 @@
   "license": "GPL-3.0",
   "devDependencies": {
     "@babel/core": "^7.28.5",
-    "@babel/preset-env": "^7.28.5",
+    "@babel/preset-env": "^7.29.5",
     "babel-loader": "^8.4.1",
     "css-loader": "^7.1.2",
     "glob": "^13.0.0",
@@ -32,6 +32,8 @@
     "jquery-loading": "^0.2.8",
     "jquery-qrcode": "^1.0.0",
     "jquery-validation": "^1.21.0",
-    "jquery-validation-unobtrusive": "^4.0.0"
+    "jquery-validation-unobtrusive": "^4.0.0",
+    "libheif-js": "^1.18.0",
+    "resumablejs": "^1.1.0"
   }
 }

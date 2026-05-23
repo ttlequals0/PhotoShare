@@ -46,6 +46,7 @@ namespace Memtly.Core.Controllers
             return Json(new { secret = secret, qr_code = qrCode });
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         [RequiresRole(UserPermission = UserPermissions.Login)]
         public async Task<IActionResult> Register(string secret, string code)

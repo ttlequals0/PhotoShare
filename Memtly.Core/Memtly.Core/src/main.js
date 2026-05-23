@@ -26,6 +26,7 @@ import { Localization } from '@modules/localization';
 import initGdpr from '@modules/gdpr';
 import { default as initThemes, getSelectedTheme } from '@themes';
 import initIdentityCheck from '@modules/identity-check';
+import initHeicFallback from '@modules/heic-fallback';
 import initQrCodes from '@modules/qr-codes';
 import { displayMessage } from '@modules/message-box';
 
@@ -52,6 +53,7 @@ async function init() {
     initGdpr();
     initThemes();
     initIdentityCheck();
+    initHeicFallback();
     initQrCodes();
 
     app.config.theme = getSelectedTheme();
@@ -166,11 +168,21 @@ document.addEventListener('DOMContentLoaded', function () {
     init();
 });
 
-// Service worker registration. Lifted out of _Layout.cshtml so the
-// CSP can drop 'unsafe-inline' from script-src.
+// Service worker registration. Lifted out of _Layout.cshtml so the CSP
+// can drop 'unsafe-inline' from script-src.
+//
+// We include the current app version in the registration URL so each
+// release uses a distinct script URL. This forces the browser (and any
+// upstream cache like Cloudflare) to re-fetch sw.js on the next page
+// load after a deploy, which is the only reliable way to push SW logic
+// changes when the SW endpoint is behind a CDN with its own cache TTL.
+// Without this, sw.js stays cached for hours on the edge even after we
+// add no-cache headers, because the headers only apply to NEW responses.
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
-        navigator.serviceWorker.register('/sw.js').catch(function () { /* ignore */ });
+        const v = document.body.getAttribute('data-app-version') || '';
+        const url = '/sw.js' + (v ? '?v=' + encodeURIComponent(v) : '');
+        navigator.serviceWorker.register(url, { scope: '/' }).catch(function () { /* ignore */ });
     });
 }
 

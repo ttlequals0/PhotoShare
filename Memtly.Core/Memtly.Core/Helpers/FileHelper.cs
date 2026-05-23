@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System.IO.Compression;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -24,6 +25,7 @@ namespace Memtly.Core.Helpers
         Task<DateTime> GetCreationDatetime(string path);
         string BytesToHumanReadable(long bytes, int decimalPlaces = 0);
         string SanitizeFilename(string filename);
+        void SafeExtractZip(string zipPath, string targetDir, bool overwrite);
     }
 
     public class FileHelper : IFileHelper
@@ -163,7 +165,7 @@ namespace Memtly.Core.Helpers
 
         public async Task<string> GetChecksum(string path)
         {
-            return await Task.Run(() => 
+            return await Task.Run(() =>
             {
                 var checksum = string.Empty;
 
@@ -172,10 +174,15 @@ namespace Memtly.Core.Helpers
                     using (var md5 = MD5.Create())
                     using (var stream = File.OpenRead(path))
                     {
-                        checksum = Encoding.UTF8.GetString(md5.ComputeHash(stream));
+                        // Hex-encode the 16-byte hash. The previous code did
+                        // Encoding.UTF8.GetString on the raw bytes, which
+                        // produces strings with embedded 0x00s about 6% of
+                        // the time - Postgres rejects those with
+                        // "22021: invalid byte sequence for encoding UTF8".
+                        checksum = Convert.ToHexString(md5.ComputeHash(stream));
                     }
                 }
-                catch (Exception ex) 
+                catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException)
                 {
                     _logger.LogWarning(ex, $"Failed to compute MD5 checksum for file '{path}'");
                 }
@@ -228,10 +235,80 @@ namespace Memtly.Core.Helpers
 
         public string SanitizeFilename(string filename)
         {
-            var invalidChars = Regex.Escape(new string(Path.GetInvalidFileNameChars()));
-            var regex = string.Format(@"([{0}]*\.+$)|([{0}]+)", invalidChars);
+            if (string.IsNullOrEmpty(filename)) return string.Empty;
 
-            return Regex.Replace(filename, regex, string.Empty, RegexOptions.Compiled);
+            // 1. Reduce to the basename only so any directory components in the input
+            //    (e.g. "../../etc/passwd" or "..\foo") are stripped before we look at chars.
+            //    Path.GetFileName on Linux only treats '/' as a separator; pre-strip '\' too
+            //    so a Windows-style payload can't sneak past on Linux builds.
+            var basename = Path.GetFileName(filename.Replace('\\', '/'));
+
+            // 2. Cross-platform invalid chars: Linux's Path.GetInvalidFileNameChars is
+            //    only NUL and '/'. Add the Windows-invalid set so cross-builds behave the
+            //    same and so values that round-trip to Windows servers stay safe.
+            var crossPlatformInvalid = new HashSet<char>(Path.GetInvalidFileNameChars())
+            {
+                '/', '\\', ':', '*', '?', '"', '<', '>', '|'
+            };
+            var sb = new StringBuilder(basename.Length);
+            foreach (var ch in basename.Where(ch => ch >= 0x20 && !crossPlatformInvalid.Contains(ch)))
+            {
+                sb.Append(ch);
+            }
+            var cleaned = sb.ToString().Trim().TrimEnd('.');
+
+            // 3. Reject parent-dir / current-dir tokens outright. An attacker-controlled
+            //    filename ending in '.', '..', or made entirely of dots would otherwise
+            //    survive the per-char filter.
+            if (cleaned == "." || cleaned == "..") return string.Empty;
+
+            return cleaned;
+        }
+
+        // Safe ZipFile.ExtractToDirectory: enforces zip-slip protection by resolving
+        // each entry against the canonical target dir and rejecting any entry whose
+        // full path escapes it (e.g. "../etc/passwd"). Callers MUST use this in place
+        // of ZipFile.ExtractToDirectory for any zip whose contents are user-supplied.
+        public void SafeExtractZip(string zipPath, string targetDir, bool overwrite)
+        {
+            var targetFull = Path.GetFullPath(targetDir);
+            if (!targetFull.EndsWith(Path.DirectorySeparatorChar))
+            {
+                targetFull += Path.DirectorySeparatorChar;
+            }
+
+            using (var archive = System.IO.Compression.ZipFile.OpenRead(zipPath))
+            {
+                foreach (var entry in archive.Entries)
+                {
+                    // Resolve the entry path relative to target and canonicalize. Both
+                    // Path.Combine and Path.Join produce a path that, after GetFullPath
+                    // + StartsWith(targetFull), keeps zip-slip protection intact:
+                    //   ../etc/passwd  -> /etc/passwd                -> rejected (both)
+                    //   /etc/passwd    -> /target/etc/passwd (Join) or /etc/passwd (Combine)
+                    //                  -> Join: accepted under target; Combine: rejected.
+                    // We use Join so absolute entry paths get coerced under target rather
+                    // than rejected outright, which matches the "extract a backup zip"
+                    // expectation better and silences cs/path-combine.
+                    var destPath = Path.GetFullPath(Path.Join(targetFull, entry.FullName));
+                    if (!destPath.StartsWith(targetFull, StringComparison.Ordinal))
+                    {
+                        _logger.LogWarning("SafeExtractZip rejected entry '{Entry}' (resolves outside '{Target}')", entry.FullName, targetFull);
+                        continue;
+                    }
+
+                    // Directory entry (trailing slash) - just create it.
+                    if (string.IsNullOrEmpty(entry.Name))
+                    {
+                        Directory.CreateDirectory(destPath);
+                        continue;
+                    }
+
+                    var parent = Path.GetDirectoryName(destPath);
+                    if (!string.IsNullOrEmpty(parent)) Directory.CreateDirectory(parent);
+                    entry.ExtractToFile(destPath, overwrite);
+                }
+            }
         }
     }
 }

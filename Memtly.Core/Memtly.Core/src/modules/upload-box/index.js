@@ -1,5 +1,5 @@
-﻿import { displayMessage } from '@modules/message-box';
-import { displayPopup, hidePopup } from '@modules/popups';
+﻿import Resumable from 'resumablejs';
+import { displayMessage } from '@modules/message-box';
 import { displayLoader, hideLoader } from '@modules/loader';
 import { displayIdentityCheck } from '@modules/identity-check';
 import { refreshGalleryPage } from '@pages/gallery/gallery';
@@ -29,54 +29,18 @@ class UploadBox {
         const zone = event.target.closest('fieldset.upload_drop');
         const input = $(zone.querySelector('input.upload-input'));
 
-        if (input.data('post-allow-camera') === true) {
-            this.showUploadMethodPopup(input);
-        } else {
-            this.setGalleryMode(input);
-            input[0].click();
-        }
-    }
-
-    showUploadMethodPopup(input) {
-        displayPopup({
-            Title: localization.translate('Upload'),
-            Message: localization.translate('Upload_Method'),
-            Buttons: [
-                {
-                    Text: localization.translate('Gallery'),
-                    Class: "btn-primary-2",
-                    Callback: () => {
-                        this.setGalleryMode(input);
-                        input[0].click();
-                        hidePopup();
-                    }
-                },
-                {
-                    Text: localization.translate('Camera'),
-                    Class: "btn-primary-2",
-                    Callback: () => {
-                        this.setCameraMode(input);
-                        input[0].click();
-                        hidePopup();
-                    }
-                },
-                {
-                    Text: localization.translate('Close')
-                }
-            ]
-        });
+        // Always defer to the OS file picker. On iOS / Android, accept=image/*,video/*
+        // already exposes Photo Library / Take Photo or Video / Choose Files as native
+        // chooser entries, so the custom "Gallery vs Camera" modal we used to show was
+        // a redundant second prompt. Desktop browsers get the file dialog directly.
+        this.setGalleryMode(input);
+        input[0].click();
     }
 
     setGalleryMode(input) {
         input.attr('accept', 'image/*,video/*');
         input.attr('multiple', '');
         input.removeAttr('capture');
-    }
-
-    setCameraMode(input) {
-        input.attr('accept', 'image/*');
-        input.attr('capture', 'environment');
-        input.removeAttr('multiple');
     }
 
     highlight(e) {
@@ -161,14 +125,41 @@ class UploadBox {
     async handleFiles(dataRefs) {
         let files = [...dataRefs.files];
 
-        // Remove unaccepted file types
-        files = files.filter(item => {
-            const isAllowed = this.isImageFile(item) || this.isVideoFile(item);
-            if (!isAllowed) {
-                console.log(`File type '${item.type}' is not allowed. Filename: '${item.name}'`);
-            }
-            return isAllowed;
-        });
+        // Extension match against the server's Allowed_File_Types setting,
+        // exposed as a data-attribute on the input. We do this client-side
+        // BEFORE uploading because Cloudflare Tunnel + chunked uploads mean
+        // an unsupported .mkv could push hundreds of MB before the server
+        // rejects it at ingest. Fall back to the upstream MIME-prefix check
+        // if the attribute is missing (older view, no list available).
+        const allowedRaw = (dataRefs.input.getAttribute('data-allowed-file-types') || '').trim();
+        const rejected = [];
+
+        if (allowedRaw.length > 0) {
+            const allowedExts = allowedRaw.split(',')
+                .map(s => s.trim().toLowerCase().replace(/^\./, ''))
+                .filter(Boolean);
+
+            files = files.filter(item => {
+                const ext = (item.name.split('.').pop() || '').toLowerCase();
+                if (allowedExts.includes(ext)) return true;
+                rejected.push(`${item.name}: .${ext}`);
+                return false;
+            });
+        } else {
+            files = files.filter(item => {
+                const allowed = this.isImageFile(item) || this.isVideoFile(item);
+                if (!allowed) rejected.push(`${item.name}: ${item.type || 'unknown'}`);
+                return allowed;
+            });
+        }
+
+        if (rejected.length > 0) {
+            displayMessage(
+                localization.translate('Upload'),
+                localization.translate('Invalid_File_Type'),
+                rejected
+            );
+        }
 
         if (!files.length) return;
 
@@ -214,77 +205,80 @@ class UploadBox {
             return;
         }
 
+        // Chunked upload via Resumable.js. 25 MB chunks keep individual
+        // POSTs well under Cloudflare Tunnel's 100 MB body cap (free tier)
+        // and let the server reassemble large iOS videos in /app/temp.
         let uploadedCount = 0;
         let requiresReview = true;
-        let errors = [];
+        const errors = [];
 
-        const processFileUpload = (i, retries = 0) => {
-            if (i < dataRefs.files.length) {
-                const formData = new FormData();
-                formData.append('__RequestVerificationToken', token);
-                formData.append('Id', galleryId);
-                formData.append('SecretKey', secretKey);
-                formData.append(dataRefs.files[i].name, dataRefs.files[i]);
+        const r = new Resumable({
+            target: '/Gallery/UploadChunk',
+            chunkSize: 25 * 1024 * 1024,
+            simultaneousUploads: 3,
+            testChunks: true,
+            maxChunkRetries: this.maxRetries,
+            chunkRetryInterval: this.retryDelay,
+            forceChunkSize: false,
+            query: {
+                resumableGalleryId: galleryId,
+                resumableSecretKey: secretKey ?? '',
+            },
+            // Antiforgery token is read on every chunk POST so a rotated
+            // token after the first chunk still authenticates.
+            headers: () => ({
+                'RequestVerificationToken': $('form.file-uploader-form input[name=\'__RequestVerificationToken\']').val()
+            }),
+        });
 
-                displayLoader(
-                    `${localization.translate('Upload_Progress')} ${i + 1}/${dataRefs.files.length}...<br/><br/><span id="file-upload-progress">0%</span>`
-                );
-
-                $.ajax({
-                    url: url,
-                    type: 'POST',
-                    data: formData,
-                    async: true,
-                    cache: false,
-                    contentType: false,
-                    dataType: 'json',
-                    processData: false,
-                    success: (response) => {
-                        if (response?.success === true) {
-                            requiresReview = response.requiresReview;
-                            uploadedCount++;
-                        } else if (response?.errors?.length > 0) {
-                            errors.push(response.errors);
-                        }
-                        processFileUpload(i + 1);
-                    },
-                    xhr: () => {
-                        const xhr = new window.XMLHttpRequest();
-
-                        xhr.upload.addEventListener("progress", (evt) => {
-                            if (evt.lengthComputable) {
-                                const percentComplete = Math.floor((evt.loaded / evt.total) * 100);
-                                const progressElement = $('span#file-upload-progress');
-                                if (progressElement.length > 0) {
-                                    progressElement.text(`(${percentComplete}%)`);
-                                }
-                            }
-                        }, false);
-
-                        xhr.upload.addEventListener("error", (evt) => {
-                            console.error(evt);
-                            if (retries < this.maxRetries) {
-                                setTimeout(() => {
-                                    processFileUpload(i, retries + 1);
-                                }, this.retryDelay);
-                            } else {
-                                displayMessage(
-                                    localization.translate('Upload'),
-                                    localization.translate('Upload_Failed'),
-                                    errors
-                                );
-                            }
-                        }, false);
-
-                        return xhr;
-                    },
-                });
-            } else {
-                this.handleUploadComplete(uploadedCount, requiresReview, errors, galleryId, secretKey, dataRefs);
+        r.on('fileSuccess', (file, message) => {
+            try {
+                const resp = JSON.parse(message || '{}');
+                if (resp.success) {
+                    uploadedCount++;
+                    if (typeof resp.requiresReview === 'boolean') {
+                        requiresReview = resp.requiresReview;
+                    }
+                } else if (Array.isArray(resp.errors)) {
+                    errors.push(...resp.errors);
+                }
+            } catch {
+                // Non-JSON success body - rare. Count the file as uploaded.
+                uploadedCount++;
             }
-        };
+        });
 
-        processFileUpload(0);
+        r.on('fileError', (file, message) => {
+            errors.push(`${localization.translate('Upload_Failed')}: ${file.fileName}`);
+            console.error('Resumable fileError', file.fileName, message);
+        });
+
+        r.on('progress', () => {
+            const pct = Math.floor(r.progress() * 100);
+            const el = $('span#file-upload-progress');
+            if (el.length) el.text(`${pct}%`);
+        });
+
+        r.on('complete', () => {
+            this.handleUploadComplete(uploadedCount, requiresReview, errors, galleryId, secretKey, dataRefs);
+        });
+
+        // Resumable.js's bootstrap (chunk creation) is async via setTimeout(0)
+        // and so is the fileAdded event. If we call r.upload() synchronously
+        // after r.addFile(f), the file has no chunks yet, upload() sees
+        // nothing to send, and fires 'complete' immediately with 0 uploaded
+        // - producing "There was an issue uploading some files" before any
+        // network traffic. Call upload() from the fileAdded handler instead;
+        // by then bootstrap has run and the chunks array is populated.
+        r.on('fileAdded', () => r.upload());
+
+        displayLoader(
+            `${localization.translate('Upload_Progress')}...<br/><br/><span id="file-upload-progress">0%</span>`
+        );
+
+        for (const f of dataRefs.files) {
+            r.addFile(f);
+        }
     }
 
     handleUploadComplete(uploadedCount, requiresReview, errors, galleryId, secretKey, dataRefs) {

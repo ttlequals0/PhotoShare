@@ -67,7 +67,7 @@ namespace Memtly.Core.BackgroundWorkers
                 {
                     var paths = new List<string>()
                     {
-                        Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)!, Directories.Public.TempFiles)
+                        Path.Join(Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)!, Directories.Public.TempFiles)
                     };
 
                     if (paths != null)
@@ -76,7 +76,23 @@ namespace Memtly.Core.BackgroundWorkers
                         {
                             try
                             {
-                                _fileHelper.DeleteDirectoryIfExists(path);
+                                // Don't rmdir the path itself - in container
+                                // deployments /app/temp is a bind-mount whose
+                                // directory entry cannot be removed from inside
+                                // the container. Clear its contents instead.
+                                if (!Directory.Exists(path)) continue;
+                                foreach (var sub in Directory.EnumerateDirectories(path))
+                                {
+                                    try { Directory.Delete(sub, recursive: true); }
+                                    catch (Exception subEx) when (subEx is IOException || subEx is UnauthorizedAccessException)
+                                    { _logger.LogWarning(subEx, $"Cleanup skipped subdir '{sub}'"); }
+                                }
+                                foreach (var f in Directory.EnumerateFiles(path))
+                                {
+                                    try { File.Delete(f); }
+                                    catch (Exception fEx) when (fEx is IOException || fEx is UnauthorizedAccessException)
+                                    { _logger.LogWarning(fEx, $"Cleanup skipped file '{f}'"); }
+                                }
                             }
                             catch (Exception ex)
                             {

@@ -24,6 +24,7 @@ namespace Memtly.Core.Controllers
             _localizer = localizer;
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         [RequiresRole(AuditPermission = AuditPermissions.View)]
         public async Task<IActionResult> AuditList(string term = "", AuditSeverity severity = AuditSeverity.Information, int limit = 10)
