@@ -295,7 +295,7 @@ namespace Memtly.Core.BackgroundWorkers
                         }
                         catch (Exception resourceEx) when (resourceEx is IOException || resourceEx is UnauthorizedAccessException || resourceEx is Microsoft.EntityFrameworkCore.DbUpdateException)
                         {
-                            _logger.LogWarning(resourceEx, "Directory scanner failed to add custom resource '{File}'", filename);
+                            _logger.LogWarning(resourceEx, "Directory scanner failed to add custom resource '{File}'", resource);
                         }
                     }
                 }
