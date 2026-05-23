@@ -6,18 +6,12 @@
     var userPermissions = User?.Identity?.GetUserPermissions() ?? new Permissions();
 
     var currentPage = 1;
-    try
+    if (Context.Request.Query.TryGetValue("page", out var rawPage) && int.TryParse(rawPage.ToString(), out var parsedPage))
     {
-        currentPage = int.Parse((Context.Request.Query.ContainsKey("page") && !string.IsNullOrWhiteSpace(Context.Request.Query["page"])) ? Context.Request.Query["page"].ToString().ToLower() : "1");
+        currentPage = parsedPage;
     }
-    catch { }
 
-    var searchTerm = string.Empty;
-    try
-    {
-        searchTerm = (Context.Request.Query.ContainsKey("term") ? Context.Request.Query["term"].ToString() : string.Empty);
-    }
-    catch { }
+    var searchTerm = Context.Request.Query.TryGetValue("term", out var rawTerm) ? rawTerm.ToString() : string.Empty;
 }
 
 <section class="pnl-account pnl-account-custom-resources">
