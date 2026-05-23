@@ -39,6 +39,7 @@ namespace Memtly.Core.Extensions
             // resolve via DI. Constructor reads ADMIN_ALLOWED_NETWORKS env
             // at instantiation.
             services.AddSingleton<Memtly.Core.Middleware.AdminNetworkGate>();
+            services.AddSingleton<Memtly.Core.Middleware.AccessLogMiddleware>();
 
             services.AddDependencyInjectionConfiguration();
             services.AddDatabaseConfiguration();
@@ -241,6 +242,11 @@ namespace Memtly.Core.Extensions
             // UseExceptionHandler, UseHsts, UseHttpsRedirection,
             // UseAuthentication, and UseRateLimiter.
             app.UseForwardedHeaders();
+
+            // Structured per-request access log. Runs first (after forwarded
+            // headers so RemoteIp is the real client) so every request - even
+            // those rejected by AdminNetworkGate - gets a line.
+            app.UseMiddleware<Memtly.Core.Middleware.AccessLogMiddleware>();
 
             // Network-gated admin surface. Reads ADMIN_ALLOWED_NETWORKS at
             // construction; empty (default) is a no-op.

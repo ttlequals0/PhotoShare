@@ -10,6 +10,31 @@ changes shipped below.
 
 ## [Unreleased]
 
+## [2.0.17] - 2026-05-23
+
+### Added
+
+- **Structured per-request access logging.** New `AccessLogMiddleware`
+  wired right after `UseForwardedHeaders` (so `RemoteIp` reflects the
+  real client behind cloudflared / a LAN reverse proxy) and before
+  `AdminNetworkGate` (so even blocked requests get a line). Emits one
+  log entry per non-static request with structured fields:
+  `Method`, `Path`, `Status`, `DurationMs`, `RemoteIp`, `UserAgent`,
+  `Identity` (session viewer name or authenticated user, "-" if
+  neither), `GalleryId` (from route or `?identifier=` query, "-" if
+  neither). 5xx and exception-throwing requests log at Warning;
+  everything else at Information. Static-asset paths
+  (`/dist`, `/images`, `/icons`, `/css`, `/js`, `/fonts`, `/lib`,
+  `favicon.ico`, `sw.js`, `manifest.webmanifest`, `robots.txt`,
+  `sitemap.xml`) are skipped so the log isn't drowned in CSS/JS noise.
+  Exceptions are rethrown after logging so `UseExceptionHandler` still
+  produces the user-facing error response.
+
+  Loki query examples once 2.0.17 is live:
+  - `{container="photoshare"} |= "access " | logfmt | Status >= 400`
+  - `{container="photoshare"} |= "access " | logfmt | GalleryId="smith-wedding"`
+  - `{container="photoshare"} |= "access " | logfmt | DurationMs > 1000`
+
 ## [2.0.16] - 2026-05-23
 
 ### Changed
@@ -752,7 +777,8 @@ First PhotoShare release. Forked from Memtly.Community 1.0.2.2 at SHA `2dd5f06`.
 - Add Docker Hub secrets to repo before the first tag push:
   `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN`.
 
-[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.16...HEAD
+[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.17...HEAD
+[2.0.17]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.16...v2.0.17
 [2.0.16]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.15...v2.0.16
 [2.0.15]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.14...v2.0.15
 [2.0.14]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.13...v2.0.14
