@@ -101,7 +101,7 @@ namespace Memtly.Core.BackgroundWorkers
                                     var galleryId = await db.GetGalleryId(identifier);
                                     if (galleryId == null && await db.GetGalleryCount() < await _settingsHelper.GetOrDefault(MemtlyConfiguration.Basic.MaxGalleryCount, 1000000))
                                     {
-                                        identifier = GalleryHelper.IsValidGalleryIdentifier(galleryName) ? galleryName : GalleryHelper.GenerateGalleryIdentifier();
+                                        identifier = GalleryHelper.IsSafePathSegment(galleryName?.ToLower()) ? galleryName!.ToLower() : GalleryHelper.GenerateGalleryIdentifier();
                                         galleryId = (await db.AddGallery(new GalleryModel()
                                         {
                                             Identifier = identifier,

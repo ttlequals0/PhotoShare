@@ -111,10 +111,17 @@ namespace Memtly.Core.Controllers
 
                         if (galleryOwner != null && galleryOwner > 0)
                         {
+                            // If the caller passed an identifier, only honor it when it
+                            // is path-safe; otherwise generate one. EFDatabaseHelper.AddGallery
+                            // will also reject unsafe values defensively.
+                            var lowered = identifier?.ToLower();
+                            var safeIdentifier = GalleryHelper.IsSafePathSegment(lowered)
+                                ? lowered!
+                                : GalleryHelper.GenerateGalleryIdentifier();
                             gallery = await _database.AddGallery(new GalleryModel()
                             {
-                                Identifier = identifier?.ToLower() ?? GalleryHelper.GenerateGalleryIdentifier(),
-                                Name = identifier?.ToLower() ?? GalleryHelper.GenerateGalleryIdentifier(),
+                                Identifier = safeIdentifier,
+                                Name = safeIdentifier,
                                 SecretKey = key,
                                 Owner = galleryOwner ?? 0
                             });

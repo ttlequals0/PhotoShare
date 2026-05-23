@@ -352,7 +352,14 @@ namespace Memtly.Core.Extensions
                         await next();
                     });
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    // Security-headers registration failures must not be silent: a swallowed
+                    // exception here means the app boots without CSP/HSTS/etc and no one knows.
+                    app.ApplicationServices.GetService<ILoggerFactory>()?
+                        .CreateLogger("StartupExtensions.SecurityHeaders")
+                        .LogError(ex, "Failed to register security headers middleware - app is serving without CSP/HSTS/etc");
+                }
             }
 
             app.UseStaticFiles();

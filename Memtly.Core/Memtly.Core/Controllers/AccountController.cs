@@ -1047,6 +1047,24 @@ namespace Memtly.Core.Controllers
                             return Json(new { success = false, message = _localizer["Protected_Gallery_Name"].Value });
                         }
 
+                        // Coerce Identifier to a path-safe form. Treat the form-supplied
+                        // Identifier as a hint only; if it isn't path-safe, derive one from
+                        // Name and fall back to a generated id. EFDatabaseHelper.AddGallery
+                        // also rejects unsafe values defensively.
+                        var loweredIdent = model.Identifier?.ToLower();
+                        if (!GalleryHelper.IsSafePathSegment(loweredIdent))
+                        {
+                            var derived = (model.Name ?? string.Empty).ToLower();
+                            derived = System.Text.RegularExpressions.Regex.Replace(derived, "[^a-z0-9_-]+", "-").Trim('-');
+                            model.Identifier = GalleryHelper.IsSafePathSegment(derived)
+                                ? derived
+                                : GalleryHelper.GenerateGalleryIdentifier();
+                        }
+                        else
+                        {
+                            model.Identifier = loweredIdent!;
+                        }
+
                         var userId = User.Identity.GetUserId();
                         var userGalleries = await _database.GetGalleries(userId);
 
@@ -1813,19 +1831,22 @@ namespace Memtly.Core.Controllers
 									_fileHelper.DeleteDirectoryIfExists(importDir);
                                     _fileHelper.CreateDirectoryIfNotExists(importDir);
 
-                                    ZipFile.ExtractToDirectory(filePath, importDir, true);
+                                    // User-uploaded zip - extract with zip-slip protection
+                                    // so a crafted archive entry path cannot escape the
+                                    // target directory (e.g. "../../etc/passwd").
+                                    _fileHelper.SafeExtractZip(filePath, importDir, true);
                                     _fileHelper.DeleteFileIfExists(filePath);
 
                                     var uploadsZip = Path.Combine(importDir, "Uploads.bak");
-                                    ZipFile.ExtractToDirectory(uploadsZip, UploadsDirectory, true);
+                                    _fileHelper.SafeExtractZip(uploadsZip, UploadsDirectory, true);
 
                                     var thumbnailsZip = Path.Combine(importDir, "Thumbnails.bak");
-                                    ZipFile.ExtractToDirectory(thumbnailsZip, ThumbnailsDirectory, true);
+                                    _fileHelper.SafeExtractZip(thumbnailsZip, ThumbnailsDirectory, true);
 
                                     var customResourcesZip = Path.Combine(importDir, "CustomResources.bak");
                                     if (_fileHelper.FileExists(customResourcesZip))
                                     {
-                                        ZipFile.ExtractToDirectory(customResourcesZip, CustomResourcesDirectory, true);
+                                        _fileHelper.SafeExtractZip(customResourcesZip, CustomResourcesDirectory, true);
                                     }
 
                                     //var dbImport = Path.Combine(importDir, "Memtly.bak");
@@ -2283,6 +2304,7 @@ namespace Memtly.Core.Controllers
                 {
                     gallery = await _database.AddGallery(new GalleryModel()
                     {
+                        Identifier = SystemGalleries.DefaultGallery.ToLower(),
                         Name = SystemGalleries.DefaultGallery,
                         SecretKey = PasswordHelper.GenerateGallerySecretKey(),
                         Owner = user.Id

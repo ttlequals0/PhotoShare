@@ -25,7 +25,7 @@ namespace Memtly.Core.Helpers
         private readonly ILogger _logger;
         private readonly IStringLocalizer<Localization.Translations> _localizer;
 
-        private static bool FfmpegInstalled = false;
+        private static volatile bool FfmpegInstalled = false;
 
         public ImageHelper(IFileHelper fileHelper, ILogger<ImageHelper> logger, IStringLocalizer<Localization.Translations> localizer)
         {

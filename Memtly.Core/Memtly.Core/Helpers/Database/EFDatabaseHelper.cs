@@ -186,6 +186,18 @@ namespace Memtly.Core.Helpers.Database
                 return null; // Prevent users from creating galleries with the same name as a protected gallery
             }
 
+            // Identifier becomes a directory name on disk (TempDirectory/<Identifier>,
+            // UploadsDirectory/<Identifier>, ThumbnailsDirectory/<Identifier>) and a URL
+            // segment, so reject anything that could be a path-traversal payload. An
+            // authenticated user (or a guest if GuestGalleryCreation=true) could otherwise
+            // post Identifier="/etc" or "../private" and have WipeGallery / DeleteGallery
+            // / DeletePhoto target arbitrary filesystem paths.
+            if (!GalleryHelper.IsSafePathSegment(model.Identifier))
+            {
+                _logger.LogWarning("Refused AddGallery: unsafe Identifier '{Identifier}'", model.Identifier);
+                return null;
+            }
+
             var galleryEntry = await _db.Galleries.AddAsync(new EntityFramework.Models.Gallery()
             {
                 Identifier = model.Identifier,
