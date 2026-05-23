@@ -10,6 +10,22 @@ changes shipped below.
 
 ## [Unreleased]
 
+## [2.0.16] - 2026-05-23
+
+### Changed
+
+- **Upload UX: drop the redundant "Gallery vs Camera" dialog.** On mobile
+  with `Memtly.Gallery.CameraUploads` enabled, tapping the upload zone
+  previously surfaced a custom modal asking the user to pick Gallery or
+  Camera, then opened the OS picker. iOS / Android already expose Photo
+  Library + Take Photo or Video + Choose Files as native chooser entries
+  for `accept="image/*,video/*"`, so the intermediate prompt was pure
+  friction. `UploadBox.triggerSelector` now always defers to the native
+  picker. `setCameraMode` / `showUploadMethodPopup` removed.
+  The `Memtly.Gallery.CameraUploads` setting and the
+  `data-post-allow-camera` attribute are kept for now but no longer
+  affect runtime behaviour.
+
 ## [2.0.15] - 2026-05-22
 
 ### Security
@@ -736,7 +752,8 @@ First PhotoShare release. Forked from Memtly.Community 1.0.2.2 at SHA `2dd5f06`.
 - Add Docker Hub secrets to repo before the first tag push:
   `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN`.
 
-[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.15...HEAD
+[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.16...HEAD
+[2.0.16]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.15...v2.0.16
 [2.0.15]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.14...v2.0.15
 [2.0.14]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.13...v2.0.14
 [2.0.13]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.12...v2.0.13

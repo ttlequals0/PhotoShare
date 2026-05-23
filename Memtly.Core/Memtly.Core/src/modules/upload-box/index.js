@@ -1,6 +1,5 @@
 ﻿import Resumable from 'resumablejs';
 import { displayMessage } from '@modules/message-box';
-import { displayPopup, hidePopup } from '@modules/popups';
 import { displayLoader, hideLoader } from '@modules/loader';
 import { displayIdentityCheck } from '@modules/identity-check';
 import { refreshGalleryPage } from '@pages/gallery/gallery';
@@ -30,54 +29,18 @@ class UploadBox {
         const zone = event.target.closest('fieldset.upload_drop');
         const input = $(zone.querySelector('input.upload-input'));
 
-        if (input.data('post-allow-camera') === true) {
-            this.showUploadMethodPopup(input);
-        } else {
-            this.setGalleryMode(input);
-            input[0].click();
-        }
-    }
-
-    showUploadMethodPopup(input) {
-        displayPopup({
-            Title: localization.translate('Upload'),
-            Message: localization.translate('Upload_Method'),
-            Buttons: [
-                {
-                    Text: localization.translate('Gallery'),
-                    Class: "btn-primary-2",
-                    Callback: () => {
-                        this.setGalleryMode(input);
-                        input[0].click();
-                        hidePopup();
-                    }
-                },
-                {
-                    Text: localization.translate('Camera'),
-                    Class: "btn-primary-2",
-                    Callback: () => {
-                        this.setCameraMode(input);
-                        input[0].click();
-                        hidePopup();
-                    }
-                },
-                {
-                    Text: localization.translate('Close')
-                }
-            ]
-        });
+        // Always defer to the OS file picker. On iOS / Android, accept=image/*,video/*
+        // already exposes Photo Library / Take Photo or Video / Choose Files as native
+        // chooser entries, so the custom "Gallery vs Camera" modal we used to show was
+        // a redundant second prompt. Desktop browsers get the file dialog directly.
+        this.setGalleryMode(input);
+        input[0].click();
     }
 
     setGalleryMode(input) {
         input.attr('accept', 'image/*,video/*');
         input.attr('multiple', '');
         input.removeAttr('capture');
-    }
-
-    setCameraMode(input) {
-        input.attr('accept', 'image/*');
-        input.attr('capture', 'environment');
-        input.removeAttr('multiple');
     }
 
     highlight(e) {
