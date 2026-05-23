@@ -94,6 +94,7 @@ namespace Memtly.Core.Controllers
             return View("~/Views/Home/CookiePolicy.cshtml");
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> SetIdentity(string name, string? emailAddress)
         {
@@ -125,6 +126,7 @@ namespace Memtly.Core.Controllers
             return Json(new { success = false });
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> LogCookieApproval()
         {

@@ -81,6 +81,7 @@ namespace Memtly.Core.Controllers
             });
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> Login(string? identifier, string? key = null)
         {
@@ -357,6 +358,7 @@ namespace Memtly.Core.Controllers
             return new RedirectToActionResult("Index", "Error", new { Reason = ErrorCode.InvalidGalleryId }, false);
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> UploadImage()
         {
@@ -518,6 +520,7 @@ namespace Memtly.Core.Controllers
             return Json(new { success = false, uploaded = 0 });
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> UploadCompleted()
         {
@@ -568,6 +571,7 @@ namespace Memtly.Core.Controllers
             return Json(new { success = false });
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         [RequestTimeout("timeout_1h")]
         public async Task<IActionResult> DownloadGallery(int id, string? secretKey, string? group, List<string>? fileFilter)
@@ -736,8 +740,8 @@ namespace Memtly.Core.Controllers
         //
         // GET is Resumable.js's resume-probe: 200 = chunk already on disk,
         // 204 = client needs to (re)send.
-        [HttpPost]
         [ValidateAntiForgeryToken]
+        [HttpPost]
         [DisableRequestSizeLimit]
         public async Task<IActionResult> UploadChunk()
         {

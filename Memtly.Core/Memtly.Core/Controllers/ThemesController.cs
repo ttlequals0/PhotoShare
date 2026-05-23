@@ -68,6 +68,7 @@ namespace Memtly.Core.Controllers
             return Json(options);
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> ChangeDisplayTheme(string theme)

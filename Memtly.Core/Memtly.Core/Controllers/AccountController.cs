@@ -897,6 +897,7 @@ namespace Memtly.Core.Controllers
             return PartialView("~/Views/Account/Settings/Gallery/GalleryOverrides.cshtml", model);
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         [RequiresRole(ReviewPermission = ReviewPermissions.View)]
         public async Task<IActionResult> ReviewPhoto(int id, ReviewAction action)
@@ -962,6 +963,7 @@ namespace Memtly.Core.Controllers
             return Json(new { success = false });
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         [RequiresRole(ReviewPermission = ReviewPermissions.View)]
         public async Task<IActionResult> BulkReview(ReviewAction action, int[] ids)
@@ -1029,6 +1031,7 @@ namespace Memtly.Core.Controllers
             return Json(new { success = false });
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         [RequiresRole(GalleryPermission = GalleryPermissions.Create)]
         public async Task<IActionResult> AddGallery(GalleryModel model)
@@ -1419,6 +1422,7 @@ namespace Memtly.Core.Controllers
             return Json(new { success = false });
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         [RequiresRole(UserPermission = UserPermissions.Create)]
         public async Task<IActionResult> AddUser(UserModel model)
@@ -1702,6 +1706,7 @@ namespace Memtly.Core.Controllers
             return await UpdateSettings(model, galleryId, SettingsPermissions.Gallery_Update);
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         [RequiresRole(DataPermission = DataPermissions.Export)]
         public async Task<IActionResult> ExportBackup(ExportOptions options)
@@ -1773,6 +1778,7 @@ namespace Memtly.Core.Controllers
             return Json(new { success = false });
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         [RequiresRole(DataPermission = DataPermissions.Import)]
         public async Task<IActionResult> ImportBackup()
@@ -1846,6 +1852,7 @@ namespace Memtly.Core.Controllers
             return Json(new { success = false });
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         [RequiresRole(CustomResourcePermission = CustomResourcePermissions.Create)]
         public async Task<IActionResult> UploadCustomResource()

@@ -211,6 +211,7 @@ namespace Memtly.Core.Controllers
         }
 
         [AllowAnonymous]
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> Like(int id, string action)
         {

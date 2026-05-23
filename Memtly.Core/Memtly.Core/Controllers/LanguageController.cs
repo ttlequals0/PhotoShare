@@ -90,6 +90,7 @@ namespace Memtly.Core.Controllers
         }
 
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> ChangeDisplayLanguage(string culture)
