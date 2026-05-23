@@ -1054,7 +1054,9 @@ namespace Memtly.Core.Controllers
                         var loweredIdent = model.Identifier?.ToLower();
                         if (!GalleryHelper.IsSafePathSegment(loweredIdent))
                         {
-                            var derived = (model.Name ?? string.Empty).ToLower();
+                            // model.Name was just IsNullOrWhiteSpace-checked above so it
+                            // cannot be null here; the ?? guard is dead.
+                            var derived = model.Name.ToLower();
                             derived = System.Text.RegularExpressions.Regex.Replace(derived, "[^a-z0-9_-]+", "-").Trim('-');
                             model.Identifier = GalleryHelper.IsSafePathSegment(derived)
                                 ? derived
@@ -1080,7 +1082,7 @@ namespace Memtly.Core.Controllers
                                 {
                                     await _audit.LogAction(User?.Identity?.GetUserId(), $"{_localizer["Audit_CreatedGallery"].Value} '{model.Name}'", AuditSeverity.Debug);
 
-                                    return Json(new { success = string.Equals(model.Name, gallery?.Name, StringComparison.OrdinalIgnoreCase) });
+                                    return Json(new { success = string.Equals(model.Name, gallery.Name, StringComparison.OrdinalIgnoreCase) });
                                 }
                                 else
                                 {
