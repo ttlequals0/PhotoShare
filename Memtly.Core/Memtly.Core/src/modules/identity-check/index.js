@@ -1,19 +1,41 @@
 ﻿import { displayMessage } from '@modules/message-box';
 import { displayPopup } from '@modules/popups';
 
+// sessionStorage key used to suppress repeat page-load prompts within the
+// same browser session. The server-side flag (body data-identity-check)
+// flips to false once the user actually sets an identity, so this is only
+// load-bearing for the cases where it would otherwise fire twice:
+//   - the same init() running again after a partial JS reload
+//   - SW staleWhileRevalidate returning cached HTML with the prompt state
+//     on a tab the user has already been asked in
+//   - back-to-back navigations where the server session write lags the
+//     next page render
+const PROMPT_SHOWN_KEY = 'photoshare_identity_prompt_shown';
+
 function init() {
     bindEventHandlers();
 
-    // Page-load auto-prompt. Skip if an upload form is on the page - that
-    // flow already triggers a required prompt the first time the user
-    // clicks upload, and firing both produces the "Name box prompts twice"
-    // experience operators were seeing. Auto-prompt remains useful on
-    // view-only gallery pages where there's no upload action.
+    // Skip auto-prompt when an upload form is on the page - the upload flow
+    // triggers a required prompt the first time the user clicks upload, and
+    // firing both produces the double-prompt experience operators were
+    // reporting. Auto-prompt remains useful on view-only gallery pages.
     const pageLoadEnabled = $('body').data('identity-check');
     const hasUploadForm = $('form.file-uploader-form').length > 0;
-    if (pageLoadEnabled && !hasUploadForm) {
-        displayIdentityCheck(false);
+    if (!pageLoadEnabled || hasUploadForm) return;
+
+    // Defensive dedup: don't auto-prompt again in this tab if we already
+    // did. Cleared when the user actually sets an identity (server flag
+    // flips, body data-identity-check goes false, so this branch never
+    // runs anyway).
+    try {
+        if (sessionStorage.getItem(PROMPT_SHOWN_KEY) === '1') return;
+        sessionStorage.setItem(PROMPT_SHOWN_KEY, '1');
+    } catch (_) {
+        // sessionStorage may be unavailable (private mode, blocked by
+        // policy). Fall through and prompt - matches prior behaviour.
     }
+
+    displayIdentityCheck(false);
 }
 
 function bindEventHandlers() {

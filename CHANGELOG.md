@@ -10,6 +10,22 @@ changes shipped below.
 
 ## [Unreleased]
 
+## [2.0.19] - 2026-05-23
+
+### Fixed
+
+- **Guest Name prompt appearing twice in the same browser session.**
+  The page-load auto-prompt in `identity-check/index.js` could fire more
+  than once when the same init() ran again (partial JS re-eval, SW
+  `staleWhileRevalidate` returning cached HTML with the prompt state on
+  a tab the user had already been asked in, or back-to-back navigations
+  where the server session write lagged the next page render). Added a
+  `sessionStorage` marker (`photoshare_identity_prompt_shown`) that gates
+  the auto-prompt to once per browser session. Cleared automatically
+  when the tab closes; the server-side `data-identity-check` flag flips
+  to false once the user sets an identity so the gate is a no-op for the
+  happy path. The manual "Change Identity" navbar button is not gated.
+
 ## [2.0.18] - 2026-05-23
 
 ### Security
@@ -798,7 +814,8 @@ First PhotoShare release. Forked from Memtly.Community 1.0.2.2 at SHA `2dd5f06`.
 - Add Docker Hub secrets to repo before the first tag push:
   `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN`.
 
-[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.18...HEAD
+[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.19...HEAD
+[2.0.19]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.18...v2.0.19
 [2.0.18]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.17...v2.0.18
 [2.0.17]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.16...v2.0.17
 [2.0.16]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.15...v2.0.16
