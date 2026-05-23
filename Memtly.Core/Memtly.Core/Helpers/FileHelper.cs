@@ -251,9 +251,8 @@ namespace Memtly.Core.Helpers
                 '/', '\\', ':', '*', '?', '"', '<', '>', '|'
             };
             var sb = new StringBuilder(basename.Length);
-            foreach (var ch in basename)
+            foreach (var ch in basename.Where(ch => ch >= 0x20 && !crossPlatformInvalid.Contains(ch)))
             {
-                if (ch < 0x20 || crossPlatformInvalid.Contains(ch)) continue;
                 sb.Append(ch);
             }
             var cleaned = sb.ToString().Trim().TrimEnd('.');

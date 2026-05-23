@@ -352,7 +352,7 @@ namespace Memtly.Core.Extensions
                         await next();
                     });
                 }
-                catch (Exception ex)
+                catch (Exception ex) when (ex is InvalidOperationException || ex is ArgumentException || ex is NullReferenceException)
                 {
                     // Security-headers registration failures must not be silent: a swallowed
                     // exception here means the app boots without CSP/HSTS/etc and no one knows.

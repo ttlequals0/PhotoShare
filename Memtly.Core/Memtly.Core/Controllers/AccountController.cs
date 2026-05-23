@@ -1078,9 +1078,9 @@ namespace Memtly.Core.Controllers
                                 var gallery = await _database.AddGallery(model);
                                 if (gallery != null)
                                 {
-                                    await _audit.LogAction(User?.Identity?.GetUserId(), $"{_localizer["Audit_CreatedGallery"].Value} '{model?.Name}'", AuditSeverity.Debug);
+                                    await _audit.LogAction(User?.Identity?.GetUserId(), $"{_localizer["Audit_CreatedGallery"].Value} '{model.Name}'", AuditSeverity.Debug);
 
-                                    return Json(new { success = string.Equals(model?.Name, gallery?.Name, StringComparison.OrdinalIgnoreCase) });
+                                    return Json(new { success = string.Equals(model.Name, gallery?.Name, StringComparison.OrdinalIgnoreCase) });
                                 }
                                 else
                                 {

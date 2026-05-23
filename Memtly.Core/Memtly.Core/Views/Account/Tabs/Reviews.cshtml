@@ -4,14 +4,6 @@
 
 @{
     var userPermissions = User?.Identity?.GetUserPermissions() ?? new Permissions();
-
-    var currentPage = 1;
-    if (Context.Request.Query.TryGetValue("page", out var rawPage) && int.TryParse(rawPage.ToString(), out var parsedPage))
-    {
-        currentPage = parsedPage;
-    }
-
-    var searchTerm = Context.Request.Query.TryGetValue("term", out var rawTerm) ? rawTerm.ToString() : string.Empty;
 }
 
 <section class="pnl-account pnl-account-reviews pb-0 pb-lg-4">

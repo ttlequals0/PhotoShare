@@ -194,7 +194,9 @@ namespace Memtly.Core.Helpers.Database
             // / DeletePhoto target arbitrary filesystem paths.
             if (!GalleryHelper.IsSafePathSegment(model.Identifier))
             {
-                _logger.LogWarning("Refused AddGallery: unsafe Identifier '{Identifier}'", model.Identifier);
+                // Strip CR/LF/control chars from the user-supplied value before logging
+                // so a crafted Identifier can't forge log lines (cs/log-injection).
+                _logger.LogWarning("Refused AddGallery: unsafe Identifier '{Identifier}'", SanitizeForLog(model.Identifier));
                 return null;
             }
 
@@ -1234,7 +1236,7 @@ namespace Memtly.Core.Helpers.Database
                 }
                 catch (Exception ex) when (ex is Microsoft.EntityFrameworkCore.DbUpdateException || ex is InvalidOperationException)
                 {
-                    _logger.LogWarning(ex, "SetSetting failed for key '{Key}'", model.Id);
+                    _logger.LogWarning(ex, "SetSetting failed for key '{Key}'", SanitizeForLog(model.Id));
                 }
             }
 
@@ -1360,5 +1362,20 @@ namespace Memtly.Core.Helpers.Database
             await DeleteAllAuditLogs();
         }
         #endregion
+
+        // Strip CR/LF/control chars from a value before it is interpolated into a
+        // log message. Without this, a crafted Identifier / Setting key containing
+        // "\r\nFAKE LOG LINE" could forge log entries (CodeQL cs/log-injection).
+        private static string SanitizeForLog(string? value)
+        {
+            if (string.IsNullOrEmpty(value)) return string.Empty;
+            var sb = new System.Text.StringBuilder(value.Length);
+            foreach (var ch in value)
+            {
+                if (ch < 0x20 || ch == 0x7F) { sb.Append('?'); continue; }
+                sb.Append(ch);
+            }
+            return sb.ToString();
+        }
     }
 }
