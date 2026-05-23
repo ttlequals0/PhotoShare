@@ -10,6 +10,18 @@ changes shipped below.
 
 ## [Unreleased]
 
+## [2.0.18] - 2026-05-23
+
+### Security
+
+- **Log-injection sanitization in `AccessLogMiddleware`.** The middleware
+  added in 2.0.17 interpolated user-controlled values (request path,
+  User-Agent, session identity, gallery identifier, HTTP method) directly
+  into the log template. CodeQL flagged 3 cs/log-injection alerts because
+  a crafted value containing CR/LF could forge log lines. Added a
+  private `SanitizeForLog` helper that strips control chars (< 0x20 and
+  0x7F) and applied it to every user-controlled string field.
+
 ## [2.0.17] - 2026-05-23
 
 ### Added
@@ -786,7 +798,8 @@ First PhotoShare release. Forked from Memtly.Community 1.0.2.2 at SHA `2dd5f06`.
 - Add Docker Hub secrets to repo before the first tag push:
   `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN`.
 
-[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.17...HEAD
+[Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.18...HEAD
+[2.0.18]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.17...v2.0.18
 [2.0.17]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.16...v2.0.17
 [2.0.16]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.15...v2.0.16
 [2.0.15]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.14...v2.0.15

@@ -47,12 +47,17 @@ namespace Memtly.Core.Middleware
             {
                 sw.Stop();
 
-                var method = ctx.Request.Method;
+                // All user-controlled string fields get scrubbed for CR/LF/control
+                // chars before going into the log template, so a crafted path /
+                // User-Agent / identity / gallery identifier can't forge log lines
+                // (cs/log-injection).
+                var method = SanitizeForLog(ctx.Request.Method);
                 var status = ctx.Response.StatusCode;
                 var durationMs = sw.Elapsed.TotalMilliseconds;
                 var remoteIp = ctx.Connection.RemoteIpAddress?.ToString() ?? "-";
-                var userAgent = ctx.Request.Headers.UserAgent.ToString();
+                var userAgent = SanitizeForLog(ctx.Request.Headers.UserAgent.ToString());
                 if (string.IsNullOrEmpty(userAgent)) userAgent = "-";
+                var safePath = SanitizeForLog(path);
 
                 string identity = "-";
                 try
@@ -67,26 +72,27 @@ namespace Memtly.Core.Middleware
                     // Session not available for this request (e.g. before
                     // session middleware), leave identity as "-".
                 }
+                identity = SanitizeForLog(identity);
 
-                var galleryId = TryGetGalleryIdentifier(ctx) ?? "-";
+                var galleryId = SanitizeForLog(TryGetGalleryIdentifier(ctx) ?? "-");
 
                 if (error != null)
                 {
                     _logger.LogWarning(
                         "access {Method} {Path} -> {Status} in {DurationMs:F1}ms ip={RemoteIp} ua={UserAgent} who={Identity} gallery={GalleryId} err={ErrorType}",
-                        method, path, status, durationMs, remoteIp, userAgent, identity, galleryId, error.GetType().Name);
+                        method, safePath, status, durationMs, remoteIp, userAgent, identity, galleryId, error.GetType().Name);
                 }
                 else if (status >= 500)
                 {
                     _logger.LogWarning(
                         "access {Method} {Path} -> {Status} in {DurationMs:F1}ms ip={RemoteIp} ua={UserAgent} who={Identity} gallery={GalleryId}",
-                        method, path, status, durationMs, remoteIp, userAgent, identity, galleryId);
+                        method, safePath, status, durationMs, remoteIp, userAgent, identity, galleryId);
                 }
                 else
                 {
                     _logger.LogInformation(
                         "access {Method} {Path} -> {Status} in {DurationMs:F1}ms ip={RemoteIp} ua={UserAgent} who={Identity} gallery={GalleryId}",
-                        method, path, status, durationMs, remoteIp, userAgent, identity, galleryId);
+                        method, safePath, status, durationMs, remoteIp, userAgent, identity, galleryId);
                 }
             }
         }
@@ -107,6 +113,21 @@ namespace Memtly.Core.Middleware
                 || path.Equals("/manifest.webmanifest", StringComparison.OrdinalIgnoreCase)
                 || path.Equals("/robots.txt", StringComparison.OrdinalIgnoreCase)
                 || path.Equals("/sitemap.xml", StringComparison.OrdinalIgnoreCase);
+        }
+
+        // Strip CR/LF/control chars before interpolating user-controlled
+        // strings into log templates. Prevents log forging via crafted Path /
+        // User-Agent / Identity / GalleryId values (cs/log-injection).
+        private static string SanitizeForLog(string? value)
+        {
+            if (string.IsNullOrEmpty(value)) return string.Empty;
+            var sb = new System.Text.StringBuilder(value.Length);
+            foreach (var ch in value)
+            {
+                if (ch < 0x20 || ch == 0x7F) { sb.Append('?'); continue; }
+                sb.Append(ch);
+            }
+            return sb.ToString();
         }
 
         private static string? TryGetGalleryIdentifier(HttpContext ctx)
