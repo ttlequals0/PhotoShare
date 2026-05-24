@@ -10,6 +10,42 @@ changes shipped below.
 
 ## [Unreleased]
 
+## [2.0.27] - 2026-05-24
+
+### Fixed
+
+- **CF Web Analytics beacon could not POST telemetry.** 2.0.26 allowed
+  `https://static.cloudflareinsights.com` in CSP `script-src` so
+  `beacon.min.js` could load, but the beacon itself POSTs RUM data to
+  the ROOT domain `https://cloudflareinsights.com/cdn-cgi/rum`, which
+  was still blocked by `connect-src`. Browser console showed:
+  > Connecting to 'https://cloudflareinsights.com/cdn-cgi/rum'
+  > violates ... connect-src 'self' ... https://static.cloudflareinsights.com
+  Added `https://cloudflareinsights.com` (root) to `connect-src`
+  alongside the static-subdomain entry. Beacon now reports normally.
+- **Suppress Cloudflare's JavaScript Detections inline script.**
+  Independent of Web Analytics, Cloudflare zones with Bot Fight Mode
+  (or higher) inject an inline `<script>` that loads
+  `/cdn-cgi/challenge-platform/scripts/jsd/main.js`. The inline body
+  embeds per-request `r`/`t` parameters so the sha256 rotates and
+  cannot be allow-listed. Per the official CF docs, an origin response
+  with `Cache-Control: no-transform` suppresses the injection. Added
+  the header in the security-headers middleware. Works on all CF plans
+  (Free included, where the dashboard toggle isn't exposed). Side
+  benefit: tells CF not to mangle our pre-minified webpack bundles
+  with Auto Minify / Rocket Loader.
+
+### Changed
+
+- **Documented the `ConfigHelper` shorthand env-var shim** in CLAUDE.md,
+  the canonical `docker-compose.yml` comment, and `docs/docker.md`.
+  Both naming conventions resolve to the same config value:
+    - Canonical: `Memtly__Trackers__CloudflareInsights__SiteToken`
+    - Shorthand: `TRACKERS_CLOUDFLAREINSIGHTS_SITETOKEN`
+  Earlier docs incorrectly said shorthand "does not bind to anything";
+  the shim has been there since upstream Memtly. Both forms work; pick
+  one per deploy.
+
 ## [2.0.26] - 2026-05-23
 
 ### Changed
@@ -960,6 +996,7 @@ First PhotoShare release. Forked from Memtly.Community 1.0.2.2 at SHA `2dd5f06`.
   `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN`.
 
 [Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.23...HEAD
+[2.0.27]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.26...v2.0.27
 [2.0.26]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.25...v2.0.26
 [2.0.25]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.24...v2.0.25
 [2.0.24]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.23...v2.0.24

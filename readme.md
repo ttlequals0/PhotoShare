@@ -7,6 +7,56 @@
 
 PhotoShare is an independent fork of [Memtly.Community](https://github.com/Memtly/Memtly.Community) (formerly WeddingShare). Most credit and most of the codebase belongs to the upstream maintainers; this fork carries hardening, branding, and UI changes specific to its operator. See [`CHANGELOG.md`](CHANGELOG.md) for everything that diverges from upstream.
 
+## What this fork adds vs upstream
+
+Concrete changes shipped since the 2.0.0 fork point. The full per-version detail is in [`CHANGELOG.md`](CHANGELOG.md).
+
+### Security hardening
+
+- Global anti-forgery (CSRF) validation on every `POST`/`PUT`/`DELETE`/`PATCH`; jQuery AJAX auto-attaches the token header. `[AllowAnonymous]` is now explicit on every endpoint that needs it rather than relying on absence.
+- `PasswordHelper` uses `RandomNumberGenerator` instead of `System.Random`. Email-verification and password-reset tokens are signed with `IDataProtector` so an attacker who only has the email link can't forge or replay tokens.
+- MFA failures count toward the same lockout bucket as password failures and are rate-limited; previously MFA was unrestricted.
+- Cookies set in controllers carry `Secure` + `SameSite=Lax`. Session and auth cookies do the same.
+- Upload validation: magic-byte sniffing on both images and video uploads; path-traversal hardening on `gallery.Identifier`; zip-slip protection on backup imports; Linux-specific filename sanitization beyond what upstream's `FileHelper` did.
+- Twelve log sites that previously echoed user-controlled or sensitive values now sanitize or redact. `AccessLogMiddleware` strips CR/LF from log fields.
+- Content-Security-Policy `script-src` no longer needs `'unsafe-inline'` or `'unsafe-eval'`: every `<script>` block was moved into `main.js`, every `on*=` handler converted to `addEventListener`. CSP wiring fails loudly at startup instead of silently swallowing exceptions.
+- `ADMIN_ALLOWED_NETWORKS` env gate (`AdminNetworkGate` middleware) limits `/Account`, `/Admin`, `/MultiFactor` to a configured CIDR allowlist. The login button is hidden from clients outside the allowlist so the surface isn't visible to scanners.
+
+### Installable PWA
+
+- `manifest.webmanifest`, generated icon set (16-512 plus apple-touch-icon-180), `theme-color` for light and dark, modern `mobile-web-app-capable` meta alongside the Apple-prefixed legacy variant.
+- Service worker (`/sw.js`) with route-aware strategies: network-first for HTML and `/Gallery/*` so uploads always reach the server fresh; cache-first for hashed `wwwroot/dist/` assets; stale-while-revalidate for the home shell. SW registration URL is version-stamped (`/sw.js?v=<version>`) so each release bypasses upstream HTTP and Cloudflare caches.
+- `Cache-Control: no-cache` on `/sw.js` and the manifest so the edge can't pin an old worker.
+
+### Uploads
+
+- Chunked uploads via Resumable.js: 25 MB chunks, parallel transfers, retry per chunk, resumes across browser reloads. Replaces the upstream single-POST flow that broke for files larger than a request body limit.
+- Server-side HEIC -> JPEG sidecar on upload (ffmpeg) plus lazy-loaded browser-side libheif fallback for HEIC preview in non-Safari browsers. iPhone Camera's default format now uploads cleanly.
+- Client-side allowed-file-type pre-check so the user gets immediate feedback instead of a server-side 415 after the bytes have been transferred.
+- `.webp` added to default `Allowed_File_Types`; Postgres NUL-byte handling fix so filenames with embedded zeros don't fail with `22021: invalid byte sequence`.
+
+### Operations & deploy
+
+- `docker-compose.yml` for a Postgres-backed deploy with required secrets fail-fast (`${ENCRYPTION_KEY:?...}` style). `.env.example` documents every variable with a hint. `docs/docker.md` walks through the full compose deploy; `docs/cloudflare.md` documents Tunnel config, WAF custom + rate-limit rules, Access for `/Admin*`, Turnstile on `/Account/Register`, and cache rules.
+- Container base swapped to `mcr.microsoft.com/dotnet/aspnet:9.0-noble-chiseled-extra`: smaller image, no shell, no package manager, no curl or wget. Healthcheck moved off the container (it has no shell to run one) onto the host or Cloudflare Tunnel origin probe; `/healthz` is the endpoint.
+- FFmpeg and FFprobe are baked into the image at `/app/ffmpeg` so the runtime auto-download path is no longer required and the container has no network dependency on first start.
+- Structured per-request access logging via `AccessLogMiddleware` (one JSON line per request, includes method, path, status, ms, user id when authenticated). Configurable log level.
+- Trivy filesystem scan runs every CI build (advisory). CodeQL runs on every PR + master + weekly cron.
+
+### UI, brand, accessibility
+
+- Reskinned to the PhotoShare brand: SVG logos (light + dark), 128x128 icons, manifest theme colours `#1b1938` / `#ffffff`, footer copy, navbar wordmark. Upstream Memtly logos and sponsor avatars are preserved for attribution.
+- Theme system collapsed to Auto / Light / Dark; the previous mix of theme files was confusing and Auto wasn't honoured consistently.
+- Self-hosted Inter Variable font (`font-display: swap`), design tokens in `src/css/tokens.css`, dark-mode contrast fixes for headings, modal bodies, and form inputs (some were unreadable against the dark surface before).
+- Mobile-first sizing pass: navbar logo capped at 32x32, hero composition uses `.hero-surface` utility, viewport tightened for installable PWA layout on phones.
+- Accessibility: dropped `'sha256-...'` workarounds in favour of releasing focus from inside modals before Bootstrap sets `aria-hidden` on them, so AT users don't see focused-but-hidden buttons.
+
+### Analytics
+
+- Cloudflare Web Analytics manual install: token comes from the `Memtly__Trackers__CloudflareInsights__SiteToken` env var. Defaults empty, so deploys without the var get no CF script and no behaviour change. The token never lives in the repo.
+- When enabling, also turn off Web Analytics auto-injection for the zone in the Cloudflare dashboard. CF's auto-injected inline bootstrap rotates its body per request, which cannot be allow-listed via a CSP hash; that's why we install it ourselves as an external script tag.
+- Self-hosted Umami is still supported via the existing `Memtly.Trackers.Umami` config block.
+
 ## Quick start
 
 Postgres-backed deploy via Docker Compose:
@@ -22,6 +72,8 @@ docker compose logs -f app
 ```
 
 Open http://localhost:5000 and log in with the admin credentials from `.env`.
+
+Full env-var reference: [`.env.example`](.env.example) for the operator-set values, and [`docs/docker.md`](docs/docker.md) for the underlying `Memtly__Section__Key` bindings the container reads (required secrets, public-exposure recommendations, database, analytics, admin network gate, Cloudflare Tunnel sidecar).
 
 For public exposure (Cloudflare Tunnel + WAF rules), see:
 - [`docs/docker.md`](docs/docker.md) - compose deploy details, env vars, volume layout, backups

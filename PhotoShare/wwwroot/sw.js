@@ -8,7 +8,7 @@
  * Bump SW_VERSION below to invalidate caches on deploy.
  */
 
-const SW_VERSION = '2.0.26';
+const SW_VERSION = '2.0.27';
 const STATIC_CACHE = `photoshare-static-${SW_VERSION}`;
 const SHELL_CACHE = `photoshare-shell-${SW_VERSION}`;
 

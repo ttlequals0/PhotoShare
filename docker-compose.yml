@@ -40,12 +40,24 @@ services:
       db:
         condition: service_healthy
     environment:
-      # ASP.NET Core env var convention: double-underscore replaces the
-      # colon in nested config keys. `Memtly__Account__Admin__Email` binds
-      # to the `Memtly:Account:Admin:Email` setting in appsettings.json.
-      # Shorthand names like ACCOUNT_ADMIN_EMAIL or ENCRYPTION_KEY do NOT
-      # bind to anything - the app will read empty appsettings defaults
-      # and fail-fast at startup.
+      # Two env-var naming conventions are accepted, pick one and stick
+      # with it. The canonical form below is the ASP.NET Core standard:
+      # `Memtly__Section__Key` (double underscore replaces the colon in
+      # the nested `Memtly:Section:Key` config path). Read via the
+      # standard IConfiguration binder.
+      #
+      # The upstream Memtly `ConfigHelper.GetEnvironmentVariable` shim
+      # also accepts the SHORTHAND form: strip the leading `Memtly:`,
+      # join the rest with `_`, uppercase. Derivations:
+      #   Memtly:Database:Type           -> DATABASE_TYPE
+      #   Memtly:Security:Encryption:Key -> SECURITY_ENCRYPTION_KEY
+      #   Memtly:Account:Admin:Email     -> ACCOUNT_ADMIN_EMAIL
+      #   Memtly:Force_Https             -> FORCE_HTTPS
+      #   Memtly:Title                   -> TITLE
+      #   Memtly:Trackers:CloudflareInsights:SiteToken
+      #                                  -> TRACKERS_CLOUDFLAREINSIGHTS_SITETOKEN
+      # Both forms work; this template uses the canonical form for
+      # searchability against `MemtlyConfiguration` constants.
 
       # --- Database ---
       Memtly__Database__Type: postgres
@@ -62,6 +74,14 @@ services:
       Memtly__Base_Url: ${BASE_URL:-http://localhost:5000}
       Memtly__Title: PhotoShare
       ASPNETCORE_ENVIRONMENT: Production
+
+      # --- Optional admin network gate ---
+      # AdminNetworkGate middleware reads this raw env var (not via
+      # Memtly__Section__Key) and returns 404 from /Account, /Admin,
+      # /MultiFactor to any RemoteIpAddress outside the listed CIDRs.
+      # Empty = unrestricted (default). Use to keep the auth surface
+      # off the public tunnel: 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+      ADMIN_ALLOWED_NETWORKS: ${ADMIN_ALLOWED_NETWORKS:-}
 
       # --- Trackers (optional) ---
       # Cloudflare Web Analytics, manual install mode. Get the token
