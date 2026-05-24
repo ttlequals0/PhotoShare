@@ -65,6 +65,29 @@ Database:
 | `Memtly__Database__Type` | `sqlite` (default) / `mysql` / `postgres` / `mssql` / `mariadb` |
 | `Memtly__Database__Connection_String` | Provider-specific |
 
+Optional admin network gate (raw env, not `Memtly__`):
+
+| Container env var | Purpose |
+|-------------------|---------|
+| `ADMIN_ALLOWED_NETWORKS` | Comma-separated CIDR list. When set, `/Account`, `/Admin`, `/MultiFactor` return 404 to any client outside the allowlist (RemoteIpAddress after `ForwardedHeaders` rewrite). Empty = unrestricted. Read directly by `AdminNetworkGate` middleware, not by the standard `Memtly:Section:Key` binder. |
+
+Optional analytics (both leave the script tag out entirely when empty):
+
+| Container env var | Purpose |
+|-------------------|---------|
+| `Memtly__Trackers__CloudflareInsights__SiteToken` | Cloudflare Web Analytics site token. When set, app renders the external CF beacon `<script>` tag. Also disable Web Analytics auto-injection for the zone in the CF dashboard, otherwise CF will inject its rotating inline bootstrap alongside ours (and CSP will block it). |
+| `Memtly__Trackers__Umami__Endpoint` | Base URL of your self-hosted Umami instance (no trailing slash). |
+| `Memtly__Trackers__Umami__WebsiteId` | Umami site UUID. Both `Endpoint` and `WebsiteId` must be set for the script to render. |
+| `Memtly__Trackers__Umami__ScriptName` | Defaults to `script.js`. Override if your Umami install renames the loader. |
+| `Memtly__Trackers__Umami__PerformanceTracking__Enabled` | `true` to enable Umami's perf metrics. Default `false`. |
+| `Memtly__Trackers__Umami__Replay__Enabled` | `true` to enable Umami Session Replay; tune via `Replay__SampleRate` / `MaskLevel` / `MaxDuration` / `BlockSelector`. |
+
+Optional Cloudflare Tunnel sidecar (set on the `cloudflared` service, not the `app` service):
+
+| Container env var | Purpose |
+|-------------------|---------|
+| `TUNNEL_TOKEN` | Token from `cloudflared tunnel token <NAME>` or the Zero Trust dashboard. Wired through `${CLOUDFLARED_TOKEN}` in the commented sidecar block at the bottom of `docker-compose.yml`. |
+
 ## Volumes
 
 The image runs as **chiseled-extra's built-in `app` user (UID 1654,

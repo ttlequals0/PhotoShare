@@ -63,6 +63,14 @@ services:
       Memtly__Title: PhotoShare
       ASPNETCORE_ENVIRONMENT: Production
 
+      # --- Optional admin network gate ---
+      # AdminNetworkGate middleware reads this raw env var (not via
+      # Memtly__Section__Key) and returns 404 from /Account, /Admin,
+      # /MultiFactor to any RemoteIpAddress outside the listed CIDRs.
+      # Empty = unrestricted (default). Use to keep the auth surface
+      # off the public tunnel: 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+      ADMIN_ALLOWED_NETWORKS: ${ADMIN_ALLOWED_NETWORKS:-}
+
       # --- Trackers (optional) ---
       # Cloudflare Web Analytics, manual install mode. Get the token
       # from the CF dashboard: Web Analytics -> your site -> "Manage
