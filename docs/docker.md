@@ -34,11 +34,44 @@ with the `ADMIN_EMAIL` / `ADMIN_PASSWORD` you set.
 
 ## Environment variables
 
-The compose file binds via the canonical ASP.NET Core form:
-`Memtly__Section__Key` (double underscore replaces the colon in the
-nested `Memtly:Section:Key` config path). Set these as container env
-vars, not shell vars - the compose file already wires them up from
-`.env`.
+Two naming conventions are accepted; pick one and stick with it per
+deploy.
+
+**Canonical form (ASP.NET Core standard).** Double underscore replaces
+the colon in the nested `Memtly:Section:Key` config path. Examples:
+`Memtly__Database__Type`, `Memtly__Trackers__CloudflareInsights__SiteToken`.
+Read via the standard `IConfiguration` binder. The compose file in this
+repo uses this form for searchability against `MemtlyConfiguration`
+constants.
+
+**Shorthand form (upstream Memtly `ConfigHelper` shim).** The shim in
+`Memtly.Core/Helpers/ConfigHelper.cs` derives the env var name by
+stripping the leading `Memtly:`, joining the rest with `_`, and
+upper-casing. Examples:
+
+| Config key                                       | Shorthand env var                       |
+|--------------------------------------------------|-----------------------------------------|
+| `Memtly:Database:Type`                           | `DATABASE_TYPE`                         |
+| `Memtly:Database:Connection_String`              | `DATABASE_CONNECTION_STRING`            |
+| `Memtly:Security:Encryption:Key`                 | `SECURITY_ENCRYPTION_KEY`               |
+| `Memtly:Security:Encryption:Salt`                | `SECURITY_ENCRYPTION_SALT`              |
+| `Memtly:Account:Admin:Email`                     | `ACCOUNT_ADMIN_EMAIL`                   |
+| `Memtly:Account:Admin:Password`                  | `ACCOUNT_ADMIN_PASSWORD`                |
+| `Memtly:Force_Https`                             | `FORCE_HTTPS`                           |
+| `Memtly:Base_Url`                                | `BASE_URL`                              |
+| `Memtly:Title`                                   | `TITLE`                                 |
+| `Memtly:Trackers:CloudflareInsights:SiteToken`   | `TRACKERS_CLOUDFLAREINSIGHTS_SITETOKEN` |
+| `Memtly:Trackers:Umami:Endpoint`                 | `TRACKERS_UMAMI_ENDPOINT`               |
+| `Memtly:Trackers:Umami:WebsiteId`                | `TRACKERS_UMAMI_WEBSITEID`              |
+
+Both forms resolve to the same config value. The shim is checked
+first; if no shorthand env var is set, the binder falls back to the
+canonical form / `appsettings.json` defaults.
+
+**One exception:** `ADMIN_ALLOWED_NETWORKS` is read directly by
+`AdminNetworkGate` middleware via `Environment.GetEnvironmentVariable`,
+not through `ConfigHelper` or `IConfiguration`. It has no
+`Memtly__...` equivalent.
 
 Required (the app refuses to start without these in non-Development):
 

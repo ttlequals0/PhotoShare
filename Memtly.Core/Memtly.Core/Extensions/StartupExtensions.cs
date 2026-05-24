@@ -344,19 +344,22 @@ namespace Memtly.Core.Extensions
                         // (token in env var, see _Trackers.cshtml) rather
                         // than via CF zone-level auto-injection. Manual
                         // install emits an EXTERNAL <script src> tag, so
-                        // we just need to allow the script origin in
-                        // script-src and the beacon's POST destination in
-                        // connect-src. No inline hash is required.
+                        // we need to allow:
+                        //   script-src:  https://static.cloudflareinsights.com
+                        //                (where beacon.min.js lives)
+                        //   connect-src: https://cloudflareinsights.com
+                        //                (where beacon.min.js POSTs RUM
+                        //                data to /cdn-cgi/rum at runtime,
+                        //                root domain not the static. one)
                         //
-                        // We tried allow-listing the auto-injected inline
-                        // bootstrap's sha256 in 2.0.24/2.0.25 - turned out
-                        // CF rotates the inline payload per-request (the
-                        // body embeds a nonce-like value), so no static
-                        // hash can ever match. Manual install side-steps
-                        // the rotation entirely by removing the inline
-                        // bootstrap from the response.
-                        const string cfInsightsOrigin = "https://static.cloudflareinsights.com";
-                        var defaultCsp = $"default-src 'self' {origins}; script-src 'self' {cfInsightsOrigin}{trackers}; style-src 'self' 'unsafe-inline'; connect-src 'self' {origins} {cfInsightsOrigin}{trackers}; font-src 'self'; img-src 'self' https://github.com/ https://avatars.githubusercontent.com/ data:; frame-src 'self'; frame-ancestors 'self'; object-src 'none'; base-uri 'self';";
+                        // We tried allow-listing CF's auto-injected inline
+                        // bootstrap sha256 in 2.0.24/2.0.25 - turned out
+                        // CF rotates the inline payload per request, so
+                        // no static hash can ever match. Manual install
+                        // side-steps that entirely.
+                        const string cfInsightsScriptOrigin = "https://static.cloudflareinsights.com";
+                        const string cfInsightsBeaconOrigin = "https://cloudflareinsights.com";
+                        var defaultCsp = $"default-src 'self' {origins}; script-src 'self' {cfInsightsScriptOrigin}{trackers}; style-src 'self' 'unsafe-inline'; connect-src 'self' {origins} {cfInsightsScriptOrigin} {cfInsightsBeaconOrigin}{trackers}; font-src 'self'; img-src 'self' https://github.com/ https://avatars.githubusercontent.com/ data:; frame-src 'self'; frame-ancestors 'self'; object-src 'none'; base-uri 'self';";
                         context.Response.Headers.Append("Content-Security-Policy", config.GetOrDefault(MemtlyConfiguration.Security.Headers.CSP, defaultCsp));
 
                         context.Response.Headers.Remove("Referrer-Policy");
@@ -370,6 +373,29 @@ namespace Memtly.Core.Extensions
 
                         context.Response.Headers.Remove("Cross-Origin-Resource-Policy");
                         context.Response.Headers.Append("Cross-Origin-Resource-Policy", "same-site");
+
+                        // Tell Cloudflare not to transform the response
+                        // body. Two reasons:
+                        //   1. CF's JavaScript Detections feature injects
+                        //      an inline <script> bootstrap (rotating
+                        //      `r`/`t` parameters per request) into HTML
+                        //      pages. Per CF docs, a `Cache-Control:
+                        //      no-transform` directive on the origin
+                        //      response suppresses that injection. Works
+                        //      on all CF plans, including Free where the
+                        //      dashboard toggle isn't exposed.
+                        //   2. We already ship optimised webpack bundles;
+                        //      CF Auto-Minify / Email Obfuscation /
+                        //      Rocket Loader rewriting our output would
+                        //      only mangle it.
+                        // `no-transform` only restricts intermediaries
+                        // from modifying the response - it doesn't change
+                        // caching behaviour. Combining with the existing
+                        // `Cache-Control: no-cache, no-store, must-revalidate`
+                        // that `UseStaticFiles` puts on /sw.js is safe;
+                        // browsers and CF union the directives.
+                        // https://developers.cloudflare.com/bots/reference/javascript-detections/
+                        context.Response.Headers.Append("Cache-Control", "no-transform");
 
                         await next();
                     });
