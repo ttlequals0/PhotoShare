@@ -340,14 +340,24 @@ namespace Memtly.Core.Extensions
                         // we get back.
                         var origins = !string.IsNullOrWhiteSpace(baseUrlCSP) ? baseUrlCSP : "http://localhost:* ws://localhost:*";
                         var trackers = !string.IsNullOrWhiteSpace(trackersUrlCSP) ? $" {trackersUrlCSP}" : string.Empty;
-                        var defaultCsp = $"default-src 'self' {origins}; script-src 'self'{trackers}; style-src 'self' 'unsafe-inline'; connect-src 'self' {origins}{trackers}; font-src 'self'; img-src 'self' https://github.com/ https://avatars.githubusercontent.com/ data:; frame-src 'self'; frame-ancestors 'self'; object-src 'none'; base-uri 'self';";
+                        // Cloudflare Web Analytics, when enabled at the
+                        // edge, injects a <script src="https://static.cloudflareinsights.com/beacon.min.js/...">
+                        // plus a short inline bootstrap that POSTs to
+                        // /cdn-cgi/rum. Allow both: the script origin and
+                        // the inline bootstrap's sha256. Hash is stable
+                        // per CF beacon version and rotates rarely - if
+                        // it changes, the browser console will print the
+                        // new sha256 to drop in here.
+                        const string cfInsightsOrigin = "https://static.cloudflareinsights.com";
+                        const string cfInsightsInlineHash = "'sha256-WjzVlemoAVYhTrIWm64Wsb8OhfWsF19t+Pf4PvI8RlQ='";
+                        var defaultCsp = $"default-src 'self' {origins}; script-src 'self' {cfInsightsOrigin} {cfInsightsInlineHash}{trackers}; style-src 'self' 'unsafe-inline'; connect-src 'self' {origins} {cfInsightsOrigin}{trackers}; font-src 'self'; img-src 'self' https://github.com/ https://avatars.githubusercontent.com/ data:; frame-src 'self'; frame-ancestors 'self'; object-src 'none'; base-uri 'self';";
                         context.Response.Headers.Append("Content-Security-Policy", config.GetOrDefault(MemtlyConfiguration.Security.Headers.CSP, defaultCsp));
 
                         context.Response.Headers.Remove("Referrer-Policy");
                         context.Response.Headers.Append("Referrer-Policy", "strict-origin-when-cross-origin");
 
                         context.Response.Headers.Remove("Permissions-Policy");
-                        context.Response.Headers.Append("Permissions-Policy", "camera=(), microphone=(), geolocation=(), interest-cohort=()");
+                        context.Response.Headers.Append("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
 
                         context.Response.Headers.Remove("Cross-Origin-Opener-Policy");
                         context.Response.Headers.Append("Cross-Origin-Opener-Policy", "same-origin");

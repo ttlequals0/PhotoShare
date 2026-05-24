@@ -88,6 +88,15 @@ export function displayMessage(title, message, errors, callbackFn) {
 }
 
 export function hideMessage() {
+    // Bootstrap toggles aria-hidden="true" on the modal container when
+    // hiding; if focus is still on a descendant (e.g. the Close button
+    // that triggered the hide), AT users see a focused-but-aria-hidden
+    // element and the browser logs an accessibility warning. Release
+    // focus to <body> before handing off to Bootstrap.
+    const active = document.activeElement;
+    if (active && document.getElementById('alert-message-modal')?.contains(active)) {
+        active.blur();
+    }
     $('#alert-message-modal').modal('hide');
     hideLoader();
 }

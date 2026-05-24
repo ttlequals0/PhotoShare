@@ -10,6 +10,32 @@ changes shipped below.
 
 ## [Unreleased]
 
+## [2.0.24] - 2026-05-23
+
+### Fixed
+
+- **Cloudflare Web Analytics blocked by CSP.** Browser console logged
+  two violations on every gallery load: the `beacon.min.js` script load
+  from `static.cloudflareinsights.com` and the small inline bootstrap
+  CF injects to call it. Added `https://static.cloudflareinsights.com`
+  to `script-src` / `connect-src` plus the stable
+  `sha256-WjzVlemoAVYhTrIWm64Wsb8OhfWsF19t+Pf4PvI8RlQ=` hash for the
+  inline beacon-init. If Cloudflare rotates the inline payload, the
+  console will print the new hash to drop in.
+- **`aria-hidden` warning on the upload-success modal.** Closing the
+  modal while focus was still on the Close button left a focused
+  element inside an `aria-hidden="true"` container, which AT users
+  cannot interact with. `hideMessage()` now blurs the active element
+  before handing off to Bootstrap's `.modal('hide')`.
+- **Deprecated `Permissions-Policy` token.** Removed `interest-cohort=()`;
+  Chrome no longer recognises the FLoC opt-out and emits a console
+  warning for the unknown feature. Camera/microphone/geolocation
+  remain locked down.
+- **Deprecated `apple-mobile-web-app-capable` meta.** Added the modern
+  `<meta name="mobile-web-app-capable" content="yes">` alongside the
+  Apple-prefixed variant; the Apple tag stays for Safari iOS
+  compatibility.
+
 ## [2.0.23] - 2026-05-23
 
 ### Fixed
@@ -893,6 +919,7 @@ First PhotoShare release. Forked from Memtly.Community 1.0.2.2 at SHA `2dd5f06`.
   `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN`.
 
 [Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.23...HEAD
+[2.0.24]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.23...v2.0.24
 [2.0.23]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.22...v2.0.23
 [2.0.22]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.21...v2.0.22
 [2.0.21]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.20...v2.0.21
