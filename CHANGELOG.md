@@ -10,6 +10,19 @@ changes shipped below.
 
 ## [Unreleased]
 
+## [2.0.25] - 2026-05-23
+
+### Fixed
+
+- **CF Web Analytics inline beacon hash rotated.** Right after the
+  2.0.24 deploy, browsers reported a new CSP violation:
+  `sha256-jBjCv1kVVlGWxcduczmn4WdzWbV8M9lVhWFhIv861Pg=` - Cloudflare
+  rebuilt the inline beacon-init stub. Added the new hash alongside
+  the 2.0.24 one in `script-src`; browsers accept any match so listing
+  both costs nothing and keeps the previous payload working if CF
+  serves it again. Pattern documented in the comment for future
+  rotations.
+
 ## [2.0.24] - 2026-05-23
 
 ### Fixed
@@ -919,6 +932,7 @@ First PhotoShare release. Forked from Memtly.Community 1.0.2.2 at SHA `2dd5f06`.
   `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN`.
 
 [Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.23...HEAD
+[2.0.25]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.24...v2.0.25
 [2.0.24]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.23...v2.0.24
 [2.0.23]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.22...v2.0.23
 [2.0.22]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.21...v2.0.22
