@@ -63,6 +63,17 @@ services:
       Memtly__Title: PhotoShare
       ASPNETCORE_ENVIRONMENT: Production
 
+      # --- Trackers (optional) ---
+      # Cloudflare Web Analytics, manual install mode. Get the token
+      # from the CF dashboard: Web Analytics -> your site -> "Manage
+      # Site" -> the data-cf-beacon JSON contains the token. When set,
+      # the app renders the external <script defer> in _Trackers.cshtml.
+      # Also disable "Auto-injection" for the zone in the CF dashboard
+      # so CF stops adding its own inline bootstrap (which rotates the
+      # inline payload per request and is impossible to allow-list via
+      # CSP hash). Leave empty to disable.
+      Memtly__Trackers__CloudflareInsights__SiteToken: ${CF_WEB_ANALYTICS_TOKEN:-}
+
       # FFmpeg path. The image bakes static ffmpeg+ffprobe at /app/ffmpeg
       # (since 2.0.12), so the runtime auto-download is no longer used.
       # Kept here for clarity; do NOT bind-mount /app/ffmpeg or the baked

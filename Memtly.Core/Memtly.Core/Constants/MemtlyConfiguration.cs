@@ -220,6 +220,12 @@
         {
             public const string BaseKey = "Memtly:Trackers:";
 
+            public class CloudflareInsights
+            {
+                public const string BaseKey = "Memtly:Trackers:CloudflareInsights:";
+                public const string SiteToken = "Memtly:Trackers:CloudflareInsights:SiteToken";
+            }
+
             public class Umami
             {
                 public const string BaseKey = "Memtly:Trackers:Umami:";

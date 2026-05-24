@@ -10,6 +10,34 @@ changes shipped below.
 
 ## [Unreleased]
 
+## [2.0.26] - 2026-05-23
+
+### Changed
+
+- **Cloudflare Web Analytics: switch from auto-injection to manual
+  install.** The auto-injected inline bootstrap script rotates its
+  payload per-request (the body embeds a nonce-like value), so the
+  hash-based CSP allow-list shipped in 2.0.24/2.0.25 could never match
+  more than the one specific response that produced the hash. New
+  approach:
+  - Token now read from `Memtly__Trackers__CloudflareInsights__SiteToken`
+    env var (canonical `Memtly:Trackers:CloudflareInsights:SiteToken`
+    config key). Empty default in `appsettings.json`. When the token
+    is non-empty, `_Trackers.cshtml` emits the EXTERNAL
+    `<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"..."}'>`.
+  - Dropped both `sha256-...` inline hashes from CSP `script-src`;
+    the external script needs only the origin allow-list (which is
+    still there). The token itself never lives in the repo - this
+    repo is public.
+  - `docker-compose.yml` ships a `${CF_WEB_ANALYTICS_TOKEN:-}` entry
+    so operators set the token in `.env` (or stack env on Portainer);
+    the variable defaults to empty so deploys without CF analytics
+    are unaffected.
+  - Operator action required: in the Cloudflare zone dashboard, turn
+    OFF Web Analytics auto-injection for the hostname; otherwise CF
+    will continue injecting its rotating inline bootstrap alongside
+    our manual `<script>` tag and the CSP errors will continue.
+
 ## [2.0.25] - 2026-05-23
 
 ### Fixed
@@ -932,6 +960,7 @@ First PhotoShare release. Forked from Memtly.Community 1.0.2.2 at SHA `2dd5f06`.
   `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN`.
 
 [Unreleased]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.23...HEAD
+[2.0.26]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.25...v2.0.26
 [2.0.25]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.24...v2.0.25
 [2.0.24]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.23...v2.0.24
 [2.0.23]: https://github.com/ttlequals0/PhotoShare/compare/v2.0.22...v2.0.23
