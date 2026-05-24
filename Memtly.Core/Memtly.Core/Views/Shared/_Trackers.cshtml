@@ -1,6 +1,19 @@
 @using Memtly.Core.Constants
 
 @{
+    // Cloudflare Web Analytics, manual install mode. Token comes from
+    // appsettings / env var (Memtly__Trackers__CloudflareInsights__SiteToken)
+    // - NEVER hardcoded, since this is a public repo. When configured,
+    // emits the external <script> tag and disables auto-injection at the
+    // CF zone level (so CF's per-request rotating inline bootstrap stops
+    // being injected, which was the source of the hash-rotation CSP
+    // errors on every page load).
+    var cfInsightsToken = _config.GetOrDefault(MemtlyConfiguration.Trackers.CloudflareInsights.SiteToken, string.Empty).Trim();
+    if (!string.IsNullOrWhiteSpace(cfInsightsToken))
+    {
+        <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon="@($"{{\"token\":\"{cfInsightsToken}\"}}")"></script>
+    }
+
     var umamiEndpoint = (await _settings.GetOrDefault(MemtlyConfiguration.Trackers.Umami.Endpoint, string.Empty)).Trim('/');
     if (!string.IsNullOrWhiteSpace(umamiEndpoint))
     {

@@ -340,21 +340,23 @@ namespace Memtly.Core.Extensions
                         // we get back.
                         var origins = !string.IsNullOrWhiteSpace(baseUrlCSP) ? baseUrlCSP : "http://localhost:* ws://localhost:*";
                         var trackers = !string.IsNullOrWhiteSpace(trackersUrlCSP) ? $" {trackersUrlCSP}" : string.Empty;
-                        // Cloudflare Web Analytics injects a
-                        // <script src="https://static.cloudflareinsights.com/beacon.min.js/...">
-                        // plus a short inline bootstrap that POSTs to
-                        // /cdn-cgi/rum. Allow the script origin and the
-                        // inline bootstrap's sha256. CF rotates the inline
-                        // payload occasionally - when that happens, the
-                        // browser logs the new sha256 in the CSP error.
-                        // We accumulate hashes here (oldest first); browsers
-                        // accept any match, so listing several is harmless
-                        // and avoids a brief CSP error window during the
-                        // rotation. Prune entries that haven't been seen
-                        // in the wild for a few months.
+                        // Cloudflare Web Analytics is installed manually
+                        // (token in env var, see _Trackers.cshtml) rather
+                        // than via CF zone-level auto-injection. Manual
+                        // install emits an EXTERNAL <script src> tag, so
+                        // we just need to allow the script origin in
+                        // script-src and the beacon's POST destination in
+                        // connect-src. No inline hash is required.
+                        //
+                        // We tried allow-listing the auto-injected inline
+                        // bootstrap's sha256 in 2.0.24/2.0.25 - turned out
+                        // CF rotates the inline payload per-request (the
+                        // body embeds a nonce-like value), so no static
+                        // hash can ever match. Manual install side-steps
+                        // the rotation entirely by removing the inline
+                        // bootstrap from the response.
                         const string cfInsightsOrigin = "https://static.cloudflareinsights.com";
-                        const string cfInsightsInlineHashes = "'sha256-WjzVlemoAVYhTrIWm64Wsb8OhfWsF19t+Pf4PvI8RlQ=' 'sha256-jBjCv1kVVlGWxcduczmn4WdzWbV8M9lVhWFhIv861Pg='";
-                        var defaultCsp = $"default-src 'self' {origins}; script-src 'self' {cfInsightsOrigin} {cfInsightsInlineHashes}{trackers}; style-src 'self' 'unsafe-inline'; connect-src 'self' {origins} {cfInsightsOrigin}{trackers}; font-src 'self'; img-src 'self' https://github.com/ https://avatars.githubusercontent.com/ data:; frame-src 'self'; frame-ancestors 'self'; object-src 'none'; base-uri 'self';";
+                        var defaultCsp = $"default-src 'self' {origins}; script-src 'self' {cfInsightsOrigin}{trackers}; style-src 'self' 'unsafe-inline'; connect-src 'self' {origins} {cfInsightsOrigin}{trackers}; font-src 'self'; img-src 'self' https://github.com/ https://avatars.githubusercontent.com/ data:; frame-src 'self'; frame-ancestors 'self'; object-src 'none'; base-uri 'self';";
                         context.Response.Headers.Append("Content-Security-Policy", config.GetOrDefault(MemtlyConfiguration.Security.Headers.CSP, defaultCsp));
 
                         context.Response.Headers.Remove("Referrer-Policy");
