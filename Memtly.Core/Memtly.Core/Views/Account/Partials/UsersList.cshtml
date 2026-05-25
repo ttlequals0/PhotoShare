@@ -7,7 +7,6 @@
 @{
     var userPermissions = (User?.Identity?.GetUserPermissions() ?? new Permissions());
     var tooltipDisabled = $"({_localizer["Disabled"].Value})";
-    var tooltipUpgradeToUnlock = $"({_localizer["Upgrade_To_Unlock"].Value})";
 
     var currentPage = 1;
     if (Context.Request.Query.TryGetValue("page", out var rawPage) && int.TryParse(rawPage.ToString(), out var parsedPage))

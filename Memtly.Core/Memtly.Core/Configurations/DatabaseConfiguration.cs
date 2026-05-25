@@ -378,13 +378,11 @@ namespace Memtly.Core.Configurations
                     }
                 }
 
-                var fieldInfos = type.GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                var fieldInfos = type.GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)
+                    .Where(fi => fi.IsLiteral && !fi.IsInitOnly);
                 foreach (var fi in fieldInfos)
                 {
-                    if (fi.IsLiteral && !fi.IsInitOnly)
-                    {
-                        constants.Add(fi);
-                    }
+                    constants.Add(fi);
                 }
             }
             catch (Exception ex) when (ex is System.Reflection.TargetInvocationException || ex is System.Reflection.ReflectionTypeLoadException || ex is MemberAccessException)
