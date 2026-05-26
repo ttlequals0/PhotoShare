@@ -105,7 +105,7 @@ namespace Memtly.Core.Controllers
                             var systemAccount = await _database.GetUserByUsername(UserAccounts.SystemUser);
                             if (systemAccount != null)
                             {
-                                galleryOwner = systemAccount?.Id;
+                                galleryOwner = systemAccount.Id;
                             }
                         }
 
